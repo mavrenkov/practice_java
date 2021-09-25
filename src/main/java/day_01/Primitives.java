@@ -1,7 +1,5 @@
 package day_01;
 
-import java.util.Locale;
-
 public class Primitives {
 
     public static void main(String[] args) {
