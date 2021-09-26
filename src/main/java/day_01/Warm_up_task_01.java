@@ -24,11 +24,11 @@ package day_01;
                              salary = 120000.50
              output:
                         Employee' full name is: Liubov Panchenko
-                        Liubov Panchenko' gender is: Female
-                        Liubov Panchenko' age is: 18 years old
+                        Liubov Panchenko gender is: Female
+                        Liubov Panchenko age is: 18 years old
                         Liubov Panchenko works at: CapitalOne
-                        Liubov Panchenko' Job title is: CEO
-                        Liubov Panchenko' salary is 120000.5 $
+                        Liubov Panchenko Job title is: CEO
+                        Liubov Panchenko salary is 120000.5 $
                         Liubov Panchenko is full time employee: true
                         Liubov Panchenko is married: false
 
