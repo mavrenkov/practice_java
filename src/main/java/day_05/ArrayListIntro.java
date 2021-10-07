@@ -42,13 +42,7 @@ public class ArrayListIntro {
         //System.out.println("list = " + list);
         int count =  Collections.frequency(list, 50);
 
-        //set method
 
-        ArrayList<Integer> list1 = new ArrayList<>();
-
-        list1.set( list.size()-1 , 0);
-
-        //System.out.println(list1);
 
     }
 
