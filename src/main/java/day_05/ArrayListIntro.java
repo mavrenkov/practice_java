@@ -27,7 +27,7 @@ public class ArrayListIntro {
         //set method
 
         ArrayList<Integer> list1 = new ArrayList<>();
-
+        list1 = scores;
         list1.set( scores.size()-1 , 0);
 
         //System.out.println(list1);
@@ -41,7 +41,18 @@ public class ArrayListIntro {
         Collections.swap(list, 1,  2);
         //System.out.println("list = " + list);
         int count =  Collections.frequency(list, 50);
-
+        // maximum number:
+        Integer max = Collections.max(list);
+        // minimum number:
+        Integer min = Collections.min(list);
+        //Predicate
+        list.removeIf(  p ->  Collections.frequency(list, p) != 1  ); //make final
+        //System.out.println(list);
+        //remove/add ALL
+        list = null;
+        list.addAll(Arrays.asList(1,2,3,4,5));
+        list.removeAll(Arrays.asList(3,4,5));
+        System.out.println("list = " + list);
 
 
     }
