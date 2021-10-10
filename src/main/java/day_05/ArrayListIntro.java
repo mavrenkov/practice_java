@@ -26,7 +26,7 @@ public class ArrayListIntro {
 
         //set method
 
-        ArrayList<Integer> list1 = new ArrayList<>();
+       ArrayList<Integer> list1 = new ArrayList<>();
         list1 = scores;
         list1.set( scores.size()-1 , 0);
 
@@ -46,7 +46,7 @@ public class ArrayListIntro {
         // minimum number:
         Integer min = Collections.min(list);
         //Predicate
-        list.removeIf(  p ->  Collections.frequency(list, p) != 1  ); //make final
+       // list.removeIf(  p ->  Collections.frequency(list, p) != 1  ); //make final
         //System.out.println(list);
         //remove/add ALL
         list = null;
