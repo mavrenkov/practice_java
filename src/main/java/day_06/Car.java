@@ -9,7 +9,7 @@ public class Car {
     double mileage;
     double price;
 
-    public void setCarInfo(String carBrand, String carModel, int carYear, String carColor, double carMileage, double carPrice) {
+    public Car(String carBrand, String carModel, int carYear, String carColor, double carMileage, double carPrice) {
         brand = carBrand;
         model = carModel;
         year = carYear;
