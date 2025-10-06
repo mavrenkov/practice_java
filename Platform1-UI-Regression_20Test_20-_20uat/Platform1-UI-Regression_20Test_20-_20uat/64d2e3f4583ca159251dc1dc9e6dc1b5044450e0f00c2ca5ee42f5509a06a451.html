@@ -1,0 +1,2378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Display Total Account Value/cash for the selected EDJ account in To and From in the Transfer Details Page: cash in flow</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="ca2b81c32f3fe53951e2735d22b35a53a4107d606d1566498a044eaae413f8ce.html">Display total account cash and value in from to across flows</a>
+        > Display total account value/cash for the selected EDJ account in to and from in the transfer details page: cash in flow
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 09:18</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Display Total Account Cash And Value In From To Across Flows </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="7015cce00e41eb46f2380c025dd0ec07f6bd1bc9b0ac6f25bdaa74b7b0796a67.html">Ach-Into-Flow
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">Priority-3b
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">DB-Test-Data
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="b3c3d5bdb0db622230fd39dcf6d1040c184048a70ff4885c53969d994ff1cd8f.html">Platform1-Regression-Daily
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon fa-2x' title='SUCCESS'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="success-color">
+                                    Display Total Account Value/cash for the selected EDJ account in To and From in the Transfer Details Page: cash in flow
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-10711">ATMT-10711</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-23223">ATMT-23223</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-23435">ATMT-23435</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Background
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-574d38d7-3f20-4b9d-9ac3-ba212f14862a"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-0">
+                        SQL query for AMC_TRANSFER
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query for AMC_TRANSFER
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-0">select top 100 origin_account_id, destination_account_id, asset_movement_gross_amt, asset_movement_net_amt, asset_movement_transfer_guid, asset_movement_instruction_guid, transfer_da, estimated_delivery_da from asset_movement_transfer as atr where asset_movement_type_cd = 'ACH' and origin_account_source_cd = 'BNK' and destination_account_source_cd = 'GNA' and transfer_status_cd = 'COMPLETED' and frequency_cd = 'ONE_TIME' and creation_user_identification_cd &lt;&gt; 'ACHTFRSC' and federal_tax_withhold_amt is  null and state_tax_withhold_amt is  null  order by creation_ts desc</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-7d1d5ec3-c8c6-4108-9cde-92d22f17a810"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-1">
+                        Retrieved data
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Retrieved data
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-1">{estimated_delivery_da=2025-10-07, origin_account_id=31e86aeb-0b63-4e10-9614-bab51de3ee62, asset_movement_instruction_guid=1984C040-1B26-4351-9A5D-5354F7AD0624, destination_account_id=78996, asset_movement_net_amt=102.13, transfer_da=2025-10-06, asset_movement_gross_amt=102.13, asset_movement_transfer_guid=F7A46FB1-532C-4961-B492-D138E88AA2B6}<br>{estimated_delivery_da=2025-10-07, origin_account_id=7bc6954f-1841-4622-b1eb-cab17a1c974c, asset_movement_instruction_guid=67B6CFA8-1D22-4948-80E7-43D6DC3B4581, destination_account_id=12428, asset_movement_net_amt=107.24, transfer_da=2025-10-06, asset_movement_gross_amt=107.24, asset_movement_transfer_guid=101E12D2-50EC-4922-BBDC-87F87CCB1DB3}<br>{estimated_delivery_da=2025-10-07, origin_account_id=83573846-0fe0-4857-9a66-a16b2ef115df, asset_movement_instruction_guid=E4597CE3-7E4A-4B92-AFAA-AE972E55F66B, destination_account_id=64, asset_movement_net_amt=5.10, transfer_da=2025-10-06, asset_movement_gross_amt=5.10, asset_movement_transfer_guid=E0E91F20-8251-45D0-AB41-71DBD5D827F5}<br>{estimated_delivery_da=2025-10-07, origin_account_id=9e7ba38d-cf0c-4c52-9618-0d968dc4ae88, asset_movement_instruction_guid=BA3AAEFD-17AE-4C7F-8C42-A9EE954AEB93, destination_account_id=143529257, asset_movement_net_amt=8.96, transfer_da=2025-10-06, asset_movement_gross_amt=8.96, asset_movement_transfer_guid=DDFC112B-5408-4E1B-A6EC-58B464F8A09E}<br>{estimated_delivery_da=2025-10-07, origin_account_id=106bd25e-7c71-4d10-b21d-c40048fdfa6e, asset_movement_instruction_guid=5B58078B-2E02-4C32-8516-CE6474B97AA1, destination_account_id=1130, asset_movement_net_amt=10.95, transfer_da=2025-10-06, asset_movement_gross_amt=10.95, asset_movement_transfer_guid=3039C6D5-1F5B-4EFB-92FD-A3996894E39A}<br>{estimated_delivery_da=2025-10-06, origin_account_id=fce0faa8-0c6c-4fca-992a-1d04ed111704, asset_movement_instruction_guid=6953CDDB-8994-4FE0-A6C1-518F89E589C6, destination_account_id=109812652, asset_movement_net_amt=7.11, transfer_da=2025-10-03, asset_movement_gross_amt=7.11, asset_movement_transfer_guid=59CD9C82-99B0-4461-BAC8-909708B5FE69}<br>{estimated_delivery_da=2025-10-07, origin_account_id=1f5b3c9d-c3e5-4914-a2da-893b47b16fcd, asset_movement_instruction_guid=B5FE7632-59CD-4EEB-9E42-1BD4E786F665, destination_account_id=1119, asset_movement_net_amt=8.67, transfer_da=2025-10-06, asset_movement_gross_amt=8.67, asset_movement_transfer_guid=90F4A431-96DB-4DBF-B18D-E87B197AC891}<br>{estimated_delivery_da=2025-10-07, origin_account_id=1f5b3c9d-c3e5-4914-a2da-893b47b16fcd, asset_movement_instruction_guid=9603C0EC-2CA2-4EBB-A83A-8333B189ECD6, destination_account_id=1118, asset_movement_net_amt=1.05, transfer_da=2025-10-06, asset_movement_gross_amt=1.05, asset_movement_transfer_guid=74378EB7-6EBD-4459-A108-3B31C7558111}<br>{estimated_delivery_da=2025-10-07, origin_account_id=7bc6954f-1841-4622-b1eb-cab17a1c974c, asset_movement_instruction_guid=37BB61D9-612A-4DC0-9826-1AB0E3EC9F19, destination_account_id=12428, asset_movement_net_amt=105.84, transfer_da=2025-10-06, asset_movement_gross_amt=105.84, asset_movement_transfer_guid=ED57EEC7-3D20-460F-A6D0-CCBFE86C19B4}<br>{estimated_delivery_da=2025-10-07, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=1EBEB6E6-81B9-4F79-B250-8D950780B6AF, destination_account_id=78996, asset_movement_net_amt=45.22, transfer_da=2025-10-06, asset_movement_gross_amt=45.22, asset_movement_transfer_guid=9A2CC590-F2CB-49B8-9B70-9892538DD0D3}<br>{estimated_delivery_da=2025-10-07, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=39999889-CA71-4D5A-AD5E-50080CBC8358, destination_account_id=7272, asset_movement_net_amt=164.19, transfer_da=2025-10-06, asset_movement_gross_amt=164.19, asset_movement_transfer_guid=1C1AC449-03EE-4D9E-86F4-69155AAF220C}<br>{estimated_delivery_da=2025-10-07, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=9E222A38-48EB-4939-9047-660D14B9A656, destination_account_id=78996, asset_movement_net_amt=7.21, transfer_da=2025-10-06, asset_movement_gross_amt=7.21, asset_movement_transfer_guid=E68B8239-03B9-4996-BF5D-3DCBC26B7F78}<br>{estimated_delivery_da=2025-10-07, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=5D99E174-4F83-4B50-A873-461D3D5AE39C, destination_account_id=78996, asset_movement_net_amt=12.56, transfer_da=2025-10-06, asset_movement_gross_amt=12.56, asset_movement_transfer_guid=EAAC03F0-E158-46CB-884F-D18F6DF8B63B}<br>{estimated_delivery_da=2025-10-07, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=31E622A3-D487-40EE-B962-28AE7CB3B735, destination_account_id=78996, asset_movement_net_amt=27.72, transfer_da=2025-10-06, asset_movement_gross_amt=27.72, asset_movement_transfer_guid=AA9E030F-E530-45E4-AC12-617B0962BB36}<br>{estimated_delivery_da=2025-10-07, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=764EE058-4781-4126-8BB0-47B72EF7AB0D, destination_account_id=7272, asset_movement_net_amt=188.11, transfer_da=2025-10-06, asset_movement_gross_amt=188.11, asset_movement_transfer_guid=934FF910-3F3C-484F-8318-B8FBD63E23C9}<br>{estimated_delivery_da=2025-10-06, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=87DBDD04-8E25-4DBE-9C7E-64B7575BEFEF, destination_account_id=7272, asset_movement_net_amt=138.19, transfer_da=2025-10-03, asset_movement_gross_amt=138.19, asset_movement_transfer_guid=01519AB3-AE87-4F49-8515-1CFEBCDEEBCD}<br>{estimated_delivery_da=2025-10-06, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=54C5FE86-7587-4BCE-920E-3C60EE9DB6BA, destination_account_id=78996, asset_movement_net_amt=8.79, transfer_da=2025-10-03, asset_movement_gross_amt=8.79, asset_movement_transfer_guid=2156BB99-02D2-4C7C-9AFB-E2A417C67DA7}<br>{estimated_delivery_da=2025-10-06, origin_account_id=b77b0964-18ee-4259-bfd4-335c64ed4219, asset_movement_instruction_guid=234BC097-6563-4AF0-8552-CDD0FF2B51E0, destination_account_id=78996, asset_movement_net_amt=1.17, transfer_da=2025-10-03, asset_movement_gross_amt=1.17, asset_movement_transfer_guid=33C4A442-B646-4341-90D6-10C86349F71D}<br>{estimated_delivery_da=2025-10-06, origin_account_id=cbf0b66c-48ac-473c-ba4a-0bcda94d65f1, asset_movement_instruction_guid=F0B0CCA3-D1C4-46AB-8173-6E282CDC6D14, destination_account_id=131381053, asset_movement_net_amt=5.19, transfer_da=2025-10-03, asset_movement_gross_amt=5.19, asset_movement_transfer_guid=9919FFD9-444E-46D4-BCA2-745BDB90CB29}<br>{estimated_delivery_da=2025-10-03, origin_account_id=d904ed66-37d6-400b-8b43-69ba7d5b64eb, asset_movement_instruction_guid=2CB8E6B8-541B-42E4-9178-09011597C8E4, destination_account_id=147467, asset_movement_net_amt=5.00, transfer_da=2025-10-02, asset_movement_gross_amt=5.00, asset_movement_transfer_guid=5D368A62-F9B2-4DF4-8DF2-2013F081CA6B}<br>{estimated_delivery_da=2025-10-03, origin_account_id=c5889273-0566-4083-b27c-9868772b0740, asset_movement_instruction_guid=1C39EE66-8711-406F-9E72-C55BCABEDB16, destination_account_id=144426613, asset_movement_net_amt=6.38, transfer_da=2025-10-02, asset_movement_gross_amt=6.38, asset_movement_transfer_guid=8481FFE6-9262-4F4A-B008-8877BEA679F0}<br>{estimated_delivery_da=2025-10-06, origin_account_id=209de7b2-b4f9-4ada-af85-e0b8ef3a19e8, asset_movement_instruction_guid=FF362E79-6E31-46C4-B0DA-4DE97791AA1C, destination_account_id=2971, asset_movement_net_amt=6.52, transfer_da=2025-10-03, asset_movement_gross_amt=6.52, asset_movement_transfer_guid=55762F47-FE83-41F8-AD43-23989F6786DD}<br>{estimated_delivery_da=2025-10-03, origin_account_id=983dbd61-0d90-43b9-b93c-e159bbfbe953, asset_movement_instruction_guid=9E679F08-AB72-44F0-9251-B8F4E49B3D02, destination_account_id=121303795, asset_movement_net_amt=9.37, transfer_da=2025-10-02, asset_movement_gross_amt=9.37, asset_movement_transfer_guid=5292A71F-E883-4962-A0DD-D218E543AE4B}<br>{estimated_delivery_da=2025-10-06, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=7FAC90D4-5F43-4743-8823-23547360F273, destination_account_id=7272, asset_movement_net_amt=256.62, transfer_da=2025-10-03, asset_movement_gross_amt=256.62, asset_movement_transfer_guid=373A4C4C-441D-4290-95D6-B15E43E55E0D}<br>{estimated_delivery_da=2025-10-06, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=29065E8B-C4B9-4C5B-9418-765F3E6898B7, destination_account_id=78978, asset_movement_net_amt=34.40, transfer_da=2025-10-03, asset_movement_gross_amt=34.40, asset_movement_transfer_guid=2E491F38-CB69-422C-9DD3-DEC08ED3EFD8}<br>{estimated_delivery_da=2025-10-06, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=4A7FAB56-6B0E-4AAB-957B-4991C78D0695, destination_account_id=7272, asset_movement_net_amt=147.29, transfer_da=2025-10-03, asset_movement_gross_amt=147.29, asset_movement_transfer_guid=3BB1F6F7-DC71-4CD9-A775-4657F5750788}<br>{estimated_delivery_da=2025-10-06, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=59E6051D-7EFB-4222-925C-6328E1480112, destination_account_id=78978, asset_movement_net_amt=85.95, transfer_da=2025-10-03, asset_movement_gross_amt=85.95, asset_movement_transfer_guid=E6D8BA6F-EFCD-4812-AB9B-395EA9E86A8F}<br>{estimated_delivery_da=2025-10-06, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=6F1D8C95-C17F-4DCA-AAB4-6648A4E63EE8, destination_account_id=78978, asset_movement_net_amt=16.29, transfer_da=2025-10-03, asset_movement_gross_amt=16.29, asset_movement_transfer_guid=F36D9710-AA75-48E6-B64B-BD7D0E06D8E8}<br>{estimated_delivery_da=2025-10-06, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=51487454-CF58-4177-B565-7F677D7A43B3, destination_account_id=78978, asset_movement_net_amt=18.90, transfer_da=2025-10-03, asset_movement_gross_amt=18.90, asset_movement_transfer_guid=AC4090AF-923B-4F36-B18A-6A997E5B3D3D}<br>{estimated_delivery_da=2025-10-06, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=A5118256-FEBB-4E74-B88D-99A218F032FA, destination_account_id=42613, asset_movement_net_amt=48.51, transfer_da=2025-10-03, asset_movement_gross_amt=48.51, asset_movement_transfer_guid=2113A6AD-F698-4ADA-A634-086FA91D1300}<br>{estimated_delivery_da=2025-10-06, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=049AFBB1-1DEB-4CF7-BB11-54F42F8E1E49, destination_account_id=42613, asset_movement_net_amt=44.52, transfer_da=2025-10-03, asset_movement_gross_amt=44.52, asset_movement_transfer_guid=E68FBBDD-5063-4F2D-AC43-DCE4ED29107F}<br>{estimated_delivery_da=2025-10-06, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=9B7756B5-D1A4-477D-B878-A1F65275F3B2, destination_account_id=7272, asset_movement_net_amt=77.22, transfer_da=2025-10-03, asset_movement_gross_amt=77.22, asset_movement_transfer_guid=B404C1D4-6D2D-4B7C-BCD8-3EEE8F25B7CB}<br>{estimated_delivery_da=2025-10-03, origin_account_id=b3be3837-9fc3-421a-b86b-94b37d41adf6, asset_movement_instruction_guid=2F3DA80C-A398-4900-9BC6-59256113A9ED, destination_account_id=46466, asset_movement_net_amt=201.19, transfer_da=2025-10-02, asset_movement_gross_amt=201.19, asset_movement_transfer_guid=70D1EC23-DCEE-47AA-9FB0-9D4A4390891B}<br>{estimated_delivery_da=2025-10-03, origin_account_id=f67cc6df-5137-4a64-8cd0-517ab38ca227, asset_movement_instruction_guid=54F1E1CF-8C2E-4E4B-B995-27E1EB54D30E, destination_account_id=24898, asset_movement_net_amt=58.12, transfer_da=2025-10-02, asset_movement_gross_amt=58.12, asset_movement_transfer_guid=2B127B03-89D1-4B61-948A-B06ED9EEC175}<br>{estimated_delivery_da=2025-10-03, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=6F7E395A-FEE6-4B13-BEB1-3B16866B438D, destination_account_id=78978, asset_movement_net_amt=76.40, transfer_da=2025-10-02, asset_movement_gross_amt=76.40, asset_movement_transfer_guid=B48E1D25-5C48-4DD4-A40B-2D4976F2A8A5}<br>{estimated_delivery_da=2025-10-03, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=877181AE-63D3-493E-9DA6-71756017E383, destination_account_id=78978, asset_movement_net_amt=55.30, transfer_da=2025-10-02, asset_movement_gross_amt=55.30, asset_movement_transfer_guid=E9CEF1F2-DCC6-4250-B874-ECFA52B367FD}<br>{estimated_delivery_da=2025-10-03, origin_account_id=982fa243-18e9-4075-bd09-d514e5cf9564, asset_movement_instruction_guid=2D1BB7E1-25C0-4906-8B4E-BF157C2FD61C, destination_account_id=100, asset_movement_net_amt=5.58, transfer_da=2025-10-02, asset_movement_gross_amt=5.58, asset_movement_transfer_guid=DCFF0B74-CEE7-4B89-B0EB-3E2D5B61A380}<br>{estimated_delivery_da=2025-10-03, origin_account_id=e645863e-9073-4270-9d6b-c4988317137d, asset_movement_instruction_guid=529E04CD-64A5-4808-A577-005131C72A73, destination_account_id=139066533, asset_movement_net_amt=18.42, transfer_da=2025-10-02, asset_movement_gross_amt=18.42, asset_movement_transfer_guid=698FBED9-A90C-4C18-9B54-BBD52D0D030D}<br>{estimated_delivery_da=2025-10-03, origin_account_id=cbf0b66c-48ac-473c-ba4a-0bcda94d65f1, asset_movement_instruction_guid=21E708D4-9AEA-4A91-856E-19625C5184E4, destination_account_id=131381053, asset_movement_net_amt=2.82, transfer_da=2025-10-02, asset_movement_gross_amt=2.82, asset_movement_transfer_guid=79BA178B-9D33-4919-95B9-CAB898A690E7}<br>{estimated_delivery_da=2025-10-07, origin_account_id=985ce364-169f-4d8a-bc30-c6e76c62d743, asset_movement_instruction_guid=82CB63BF-D688-46CB-99E2-2C7191170282, destination_account_id=143080521, asset_movement_net_amt=10000.00, transfer_da=2025-10-06, asset_movement_gross_amt=10000.00, asset_movement_transfer_guid=7D2F7ACD-78E4-48E6-A5CA-E9434D42115D}<br>{estimated_delivery_da=2025-10-06, origin_account_id=985ce364-169f-4d8a-bc30-c6e76c62d743, asset_movement_instruction_guid=0983E498-50FE-476A-B680-23DB791AB7EA, destination_account_id=143080521, asset_movement_net_amt=10000.00, transfer_da=2025-10-03, asset_movement_gross_amt=10000.00, asset_movement_transfer_guid=AD998D19-58F0-481E-AFE5-7A6E2BB33194}<br>{estimated_delivery_da=2025-10-03, origin_account_id=985ce364-169f-4d8a-bc30-c6e76c62d743, asset_movement_instruction_guid=1D59E2C1-9D36-49B2-8A37-850D5584485C, destination_account_id=143080521, asset_movement_net_amt=10000.00, transfer_da=2025-10-02, asset_movement_gross_amt=10000.00, asset_movement_transfer_guid=DD201F81-1F0F-4F4C-A553-11B7E19B780B}<br>{estimated_delivery_da=2025-10-02, origin_account_id=985ce364-169f-4d8a-bc30-c6e76c62d743, asset_movement_instruction_guid=9BA57D16-8FB6-40A9-8D10-7797BACD7C7C, destination_account_id=143080521, asset_movement_net_amt=10000.00, transfer_da=2025-10-01, asset_movement_gross_amt=10000.00, asset_movement_transfer_guid=4CD2348E-A2AB-48DD-9392-653E585FF8A6}<br>{estimated_delivery_da=2025-10-02, origin_account_id=cc4587a2-67fb-4244-83bb-ff77c23c58aa, asset_movement_instruction_guid=5F33AEEE-06B1-4F63-86A0-5EC8BA190205, destination_account_id=130831210, asset_movement_net_amt=12.21, transfer_da=2025-10-01, asset_movement_gross_amt=12.21, asset_movement_transfer_guid=E7568D06-DAF7-4C5E-8421-3A3314F67F51}<br>{estimated_delivery_da=2025-10-02, origin_account_id=1f943056-9cfd-441e-9cab-00557be669c2, asset_movement_instruction_guid=89F467B8-4D52-4333-A362-9DB2D3D92ADD, destination_account_id=102636214, asset_movement_net_amt=2.73, transfer_da=2025-10-01, asset_movement_gross_amt=2.73, asset_movement_transfer_guid=1F34518F-9BB1-46D9-9CE6-8920E92AA6D2}<br>{estimated_delivery_da=2025-10-02, origin_account_id=dfe9223d-71f9-48a9-a3d5-99f428a23ae8, asset_movement_instruction_guid=C00415EB-9BC7-454A-9023-93ADFBE55339, destination_account_id=143551633, asset_movement_net_amt=5.00, transfer_da=2025-10-01, asset_movement_gross_amt=5.00, asset_movement_transfer_guid=51917BBC-8917-4163-9D8A-615E0DB81C25}<br>{estimated_delivery_da=2025-10-03, origin_account_id=7bc6954f-1841-4622-b1eb-cab17a1c974c, asset_movement_instruction_guid=E093F7DB-C7F0-4636-864B-88AF6EFF54AB, destination_account_id=12428, asset_movement_net_amt=82.60, transfer_da=2025-10-02, asset_movement_gross_amt=82.60, asset_movement_transfer_guid=4749FE77-2044-4135-B421-67D11A7D268A}<br>{estimated_delivery_da=2025-10-03, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=A1592D67-2160-4AC9-8FB3-625A52D138E5, destination_account_id=7272, asset_movement_net_amt=247.26, transfer_da=2025-10-02, asset_movement_gross_amt=247.26, asset_movement_transfer_guid=54F64866-B68C-4467-A54E-A10E93D4F876}<br>{estimated_delivery_da=2025-10-03, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=F41F60AE-971B-4A12-9165-F614799AF661, destination_account_id=78978, asset_movement_net_amt=14.10, transfer_da=2025-10-02, asset_movement_gross_amt=14.10, asset_movement_transfer_guid=69F3B354-63D2-4B7E-B98A-35BFB6AF0DEF}<br>{estimated_delivery_da=2025-10-03, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=B7229638-7208-4566-A1FD-B97556864400, destination_account_id=42613, asset_movement_net_amt=34.24, transfer_da=2025-10-02, asset_movement_gross_amt=34.24, asset_movement_transfer_guid=9ACF08F5-75FF-446A-94AE-D60C587F46FB}<br>{estimated_delivery_da=2025-10-03, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=8524A140-89FF-43DE-8147-8F374D50DFD5, destination_account_id=42613, asset_movement_net_amt=96.88, transfer_da=2025-10-02, asset_movement_gross_amt=96.88, asset_movement_transfer_guid=64CF283A-C796-44BF-9471-B524C76FEDE0}<br>{estimated_delivery_da=2025-10-03, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=C191F7AF-EF6C-452F-A19E-30B7D92CE06E, destination_account_id=7272, asset_movement_net_amt=126.10, transfer_da=2025-10-02, asset_movement_gross_amt=126.10, asset_movement_transfer_guid=5EC4C1A8-08E4-4CA2-A0BB-B045CBE27D44}<br>{estimated_delivery_da=2025-10-02, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=C1452569-9DA8-4C0E-8A53-A3DFAE01F10D, destination_account_id=42613, asset_movement_net_amt=99.12, transfer_da=2025-10-01, asset_movement_gross_amt=99.12, asset_movement_transfer_guid=2EC9593C-F531-42DD-9C9A-C2F45473999B}<br>{estimated_delivery_da=2025-10-02, origin_account_id=6f459d05-96e1-4990-a928-4b29e46a5748, asset_movement_instruction_guid=E341C485-FAA6-4395-9755-002A70567D9C, destination_account_id=31309, asset_movement_net_amt=145.02, transfer_da=2025-10-01, asset_movement_gross_amt=145.02, asset_movement_transfer_guid=7846F4D1-2C5D-4275-B08A-85DEDABF1A4D}<br>{estimated_delivery_da=2025-10-02, origin_account_id=cc4587a2-67fb-4244-83bb-ff77c23c58aa, asset_movement_instruction_guid=1C78629C-0121-401B-A6B0-7B0DA53A63E6, destination_account_id=130831210, asset_movement_net_amt=7.46, transfer_da=2025-10-01, asset_movement_gross_amt=7.46, asset_movement_transfer_guid=9AA0023B-76F6-4A59-ADBD-8AEACA57DCE0}<br>{estimated_delivery_da=2025-10-02, origin_account_id=5be70037-0ed1-40b7-befd-c8317764610d, asset_movement_instruction_guid=A8B75EE1-6423-42E1-B8AF-67FEAAE8F74E, destination_account_id=145189127, asset_movement_net_amt=40.00, transfer_da=2025-10-01, asset_movement_gross_amt=40.00, asset_movement_transfer_guid=156D5CAD-2A2B-4274-B1CB-D8712C110E64}<br>{estimated_delivery_da=2025-10-02, origin_account_id=982fa243-18e9-4075-bd09-d514e5cf9564, asset_movement_instruction_guid=3E6CF858-5F9A-4E50-921E-679A307A5DD1, destination_account_id=100, asset_movement_net_amt=8.36, transfer_da=2025-10-01, asset_movement_gross_amt=8.36, asset_movement_transfer_guid=07D62223-82E9-442E-B8A5-66AC87AE8351}<br>{estimated_delivery_da=2025-10-02, origin_account_id=8817a7ad-6f3a-43f0-b761-9a028835ff5e, asset_movement_instruction_guid=30B5ECF3-3019-42E7-8264-13C2A38D48D5, destination_account_id=144448915, asset_movement_net_amt=7.82, transfer_da=2025-10-01, asset_movement_gross_amt=7.82, asset_movement_transfer_guid=9F9FBF04-8EFA-4C95-92D1-DEDB8001DEF0}<br>{estimated_delivery_da=2025-10-02, origin_account_id=cbf0b66c-48ac-473c-ba4a-0bcda94d65f1, asset_movement_instruction_guid=043982B4-3388-45BD-9462-2D9340A2BD41, destination_account_id=131381053, asset_movement_net_amt=9.28, transfer_da=2025-10-01, asset_movement_gross_amt=9.28, asset_movement_transfer_guid=9D4692AA-1D19-44D8-8B08-5A7115E1A038}<br>{estimated_delivery_da=2025-10-02, origin_account_id=799e072c-dd39-446d-ad1a-a659daaa3650, asset_movement_instruction_guid=C52C6603-B9B1-435D-9C34-B213F69686BE, destination_account_id=347379, asset_movement_net_amt=0.01, transfer_da=2025-10-01, asset_movement_gross_amt=0.01, asset_movement_transfer_guid=248D22DA-60F4-47F3-B649-50531499997F}<br>{estimated_delivery_da=2025-10-02, origin_account_id=31a8d72b-2ac4-4e15-a420-5330914eb988, asset_movement_instruction_guid=DB83DA47-B016-45AE-B6E1-4618A8A9BFB0, destination_account_id=141478987, asset_movement_net_amt=0.01, transfer_da=2025-10-01, asset_movement_gross_amt=0.01, asset_movement_transfer_guid=254AD6CB-7B80-4952-93D4-50D77E1C194F}<br>{estimated_delivery_da=2025-10-02, origin_account_id=799e072c-dd39-446d-ad1a-a659daaa3650, asset_movement_instruction_guid=234232AD-079A-4BA7-978E-8A3E49D10F52, destination_account_id=347379, asset_movement_net_amt=0.01, transfer_da=2025-10-01, asset_movement_gross_amt=0.01, asset_movement_transfer_guid=87C3F6EA-CB83-45D3-875E-DD39393ADBDA}<br>{estimated_delivery_da=2025-10-01, origin_account_id=68b33ff2-f18d-4005-bd89-5363c7f0763c, asset_movement_instruction_guid=39A04166-D644-47B5-8EAF-6E881FF7A950, destination_account_id=130831210, asset_movement_net_amt=26.00, transfer_da=2025-09-30, asset_movement_gross_amt=26.00, asset_movement_transfer_guid=87C91B2D-97F4-4D11-9227-9EABCC16E470}<br>{estimated_delivery_da=2025-10-01, origin_account_id=68b33ff2-f18d-4005-bd89-5363c7f0763c, asset_movement_instruction_guid=768943EF-70F7-45DC-B994-4B22120432A9, destination_account_id=130831210, asset_movement_net_amt=6.00, transfer_da=2025-09-30, asset_movement_gross_amt=6.00, asset_movement_transfer_guid=B6BA903F-35A8-428A-AAC4-CA08A039BA57}<br>{estimated_delivery_da=2025-10-01, origin_account_id=68b33ff2-f18d-4005-bd89-5363c7f0763c, asset_movement_instruction_guid=DC1FE352-F03F-4B1E-88F5-A57877CB9CE3, destination_account_id=130831210, asset_movement_net_amt=41.00, transfer_da=2025-09-30, asset_movement_gross_amt=41.00, asset_movement_transfer_guid=226659A4-F47C-41CC-AFCD-A5A7F4D24C7C}<br>{estimated_delivery_da=2025-10-01, origin_account_id=1f943056-9cfd-441e-9cab-00557be669c2, asset_movement_instruction_guid=7244B627-D7B1-46BA-A3FA-1E3B8B58D4EA, destination_account_id=102636214, asset_movement_net_amt=7.90, transfer_da=2025-09-30, asset_movement_gross_amt=7.90, asset_movement_transfer_guid=1B4562F2-1648-412C-8B43-784AA55460B2}<br>{estimated_delivery_da=2025-10-01, origin_account_id=31a31def-8c31-4bbe-8f2b-3fb8c39fcb15, asset_movement_instruction_guid=81206795-AD61-4E05-8B24-3BE439651C11, destination_account_id=101053214, asset_movement_net_amt=33.00, transfer_da=2025-09-30, asset_movement_gross_amt=33.00, asset_movement_transfer_guid=EAB6A490-4730-48EF-B3C7-450B409A5C6A}<br>{estimated_delivery_da=2025-10-02, origin_account_id=f67cc6df-5137-4a64-8cd0-517ab38ca227, asset_movement_instruction_guid=F9404209-2823-46B8-861B-9FE285416DF2, destination_account_id=24898, asset_movement_net_amt=49.76, transfer_da=2025-10-01, asset_movement_gross_amt=49.76, asset_movement_transfer_guid=2454FC38-841C-4764-B269-2E3DD0BC4A96}<br>{estimated_delivery_da=2025-10-02, origin_account_id=f67cc6df-5137-4a64-8cd0-517ab38ca227, asset_movement_instruction_guid=170EBDC8-3DE5-4BDE-8C55-904D871B6A3D, destination_account_id=24898, asset_movement_net_amt=25.60, transfer_da=2025-10-01, asset_movement_gross_amt=25.60, asset_movement_transfer_guid=2E8B37E7-417E-483C-9F96-BA900FAA6EDB}<br>{estimated_delivery_da=2025-10-02, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=C8A39466-59F5-4E56-AC18-393471F003A1, destination_account_id=42613, asset_movement_net_amt=128.16, transfer_da=2025-10-01, asset_movement_gross_amt=128.16, asset_movement_transfer_guid=BC8B6F64-553A-433A-8FD2-5984AEFD6D90}<br>{estimated_delivery_da=2025-10-02, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=48039458-6F8A-4959-98B1-00CA1ABAB545, destination_account_id=78978, asset_movement_net_amt=36.90, transfer_da=2025-10-01, asset_movement_gross_amt=36.90, asset_movement_transfer_guid=7A3A0620-EB9F-4FC3-841A-06D9B6FAA260}<br>{estimated_delivery_da=2025-10-02, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=5808304C-F7E4-4006-B927-6EBECA8EC0E1, destination_account_id=42613, asset_movement_net_amt=29.60, transfer_da=2025-10-01, asset_movement_gross_amt=29.60, asset_movement_transfer_guid=CF3399DF-E777-4E89-BD6D-233AF76F933E}<br>{estimated_delivery_da=2025-10-02, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=BFADEE43-E1C0-4B8D-A25C-74F60E6EC69B, destination_account_id=42613, asset_movement_net_amt=103.20, transfer_da=2025-10-01, asset_movement_gross_amt=103.20, asset_movement_transfer_guid=B60428F4-3C81-454B-A6F7-04DE10560009}<br>{estimated_delivery_da=2025-10-02, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=6C421AC9-DC17-475A-910F-D3754702EDF7, destination_account_id=7272, asset_movement_net_amt=167.05, transfer_da=2025-10-01, asset_movement_gross_amt=167.05, asset_movement_transfer_guid=2A1C8EC2-2EE0-4984-AC23-4B91113CEEDD}<br>{estimated_delivery_da=2025-10-01, origin_account_id=f0c1ba2d-d47e-42a4-909f-e99042ffd2ba, asset_movement_instruction_guid=CB22C325-EB77-4E75-A0CC-12E8A90454CC, destination_account_id=78978, asset_movement_net_amt=63.05, transfer_da=2025-09-30, asset_movement_gross_amt=63.05, asset_movement_transfer_guid=C57DF790-6D5C-47EF-88D8-024C627173E2}<br>{estimated_delivery_da=2025-10-01, origin_account_id=7e99adca-3f86-40ff-a870-3abfd41fce00, asset_movement_instruction_guid=B5699262-DFC9-42C1-8D10-D587FB954D0B, destination_account_id=7272, asset_movement_net_amt=244.53, transfer_da=2025-09-30, asset_movement_gross_amt=244.53, asset_movement_transfer_guid=F8DC81F6-448E-43F4-824E-606A4793E239}<br>{estimated_delivery_da=2025-10-01, origin_account_id=9fac9a34-585f-4918-aa4b-3a703085d965, asset_movement_instruction_guid=99FA274C-FD77-47FB-8BF6-7A9AB405AFFD, destination_account_id=142419972, asset_movement_net_amt=15.00, transfer_da=2025-09-30, asset_movement_gross_amt=15.00, asset_movement_transfer_guid=9E95D545-B7EF-4870-B067-F036A56CAB5F}<br>{estimated_delivery_da=2025-10-01, origin_account_id=3c565a13-ade5-478d-9bf4-037a16bf7df5, asset_movement_instruction_guid=14AEF862-4470-4FB5-A5BA-3453BC048C89, destination_account_id=130991638, asset_movement_net_amt=6.34, transfer_da=2025-09-30, asset_movement_gross_amt=6.34, asset_movement_transfer_guid=46E6DA2E-1C76-41BC-85FB-35C392096A02}<br>{estimated_delivery_da=2025-10-01, origin_account_id=3c565a13-ade5-478d-9bf4-037a16bf7df5, asset_movement_instruction_guid=B3893F9C-932C-4E7C-A1A9-B26FB58BD62D, destination_account_id=130991638, asset_movement_net_amt=4.34, transfer_da=2025-09-30, asset_movement_gross_amt=4.34, asset_movement_transfer_guid=7C6B4C9C-B2E2-47F1-A5D6-7697FCC1AB90}<br>{estimated_delivery_da=2025-10-01, origin_account_id=8d8e35e2-75e2-4283-8266-a5a8d03836d7, asset_movement_instruction_guid=8A719B88-5B08-404C-8D7D-E8D575B21FF4, destination_account_id=130528874, asset_movement_net_amt=8.99, transfer_da=2025-09-30, asset_movement_gross_amt=8.99, asset_movement_transfer_guid=98B7CD89-8804-4157-8F0D-FF3F19F6398F}<br>{estimated_delivery_da=2025-10-01, origin_account_id=982fa243-18e9-4075-bd09-d514e5cf9564, asset_movement_instruction_guid=6616D0F9-5C71-43D1-9FF4-03C8CAE2D72F, destination_account_id=100, asset_movement_net_amt=1.73, transfer_da=2025-09-30, asset_movement_gross_amt=1.73, asset_movement_transfer_guid=032EBBB5-B4EA-468E-8D24-FBE24D126E8D}<br>{estimated_delivery_da=2025-10-01, origin_account_id=376ed316-4663-4fea-9b5f-8c2dbfda3425, asset_movement_instruction_guid=AE12D472-59FB-4CEC-9870-F62DFB7B6ACB, destination_account_id=144426613, asset_movement_net_amt=4.42, transfer_da=2025-09-30, asset_movement_gross_amt=4.42, asset_movement_transfer_guid=0613EE94-2CD2-424C-A74E-33F5C653C5A0}<br>{estimated_delivery_da=2025-10-01, origin_account_id=cbf0b66c-48ac-473c-ba4a-0bcda94d65f1, asset_movement_instruction_guid=45C12FF0-5BF6-49D6-8DF0-37E22F5B08B6, destination_account_id=131381053, asset_movement_net_amt=8.46, transfer_da=2025-09-30, asset_movement_gross_amt=8.46, asset_movement_transfer_guid=F4F9D64F-FF3B-4B01-AAB5-51C508422133}<br>{estimated_delivery_da=2025-09-30, origin_account_id=65506b91-dcf0-42fa-9d66-da186702eba3, asset_movement_instruction_guid=EF236E8A-8F06-4601-8BD6-622261256369, destination_account_id=145323255, asset_movement_net_amt=500000.00, transfer_da=2025-09-29, asset_movement_gross_amt=500000.00, asset_movement_transfer_guid=94846C93-FAD9-40F3-B654-64498474C00B}<br>{estimated_delivery_da=2025-09-30, origin_account_id=3c565a13-ade5-478d-9bf4-037a16bf7df5, asset_movement_instruction_guid=679B78B0-AD2F-47FD-8591-C43BB9FF6885, destination_account_id=130991638, asset_movement_net_amt=8.86, transfer_da=2025-09-29, asset_movement_gross_amt=8.86, asset_movement_transfer_guid=D15CD339-D1C8-42E9-BA8A-2F12851BF84C}<br>{estimated_delivery_da=2025-09-30, origin_account_id=22601221-b110-47f5-8674-41efa62d0879, asset_movement_instruction_guid=5D4B252C-FAD3-46AC-A52B-0023FB72045C, destination_account_id=78996, asset_movement_net_amt=7.61, transfer_da=2025-09-29, asset_movement_gross_amt=7.61, asset_movement_transfer_guid=A2F9480D-CB2D-4D61-A543-A0972DEAD3AC}<br>{estimated_delivery_da=2025-09-30, origin_account_id=22601221-b110-47f5-8674-41efa62d0879, asset_movement_instruction_guid=754CA23B-06FF-4724-B3DB-C703B29F3F25, destination_account_id=78996, asset_movement_net_amt=6.09, transfer_da=2025-09-29, asset_movement_gross_amt=6.09, asset_movement_transfer_guid=5807C152-0C87-43B0-9B3A-9B74D9DD9ADD}<br>{estimated_delivery_da=2025-09-30, origin_account_id=cc4587a2-67fb-4244-83bb-ff77c23c58aa, asset_movement_instruction_guid=8021F388-D2F1-4A4E-804C-63AD20BF87C2, destination_account_id=130831210, asset_movement_net_amt=5.84, transfer_da=2025-09-29, asset_movement_gross_amt=5.84, asset_movement_transfer_guid=F960B978-3BD0-48A1-9460-DF929788EB0A}<br>{estimated_delivery_da=2025-09-30, origin_account_id=cc4587a2-67fb-4244-83bb-ff77c23c58aa, asset_movement_instruction_guid=4154D123-74E3-4FB9-95F6-8BF478AAC53A, destination_account_id=130831210, asset_movement_net_amt=10.60, transfer_da=2025-09-29, asset_movement_gross_amt=10.60, asset_movement_transfer_guid=09EB691E-44F9-478D-9808-A1D57B20B63E}<br>{estimated_delivery_da=2025-09-30, origin_account_id=3c565a13-ade5-478d-9bf4-037a16bf7df5, asset_movement_instruction_guid=59BF7747-F485-462B-B351-BBBDBF99E256, destination_account_id=130991638, asset_movement_net_amt=9.11, transfer_da=2025-09-29, asset_movement_gross_amt=9.11, asset_movement_transfer_guid=3E662128-8B23-407F-8173-40A47C0D9FF9}<br>{estimated_delivery_da=2025-09-30, origin_account_id=22601221-b110-47f5-8674-41efa62d0879, asset_movement_instruction_guid=41D834C4-04DA-432C-89E1-41C751573A9D, destination_account_id=78996, asset_movement_net_amt=8.52, transfer_da=2025-09-29, asset_movement_gross_amt=8.52, asset_movement_transfer_guid=DA2A7C07-5475-42AF-BDC0-BC01C3C97182}<br>{estimated_delivery_da=2025-10-03, origin_account_id=7b2d3628-7f27-47eb-b07b-02dab07019b9, asset_movement_instruction_guid=5F34822E-BBD0-461A-83E5-195EBD833567, destination_account_id=134382555, asset_movement_net_amt=12.00, transfer_da=2025-10-02, asset_movement_gross_amt=12.00, asset_movement_transfer_guid=A2569C88-B16B-48F8-AA2A-8CE2412DBF4E}<br>{estimated_delivery_da=2025-09-30, origin_account_id=7b2d3628-7f27-47eb-b07b-02dab07019b9, asset_movement_instruction_guid=E5977797-850B-40E6-AFC5-57B303BC0236, destination_account_id=134382555, asset_movement_net_amt=5.00, transfer_da=2025-09-29, asset_movement_gross_amt=5.00, asset_movement_transfer_guid=7E3C0C22-451E-43C8-80F5-C0C76314F345}<br>{estimated_delivery_da=2025-09-30, origin_account_id=fce0faa8-0c6c-4fca-992a-1d04ed111704, asset_movement_instruction_guid=D51D259A-3326-4E02-B349-89F7E230EAA9, destination_account_id=109812652, asset_movement_net_amt=1.46, transfer_da=2025-09-29, asset_movement_gross_amt=1.46, asset_movement_transfer_guid=ED0073CE-EFC3-415F-AF71-ADBD4F9EC0A3}<br>{estimated_delivery_da=2025-10-01, origin_account_id=02934f9c-aebd-4488-9362-473b1b720a65, asset_movement_instruction_guid=833A2637-6F17-410A-9DB9-F76B3AD0566C, destination_account_id=315, asset_movement_net_amt=0.84, transfer_da=2025-09-30, asset_movement_gross_amt=0.84, asset_movement_transfer_guid=51A6A039-C116-49BF-B41B-5F02C4A4B347}<br>{estimated_delivery_da=2025-10-01, origin_account_id=42690290-07f3-4fc1-b5b7-de9ae00f4497, asset_movement_instruction_guid=EAF2C49A-781D-4FCC-8B78-7D8916B06F25, destination_account_id=619, asset_movement_net_amt=2.04, transfer_da=2025-09-30, asset_movement_gross_amt=2.04, asset_movement_transfer_guid=08515B39-043A-4639-9618-547750BD3A84}<br>{estimated_delivery_da=2025-09-30, origin_account_id=291da9ef-aff0-4bce-9f99-b7fb4ca249d1, asset_movement_instruction_guid=50256B9C-EAA8-4CDA-9EC9-3FCEFA363CEF, destination_account_id=122208368, asset_movement_net_amt=6.27, transfer_da=2025-09-29, asset_movement_gross_amt=6.27, asset_movement_transfer_guid=DCA587B0-523C-4BD1-9999-595DC570CEC4}<br>{estimated_delivery_da=2025-10-01, origin_account_id=b3be3837-9fc3-421a-b86b-94b37d41adf6, asset_movement_instruction_guid=7205C6C7-18D5-4D85-8427-57EFEFE8621F, destination_account_id=46466, asset_movement_net_amt=97.46, transfer_da=2025-09-30, asset_movement_gross_amt=97.46, asset_movement_transfer_guid=62AC34C4-9B74-4D8A-8707-9CB51B90B050}<br>{estimated_delivery_da=2025-10-01, origin_account_id=b3be3837-9fc3-421a-b86b-94b37d41adf6, asset_movement_instruction_guid=D6D5C7B1-020E-4EC3-8780-B8E4ECE394A1, destination_account_id=46466, asset_movement_net_amt=154.55, transfer_da=2025-09-30, asset_movement_gross_amt=154.55, asset_movement_transfer_guid=C0E469EA-6BD1-4409-A736-DF18E8665C29}<br>{estimated_delivery_da=2025-10-01, origin_account_id=2e129426-4068-4d30-8de5-2e6fae73bd53, asset_movement_instruction_guid=F07ACCE8-896C-4D24-AF8F-8418F015445E, destination_account_id=42613, asset_movement_net_amt=136.80, transfer_da=2025-09-30, asset_movement_gross_amt=136.80, asset_movement_transfer_guid=D40C7B40-0FAF-4609-8FAA-612AF9162ACD}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-427ad2cf-7e96-470c-922e-1af9c03e2d50"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-2">
+                        Data from AMCTransfer DB
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-2" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Data from AMCTransfer DB
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-2')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-2">{estimated_delivery_da=2025-10-03, origin_account_id=f67cc6df-5137-4a64-8cd0-517ab38ca227, asset_movement_instruction_guid=54F1E1CF-8C2E-4E4B-B995-27E1EB54D30E, destination_account_id=24898, asset_movement_net_amt=58.12, transfer_da=2025-10-02, asset_movement_gross_amt=58.12, asset_movement_transfer_guid=2B127B03-89D1-4B61-948A-B06ED9EEC175}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step"></span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Get branch for EJ accountID 24898
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-88bb92dc-857c-48f5-9967-67e56a28c7bf"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-2-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-2-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-2-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-2-0">select distinct sub_acc.br_no<br>from PROD.SUB_ACCOUNT_12512 as sub_acc<br>where sub_acc.acct_id = 24898</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-530b64df-fe5e-414d-ae9c-73a8e0363f4f"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-2-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-2-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-2-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-2-1">{BR_NO=57261}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 106ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Retrieve data from DB2: relationship ID by EJ account IDs
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-0b9ce4d5-de7a-41bd-be8a-3b7450e162bf"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-0">select distinct rlt.RLTSHP_ID<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=grp.ACCT_ID<br><br>where sub_acc.acct_id in (24898)<br>and sub_acc.br_no=57261</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-8f79da9e-0d59-418d-84f4-9bd27c6e2d6e"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-1">{RLTSHP_ID=35109131}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-0d8d6a0d-e86e-44a4-b261-05483a9a4945"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-2">
+                        SQL query for AMC_PROFILE
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-2" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query for AMC_PROFILE
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-2')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-2">SELECT bank_account.bank_account_no FROM bank_account  WHERE bank_account.bank_account_guid = 'F67CC6DF-5137-4A64-8CD0-517AB38CA227'</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-301b166c-af37-4995-bf04-ac0158889190"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-3">
+                        Retrieved data
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-3" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Retrieved data
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-3')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-3">ban4341</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 119ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Get vendor account numbers (customer numbers) for EJ accountIDs
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-c54a6cdb-0e0a-4e02-98f8-0586e3e31f54"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-4-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-4-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-4-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-4-0">select sub_acc.VNDR_ACCT_ID<br>from PROD.SUB_ACCOUNT_12512 as sub_acc<br>where sub_acc.acct_id in (24898)</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-756b0431-c7e4-4bb0-8979-a979263611c8"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-4-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-4-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-4-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-4-1">{VNDR_ACCT_ID=72692446            }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-8862d858-7086-4173-bace-6d57364fedb0"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-4-2">
+                        Extended Data from AMCTransfer DB
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-4-2" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Extended Data from AMCTransfer DB
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-4-2')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-4-2">TransferTestData(filterStatus=COMPLETED, filterFrequency=ONE_TIME, filterFromAccountType=BNK, filterToAccountType=GNA, dataEjAccountId=24898, dataTransferAmount=58.12, dataFromAccountId=f67cc6df-5137-4a64-8cd0-517ab38ca227, dataToAccountId=24898, dataTransferGuid=54F1E1CF-8C2E-4E4B-B995-27E1EB54D30E, dataTransferDate=10/02/2025, dataEstimatedDeliveryDate=10/03/2025, dataFromAccountNumber=****4341, dataToAccountNumber=72692446, dataRelationshipId=35109131, dataBranch=57261)</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 102ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="4"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection4 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Get p-number for BOA of branch 57261, relationship 35109131, account 24898, for Platform flow
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">3s 611ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection4" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection4-0 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Get p-numbers for BOAs of branch 57261
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">703ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection4-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-0-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-0-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection4-0-0 success-icon"
+                                   style="margin-left: 60px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-0-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET branch BoAs
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-05c13f4b-08bc-4673-ba91-3554a2c0f524"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-7-0">
+                        BoAs/FAs for branch
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-7-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                BoAs/FAs for branch
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-7-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-7-0">P205625<br>P174568<br>P217099</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">678ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection4-0-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="4-0-0-0"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as p058929
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-6ddf3ee4-e2a7-43a4-8641-9161ae6a8ca1"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-8-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-8-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-8-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-8-0">URI: https://crt-crtsvc-rest.apps2.uat.edwardjones.com//crt-teams <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">510ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="4-0-0-1"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm=AMC&amp;id=57261&amp;idType=B&amp;returnPopulation=A&amp;returnHistoryCurrent=C&amp;uidCd=xxx
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-9">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm=AMC&id=57261&idType=B&returnPopulation=A&returnHistoryCurrent=C&uidCd=xxx</p>
+                                    <p>Status code: 200</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL64A6E21C5A71268CCFC8C3FEC33EB124AD128710FAB7010CD3D3C06B7A6D700BDB886E007809B8C1AD81B250143E85BB7591DF2CE2186E373733243087CD7FFE<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0058929</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Content-Type: application/json<br>Transfer-Encoding: chunked<br>Connection: keep-alive<br>Date: Mon, 06 Oct 2025 14:18:58 GMT<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>Strict-Transport-Security: max-age=15724800; includeSubDomains<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>[<br>    {<br>        &quot;teamName&quot;: &quot;JOSH HAGGARD&quot;,<br>        &quot;crbtID&quot;: 220586,<br>        &quot;ownerFaNo&quot;: &quot;458178&quot;,<br>        &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>        &quot;tmBegDa&quot;: &quot;2019-11-29T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;458178&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;JOSH HAGGARD&quot;,<br>                &quot;teamBegDa&quot;: &quot;2019-11-29T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 220586,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P205625&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0205625&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Beal,Cathy W&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2020-02-18T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2020-02-18-07.06.57.780807&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;458178&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;JOSH HAGGARD&quot;,<br>                &quot;teamBegDa&quot;: &quot;2019-11-29T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 220586,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P174568&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0174568&quot;,<br>                &quot;mbrFaNo&quot;: &quot;458178&quot;,<br>                &quot;mbrName&quot;: &quot;Haggard,Josh&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2019-11-29T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2019-11-29-18.05.21.699427&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;NATHAN PEOPLES&quot;,<br>        &quot;crbtID&quot;: 261670,<br>        &quot;ownerFaNo&quot;: &quot;464166&quot;,<br>        &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>        &quot;tmBegDa&quot;: &quot;2022-07-21T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;464166&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;NATHAN PEOPLES&quot;,<br>                &quot;teamBegDa&quot;: &quot;2022-07-21T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 261670,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P217099&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0217099&quot;,<br>                &quot;mbrFaNo&quot;: &quot;464166&quot;,<br>                &quot;mbrName&quot;: &quot;Peoples,Nathan&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2022-07-21T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2022-07-21-14.23.26.917090&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;464166&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;NATHAN PEOPLES&quot;,<br>                &quot;teamBegDa&quot;: &quot;2022-07-21T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 261670,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P205625&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0205625&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Beal,Cathy W&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2022-07-21T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2022-07-21-14.23.26.918194&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,<br>        &quot;crbtID&quot;: 261892,<br>        &quot;ownerFaNo&quot;: &quot;757261&quot;,<br>        &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>        &quot;tmBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;XFR&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;757261&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,<br>                &quot;teamBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 261892,<br>                &quot;teamTyCd&quot;: &quot;XFR&quot;,<br>                &quot;mbrJorP&quot;: &quot;P217099&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0217099&quot;,<br>                &quot;mbrFaNo&quot;: &quot;464166&quot;,<br>                &quot;mbrName&quot;: &quot;Peoples,Nathan&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2022-07-27-15.22.27.492367&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;757261&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,<br>                &quot;teamBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 261892,<br>                &quot;teamTyCd&quot;: &quot;XFR&quot;,<br>                &quot;mbrJorP&quot;: &quot;P205625&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0205625&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Beal,Cathy W&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2022-07-27-15.21.52.978178&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;757261&quot;,<br>                &quot;ownerBrNo&quot;: &quot;57261&quot;,<br>                &quot;ownerFaName&quot;: &quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,<br>                &quot;teamBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 261892,<br>                &quot;teamTyCd&quot;: &quot;XFR&quot;,<br>                &quot;mbrJorP&quot;: &quot;P174568&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0174568&quot;,<br>                &quot;mbrFaNo&quot;: &quot;458178&quot;,<br>                &quot;mbrName&quot;: &quot;Haggard,Josh&quot;,<br>                &quot;mbrBrNo&quot;: &quot;57261&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2022-07-27T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2022-07-27-15.22.27.490078&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    }<br>]</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="4-0-0-2"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-a043b1a6-d900-408b-b981-ee59c6ece2a8"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-10-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-10-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-10-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-10-0">91</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-a1808bb4-c850-4af6-9650-1cfff4c7e601"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-10-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-10-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-10-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-10-1">[{&quot;teamName&quot;:&quot;JOSH HAGGARD&quot;,&quot;crbtID&quot;:220586,&quot;ownerFaNo&quot;:&quot;458178&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;tmBegDa&quot;:&quot;2019-11-29T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;458178&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;JOSH HAGGARD&quot;,&quot;teamBegDa&quot;:&quot;2019-11-29T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:220586,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P205625&quot;,&quot;mbrEmplId&quot;:&quot;0205625&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Beal,Cathy W&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2020-02-18T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2020-02-18-07.06.57.780807&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;458178&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;JOSH HAGGARD&quot;,&quot;teamBegDa&quot;:&quot;2019-11-29T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:220586,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P174568&quot;,&quot;mbrEmplId&quot;:&quot;0174568&quot;,&quot;mbrFaNo&quot;:&quot;458178&quot;,&quot;mbrName&quot;:&quot;Haggard,Josh&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2019-11-29T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2019-11-29-18.05.21.699427&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;NATHAN PEOPLES&quot;,&quot;crbtID&quot;:261670,&quot;ownerFaNo&quot;:&quot;464166&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;tmBegDa&quot;:&quot;2022-07-21T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;464166&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;NATHAN PEOPLES&quot;,&quot;teamBegDa&quot;:&quot;2022-07-21T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:261670,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P217099&quot;,&quot;mbrEmplId&quot;:&quot;0217099&quot;,&quot;mbrFaNo&quot;:&quot;464166&quot;,&quot;mbrName&quot;:&quot;Peoples,Nathan&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2022-07-21T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2022-07-21-14.23.26.917090&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;464166&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;NATHAN PEOPLES&quot;,&quot;teamBegDa&quot;:&quot;2022-07-21T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:261670,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P205625&quot;,&quot;mbrEmplId&quot;:&quot;0205625&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Beal,Cathy W&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2022-07-21T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2022-07-21-14.23.26.918194&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,&quot;crbtID&quot;:261892,&quot;ownerFaNo&quot;:&quot;757261&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;tmBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;XFR&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;757261&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,&quot;teamBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:261892,&quot;teamTyCd&quot;:&quot;XFR&quot;,&quot;mbrJorP&quot;:&quot;P217099&quot;,&quot;mbrEmplId&quot;:&quot;0217099&quot;,&quot;mbrFaNo&quot;:&quot;464166&quot;,&quot;mbrName&quot;:&quot;Peoples,Nathan&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2022-07-27-15.22.27.492367&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;757261&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,&quot;teamBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:261892,&quot;teamTyCd&quot;:&quot;XFR&quot;,&quot;mbrJorP&quot;:&quot;P205625&quot;,&quot;mbrEmplId&quot;:&quot;0205625&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Beal,Cathy W&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2022-07-27-15.21.52.978178&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;757261&quot;,&quot;ownerBrNo&quot;:&quot;57261&quot;,&quot;ownerFaName&quot;:&quot;JOSH HAGGARD/ NATHAN PEOPLES&quot;,&quot;teamBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:261892,&quot;teamTyCd&quot;:&quot;XFR&quot;,&quot;mbrJorP&quot;:&quot;P174568&quot;,&quot;mbrEmplId&quot;:&quot;0174568&quot;,&quot;mbrFaNo&quot;:&quot;458178&quot;,&quot;mbrName&quot;:&quot;Haggard,Josh&quot;,&quot;mbrBrNo&quot;:&quot;57261&quot;,&quot;mbrBegDa&quot;:&quot;2022-07-27T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2022-07-27-15.22.27.490078&quot;,&quot;uidCd&quot;:null}]}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">007ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-1"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P205625
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-dea4954c-d8da-4248-b5fc-e866dc9b90ef"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-11-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-11-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-11-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-11-0">{EJPKY=null, EJAUTHRFC=null, ExpirationTime=null, EJAUTH=null}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">341ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-2"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P174568
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-6babf6d3-b9b2-4402-957f-8e40a9133c10"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-12-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-12-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-12-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-12-0">{EJPKY=0174568, EJAUTHRFC=&quot;STL9FCDA54FFCC8C22BB139D439AF1A8669409D28D2842DDBBD239A3AABC9695B5DB48EAE1B5C90A858C87CF1CC8E03DB5A8DF76160726D3688BA7F554A36829058&quot;, ExpirationTime=10:18:59, EJAUTH=STL9FCDA54FFCC8C22BB139D439AF1A8669409D28D2842DDBBD239A3AABC9695B5DB48EAE1B5C90A858C87CF1CC8E03DB5A8DF76160726D3688BA7F554A36829058}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">526ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-3"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-3')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection4-3 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-3')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">826ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection4-3" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-3-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as P174568
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-d6857c04-fd1d-49ee-bea7-8f6240e14527"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-14-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-14-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-14-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-14-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=35109131}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">566ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-3-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/35109131/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-15">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-15">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/35109131/access</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL240982778B12E73704D23FA08A4726101FBB8998C714BF070FE5EA1C46543FAF59D0D3C10A776D5CE8148AA0D2BAE830652EF2E9C34CB83BAB438C0FB3BFC441<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0174568</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 14:19:00 GMT<br>Content-Length: 0<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">007ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-3-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-cb60e52e-3738-4da1-ac06-f5ec727ca8c5"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-16-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-16-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-16-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-16-0">206</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">008ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-4"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P217099
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-6501966a-c940-4f4b-bb69-69917a6b971c"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-17-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-17-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-17-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-17-0">{EJPKY=0217099, EJAUTHRFC=&quot;STL40D923B7DCABCD305422A6E1E92C15BB8F4C89E9823644982CD35A573CF36688DDAEFB67436CC6C0B4A85D4457CBB00C1DBC1C99DBCD073271907CE2B3CBC91C&quot;, ExpirationTime=10:19:00, EJAUTH=STL40D923B7DCABCD305422A6E1E92C15BB8F4C89E9823644982CD35A573CF36688DDAEFB67436CC6C0B4A85D4457CBB00C1DBC1C99DBCD073271907CE2B3CBC91C}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">528ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="4-5"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-5')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection4-5 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection4-5')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-89ab731c-1992-42ec-8af2-439d53de8a67"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-18-0">
+                        validated BoA for branch
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-18-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                validated BoA for branch
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-18-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-18-0">p058929</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">674ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection4-5" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-5-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as P217099
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-bf9d90e6-189a-4fa5-b4e0-fad2037cca52"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-19-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-19-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-19-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-19-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=35109131}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">505ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-5-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/35109131/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-20">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-20">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/35109131/access</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLBD098BDB92C0E579ED0D80CE4B1D7167700F7D9B1E4D6515C7274A239126C5FAF08E901396992418D33CE00FDF51569A54E62B5EB3F862EE6FC5052989F14D93<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0217099</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 14:19:01 GMT<br>Content-Length: 0<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="4-5-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-11f454bd-3c0c-4d2d-9392-f5be48c32c46"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-21-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-21-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-21-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-21-0">140</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">007ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="5"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection5')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection5 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection5')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: p058929
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=0">
+                                    <img src="14e3d246e0c4f4d0f09985c900520606ac7e40bfec786cf4c17ab2f7d57e1268.png"
+                                         href="14e3d246e0c4f4d0f09985c900520606ac7e40bfec786cf4c17ab2f7d57e1268.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=2">
+                                    <img src="7613f43b3b3a45bd6e295cc6f9fefd274ebbeb0d87c140db95e9d3686c3962b2.png"
+                                         href="7613f43b3b3a45bd6e295cc6f9fefd274ebbeb0d87c140db95e9d3686c3962b2.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 030ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection5" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="5-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=1">
+                                    <img src="14e3d246e0c4f4d0f09985c900520606ac7e40bfec786cf4c17ab2f7d57e1268.png"
+                                         href="14e3d246e0c4f4d0f09985c900520606ac7e40bfec786cf4c17ab2f7d57e1268.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">2s 359ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="6"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Open transfer by GUID 54F1E1CF-8C2E-4E4B-B995-27E1EB54D30E and relationshipId 35109131
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=3">
+                                    <img src="cf070348418e82ba4291a34adbcb52664a3753e1bfd604b5eb95b43a598466fa.png"
+                                         href="cf070348418e82ba4291a34adbcb52664a3753e1bfd604b5eb95b43a598466fa.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">1s 734ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="7"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                WHEN: amc_use_new_accounts_service feature toggle is OFF
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=4">
+                                    <img src="cf070348418e82ba4291a34adbcb52664a3753e1bfd604b5eb95b43a598466fa.png"
+                                         href="cf070348418e82ba4291a34adbcb52664a3753e1bfd604b5eb95b43a598466fa.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="8"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Given set amc_use_new_accounts_service false
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=5">
+                                    <img src="86fbd317a42cc154570bc5ada79b818c932f98540b09532d39e96df649a3a909.png"
+                                         href="86fbd317a42cc154570bc5ada79b818c932f98540b09532d39e96df649a3a909.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">1s 096ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="9"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                THEN: Cash/value information is reflected properly
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=6">
+                                    <img src="86fbd317a42cc154570bc5ada79b818c932f98540b09532d39e96df649a3a909.png"
+                                         href="86fbd317a42cc154570bc5ada79b818c932f98540b09532d39e96df649a3a909.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="10"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection10')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection10 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection10')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Validate Cash/Value info on  'To account' card for Cash in transfer
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=7">
+                                    <img src="88d150bc1adbf041b39387c88d4ffc771f9942cf8374c096dbb850a98360fa70.png"
+                                         href="88d150bc1adbf041b39387c88d4ffc771f9942cf8374c096dbb850a98360fa70.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=9">
+                                    <img src="f04307ffd8ca7517ada7ea24ff0eef21f4b3fb98414336ff19d801d41c67aa03.png"
+                                         href="f04307ffd8ca7517ada7ea24ff0eef21f4b3fb98414336ff19d801d41c67aa03.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 678ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection10" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="10-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                The user opens 'Transfer Date' section if needed
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=8">
+                                    <img src="88d150bc1adbf041b39387c88d4ffc771f9942cf8374c096dbb850a98360fa70.png"
+                                         href="88d150bc1adbf041b39387c88d4ffc771f9942cf8374c096dbb850a98360fa70.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">628ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="11"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                WHEN: amc_use_new_accounts_service feature toggle is ON
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=10">
+                                    <img src="f04307ffd8ca7517ada7ea24ff0eef21f4b3fb98414336ff19d801d41c67aa03.png"
+                                         href="f04307ffd8ca7517ada7ea24ff0eef21f4b3fb98414336ff19d801d41c67aa03.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">007ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="12"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Given set amc_use_new_accounts_service true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=11">
+                                    <img src="7a5b565e283ec961e94e3467ebecf8f5d7ea7abc80514023dc3de754f0a509dd.png"
+                                         href="7a5b565e283ec961e94e3467ebecf8f5d7ea7abc80514023dc3de754f0a509dd.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">652ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="13"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                THEN: Cash/value information for EJ account is reflected properly
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=12">
+                                    <img src="7a5b565e283ec961e94e3467ebecf8f5d7ea7abc80514023dc3de754f0a509dd.png"
+                                         href="7a5b565e283ec961e94e3467ebecf8f5d7ea7abc80514023dc3de754f0a509dd.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="14"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection14')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection14 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection14')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Validate Cash/Value info on  'To account' card for Cash in transfer
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-3cda7330-df97-4b2f-a869-9122a9844478"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-33-0">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-33-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-33-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-33-0">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-8ce88681-3e23-4613-b3f9-dd4365644640"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-33-1">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-33-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-33-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-33-1">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=13">
+                                    <img src="86593a8b79f00cc9dcab4c5fba357528a1f9012c10f9dd84f4c51fff7a6294ae.png"
+                                         href="86593a8b79f00cc9dcab4c5fba357528a1f9012c10f9dd84f4c51fff7a6294ae.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=15">
+                                    <img src="06412c8d096c78558aa7461e23c29f9bdcbfc888642f04f0f156d153f1caf52c.png"
+                                         href="06412c8d096c78558aa7461e23c29f9bdcbfc888642f04f0f156d153f1caf52c.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 693ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection14" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="14-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                The user opens 'Transfer Date' section if needed
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="64d2e3f4583ca159251dc1dc9e6dc1b5044450e0f00c2ca5ee42f5509a06a451_screenshots.html#screenshots?screenshot=14">
+                                    <img src="86593a8b79f00cc9dcab4c5fba357528a1f9012c10f9dd84f4c51fff7a6294ae.png"
+                                         href="86593a8b79f00cc9dcab4c5fba357528a1f9012c10f9dd84f4c51fff7a6294ae.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">760ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+            <tr class="test-SUCCESS">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>SUCCESS</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.51s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

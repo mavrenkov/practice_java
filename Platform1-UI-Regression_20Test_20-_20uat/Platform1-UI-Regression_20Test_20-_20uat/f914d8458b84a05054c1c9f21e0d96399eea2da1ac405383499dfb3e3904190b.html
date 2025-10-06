@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Features</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#scenario-results").DataTable({
+                "order": [[0, "asc",], [3, "asc",]],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                },
+                columnDefs: [
+                    {type: 'time-elapsed-dhms', targets: 4}
+                ]
+            })
+            $("#manual-scenario-results").DataTable({
+                "order": [[0, "asc",], [1, "asc",]],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                },
+            })
+
+            $('.example-table table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('.example-table-in-scenario table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('#evidence-table').DataTable(
+                {
+                    searching: false,
+                    ordering: false,
+                    paging: false,
+                    info: false
+                }
+            );
+
+
+            $(".scenario-docs .card-body table").wrap("<div class='table-responsive'></div>");
+
+            $("#requirements-tabs").tabs();
+            $("#test-tabs").tabs();
+
+            var requirementsTree = [{"text":"New transaction for linked bank part2 test","type":"feature","href":"f914d8458b84a05054c1c9f21e0d96399eea2da1ac405383499dfb3e3904190b.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-exclamation-triangle-fill error-icon \u0027 title\u003d\u0027ERROR\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e4 scenarios\u003c/span\u003e, \u003cspan class\u003d\u0027feature-count\u0027\u003e4 test cases\u003c/span\u003e"]}];
+
+            $('#tree').treeview({
+                data: requirementsTree,
+                enableLinks: true,
+                levels: 10,
+                showTags: true,
+                expandIcon: "bi bi-journal-plus",
+                collapseIcon: "bi bi-journal-minus",
+                emptyIcon: "bi bi-journal"
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".scenario-docs > div > p").html(function () {
+                var text = $(this).text().trim().split(" ");
+                var first = text.shift();
+                return (text.length > 0 ? "<strong>" + first + "</strong> " : first) + text.join(" ");
+            });
+        });
+    </script>
+</head>
+
+
+<body class="results-page">
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="breadcrumbs">
+            <a href='index.html'>Home</a> > <a href="capabilities.html">Requirements</a>
+
+                > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+                > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+                > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+                > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+
+
+                    > <span class="truncate-40">New transaction for linked bank part2 test</span>
+
+            </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li >
+            <a href="index.html"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li class="active">
+            <a href="#"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 10:27</span>
+    <br style="clear:left"/>
+</div>
+
+    <div class="clr"></div>
+
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="table">
+            <div class=row">
+                <div class="col-sm-12">
+                    <div>
+                        <div clas="table">
+                            <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <span>
+                                            <h2><i class="bi bi-book"></i> Feature: New transaction for linked bank part2 test</h2>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="requirementNarrativeTitle">
+                                
+                            </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <!-- Requirements result tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#specs"><i class="bi bi-journal-text"></i> Specifications</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#results"><i class="bi bi-speedometer"></i> Test Results</a>
+                            </li>
+                        </ul>
+
+                        <!-- Specifications and Results tabs -->
+                        <div class="card border">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div id="specs" class="tab-pane fade in active">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h3>Feature Coverage By Scenario</h3>
+
+                                                <!-- REQUIREMENTS PIE CHART -->
+                                                    <div class="chart-container" style="position: relative; width:30vw">
+                                                        <canvas id="requirementChart" width="300" height="300"></canvas>
+                                                    </div>
+
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <!--- TOC --->
+                                                <div id="toc">
+                                                    <h3>Overview</h3>
+                                                    <table class="table" id="toc-table">
+                                                                    <tr>
+                                                                        <td style="width:95%;" class="toc-title">
+                                                                            <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#6b27abc346f4d13290aad1a474ec614b6891c09157925ff9b2044b71672594cc"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Card 2 - Display and Search for Linked Bank Accounts for 'INTO' flow
+                                                                                    </a>
+                                                                                </span>
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td style="width:5%;">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td class="icons-bar">
+                                                                                        <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                           href="2f9ad35bcc440bde2f2ca668e0710bf455a3fa650d98ad5dc3a1c439acc14a48.html"
+                                                                                           title="View test results">
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                            </a>
+
+
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="2f9ad35bcc440bde2f2ca668e0710bf455a3fa650d98ad5dc3a1c439acc14a48.html"
+                                                                                               title="View test results">
+                                                                                                <i class="bi bi-eyeglasses"></i>
+                                                                                            </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:95%;" class="toc-title">
+                                                                            <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#10291b328516b68a7c1973186aa2bd2657afbbc7197c175c5a5655544ee91810"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Card 3 - Select, Search, Sort Edward Jones account for "INTO" flow - Linked Bank
+                                                                                    </a>
+                                                                                </span>
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td style="width:5%;">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td class="icons-bar">
+                                                                                        <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                           href="6f7c8988566a0cfc7b2fd1062950e5210d620cd0ee411ef3dc66739e04cf667e.html"
+                                                                                           title="View test results">
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                            </a>
+
+
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="6f7c8988566a0cfc7b2fd1062950e5210d620cd0ee411ef3dc66739e04cf667e.html"
+                                                                                               title="View test results">
+                                                                                                <i class="bi bi-eyeglasses"></i>
+                                                                                            </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:95%;" class="toc-title">
+                                                                            <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#200434be5ff5b38d84c888f241da2cd00f37c35ea8f90967f3a11e5417c007a2"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Card 2 - Select Linked Bank for INTO flow with Branch user, Add New Linked Bank Account Button, Sort Linked External Bank Accounts
+                                                                                    </a>
+                                                                                </span>
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td style="width:5%;">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td class="icons-bar">
+                                                                                        <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                           href="5be0b4ac1e9a7186a82502cb94a0d36883986adb37f23bcdc402a81708853cbd.html"
+                                                                                           title="View test results">
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                            </a>
+
+
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="5be0b4ac1e9a7186a82502cb94a0d36883986adb37f23bcdc402a81708853cbd.html"
+                                                                                               title="View test results">
+                                                                                                <i class="bi bi-eyeglasses"></i>
+                                                                                            </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:95%;" class="toc-title">
+                                                                            <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#be75a2b34f2ff9a18e8bbb0dac1aad29f2572c5ccf7957fc8918ad4d40adc32d"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Submit ACH "Into" transfer using new design flow
+                                                                                    </a>
+                                                                                </span>
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td style="width:5%;">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td class="icons-bar">
+                                                                                        <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                           href="99bb7cfcca488078aa0898cc4c2ee4e6bebe5c32259feaf1cb6938a5734accac.html"
+                                                                                           title="View test results">
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                            </a>
+
+
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="99bb7cfcca488078aa0898cc4c2ee4e6bebe5c32259feaf1cb6938a5734accac.html"
+                                                                                               title="View test results">
+                                                                                                <i class="bi bi-eyeglasses"></i>
+                                                                                            </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                    </table>
+                                                </div>
+                                                <!--- END OF TOC --->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3>Scenarios</h3>
+
+                                                    <a name="4aca0c3b-4b5d-4883-a2fb-fba0f72102a8"></a>
+                                                    <p class="rule-tags inline-tag">
+                                                    </p>
+
+
+                                                        <div class="scenario-docs card" id="6b27abc346f4d13290aad1a474ec614b6891c09157925ff9b2044b71672594cc">
+                                                            <div class="scenario-docs card-header error"
+                                                                 style="min-height:1.5em;">
+                                                                <div>
+                                                                        <span class="scenario-heading">
+                                                                            <a href="2f9ad35bcc440bde2f2ca668e0710bf455a3fa650d98ad5dc3a1c439acc14a48.html"
+                                                                               title="View test results">Scenario: Card 2 - Display and Search for Linked Bank Accounts for 'INTO' flow</a>
+                                                                        </span>
+
+                                                                        <span class="example-tags inline-tag">
+                                                                        </span>
+
+                                                                    <span class="scenario-result-icon">
+                                                                    
+
+                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                        </span>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="scenario-docs card-body">
+                                                                    <p>Get Select Individual non restricted account</p>
+                                                                <div class="examples">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="scenario-docs card" id="10291b328516b68a7c1973186aa2bd2657afbbc7197c175c5a5655544ee91810">
+                                                            <div class="scenario-docs card-header error"
+                                                                 style="min-height:1.5em;">
+                                                                <div>
+                                                                        <span class="scenario-heading">
+                                                                            <a href="6f7c8988566a0cfc7b2fd1062950e5210d620cd0ee411ef3dc66739e04cf667e.html"
+                                                                               title="View test results">Scenario: Card 3 - Select, Search, Sort Edward Jones account for "INTO" flow - Linked Bank</a>
+                                                                        </span>
+
+                                                                        <span class="example-tags inline-tag">
+                                                                        </span>
+
+                                                                    <span class="scenario-result-icon">
+                                                                    
+
+                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                        </span>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="scenario-docs card-body">
+                                                                    <p>Authenticating the session with pid: P033267</p>
+                                                                    <p>Opening the asset movement page for relationship id: {null}</p>
+                                                                    <p>Choose transfer 'Into' accounts</p>
+                                                                    <p>Select Linked Bank option</p>
+                                                                    <p>Select searched account {null}</p>
+                                                                    <p>Click continue button</p>
+                                                                    <p>Verify that list of accounts is sorted</p>
+                                                                    <p>Verify account values are displayed</p>
+                                                                    <p>Verify that disclaimer message is not present</p>
+                                                                    <p>Select searched account {null}</p>
+                                                                    <p>Verify that accounts are marked as selected</p>
+                                                                    <p>Verify Cash Account Type Selection is selected true</p>
+                                                                    <p>Verify Margin Account Type disabled is true</p>
+                                                                    <p>Verify Non-Purpose Loan Account Type disabled is true</p>
+                                                                    <p>Continue button is enabled true</p>
+                                                                <div class="examples">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="scenario-docs card" id="200434be5ff5b38d84c888f241da2cd00f37c35ea8f90967f3a11e5417c007a2">
+                                                            <div class="scenario-docs card-header error"
+                                                                 style="min-height:1.5em;">
+                                                                <div>
+                                                                        <span class="scenario-heading">
+                                                                            <a href="5be0b4ac1e9a7186a82502cb94a0d36883986adb37f23bcdc402a81708853cbd.html"
+                                                                               title="View test results">Scenario: Card 2 - Select Linked Bank for INTO flow with Branch user, Add New Linked Bank Account Button, Sort Linked External Bank Accounts</a>
+                                                                        </span>
+
+                                                                        <span class="example-tags inline-tag">
+                                                                        </span>
+
+                                                                    <span class="scenario-result-icon">
+                                                                    
+
+                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                        </span>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="scenario-docs card-body">
+                                                                    <p>Authenticating the session with pid: P033267</p>
+                                                                    <p>Opening the asset movement page for relationship id: {null}</p>
+                                                                    <p>Given set amc-auto-progression</p>
+                                                                    <p>Given set External Transfer Feature Toggle true</p>
+                                                                    <p>Verify 'Into' option is available</p>
+                                                                    <p>Choose transfer 'Into' accounts</p>
+                                                                    <p>Verify Linked Bank is Selected</p>
+                                                                    <p>Verify Linked Bank container displayed is true</p>
+                                                                    <p>Verify Linked Bank container clickable is true</p>
+                                                                    <p>Verify Linked Bank Container Title is Linked Bank</p>
+                                                                    <p>Select External Firm option</p>
+                                                                    <p>Expand 'Choose From' card</p>
+                                                                    <p>Select Linked Bank option</p>
+                                                                    <p>Verify ACH default Card Names</p>
+                                                                    <p>Get if any account is selected</p>
+                                                                    <p>Choose To card is disabled true</p>
+                                                                    <p>Verify that list of accounts is sorted</p>
+                                                                    <p>Verify Add New Linked Bank Account displayed is true</p>
+                                                                    <p>Verify Add New Linked Bank Account text</p>
+                                                                    <p>Select Add New Linked Bank Account button</p>
+                                                                    <p>The New External Account Page loaded is true</p>
+                                                                <div class="examples">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="scenario-docs card" id="be75a2b34f2ff9a18e8bbb0dac1aad29f2572c5ccf7957fc8918ad4d40adc32d">
+                                                            <div class="scenario-docs card-header error"
+                                                                 style="min-height:1.5em;">
+                                                                <div>
+                                                                        <span class="scenario-heading">
+                                                                            <a href="99bb7cfcca488078aa0898cc4c2ee4e6bebe5c32259feaf1cb6938a5734accac.html"
+                                                                               title="View test results">Scenario: Submit ACH "Into" transfer using new design flow</a>
+                                                                        </span>
+
+                                                                        <span class="example-tags inline-tag">
+                                                                        </span>
+
+                                                                    <span class="scenario-result-icon">
+                                                                    
+
+                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                        </span>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="scenario-docs card-body">
+                                                                    <p>Authenticating the session with pid: P033267</p>
+                                                                    <p>Opening the asset movement page for relationship id: {null}</p>
+                                                                    <p>Choose transfer 'Into' accounts</p>
+                                                                    <p>Select Linked Bank option</p>
+                                                                    <p>Select searched account {null}</p>
+                                                                    <p>Expand 'Choose To' card</p>
+                                                                    <p>Select searched account {null}</p>
+                                                                    <p>Click continue button</p>
+                                                                    <p>Select frequency ONE_TIME</p>
+                                                                    <p>Continue button is enabled true</p>
+                                                                    <p>Verify card is enabled</p>
+                                                                    <p>Expand transfer detail card</p>
+                                                                    <p>'Review transaction' button is enabled false</p>
+                                                                    <p>Provide transfer value</p>
+                                                                    <p>Review transaction</p>
+                                                                    <p>Select all checkboxes and Continue</p>
+                                                                    <p>Click save button from transferConfirmation page</p>
+                                                                    <p>Verify confirmation modal header 'Verify and Submit'</p>
+                                                                    <p>Verify confirmation modal sub title</p>
+                                                                    <p>Verify transaction details</p>
+                                                                <div class="examples">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="results" class="tab-pane fade">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h3>Feature Coverage By Scenario</h3>
+                                                <!-- TEST RESULT PIE CHART -->
+                                                    <div class="chart-container" style="position: relative; width:30vw">
+                                                        <canvas id="resultChart" width="300" height="300"></canvas>
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h4><i class="bi bi-check-square"></i> Test Outcomes</h4>
+                                                <!-- Severity bar chart -->
+                                                <div class="chart-container" style="position: relative; width:30vw">
+                                                    <canvas id="severityChart" width="300" height="300"></canvas>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <h4><i class="bi bi-graph-up"></i> Test Performance</h4>
+
+                                                <!-- Duration bar chart -->
+                                                <div class="chart-container" style="position: relative; width:30vw">
+                                                    <canvas id="durationChart" width="300" height="300"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+    <div>
+        <h3><i class="bi bi-speedometer2"></i> Key Statistics</h3>
+        <div>
+            <table class="table table-striped table-hover">
+                <tbody>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-card-checklist"></i> Number of Scenarios
+                    </td>
+                    <td>4</td>
+                    <td>
+                        <i class="bi bi-stopwatch"></i> Total
+                        Duration
+                    </td>
+                    <td> 5m 58s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-caret-right"></i> Total Number of Test Cases
+                    </td>
+                    <td>4</td>
+                    <td>
+                        <i class="bi bi-trophy"></i> Fastest Test
+                    </td>
+                    <td>1s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-person"></i> Number of Manual Test Cases
+                    </td>
+                    <td>0</td>
+                    <td>
+                        <i class="bi bi-skip-start"></i> Slowest
+                        Test
+                    </td>
+                    <td> 1m 12s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-flag-fill"></i> Tests Started
+                    </td>
+                    <td>Oct 06, 2025 10:27:10</td>
+                    <td>
+                        <i class="bi bi-stopwatch"></i> Average
+                        Execution Time
+                    </td>
+                    <td>19s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-stop-circle"></i> Tests
+                        Finished
+                    </td>
+                    <td>Oct 06, 2025 10:33:08</td>
+                    <td>
+                        <i class="bi bi-stopwatch-fill"></i> Total
+                        Execution Time
+                    </td>
+                    <td> 1m 19s</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+                                                <h3><i class="bi bi-gear"></i> Automated Tests</h3>
+
+                                                    <table class="scenario-result-table table" id="scenario-results">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>story</th>
+                                                            <th class="test-name-column">Scenario</th>
+                                                            <th>Context</th>
+                                                            <th>Steps</th>
+                                                            <th>Started</th>
+                                                            <th>Total Duration</th>
+                                                            <th>Result</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                <tr class="scenario-result ERROR">
+                                                                    <td>
+                                                                            <a href="f914d8458b84a05054c1c9f21e0d96399eea2da1ac405383499dfb3e3904190b.html">NewTransactionForLinkedBankPart2Test</a>
+                                                                    </td>
+                                                                    <td>
+                                                                            <a href="2f9ad35bcc440bde2f2ca668e0710bf455a3fa650d98ad5dc3a1c439acc14a48.html">Card 2 - Display and Search for Linked Bank Accounts for 'INTO' flow</a>
+                                                                    </td>
+                                                                    <td><span class='context-icon'>MICROSOFTEDGE</span><span style="display:none">microsoftedge</span>
+                                                                    </td>
+                                                                    <td>1</td>
+                                                                    <td>10:27:10</td>
+                                                                    <td>1m 12s</td>
+                                                                    <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="scenario-result ERROR">
+                                                                    <td>
+                                                                            <a href="f914d8458b84a05054c1c9f21e0d96399eea2da1ac405383499dfb3e3904190b.html">NewTransactionForLinkedBankPart2Test</a>
+                                                                    </td>
+                                                                    <td>
+                                                                            <a href="6f7c8988566a0cfc7b2fd1062950e5210d620cd0ee411ef3dc66739e04cf667e.html">Card 3 - Select, Search, Sort Edward Jones account for "INTO" flow - Linked Bank</a>
+                                                                    </td>
+                                                                    <td><span class='context-icon'>MICROSOFTEDGE</span><span style="display:none">microsoftedge</span>
+                                                                    </td>
+                                                                    <td>15</td>
+                                                                    <td>10:29:34</td>
+                                                                    <td>3s 933ms</td>
+                                                                    <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="scenario-result ERROR">
+                                                                    <td>
+                                                                            <a href="f914d8458b84a05054c1c9f21e0d96399eea2da1ac405383499dfb3e3904190b.html">NewTransactionForLinkedBankPart2Test</a>
+                                                                    </td>
+                                                                    <td>
+                                                                            <a href="5be0b4ac1e9a7186a82502cb94a0d36883986adb37f23bcdc402a81708853cbd.html">Card 2 - Select Linked Bank for INTO flow with Branch user, Add New Linked Bank Account Button, Sort Linked External Bank Accounts</a>
+                                                                    </td>
+                                                                    <td><span class='context-icon'>MICROSOFTEDGE</span><span style="display:none">microsoftedge</span>
+                                                                    </td>
+                                                                    <td>21</td>
+                                                                    <td>10:31:22</td>
+                                                                    <td>1s 773ms</td>
+                                                                    <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="scenario-result ERROR">
+                                                                    <td>
+                                                                            <a href="f914d8458b84a05054c1c9f21e0d96399eea2da1ac405383499dfb3e3904190b.html">NewTransactionForLinkedBankPart2Test</a>
+                                                                    </td>
+                                                                    <td>
+                                                                            <a href="99bb7cfcca488078aa0898cc4c2ee4e6bebe5c32259feaf1cb6938a5734accac.html">Submit ACH "Into" transfer using new design flow</a>
+                                                                    </td>
+                                                                    <td><span class='context-icon'>MICROSOFTEDGE</span><span style="display:none">microsoftedge</span>
+                                                                    </td>
+                                                                    <td>20</td>
+                                                                    <td>10:33:06</td>
+                                                                    <td>1s 607ms</td>
+                                                                    <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                                    </td>
+                                                                </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3><i class="bi bi-hand-index-thumb"></i> Manual Tests</h3>
+
+                                                    No manual tests were recorded
+
+                                            </div>
+                                        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Tags</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                    <a href="7015cce00e41eb46f2380c025dd0ec07f6bd1bc9b0ac6f25bdaa74b7b0796a67.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Ach-Into-Flow&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                                    <a href="38a05c85236504d4583a69b495582061fc51d962bf0eac4c9050446964ffa40e.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-4&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                                    <a href="c22bf9b070b28f40fc35c6491a11b432e12c61b724dca8cdd432d5f443bd8f1a.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Preprod-Regression&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> New-Old-Ui&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="14cd8f63dd3fb6c2fe38c67b0e124de29aedad2c9430a9d6ba80021ea6ebb92e.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-2b&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> DB-Test-Data&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                                    <a href="b3c3d5bdb0db622230fd39dcf6d1040c184048a70ff4885c53969d994ff1cd8f.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression-Daily&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Context</h5>
+                            <div>
+                                    <a href="4b59ae6653aebba42755603f63edcc610e447dca4c5d6938ccdf5fe39dc86cdd.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Microsoftedge&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="version">Serenity BDD version 4.0.46</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart data -->
+    <!-- PIE CHART -->
+    <script>
+
+        // The results pie chart
+        const outcomeChartCtx = document.getElementById('resultChart');
+
+        // Options define for display value on top of bars
+        const outcomeDetailsReports = [
+            { title: 'Passing Test Cases', link: "0737c264510ea5a6439eea9725637e9edde24c0f703f72d54e3ac6c39c48defe.html" },
+            { title: 'Pending Test Cases', link: "494df9d463f476f18fb15456715c3fb5457540310703ba696eeb1954899e5bf1.html" },
+            { title: 'Ignored Test Cases', link: "89f6e1f64197d37c4544f39bd8bc3db5e53e4bbfafb1ce8b03417c234779e1d7.html" },
+            { title: 'Skipped Test Cases', link: "28b5a255dbd677e994f68b6c3d145da44e6c3e721970ad52ee6e52ad71ec1097.html" },
+            { title: 'Aborted Test Cases',  link: "7743895ca3bad3c15c30aa949f2f6d15121071eddea01b8b2fea366be5b88f77.html"},
+            { title: 'Failed Test Cases', link: "cee939cb2b74e60589f89e90458b88bf05d51cd8b599f93e09bb118809da2882.html"  },
+            { title: 'Broken Test Cases', link: "afb3dd67ff4c3e9a7951326631bf593ca1b0795264591b326cec23337ae05568.html"    },
+            { title: 'Compromised Test Cases',  link: "4fefc1e18ac3ed6bc5735f89acecaf38576f32bdb9ff67001ddab9bf95a564ed.html" },
+        ]
+        const outcomeData = {
+            labels: ['Passing Test Cases', 'Pending Test Cases', 'Ignored Test Cases', 'Skipped Test Cases', 'Aborted Test Cases', 'Failed Test Cases', 'Broken Test Cases', 'Compromised Test Cases','Undefined Test Cases'],
+            datasets: [{
+                label: 'Test Results',
+                fill: false,
+                data: [{meta: 'Passing tests', value: 0}, {meta: 'Pending tests', value: 0}, {meta: 'Ignored tests', value: 0}, {meta: 'Skipped tests', value: 0}, {meta: 'Aborted tests', value: 0}, {meta: 'Failing tests', value: 0}, {meta: 'Broken tests', value: 4}, {meta: 'Compromised tests', value: 0}],
+                backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)','rgba(83, 50, 168, 0.5)'],
+                borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                borderWidth: 1,
+            }]
+        }
+        const outcomeOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        if (percentage === '0%' || percentage === 'NaN%') {
+                            return '';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                },
+            }
+        }
+
+        const outcomeChart = new Chart(outcomeChartCtx, {
+            type: 'doughnut',
+            data: outcomeData,
+            options: outcomeOptions,
+            plugins: [
+                {
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 200).toFixed(1);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var text = " "
+                        textX = 10 + Math.round((width - ctx.measureText(text).width) / 2);
+                        textY = (height / 2) - 40;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+        });
+
+        function clickHandler(click) {
+            const points = outcomeChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(outcomeDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        outcomeChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END PIE CHART -->
+    <!-- PIE CHART -->
+    <script>
+
+        // The results pie chart
+        const requirementsChartCtx = document.getElementById('requirementChart');
+
+        // Options define for display value on top of bars
+        const requirementsOutcomeDetailsReports = [
+            { title: 'Passing Test Cases', link: "0737c264510ea5a6439eea9725637e9edde24c0f703f72d54e3ac6c39c48defe.html" },
+            { title: 'Pending Test Cases', link: "494df9d463f476f18fb15456715c3fb5457540310703ba696eeb1954899e5bf1.html" },
+            { title: 'Ignored Test Cases', link: "89f6e1f64197d37c4544f39bd8bc3db5e53e4bbfafb1ce8b03417c234779e1d7.html" },
+            { title: 'Skipped Test Cases', link: "28b5a255dbd677e994f68b6c3d145da44e6c3e721970ad52ee6e52ad71ec1097.html" },
+            { title: 'Aborted Test Cases',  link: "7743895ca3bad3c15c30aa949f2f6d15121071eddea01b8b2fea366be5b88f77.html"},
+            { title: 'Failed Test Cases', link: "cee939cb2b74e60589f89e90458b88bf05d51cd8b599f93e09bb118809da2882.html"  },
+            { title: 'Broken Test Cases', link: "afb3dd67ff4c3e9a7951326631bf593ca1b0795264591b326cec23337ae05568.html"    },
+            { title: 'Compromised Test Cases',  link: "4fefc1e18ac3ed6bc5735f89acecaf38576f32bdb9ff67001ddab9bf95a564ed.html" },
+            { title: 'Undefined Test Cases',  link: "" },
+        ]
+        const requirementsOutcomeData = {
+            labels: ['Passing Test Cases', 'Pending Test Cases', 'Ignored Test Cases', 'Skipped Test Cases', 'Aborted Test Cases', 'Failed Test Cases', 'Broken Test Cases', 'Compromised Test Cases','Undefined Test Cases'],
+            datasets: [{
+                label: 'Feature Coverage',
+                fill: false,
+                data: [{meta: 'Passing tests', value: 0}, {meta: 'Pending tests', value: 0}, {meta: 'Ignored tests', value: 0}, {meta: 'Skipped tests', value: 0}, {meta: 'Aborted tests', value: 0}, {meta: 'Failing tests', value: 0}, {meta: 'Broken tests', value: 4}, {meta: 'Compromised tests', value: 0}],
+                backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)','rgba(83, 50, 168, 0.5)'],
+                borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                borderWidth: 1,
+            }]
+        }
+        const requirementsOutcomeOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        if (percentage === '0%' || percentage === 'NaN%') {
+                            return '';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                },
+            }
+        }
+
+        const requirementsChart = new Chart(requirementsChartCtx, {
+            type: 'doughnut',
+            data: requirementsOutcomeData,
+            options: requirementsOutcomeOptions,
+            plugins: [
+                {
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 200).toFixed(1);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var text = " "
+                        textX = 10 + Math.round((width - ctx.measureText(text).width) / 2);
+                        textY = (height / 2) - 40;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+        });
+
+        function reqsClickHandler(click) {
+            const points = requirementsChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length && requirementsOutcomeDetailsReports[firstPoint.index].link) {
+                const firstPoint = points[0];
+                window.open(requirementsOutcomeDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        requirementsChartCtx.onclick = reqsClickHandler;
+    </script>
+    <!-- END PIE CHART -->
+
+    <!-- SUMMARY BAR CHART -->
+    <script>
+
+        // The Severity bar chart
+        const severityChartCtx = document.getElementById('severityChart');
+
+        // Options define for display value on top of bars
+
+        const severityDetailsReports = [
+            { title: 'Passing Scenarios', link: "0737c264510ea5a6439eea9725637e9edde24c0f703f72d54e3ac6c39c48defe.html" },
+            { title: 'Pending Scenarios', link: "494df9d463f476f18fb15456715c3fb5457540310703ba696eeb1954899e5bf1.html" },
+            { title: 'Ignored Scenarios', link: "89f6e1f64197d37c4544f39bd8bc3db5e53e4bbfafb1ce8b03417c234779e1d7.html" },
+            { title: 'Skipped Scenarios', link: "28b5a255dbd677e994f68b6c3d145da44e6c3e721970ad52ee6e52ad71ec1097.html" },
+            { title: 'Aborted Scenarios',  link: "7743895ca3bad3c15c30aa949f2f6d15121071eddea01b8b2fea366be5b88f77.html"},
+            { title: 'Failed Scenarios', link: "cee939cb2b74e60589f89e90458b88bf05d51cd8b599f93e09bb118809da2882.html"  },
+            { title: 'Broken Scenarios', link: "afb3dd67ff4c3e9a7951326631bf593ca1b0795264591b326cec23337ae05568.html"    },
+            { title: 'Compromised Scenarios',  link: "4fefc1e18ac3ed6bc5735f89acecaf38576f32bdb9ff67001ddab9bf95a564ed.html" },
+        ]
+        const severityData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [
+                {
+                    label: 'Automated',
+                    data: [0,0,0,0,0,0,4,0],
+                    backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)','rgba(83, 50, 168, 0.5)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Manual',
+                    data: [0,0,0,0,0,0,0,0],
+                    backgroundColor: ['rgba(153,204,51,0.25)','rgba(165, 199, 238, 0.25)','rgba(168, 168, 168, 0.25)','rgba(238, 224, 152, 0.375)','rgba(255, 153, 102, 0.25)','rgba(255, 22, 49, 0.25)','rgba(255, 97, 8, 0.25)','rgba(255, 104, 255, 0.25)','rgba(83, 50, 168, 0.25)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                    borderWidth: 1
+                },
+
+            ]
+        }
+        const severityOptions = {
+            responsive: true,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value === 0) {
+                            return '';
+                        } else {
+                            return value;
+                        }
+                    },
+                }
+            }
+        }
+        const severityChart = new Chart(severityChartCtx, {
+            type: 'bar',
+            data: severityData,
+            options: severityOptions
+        });
+
+        function clickHandler(click) {
+            const points = severityChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(severityDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        severityChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END SUMMARY CHART -->
+
+    <!-- DURATION CHART -->
+    <script>
+
+        // Options define for display value on top of bars
+        const durationDetailsReports = [
+                {title: "Under 1 second", link: "3709ff58fa458e256720c4c684c7029d4138207c070017fb66c1b93dbd864d70.html"},
+                {title: "1 to 10 seconds", link: "e8ff828cc2258672393f00c8ff7d498dce2cd2ff8502a031264f4c0b1659209a.html"},
+                {title: "10 to 30 seconds", link: "dbd1a7ebf06680e09992872513922b78c71c94972d50328412f8121dcc7ee94d.html"},
+                {title: "30 to 60 seconds", link: "9336155b4fb65c569bc12ff57c8bd5f12f7ac9d9c5b37aeaf3525fa73762318d.html"},
+                {title: "1 to 2 minutes", link: "b304fa80972ae778236a31bda659b5f339768bb374990dfca12b9f2598056ef5.html"},
+                {title: "2 to 5 minutes", link: "16bf5ddfba50e0494afb097053d0933f4857857d68656631b9b72bc9902fc6df.html"},
+                {title: "5 to 10 minutes", link: "1308e6e0bcb362b432f5e965a75868e65869f240ff2bd7247c2c80ec24b865aa.html"},
+                {title: "10 minutes or over", link: "17725643570e0e9cecd9dbaf641e32cbf49c584aa0a85725ff7fb45947d0d84f.html"},
+        ]
+        // The Severity bar chart
+        const durationChartCtx = document.getElementById('durationChart');
+
+        // Options define for display value on top of bars
+
+        const durationData = {
+            labels: ['Under 1 second','1 to 10 seconds','10 to 30 seconds','30 to 60 seconds','1 to 2 minutes','2 to 5 minutes','5 to 10 minutes','10 minutes or over'],
+            datasets: [{
+                label: 'Number of tests per duration',
+                fill: false,
+                data: ['0','3','0','0','1','0','0','0'],
+                backgroundColor: 'rgba(83, 146, 255,0.5)',
+                borderColor: 'rgba(83, 146, 255, 1)',
+            }]
+        }
+        const durationOptions = {
+            responsive: true,
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value > 0) {
+                            return value;
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                    callbacks: {
+                        label: (data) => {
+                            return data.parsed.y + ' tests'
+                        }
+                    },
+                },
+            },
+        }
+
+        const durationChart = new Chart(durationChartCtx, {
+            type: 'bar',
+            data: durationData,
+            options: durationOptions
+        });
+
+        function durationClickHandler(click) {
+            const points = durationChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(durationDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+
+        durationChartCtx.onclick = durationClickHandler;
+    </script>
+    <!-- END DURATION CHART -->
+</body>
+</html>

@@ -1,0 +1,236 @@
+{
+  "name": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForPooledPlan428()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test]/[method:verifyRestrictedAccountsForOutOfFlowNewServiceFlowForPooledPlan428()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+  "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForPooledPlan428",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ruleId\u003d428, branch\u003dBR_4454",
+      "duration": 38166,
+      "startTime": "2025-10-06T10:34:21.633073478-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d428, branch\u003dBR_4454",
+          "duration": 38149,
+          "startTime": "2025-10-06T10:34:21.635033714-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.br_no\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\nand acct.ACCT_OWN_RULE_ID \u003d 428\nand sub_acc.br_no  \u003d 4454\n\n\n and sub_acc.acct_id not in\n (               select a.acct_id\n                 from\n                     PROD.ACCOUNT_12280 a\n                     left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                     inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                     inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                     inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                 where\n                     v.rst_rsn_cd is not null\n                     and v.rst_rsn_cd in ( \u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027 )\n                     and a.LGCL_DEL_DA is null\n                     and a.ACCT_CLS_DA is null\n                     and a.ACCT_OWN_RULE_ID \u003d 428\n                     and sub_acc.br_no  \u003d 4454\n                     and v.RST_START_DA\u003c\u00272025-10-06\u0027\n )\n\nFETCH FIRST 500 ROWS ONLY",
+              "isEvidence": false,
+              "id": "report-data-e2af8cc4-6f03-4ee9-b1ac-c8461836efea"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_ID\u003d131381053, RLTSHP_ID\u003d66975021, BR_NO\u003d4454, CUST_NO\u003d73883334}\n{ACCT_ID\u003d145257094, RLTSHP_ID\u003d34456639, BR_NO\u003d4454, CUST_NO\u003d44564955}",
+              "isEvidence": false,
+              "id": "report-data-466367dc-f485-4a18-976c-1358fa9de979"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 4454, relationship 34456639, account 145257094, for Platform flow",
+      "duration": 15,
+      "startTime": "2025-10-06T10:34:59.799541163-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: P230883",
+      "duration": 28,
+      "startTime": "2025-10-06T10:34:59.815450185-05:00[America/Chicago]",
+      "exception": {
+        "errorType": "org.openqa.selenium.NoSuchSessionException",
+        "message": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+            "methodName": "authenticateSession",
+            "fileName": "AuthenticationSteps.java",
+            "lineNumber": 60
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+            "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForPooledPlan428",
+            "fileName": "OutOfRestrictionsNewServicePart1Test.java",
+            "lineNumber": 76
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 5,
+      "description": "Integrate New Account Service with Restrictions for ACH Transfers",
+      "duration": 0,
+      "startTime": "2025-10-06T10:34:59.847458675-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-1af41bcd-737d-45c2-ab27-8a07086348a2"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-d28713ee-03f0-4e0f-8c0f-bc8bbf09c1ad"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "storyName": "OutOfRestrictionsNewServicePart1Test",
+    "displayName": "OutOfRestrictionsNewServicePart1Test",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "path": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "OutOfRestrictionsNewServicePart1Test",
+        "description": "OutOfRestrictionsNewServicePart1Test"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Integrate New Account Service with Restrictions for ACH Transfers - PooledPlan428Change applicable messaging in amc-rule-svc for ACH rules for QP/Pooled Plans and remove expired Rule IDs",
+  "coreIssues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829",
+    "ATMT-64997"
+  ],
+  "tags": [
+    {
+      "name": "Priority-3b",
+      "type": "tag",
+      "displayName": "Priority-3b"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "false",
+      "type": "amc-ach-sep-ira-cashout-transfers-enable",
+      "displayName": "false"
+    }
+  ],
+  "startTime": "2025-10-06T10:34:21.629290290-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:34:59.849230259-05:00[America/Chicago]",
+  "duration": 38135,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchSessionException",
+    "message": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+        "methodName": "authenticateSession",
+        "fileName": "AuthenticationSteps.java",
+        "lineNumber": 60
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+        "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForPooledPlan428",
+        "fileName": "OutOfRestrictionsNewServicePart1Test.java",
+        "lineNumber": 76
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchSessionException",
+  "testFailureMessage": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchSessionException;Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b;AuthenticationSteps.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "0c20994803fef514b6bf8e6f3c11e40b",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829",
+    "ATMT-64997"
+  ],
+  "scenarioOutline": ""
+}

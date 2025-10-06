@@ -1,0 +1,283 @@
+{
+  "name": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_E_SVCTV_GE()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9]/[method:verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_E_SVCTV_GE()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+  "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_E_SVCTV_GE",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ownership ruleID\u003d309, for restriction\u003dBR_4454",
+      "duration": 5264,
+      "startTime": "2025-10-06T09:56:48.137489303-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d309, branch BR_4454, ACCT_SVC_TY_CD GE, ACCT_SVC_STAT_CD E",
+          "duration": 5242,
+          "startTime": "2025-10-06T09:56:48.140273920-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d309\nand sub_acc.br_no   \u003d 4454\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027GE\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027E\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d309\n    and sub_acc.br_no   \u003d 4454\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+              "isEvidence": false,
+              "id": "report-data-0a6b4d1e-0bb4-4345-8beb-d93aace45775"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145281151, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d103152953, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d321621129, CUST_NO\u003d44527297, ACCT_PREFERRED_NAME\u003dMagdalene, Gabri               , ACCT_SVC_STAT_CD\u003dE }",
+              "isEvidence": false,
+              "id": "report-data-ae0812a7-45d2-4992-89d1-ce4c45c14dbd"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 33,
+      "startTime": "2025-10-06T09:56:53.402760229-05:00[America/Chicago]",
+      "exception": {
+        "errorType": "org.openqa.selenium.NoSuchSessionException",
+        "message": "Unable to find session with ID: a441cea1873f7fbb49961a22412054d9\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [a441cea1873f7fbb49961a22412054d9, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:52252}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: a441cea1873f7fbb49961a22412054d9",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+            "methodName": "authenticateSession",
+            "fileName": "AuthenticationSteps.java",
+            "lineNumber": 60
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+            "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_E_SVCTV_GE",
+            "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart9.java",
+            "lineNumber": 109
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Opening the asset movement page for relationship id: 103152953",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.456278231-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 5,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.460495383-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.463850141-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Select Check Deposit option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.467696359-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Verify Account 44527297 is Restricted true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.471638191-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 0,
+      "startTime": "2025-10-06T09:56:53.474883603-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-ac391e20-76e6-4b5d-ba94-1eda92b026e4"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-9b658c7a-9a7f-44d5-bec3-712ee73c75e6"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+    "storyName": "IntoCheckDepositRestrictionsNewAccountServicePart9",
+    "displayName": "IntoCheckDepositRestrictionsNewAccountServicePart9",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositRestrictionsNewAccountServicePart9",
+        "description": "IntoCheckDepositRestrictionsNewAccountServicePart9"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Part 9 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  Restriction Code - CCT_SVC_STAT_CD \u003dE ACCT_SVC_TY_CD \u003d GE",
+  "coreIssues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "ATMT-23447",
+      "type": "tag",
+      "displayName": "ATMT-23447"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T09:56:48.132330403-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:56:53.476984824-05:00[America/Chicago]",
+  "duration": 5229,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchSessionException",
+    "message": "Unable to find session with ID: a441cea1873f7fbb49961a22412054d9\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [a441cea1873f7fbb49961a22412054d9, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:52252}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: a441cea1873f7fbb49961a22412054d9",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+        "methodName": "authenticateSession",
+        "fileName": "AuthenticationSteps.java",
+        "lineNumber": 60
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart9",
+        "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_E_SVCTV_GE",
+        "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart9.java",
+        "lineNumber": 109
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchSessionException",
+  "testFailureMessage": "Unable to find session with ID: a441cea1873f7fbb49961a22412054d9\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [a441cea1873f7fbb49961a22412054d9, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:52252}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: a441cea1873f7fbb49961a22412054d9",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchSessionException;Unable to find session with ID: a441cea1873f7fbb49961a22412054d9\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [a441cea1873f7fbb49961a22412054d9, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:52252}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: a441cea1873f7fbb49961a22412054d9;AuthenticationSteps.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "a441cea1873f7fbb49961a22412054d9",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "scenarioOutline": ""
+}

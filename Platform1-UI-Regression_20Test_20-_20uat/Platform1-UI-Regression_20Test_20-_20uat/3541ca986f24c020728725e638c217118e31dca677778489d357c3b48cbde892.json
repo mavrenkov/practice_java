@@ -1,0 +1,292 @@
+{
+  "name": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GE()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8]/[method:verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GE()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+  "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GE",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ownership ruleID\u003d309, for restriction\u003dBR_FATEST",
+      "duration": 6004,
+      "startTime": "2025-10-06T09:55:39.161586690-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d309, branch BR_FATEST, ACCT_SVC_TY_CD GE, ACCT_SVC_STAT_CD O",
+          "duration": 5942,
+          "startTime": "2025-10-06T09:55:39.169034543-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d309\nand sub_acc.br_no   \u003d 9979\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027GE\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027O\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d309\n    and sub_acc.br_no   \u003d 9979\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+              "isEvidence": false,
+              "id": "report-data-ddc32191-9893-4938-adaa-c9c7dfc0b003"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d143707501, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d930843, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d157833889, CUST_NO\u003d99773543, ACCT_PREFERRED_NAME\u003dAdams, Mary                    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145206809, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d98743004, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d310914670, CUST_NO\u003d13022432, ACCT_PREFERRED_NAME\u003dBartels, Jennifer              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145226401, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d88906751, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d308265578, CUST_NO\u003d13023557, ACCT_PREFERRED_NAME\u003dClient, Jane                   , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145321087, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d103248689, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321194398, CUST_NO\u003d13024979, ACCT_PREFERRED_NAME\u003dCoffee, Blue                   , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145221258, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102736185, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320648829, CUST_NO\u003d13023049, ACCT_PREFERRED_NAME\u003dDangeti, Srinu                 , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d143754666, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d87405022, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d308741083, CUST_NO\u003d99773609, ACCT_PREFERRED_NAME\u003ddearing, Milly                 , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145328361, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d90119776, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d304852438, CUST_NO\u003d13025099, ACCT_PREFERRED_NAME\u003dHuebbe Test, Matt              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145155246, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d82584485, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d296223131, CUST_NO\u003d13021313, ACCT_PREFERRED_NAME\u003dJames, Robert                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145298798, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102920960, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321114500, CUST_NO\u003d13024881, ACCT_PREFERRED_NAME\u003dKagalwala, Sarida              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145225714, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102978854, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321249550, CUST_NO\u003d13023506, ACCT_PREFERRED_NAME\u003dPlica agaiaea, Lynn agaiaea    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145226666, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102981890, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321253889, CUST_NO\u003d13023592, ACCT_PREFERRED_NAME\u003dPlica bbcaehd, Lynn bbcaehh    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145222444, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102965857, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321230219, CUST_NO\u003d13023119, ACCT_PREFERRED_NAME\u003dPlica bcbffgf, Lynn bcbffgh    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145222760, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102966923, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321231723, CUST_NO\u003d13023139, ACCT_PREFERRED_NAME\u003dPlica bfbacea, Lynn bfbacee    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145214063, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d100809732, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d310162056, CUST_NO\u003d13022630, ACCT_PREFERRED_NAME\u003dRabbit, Jessica                , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145217012, ACH_DB_ALLW_IND\u003dY, RLTSHP_ID\u003d102905068, ACH_CR_ALLW_IND\u003dY, BR_NO\u003d9979, CON_ID\u003d321147767, CUST_NO\u003d13022849, ACCT_PREFERRED_NAME\u003dRajendran, Balaji              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145221980, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102964035, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321227467, CUST_NO\u003d13023092, ACCT_PREFERRED_NAME\u003dSharma, Kiara KS               , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145221982, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102964035, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321227467, CUST_NO\u003d13023094, ACCT_PREFERRED_NAME\u003dSharma, Kiara KS               , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d144739828, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d91053740, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d16340850, CUST_NO\u003d13021047, ACCT_PREFERRED_NAME\u003dSIMMONSZ, GENEZ                , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d144571882, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d70834313, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d216230523, CUST_NO\u003d13020736, ACCT_PREFERRED_NAME\u003dSMITHE, AMY J                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145228994, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102964817, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321228682, CUST_NO\u003d13023816, ACCT_PREFERRED_NAME\u003dTEST, AKRITI                   , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145215686, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102748016, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320669078, CUST_NO\u003d13022778, ACCT_PREFERRED_NAME\u003dWagoner, Jennifer              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d132264164, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d69046993, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d267100566, CUST_NO\u003d99767414, ACCT_PREFERRED_NAME\u003dPATHUIS, ANNA                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145224419, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102972799, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321240229, CUST_NO\u003d13023296, ACCT_PREFERRED_NAME\u003dPlica ceahabg, Lynn ceahabh    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145224912, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102974956, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321243528, CUST_NO\u003d13023363, ACCT_PREFERRED_NAME\u003dPlica cjahadb, Lynn cjahadi    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145171868, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102048545, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d317926959, CUST_NO\u003d13021543, ACCT_PREFERRED_NAME\u003dRose, Carly                    , ACCT_SVC_STAT_CD\u003dO }",
+              "isEvidence": false,
+              "id": "report-data-b68fffcf-a10e-411e-aca2-95793bd39418"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 9979, relationship 102981890, account 145226666, for Platform flow",
+      "duration": 24,
+      "startTime": "2025-10-06T09:55:45.166742460-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 79,
+      "startTime": "2025-10-06T09:55:45.191617726-05:00[America/Chicago]",
+      "exception": {
+        "errorType": "org.openqa.selenium.NoSuchSessionException",
+        "message": "Unable to find session with ID: 5011da96d8e685bbe9df2956cf57974c\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [5011da96d8e685bbe9df2956cf57974c, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:57833}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 5011da96d8e685bbe9df2956cf57974c",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+            "methodName": "authenticateSession",
+            "fileName": "AuthenticationSteps.java",
+            "lineNumber": 60
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+            "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GE",
+            "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart8.java",
+            "lineNumber": 86
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 5,
+      "description": "Opening the asset movement page for relationship id: 102981890",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.329097752-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.337087944-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.342021114-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Select Check Deposit option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.347089012-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Verify Account 13023592 is Restricted true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.354586080-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 0,
+      "startTime": "2025-10-06T09:55:45.359829515-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-d2d672c0-6b27-40ea-9544-2e88b434476e"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-cf274e32-5991-492c-8975-36fce34b9823"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "storyName": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "displayName": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+        "description": "IntoCheckDepositRestrictionsNewAccountServicePart8"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Part 8 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  Restriction Code - CCT_SVC_STAT_CD \u003dO ACCT_SVC_TY_CD \u003d GE",
+  "coreIssues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "ATMT-23447",
+      "type": "tag",
+      "displayName": "ATMT-23447"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T09:55:39.139046066-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:55:45.362441468-05:00[America/Chicago]",
+  "duration": 5934,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchSessionException",
+    "message": "Unable to find session with ID: 5011da96d8e685bbe9df2956cf57974c\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [5011da96d8e685bbe9df2956cf57974c, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:57833}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 5011da96d8e685bbe9df2956cf57974c",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+        "methodName": "authenticateSession",
+        "fileName": "AuthenticationSteps.java",
+        "lineNumber": 60
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+        "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GE",
+        "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart8.java",
+        "lineNumber": 86
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchSessionException",
+  "testFailureMessage": "Unable to find session with ID: 5011da96d8e685bbe9df2956cf57974c\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [5011da96d8e685bbe9df2956cf57974c, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:57833}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 5011da96d8e685bbe9df2956cf57974c",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchSessionException;Unable to find session with ID: 5011da96d8e685bbe9df2956cf57974c\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [5011da96d8e685bbe9df2956cf57974c, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:57833}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 5011da96d8e685bbe9df2956cf57974c;AuthenticationSteps.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "5011da96d8e685bbe9df2956cf57974c",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "scenarioOutline": ""
+}

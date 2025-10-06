@@ -1,0 +1,307 @@
+{
+  "name": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowFor430RuleID()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test]/[method:verifyRestrictedAccountsForOutOfFlowNewServiceFlowFor430RuleID()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test",
+  "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowFor430RuleID",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ruleId\u003d430, branch\u003dBR_4454",
+      "duration": 5320,
+      "startTime": "2025-10-06T11:33:49.011633656-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png",
+          "timeStamp": 1759768434332,
+          "screenshotName": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d430, branch\u003dBR_4454",
+          "duration": 5313,
+          "startTime": "2025-10-06T11:33:49.013185831-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png",
+              "timeStamp": 1759768434326,
+              "screenshotName": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\nsub_acc.br_no\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is  null\nand acct.ACCT_OWN_RULE_ID \u003d 430\nand sub_acc.br_no  \u003d 4454\n and acct_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\n\n and sub_acc.acct_id not in\n (               select a.acct_id\n                 from\n                     PROD.ACCOUNT_12280 a\n                     left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                     inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                     inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                     inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                 where\n                     v.rst_rsn_cd is not null\n                     and v.rst_rsn_cd in ( \u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027 )\n                     and a.LGCL_DEL_DA is null\n                     and a.ACCT_CLS_DA is null\n                     and a.ACCT_OWN_RULE_ID \u003d 430\n                     and sub_acc.br_no  \u003d 4454\n                     and v.RST_START_DA\u003c\u00272025-10-06\u0027\n )\n\nFETCH FIRST 500 ROWS ONLY",
+              "isEvidence": false,
+              "id": "report-data-115ccfe9-81a1-41fd-afe0-ccec69cacd9b"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d430, ACCT_SVC_TY_CD\u003dGE, ACCT_ID\u003d132419494, RLTSHP_ID\u003d55803439, BR_NO\u003d4454, CUST_NO\u003d52585677, ACCT_SVC_STAT_CD\u003dA }",
+              "isEvidence": false,
+              "id": "report-data-9ad70991-13e0-4261-97e6-ca7a4780080a"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 4454, relationship 55803439, account 132419494, for Platform flow",
+      "duration": 5,
+      "startTime": "2025-10-06T11:33:54.332549282-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png",
+          "timeStamp": 1759768434338,
+          "screenshotName": "030a7448c465725917ba4132b31a53c59e7adfffb9b1b2b9e99f5e4c2da965f0.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2190,
+      "startTime": "2025-10-06T11:33:54.338237208-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6fb7d42b5396a786822b0826f0bee14d1b2ef650d99f9e240b14c2db97361f2f.png",
+          "timeStamp": 1759768436528,
+          "screenshotName": "6fb7d42b5396a786822b0826f0bee14d1b2ef650d99f9e240b14c2db97361f2f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1719,
+          "startTime": "2025-10-06T11:33:54.383287462-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "6fb7d42b5396a786822b0826f0bee14d1b2ef650d99f9e240b14c2db97361f2f.png",
+              "timeStamp": 1759768436102,
+              "screenshotName": "6fb7d42b5396a786822b0826f0bee14d1b2ef650d99f9e240b14c2db97361f2f.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Integrate New Account Service with Restrictions for ACH Transfers",
+      "duration": 5170,
+      "startTime": "2025-10-06T11:33:56.528939471-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b57477d22cb65f1df43ee1730d4990e52480e7a30aa89e94786eb173a1d9b814.png",
+          "timeStamp": 1759768441699,
+          "screenshotName": "b57477d22cb65f1df43ee1730d4990e52480e7a30aa89e94786eb173a1d9b814.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-121a6453-7bf2-4dfa-9567-96bb5e9bd264"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-bfd4e236-9116-4704-9ab6-8455b9c63fe9"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 7,
+          "description": "Opening the asset movement page for relationship id: 55803439",
+          "duration": 873,
+          "startTime": "2025-10-06T11:33:56.530904995-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5594c04c38f12e5a06ef18af4bc2492a02e8a127dbc223c6cae9603b44d165e8.png",
+              "timeStamp": 1759768437404,
+              "screenshotName": "5594c04c38f12e5a06ef18af4bc2492a02e8a127dbc223c6cae9603b44d165e8.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 8,
+          "description": "Given set amc_use_new_accounts_service true",
+          "duration": 627,
+          "startTime": "2025-10-06T11:33:57.404948164-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5594c04c38f12e5a06ef18af4bc2492a02e8a127dbc223c6cae9603b44d165e8.png",
+              "timeStamp": 1759768438032,
+              "screenshotName": "5594c04c38f12e5a06ef18af4bc2492a02e8a127dbc223c6cae9603b44d165e8.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 9,
+          "description": "Choose transfer \u0027Out of\u0027 accounts",
+          "duration": 877,
+          "startTime": "2025-10-06T11:33:58.032582700-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "709a67b043b33a408134e19586175132af3a330d40b5d5d5adf3598cb12b4b11.png",
+              "timeStamp": 1759768438910,
+              "screenshotName": "709a67b043b33a408134e19586175132af3a330d40b5d5d5adf3598cb12b4b11.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 10,
+          "description": "Verify Account 52585677 is Restricted true",
+          "duration": 206,
+          "startTime": "2025-10-06T11:33:58.910491758-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "79eac42c3503e25d735e76a2b072ab9f3fb0139a4f8a2ee42933a7de6dc368f9.png",
+              "timeStamp": 1759768439117,
+              "screenshotName": "79eac42c3503e25d735e76a2b072ab9f3fb0139a4f8a2ee42933a7de6dc368f9.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 11,
+          "description": "Verify Tool Tip Message for restricted Account",
+          "duration": 2575,
+          "startTime": "2025-10-06T11:33:59.117677969-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b57477d22cb65f1df43ee1730d4990e52480e7a30aa89e94786eb173a1d9b814.png",
+              "timeStamp": 1759768441692,
+              "screenshotName": "b57477d22cb65f1df43ee1730d4990e52480e7a30aa89e94786eb173a1d9b814.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test",
+    "storyName": "OutOfRestrictionsNewServicePart3Test",
+    "displayName": "OutOfRestrictionsNewServicePart3Test",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test",
+    "path": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart3Test",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "OutOfRestrictionsNewServicePart3Test",
+        "description": "OutOfRestrictionsNewServicePart3Test"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Integrate New Account Service with Restrictions for ACH Transfers - 430 Rule IDChange applicable messaging in amc-rule-svc for ACH rules for QP/Pooled Plans and remove expired Rule IDs",
+  "coreIssues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829",
+    "ATMT-64997"
+  ],
+  "tags": [
+    {
+      "name": "Priority-3b",
+      "type": "tag",
+      "displayName": "Priority-3b"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "false",
+      "type": "amc-ach-sep-ira-cashout-transfers-enable",
+      "displayName": "false"
+    }
+  ],
+  "startTime": "2025-10-06T11:33:49.007956142-05:00[America/Chicago]",
+  "endTime": "2025-10-06T11:34:01.701392679-05:00[America/Chicago]",
+  "duration": 5192,
+  "projectKey": "",
+  "sessionId": "1a18da48f3cb54bf0e16eb4bee84ecd5",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829",
+    "ATMT-64997"
+  ],
+  "scenarioOutline": ""
+}

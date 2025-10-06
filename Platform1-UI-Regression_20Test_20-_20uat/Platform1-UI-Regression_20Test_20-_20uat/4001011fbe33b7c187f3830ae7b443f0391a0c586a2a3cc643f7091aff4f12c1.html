@@ -1,0 +1,3164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Integrate New Account Service with NonRestrictions for ACH Transfers - ACCT_SVC_STAT_CD = 'T' ACCT_SVC_TY_CD = 'AV</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f855a5bb0ef5a34571a33df6ced777a1b4981ecc756b2f1ae0fd746935b8b3ae.html">Out of non restrictions new service part2 test</a>
+        > Integrate new account service with nonrestrictions for ACH transfers - ACCT SVC STAT CD = 't' ACCT SVC TY CD = 'AV
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 10:08</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Out Of Non Restrictions New Service Part2 Test </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">Priority-3b
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">New-Old-Ui
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon fa-2x' title='SUCCESS'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="success-color">
+                                    Integrate New Account Service with NonRestrictions for ACH Transfers - ACCT_SVC_STAT_CD = 'T' ACCT_SVC_TY_CD = 'AV
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-23446">ATMT-23446</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-28777">ATMT-28777</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-31883">ATMT-31883</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-33318">ATMT-33318</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-37829">ATMT-37829</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-82777">ATMT-82777</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection0 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Retrieve random data from DB2: EJ account, ownership ruleID=312, for restriction=BR_9979
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 271ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="0-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Retrieve data from DB2: EJ account, ownership ruleID=312, branch BR_9979, ACCT_SVC_TY_CD AV, ACCT_SVC_STAT_CD T
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-28495ddf-4a13-4b4d-ace9-2c99db7fe588"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-2-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-2-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-2-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-2-0">select<br>acct.ACCT_ID, acct.CUST_NO,<br>rlt.RLTSHP_ID AS RLTSHP_ID,<br>acct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,<br>contact.CON_ID, contact.DEATH_DA,<br>hq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,<br>sub_acc.BR_NO,<br>us_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.ACCOUNT_12280 as acct on grp.ACCT_ID = acct.ACCT_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>join PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID=acct.ACCT_ID<br>join PROD.CONTACT_12250 as contact on contact.CON_ID  = sub_acc.TAX_RPT_CON_ID<br>join PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID = us_sub_acc.ACCT_ID<br>left outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID = acct.ACCT_ID<br><br>where<br>acct.TAX_RPT_CTRY_CD='US'<br>and acct.ACCT_OWN_RULE_ID=312<br>and sub_acc.br_no   = 9979<br><br>--account is not deleted and closed<br>and acct.LGCL_DEL_DA is null<br>and acct.ACCT_CLS_DA is null<br>--owner is not deceased<br>and contact.DEATH_DA is  null<br>--inherited = Y<br>and acct.dcdnt_retr_ind = 'N'<br><br>---- Y[hqEjToBank=true] = client is allowed to initiate transfers from this Edward Jones account to their bank account<br>and (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND='Y')<br>--and hq_system_restrictions.ACH_DB_ALLW_IND='N'<br>---- Y[hqEjToBank=true] = client is allowed to initiate transfers from their bank account to this Edward Jones account<br>and (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND='Y')<br>--and hq_system_restrictions.ACH_CR_ALLW_IND='N'<br><br>    and acct.AUTH_FORM_IND = 'Y' and acct_svc.ACCT_SVC_TY_CD ='AV' and acct_svc.ACCT_SVC_STAT_CD = 'T'<br> and acct_svc.ACCT_SVC_TY_CD not in ('TL')<br><br><br>--account is [not] restricted by restrictions from list<br>and not acct.cust_no in (<br>    select distinct acct.CUST_NO<br><br>    from PROD.ACCOUNT_12280 as acct<br>    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>    left outer join PROD.acct_rst_10214 v on v.account_no=acct.cust_no<br><br>    where<br>    acct.TAX_RPT_CTRY_CD='US'<br><br>    and acct.ACCT_OWN_RULE_ID=312<br>    and sub_acc.br_no   = 9979<br>    and acct.LGCL_DEL_DA is null<br>    and acct.ACCT_CLS_DA is null<br>    and v.rst_rsn_cd in ('CIPR','COPD','FTRN','MAIL','RISK','WARN','72T','SSN','AUTH','RESTRICTION')<br>    and v.RST_START_DA&lt;'2025-10-06'<br>)</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-2b73bd9b-16dd-4ea2-bb13-c837540d7a59"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-2-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-2-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-2-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-2-1">{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=AV, DEATH_DA=null, ACCT_ID=138015375, ACH_DB_ALLW_IND=null, RLTSHP_ID=55447271, ACH_CR_ALLW_IND=null, BR_NO=9979, CON_ID=210390493, CUST_NO=99784750, ACCT_PREFERRED_NAME=DOL BOEDEFELD, *ADV TERM TEAM* , ACCT_SVC_STAT_CD=T }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=AV, DEATH_DA=null, ACCT_ID=144197057, ACH_DB_ALLW_IND=null, RLTSHP_ID=66046996, ACH_CR_ALLW_IND=null, BR_NO=9979, CON_ID=238953609, CUST_NO=99785810, ACCT_PREFERRED_NAME=ETTLING, MATT                  , ACCT_SVC_STAT_CD=T }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">5s 262ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Get p-number for BOA of branch 9979, relationship 55447271, account 138015375, for Platform flow
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">7s 993ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-0 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Get p-numbers for BOAs of branch 9979
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">3s 094ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-0-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-0-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-0-0 success-icon"
+                                   style="margin-left: 60px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-0-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET branch BoAs
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-8ac2260d-dc96-44c8-99b1-64f3c8f27b9c"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-5-0">
+                        BoAs/FAs for branch
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-5-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                BoAs/FAs for branch
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-5-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-5-0">P080796<br>P205011<br>P035614<br>J25617</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">2s 779ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-0-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="1-0-0-0"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as p058929
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-504c053d-e411-4c3a-aa37-a1f3decc033c"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-6-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-6-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-6-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-6-0">URI: https://crt-crtsvc-rest.apps2.uat.edwardjones.com//crt-teams <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 862ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="1-0-0-1"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm=AMC&amp;id=9979&amp;idType=B&amp;returnPopulation=A&amp;returnHistoryCurrent=C&amp;uidCd=xxx
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-7">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm=AMC&id=9979&idType=B&returnPopulation=A&returnHistoryCurrent=C&uidCd=xxx</p>
+                                    <p>Status code: 200</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLDBBD82067E0901B86C67A492DF4C490C70DF6D22355B0280814A70B74A08A1BCED97718C6DD27C1B2F104AF2FB29FAD482F1DAA5DD0AF862710A18D206F84318<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0058929</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Content-Type: application/json<br>Transfer-Encoding: chunked<br>Connection: keep-alive<br>Date: Mon, 06 Oct 2025 15:08:19 GMT<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>Strict-Transport-Security: max-age=15724800; includeSubDomains<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>[<br>    {<br>        &quot;teamName&quot;: &quot;IS TEST BRANCH-Test&quot;,<br>        &quot;crbtID&quot;: 22896,<br>        &quot;ownerFaNo&quot;: &quot;997997&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;2001-01-04T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997997&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;IS TEST BRANCH-Test&quot;,<br>                &quot;teamBegDa&quot;: &quot;2001-01-04T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 22896,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P080796&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0080796&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Liang,Sophie&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2025-05-06T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: &quot;2025-11-27T00:00:00.000+00:00&quot;,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2025-05-06-14.55.02.237947&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;JAMES BOND&quot;,<br>        &quot;crbtID&quot;: 23414,<br>        &quot;ownerFaNo&quot;: &quot;997998&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;1991-07-26T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997998&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;JAMES BOND&quot;,<br>                &quot;teamBegDa&quot;: &quot;1991-07-26T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 23414,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P205011&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0205011&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Singh,Upneeta&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2021-05-06T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2021-05-06-17.07.26.323896&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997998&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;JAMES BOND&quot;,<br>                &quot;teamBegDa&quot;: &quot;1991-07-26T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 23414,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P035614&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0035614&quot;,<br>                &quot;mbrFaNo&quot;: &quot;997998&quot;,<br>                &quot;mbrName&quot;: &quot;Sebek,Carolyn A&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2019-05-29T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2019-05-30-16.17.31.907513&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;TEST HOUSE ACCOUNT&quot;,<br>        &quot;crbtID&quot;: 46995,<br>        &quot;ownerFaNo&quot;: &quot;997955&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;2013-07-26T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997955&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;TEST HOUSE ACCOUNT&quot;,<br>                &quot;teamBegDa&quot;: &quot;2013-07-26T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 46995,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P205011&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0205011&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Singh,Upneeta&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2021-05-06T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2021-05-06-17.07.55.372928&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997955&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;TEST HOUSE ACCOUNT&quot;,<br>                &quot;teamBegDa&quot;: &quot;2013-07-26T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 46995,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P035614&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0035614&quot;,<br>                &quot;mbrFaNo&quot;: &quot;997955&quot;,<br>                &quot;mbrName&quot;: &quot;Sebek,Carolyn A&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2018-05-10T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2018-05-10-15.01.20.721464&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>        &quot;crbtID&quot;: 201486,<br>        &quot;ownerFaNo&quot;: &quot;997933&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;2018-11-18T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997933&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>                &quot;teamBegDa&quot;: &quot;2018-11-18T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 201486,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P035614&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0035614&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Sebek,Carolyn A&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2019-05-30T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2019-05-30-16.18.24.153005&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;997933&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>                &quot;teamBegDa&quot;: &quot;2018-11-18T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;HQT&quot;,<br>                &quot;crbtId&quot;: 201486,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P115125&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0115125&quot;,<br>                &quot;mbrFaNo&quot;: &quot;365255&quot;,<br>                &quot;mbrName&quot;: &quot;Mayo,Phil&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2018-11-18T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2018-11-18-08.55.08.420224&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>        &quot;crbtID&quot;: 202717,<br>        &quot;ownerFaNo&quot;: &quot;833829&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;2018-12-14T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;833829&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>                &quot;teamBegDa&quot;: &quot;2018-12-14T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;BOA&quot;,<br>                &quot;crbtId&quot;: 202717,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P035614&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0035614&quot;,<br>                &quot;mbrFaNo&quot;: &quot;000000&quot;,<br>                &quot;mbrName&quot;: &quot;Sebek,Carolyn A&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2019-05-30T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2019-05-30-16.18.49.523764&quot;,<br>                &quot;uidCd&quot;: null<br>            },<br>            {<br>                &quot;ownerFaNo&quot;: &quot;833829&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;CSRHQTR - Phil Mayo&quot;,<br>                &quot;teamBegDa&quot;: &quot;2018-12-14T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;HQT&quot;,<br>                &quot;crbtId&quot;: 202717,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;P115125&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0115125&quot;,<br>                &quot;mbrFaNo&quot;: &quot;365255&quot;,<br>                &quot;mbrName&quot;: &quot;Mayo,Phil&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2018-12-14T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2018-12-14-23.19.33.878664&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    },<br>    {<br>        &quot;teamName&quot;: &quot;JONI ROGAN&quot;,<br>        &quot;crbtID&quot;: 268327,<br>        &quot;ownerFaNo&quot;: &quot;227231&quot;,<br>        &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>        &quot;tmBegDa&quot;: &quot;2024-10-29T00:00:00.000+00:00&quot;,<br>        &quot;tmEndDa&quot;: null,<br>        &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>        &quot;uidCd&quot;: null,<br>        &quot;memberList&quot;: [<br>            {<br>                &quot;ownerFaNo&quot;: &quot;227231&quot;,<br>                &quot;ownerBrNo&quot;: &quot;09979&quot;,<br>                &quot;ownerFaName&quot;: &quot;JONI ROGAN&quot;,<br>                &quot;teamBegDa&quot;: &quot;2024-10-29T00:00:00.000+00:00&quot;,<br>                &quot;teamEndDa&quot;: null,<br>                &quot;mbrRoleCd&quot;: &quot;FA&quot;,<br>                &quot;crbtId&quot;: 268327,<br>                &quot;teamTyCd&quot;: &quot;SFA&quot;,<br>                &quot;mbrJorP&quot;: &quot;J25617&quot;,<br>                &quot;mbrEmplId&quot;: &quot;0009875&quot;,<br>                &quot;mbrFaNo&quot;: &quot;227231&quot;,<br>                &quot;mbrName&quot;: &quot;Rogan,Joni L&quot;,<br>                &quot;mbrBrNo&quot;: &quot;09979&quot;,<br>                &quot;mbrBegDa&quot;: &quot;2024-10-29T00:00:00.000+00:00&quot;,<br>                &quot;mbrEndDa&quot;: null,<br>                &quot;active&quot;: true,<br>                &quot;mbrCreUt&quot;: &quot;2024-10-29-18.54.19.101100&quot;,<br>                &quot;uidCd&quot;: null<br>            }<br>        ]<br>    }<br>]</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="110" class="step-icon">
+                        <a name="1-0-0-2"></a>
+                            <span style="margin-left: 80px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-de70bae6-c106-4a02-b5cd-7bf76a5015c5"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-8-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-8-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-8-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-8-0">83</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-5dfeeb03-622b-43db-9f64-178db1b21be8"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-8-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-8-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-8-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-8-1">[{&quot;teamName&quot;:&quot;IS TEST BRANCH-Test&quot;,&quot;crbtID&quot;:22896,&quot;ownerFaNo&quot;:&quot;997997&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;2001-01-04T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;997997&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;IS TEST BRANCH-Test&quot;,&quot;teamBegDa&quot;:&quot;2001-01-04T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:22896,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P080796&quot;,&quot;mbrEmplId&quot;:&quot;0080796&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Liang,Sophie&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2025-05-06T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:&quot;2025-11-27T00:00:00.000+00:00&quot;,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2025-05-06-14.55.02.237947&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;JAMES BOND&quot;,&quot;crbtID&quot;:23414,&quot;ownerFaNo&quot;:&quot;997998&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;1991-07-26T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;997998&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;JAMES BOND&quot;,&quot;teamBegDa&quot;:&quot;1991-07-26T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:23414,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P205011&quot;,&quot;mbrEmplId&quot;:&quot;0205011&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Singh,Upneeta&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2021-05-06T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2021-05-06-17.07.26.323896&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;997998&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;JAMES BOND&quot;,&quot;teamBegDa&quot;:&quot;1991-07-26T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:23414,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P035614&quot;,&quot;mbrEmplId&quot;:&quot;0035614&quot;,&quot;mbrFaNo&quot;:&quot;997998&quot;,&quot;mbrName&quot;:&quot;Sebek,Carolyn A&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2019-05-29T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2019-05-30-16.17.31.907513&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;TEST HOUSE ACCOUNT&quot;,&quot;crbtID&quot;:46995,&quot;ownerFaNo&quot;:&quot;997955&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;2013-07-26T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;997955&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;TEST HOUSE ACCOUNT&quot;,&quot;teamBegDa&quot;:&quot;2013-07-26T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:46995,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P205011&quot;,&quot;mbrEmplId&quot;:&quot;0205011&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Singh,Upneeta&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2021-05-06T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2021-05-06-17.07.55.372928&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;997955&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;TEST HOUSE ACCOUNT&quot;,&quot;teamBegDa&quot;:&quot;2013-07-26T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:46995,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P035614&quot;,&quot;mbrEmplId&quot;:&quot;0035614&quot;,&quot;mbrFaNo&quot;:&quot;997955&quot;,&quot;mbrName&quot;:&quot;Sebek,Carolyn A&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2018-05-10T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2018-05-10-15.01.20.721464&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;crbtID&quot;:201486,&quot;ownerFaNo&quot;:&quot;997933&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;2018-11-18T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;997933&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;teamBegDa&quot;:&quot;2018-11-18T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:201486,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P035614&quot;,&quot;mbrEmplId&quot;:&quot;0035614&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Sebek,Carolyn A&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2019-05-30T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2019-05-30-16.18.24.153005&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;997933&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;teamBegDa&quot;:&quot;2018-11-18T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;HQT&quot;,&quot;crbtId&quot;:201486,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P115125&quot;,&quot;mbrEmplId&quot;:&quot;0115125&quot;,&quot;mbrFaNo&quot;:&quot;365255&quot;,&quot;mbrName&quot;:&quot;Mayo,Phil&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2018-11-18T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2018-11-18-08.55.08.420224&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;crbtID&quot;:202717,&quot;ownerFaNo&quot;:&quot;833829&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;2018-12-14T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;833829&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;teamBegDa&quot;:&quot;2018-12-14T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;BOA&quot;,&quot;crbtId&quot;:202717,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P035614&quot;,&quot;mbrEmplId&quot;:&quot;0035614&quot;,&quot;mbrFaNo&quot;:&quot;000000&quot;,&quot;mbrName&quot;:&quot;Sebek,Carolyn A&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2019-05-30T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2019-05-30-16.18.49.523764&quot;,&quot;uidCd&quot;:null},{&quot;ownerFaNo&quot;:&quot;833829&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;CSRHQTR - Phil Mayo&quot;,&quot;teamBegDa&quot;:&quot;2018-12-14T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;HQT&quot;,&quot;crbtId&quot;:202717,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;P115125&quot;,&quot;mbrEmplId&quot;:&quot;0115125&quot;,&quot;mbrFaNo&quot;:&quot;365255&quot;,&quot;mbrName&quot;:&quot;Mayo,Phil&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2018-12-14T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2018-12-14-23.19.33.878664&quot;,&quot;uidCd&quot;:null}]},{&quot;teamName&quot;:&quot;JONI ROGAN&quot;,&quot;crbtID&quot;:268327,&quot;ownerFaNo&quot;:&quot;227231&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;tmBegDa&quot;:&quot;2024-10-29T00:00:00.000+00:00&quot;,&quot;tmEndDa&quot;:null,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;uidCd&quot;:null,&quot;memberList&quot;:[{&quot;ownerFaNo&quot;:&quot;227231&quot;,&quot;ownerBrNo&quot;:&quot;09979&quot;,&quot;ownerFaName&quot;:&quot;JONI ROGAN&quot;,&quot;teamBegDa&quot;:&quot;2024-10-29T00:00:00.000+00:00&quot;,&quot;teamEndDa&quot;:null,&quot;mbrRoleCd&quot;:&quot;FA&quot;,&quot;crbtId&quot;:268327,&quot;teamTyCd&quot;:&quot;SFA&quot;,&quot;mbrJorP&quot;:&quot;J25617&quot;,&quot;mbrEmplId&quot;:&quot;0009875&quot;,&quot;mbrFaNo&quot;:&quot;227231&quot;,&quot;mbrName&quot;:&quot;Rogan,Joni L&quot;,&quot;mbrBrNo&quot;:&quot;09979&quot;,&quot;mbrBegDa&quot;:&quot;2024-10-29T00:00:00.000+00:00&quot;,&quot;mbrEndDa&quot;:null,&quot;active&quot;:true,&quot;mbrCreUt&quot;:&quot;2024-10-29-18.54.19.101100&quot;,&quot;uidCd&quot;:null}]}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">007ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-1"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P080796
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-ca7e9b9a-e200-4499-b89b-3de8dab208a1"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-9-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-9-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-9-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-9-0">{EJPKY=0080796, EJAUTHRFC=&quot;STL9AFBDB4E75540018A999405CB76835632475A59EA1F8CA0A63ED99C73460F53C5B00377A4CED00EDF67663E6DD7D4CB17FA302207EB1907D30904EF0CFACB928&quot;, ExpirationTime=11:08:20, EJAUTH=STL9AFBDB4E75540018A999405CB76835632475A59EA1F8CA0A63ED99C73460F53C5B00377A4CED00EDF67663E6DD7D4CB17FA302207EB1907D30904EF0CFACB928}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">514ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-2 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-2')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">622ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-2-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as P080796
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-97556c63-4222-4b0d-9021-ebdfa53a708e"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-11-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-11-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-11-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-11-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=55447271}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">512ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-2-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-12">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access</p>
+                                    <p>Status code: 204</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLAAA18B2D2776851F7B88A4FF194A83485E7E7DBC8A76AF2985B9AB2FB8BC297E0151AAC6829551C83B73E3A686C6DC0F513912DF31556C2BB3E916E431653D53<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0080796</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:20 GMT<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">007ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-2-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-129d44e9-6582-47c2-8102-bbf3a238b97e"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-13-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-13-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-13-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-13-0">63</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-3"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-3')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-3 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-3')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET check transactions by account as user P080796
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-9d76ef83-8c03-45b2-a37f-e7ecce9ab66f"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-14-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-14-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-14-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-14-0">URI: http://c21-scanref-svc.apps.edwardjones.com//checks <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">066ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-3" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-3-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&amp;endDate=2025-10-06&amp;accountIds=138015375
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-15">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-15">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&endDate=2025-10-06&accountIds=138015375</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLAAA18B2D2776851F7B88A4FF194A83485E7E7DBC8A76AF2985B9AB2FB8BC297E0151AAC6829551C83B73E3A686C6DC0F513912DF31556C2BB3E916E431653D53<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0080796</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:20 GMT<br>Content-Type: application/json<br>Content-Length: 74<br>Connection: keep-alive<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>{<br>    &quot;result&quot;: &quot;Access Denied&quot;,<br>    &quot;status&quot;: {<br>        &quot;code&quot;: 403,<br>        &quot;description&quot;: &quot;Forbidden&quot;<br>    }<br>}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-3-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-30cc2616-720e-4669-970c-aeb555d8f617"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-16-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-16-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-16-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-16-0">34</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-ac58fab8-19e6-4366-9777-bd7aed96e0eb"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-16-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-16-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-16-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-16-1">{&quot;result&quot;:&quot;Access Denied&quot;,&quot;status&quot;:{&quot;code&quot;:403,&quot;description&quot;:&quot;Forbidden&quot;}}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-4"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P205011
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-2bd3d584-1db2-4474-83a0-538395085509"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-17-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-17-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-17-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-17-0">{EJPKY=0205011, EJAUTHRFC=&quot;STL85F90B852145780932EB408A0D429CED373FF3FD18739EE8E9B9CC5638953E7A0C7C530E9AE50556BAE1D79F8BA55EC731BB34EE2BCA06C623AF353858EF4FFB&quot;, ExpirationTime=11:08:21, EJAUTH=STL85F90B852145780932EB408A0D429CED373FF3FD18739EE8E9B9CC5638953E7A0C7C530E9AE50556BAE1D79F8BA55EC731BB34EE2BCA06C623AF353858EF4FFB}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">626ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-5"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-5')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-5 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-5')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">601ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-5" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-5-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as P205011
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-e53d320c-a0a0-4059-8c81-c43c98084d09"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-19-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-19-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-19-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-19-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=55447271}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">494ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-5-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-20">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-20">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access</p>
+                                    <p>Status code: 204</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL077329F290F57ECF91A8DB75315A0B65FB53219B9E7F092532EC93DF1A10E429F39423B24ECB34BF24DE8A22F0EA48421323DDE691082617595B6A6027E4F622<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0205011</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:22 GMT<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-5-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-2c48857f-59ed-403e-b662-a5374e34a500"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-21-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-21-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-21-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-21-0">68</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-6"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-6')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-6 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-6')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET check transactions by account as user P205011
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-f780dff5-871e-4f12-932c-93455639373f"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-22-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-22-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-22-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-22-0">URI: http://c21-scanref-svc.apps.edwardjones.com//checks <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">074ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-6" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-6-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&amp;endDate=2025-10-06&amp;accountIds=138015375
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-23">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-23">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&endDate=2025-10-06&accountIds=138015375</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL077329F290F57ECF91A8DB75315A0B65FB53219B9E7F092532EC93DF1A10E429F39423B24ECB34BF24DE8A22F0EA48421323DDE691082617595B6A6027E4F622<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0205011</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:22 GMT<br>Content-Type: application/json<br>Content-Length: 74<br>Connection: keep-alive<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>{<br>    &quot;result&quot;: &quot;Access Denied&quot;,<br>    &quot;status&quot;: {<br>        &quot;code&quot;: 403,<br>        &quot;description&quot;: &quot;Forbidden&quot;<br>    }<br>}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-6-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-be9a64c5-b7ba-42e2-9946-c92fc5b31e48"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-24-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-24-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-24-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-24-0">46</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-403a996b-fd12-4962-97f8-6488e4ac4348"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-24-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-24-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-24-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-24-1">{&quot;result&quot;:&quot;Access Denied&quot;,&quot;status&quot;:{&quot;code&quot;:403,&quot;description&quot;:&quot;Forbidden&quot;}}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-7"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication P035614
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-ef7a2a77-07e1-4a27-a0ce-4c04152d4e41"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-25-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-25-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-25-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-25-0">{EJPKY=0035614, EJAUTHRFC=&quot;STL487FBD97CD10BF9282BA8C7E80F0C521D673DBC615EEBB685C919E41775FF38DF1A9A9CD8E3513F59EE0BB1BDC8EB83FAD8629F946208B36A452CFC68A8491B0&quot;, ExpirationTime=11:08:22, EJAUTH=STL487FBD97CD10BF9282BA8C7E80F0C521D673DBC615EEBB685C919E41775FF38DF1A9A9CD8E3513F59EE0BB1BDC8EB83FAD8629F946208B36A452CFC68A8491B0}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">512ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-8"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-8')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-8 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-8')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">596ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-8" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-8-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as P035614
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-c4165fd1-b7c4-4145-a61a-cb79739bc028"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-27-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-27-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-27-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-27-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=55447271}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">494ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-8-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-28">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-28">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access</p>
+                                    <p>Status code: 204</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLE5CD4E14EBCBF2AF24155455CBC863B1A19E4530D1F644629BE56581D74ABB393CFFC859D0B35DBCC91A3F8C2515CC1EAE3B68E98E930D19E51453C9DE9F98DB<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0035614</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:23 GMT<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-8-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-4fa12cd7-c93c-474d-b393-ec7939c8802d"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-29-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-29-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-29-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-29-0">73</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-9"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-9')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-9 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-9')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET check transactions by account as user P035614
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-0ba80bd2-cb1e-44e4-b084-f114c1b9089a"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-30-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-30-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-30-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-30-0">URI: http://c21-scanref-svc.apps.edwardjones.com//checks <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">057ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-9" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-9-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&amp;endDate=2025-10-06&amp;accountIds=138015375
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-31">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-31">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&endDate=2025-10-06&accountIds=138015375</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STLE5CD4E14EBCBF2AF24155455CBC863B1A19E4530D1F644629BE56581D74ABB393CFFC859D0B35DBCC91A3F8C2515CC1EAE3B68E98E930D19E51453C9DE9F98DB<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0035614</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:23 GMT<br>Content-Type: application/json<br>Content-Length: 74<br>Connection: keep-alive<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>{<br>    &quot;result&quot;: &quot;Access Denied&quot;,<br>    &quot;status&quot;: {<br>        &quot;code&quot;: 403,<br>        &quot;description&quot;: &quot;Forbidden&quot;<br>    }<br>}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-9-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-9e75292a-51c3-4d78-ac43-53982e12c788"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-32-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-32-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-32-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-32-0">30</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-75953891-db6f-4820-8c6f-5031335697c8"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-32-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-32-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-32-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-32-1">{&quot;result&quot;:&quot;Access Denied&quot;,&quot;status&quot;:{&quot;code&quot;:403,&quot;description&quot;:&quot;Forbidden&quot;}}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-10"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get if user can be used for authentication J25617
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-cc94ae30-d272-4ede-b48e-524c4b42fd85"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-33-0">
+                        auth cookies
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-33-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                auth cookies
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-33-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-33-0">{EJPKY=0009875, EJAUTHRFC=&quot;STLA47061332BDD0CADE40EE1A6472E2E629EC591E29E1ADD2897CCA4383FD9AC7E760E7833B0E4F909FCD43B00A8855B760F65C79F2C1B78D7BB4F89E0CBC11A23&quot;, ExpirationTime=11:08:23, EJAUTH=STLA47061332BDD0CADE40EE1A6472E2E629EC591E29E1ADD2897CCA4383FD9AC7E760E7833B0E4F909FCD43B00A8855B760F65C79F2C1B78D7BB4F89E0CBC11A23}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">497ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-11"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-11')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-11 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-11')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to check user's access to relationship
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">633ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-11" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-11-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Authenticate the Session as J25617
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-5e60a878-3df5-4aed-9b5b-aad6d141da3a"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-35-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-35-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-35-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-35-0">URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access <br> PathParameters: Optional[{rlshpId=55447271}]</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">516ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-11-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-36">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-36">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://crt-authorization-rest.apps.edwardjones.com///relationships/55447271/access</p>
+                                    <p>Status code: 204</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL3AD743B37C01E60EB15D6AE571F029DFB1E4D0A7C0205C04BD1CB42AD048218F75D947AC72E35D235F7CA5EACFECC68DF5AA3E2A3A39D889BAE978266CDAE93D<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0009875</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:24 GMT<br>Connection: keep-alive<br>Vary: Origin<br>Vary: Access-Control-Request-Method<br>Vary: Access-Control-Request-Headers<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">010ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-11-2"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-5d904942-b732-49dd-89e4-10103ce2e7e3"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-37-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-37-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-37-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-37-0">77</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <span>
+                    <a role="button" class="btn btn-success btn-sm" href="">
+                        <i class="bi bi-download"></i>&nbsp;response
+                    </a>
+                </span>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">010ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-12"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-12')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1-12 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1-12')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Send request to the GET check transactions by account as user J25617
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-b0763be0-3023-41f7-9698-e7a76ac956df"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-38-0">
+                        Get request URI
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-38-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Get request URI
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-38-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-38-0">URI: http://c21-scanref-svc.apps.edwardjones.com//checks <br> PathParameters: Optional.empty</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-5eec0736-d906-4efc-9963-3f3a950ad50a"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-38-1">
+                        validated BoA for branch
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-38-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                validated BoA for branch
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-38-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-38-1">p058929</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">066ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1-12" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-12-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&amp;endDate=2025-10-06&amp;accountIds=138015375
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+                <span>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                                data-target="#restModal-REST-39">
+                            REST Query
+                        </button>
+                    </span>
+                <!-- Modal -->
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="restModal-REST-39">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Response</h4>
+                                    <p>URL: http://c21-scanref-svc.apps.edwardjones.com/checks?startDate=2025-10-06&endDate=2025-10-06&accountIds=138015375</p>
+                                    <p>Status code: 403</p>
+                                    <p>Content Type: application/json</p>
+                                    <h4>Request Headers</h4>
+                                    <pre>Accept=application/json, application/javascript, text/javascript, text/json<br>Content-Type=application/json</pre>
+                                    <h4>Request Cookies</h4>
+                                    <pre>EJAUTH=STL3AD743B37C01E60EB15D6AE571F029DFB1E4D0A7C0205C04BD1CB42AD048218F75D947AC72E35D235F7CA5EACFECC68DF5AA3E2A3A39D889BAE978266CDAE93D<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJAUTH-RFC=<br>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;EJPKY=0009875</pre>
+                                    <h4>Response Headers</h4>
+                                    <pre>Date: Mon, 06 Oct 2025 15:08:24 GMT<br>Content-Type: application/json<br>Content-Length: 74<br>Connection: keep-alive<br>X-Content-Type-Options: nosniff<br>X-XSS-Protection: 0<br>Cache-Control: no-cache, no-store, max-age=0, must-revalidate<br>Pragma: no-cache<br>Expires: 0<br>X-Frame-Options: DENY</pre>
+                                <h4>Response Body</h4>
+                                    <pre>{<br>    &quot;result&quot;: &quot;Access Denied&quot;,<br>    &quot;status&quot;: {<br>        &quot;code&quot;: 403,<br>        &quot;description&quot;: &quot;Forbidden&quot;<br>    }<br>}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                        </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="1-12-1"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Log the response time
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-2acf508a-eb37-47ef-9368-8ad4bff0f5ed"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-40-0">
+                        Response time
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-40-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Response time
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-40-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-40-0">37</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-df39f1b4-fc29-4231-b6ab-cb1846db2e62"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-40-1">
+                        response
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-40-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                response
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-40-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-40-1">{&quot;result&quot;:&quot;Access Denied&quot;,&quot;status&quot;:{&quot;code&quot;:403,&quot;description&quot;:&quot;Forbidden&quot;}}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">005ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection2 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: p058929
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=0">
+                                    <img src="ea7b6f781d729683acf8a77d40bd2504b129cabb375101a7bdbfc3d4d1aa4b3f.png"
+                                         href="ea7b6f781d729683acf8a77d40bd2504b129cabb375101a7bdbfc3d4d1aa4b3f.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=2">
+                                    <img src="5ad953e746527454793639b6c47a4c60d883584df2337beab70a796897cff093.png"
+                                         href="5ad953e746527454793639b6c47a4c60d883584df2337beab70a796897cff093.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">4s 540ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="2-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=1">
+                                    <img src="ea7b6f781d729683acf8a77d40bd2504b129cabb375101a7bdbfc3d4d1aa4b3f.png"
+                                         href="ea7b6f781d729683acf8a77d40bd2504b129cabb375101a7bdbfc3d4d1aa4b3f.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 758ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection3')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection3 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection3')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Integrate New Account Service with NonRestrictions for ACH Transfers
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-6cbedbd6-7c25-4b15-93c2-2ca968f89658"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-43-0">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-43-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-43-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-43-0">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-55677a19-94a5-45d6-83d5-aa93cf7b2026"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-43-1">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-43-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-43-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-43-1">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=3">
+                                    <img src="75549be2c55931c621f6a41cc429d101f7203de550932e8d043c80e1b0c1de82.png"
+                                         href="75549be2c55931c621f6a41cc429d101f7203de550932e8d043c80e1b0c1de82.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=8">
+                                    <img src="b6556220ee116866487735cdac883dc6b6cb7c9c8b42de17e02a1b62c147ac2c.png"
+                                         href="b6556220ee116866487735cdac883dc6b6cb7c9c8b42de17e02a1b62c147ac2c.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">4s 568ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection3" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Opening the asset movement page for relationship id: 55447271
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=4">
+                                    <img src="75549be2c55931c621f6a41cc429d101f7203de550932e8d043c80e1b0c1de82.png"
+                                         href="75549be2c55931c621f6a41cc429d101f7203de550932e8d043c80e1b0c1de82.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">2s 175ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-1"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Given set amc_use_new_accounts_service true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=5">
+                                    <img src="9d0c6d432762ea873bea7f454ed844ec56ef3f9a30a99b99293794fbe63ece64.png"
+                                         href="9d0c6d432762ea873bea7f454ed844ec56ef3f9a30a99b99293794fbe63ece64.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">610ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-2"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Choose transfer 'Out of' accounts
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=6">
+                                    <img src="a3364b65417cc4eb2a06acaf2631bb825cec689c4273a9ec96ba6ec50775a07f.png"
+                                         href="a3364b65417cc4eb2a06acaf2631bb825cec689c4273a9ec96ba6ec50775a07f.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 419ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-3"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Verify Account 99784750 is Restricted false
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="4001011fbe33b7c187f3830ae7b443f0391a0c586a2a3cc643f7091aff4f12c1_screenshots.html#screenshots?screenshot=7">
+                                    <img src="b6556220ee116866487735cdac883dc6b6cb7c9c8b42de17e02a1b62c147ac2c.png"
+                                         href="b6556220ee116866487735cdac883dc6b6cb7c9c8b42de17e02a1b62c147ac2c.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">354ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+            <tr class="test-SUCCESS">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>SUCCESS</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.26s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

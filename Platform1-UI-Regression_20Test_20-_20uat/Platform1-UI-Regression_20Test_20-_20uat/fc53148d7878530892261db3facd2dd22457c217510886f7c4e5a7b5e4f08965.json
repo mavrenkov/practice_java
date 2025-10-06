@@ -1,0 +1,983 @@
+{
+  "name": "verifyBetweenFlow312To312DifferentSsn()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn]/[method:verifyBetweenFlow312To312DifferentSsn()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+  "methodName": "verifyBetweenFlow312To312DifferentSsn",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: ruleID from 312, rule ID to 312, same SSN false",
+      "duration": 11806,
+      "startTime": "2025-10-06T10:05:14.766049798-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9a2194563729ad6c39ce0c1b528a4fb452b91c9cb0455cb0c9c9f7b7df3bcd76.png",
+          "timeStamp": 1759763126572,
+          "screenshotName": "9a2194563729ad6c39ce0c1b528a4fb452b91c9cb0455cb0c9c9f7b7df3bcd76.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nrlt.RLTSHP_ID AS RELID, sub_acc.BR_NO,\ncount(distinct sub_acc.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct sub_acc_svc.acct_ID) as ACCOUNTS_COUNT,\nmin(sub_acc.TAX_RPT_TIN_NO) as ssn1, max(sub_acc.TAX_RPT_TIN_NO) as ssn2,\nmin(sub_acc_svc.acct_ID) as acct1, max(sub_acc_svc.acct_ID) as acct2\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\n sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\nsub_acc.ACCT_CLS_UT is NULL\nand sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.acct_own_rule_id in (312)\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and sub_acc_svc.ACCT_SVC_TY_CD in ()\n-- and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n-- and rlt.RLTSHP_ID in ()\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand a.acct_own_rule_id in (312)\n                    and sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n\ngroup by rlt.RLTSHP_ID, sub_acc.BR_NO\nhaving \ncount(distinct sub_acc_svc.ACCT_ID)\u003e1 \nand count(distinct sub_acc.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct account.acct_own_rule_id) \u003d 1\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n\nfetch first 1 rows only;",
+          "isEvidence": false,
+          "id": "report-data-4aa9b3d1-0c90-4ca9-a044-62cd6157e61c"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{RELID\u003d110, SSN2\u003d254160079           , ACCOUNTS_COUNT\u003d2, SSN1\u003d254129516           , SSN_COUNT\u003d2, BR_NO\u003d4369, ACCT2\u003d118902370, ACCT1\u003d118902223}",
+          "isEvidence": false,
+          "id": "report-data-481ac0a8-e514-43ed-8b68-0ef51100923d"
+        },
+        {
+          "title": "SQL query",
+          "contents": "select\nsub_acc.acct_id,\nsub_acc.VNDR_ACCT_ID,\nsub_acc.TAX_RPT_TIN_NO,\nsub_acc.acct_own_rule_id\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n\nwhere\nrlt.RLTSHP_ID \u003d 110\nand sub_acc.BR_NO \u003d 4369\nand account.acct_own_rule_id in (312)\n\n and sub_acc.ACCT_OWN_SUBTY_CD is not NULL\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and sub_acc_svc.ACCT_SVC_TY_CD in ()\n-- and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand rlt.RLTSHP_ID \u003d 110\n\t\t\t\t\tand sub_acc.BR_NO \u003d 4369\n\t\t\t\t\tand a.acct_own_rule_id in (312)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n",
+          "isEvidence": false,
+          "id": "report-data-25a10841-2abd-44ee-9758-0bbbda1d027e"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d312, TAX_RPT_TIN_NO\u003d254160079           , VNDR_ACCT_ID\u003d43694730            , ACCT_ID\u003d118902223}\n{ACCT_OWN_RULE_ID\u003d312, TAX_RPT_TIN_NO\u003d254129516           , VNDR_ACCT_ID\u003d43694731            , ACCT_ID\u003d118902370}",
+          "isEvidence": false,
+          "id": "report-data-8a950191-a261-4aab-b062-2a5e3cf83aea"
+        },
+        {
+          "title": "Found data",
+          "contents": "BetweenFlowDb2TestDataProvider.BetweenFlowData(branchNo\u003d4369, relationshipId\u003d110, accountIdFrom\u003d118902370, accountIdTo\u003d118902223, accountCustomerNumberFrom\u003d43694731, accountCustomerNumberTo\u003d43694730)",
+          "isEvidence": false,
+          "id": "report-data-feaac7d7-2047-4270-a322-c4bbe586ab06"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Get p-number for BOA of branch 4369, relationship 110, account 118902370, for Platform flow",
+      "duration": 3555,
+      "startTime": "2025-10-06T10:05:26.572578791-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png",
+          "timeStamp": 1759763130127,
+          "screenshotName": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 3,
+          "description": "Get p-numbers for BOAs of branch 4369",
+          "duration": 244,
+          "startTime": "2025-10-06T10:05:26.574207093-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png",
+              "timeStamp": 1759763126818,
+              "screenshotName": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 4,
+              "description": "Send request to the GET branch BoAs",
+              "duration": 233,
+              "startTime": "2025-10-06T10:05:26.575611783-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png",
+                  "timeStamp": 1759763126809,
+                  "screenshotName": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: https://crt-crtsvc-rest.apps2.uat.edwardjones.com//crt-teams \n PathParameters: Optional.empty",
+                  "isEvidence": false,
+                  "id": "report-data-b5b92ece-ec0a-4f7a-a50d-e2783ac9a801"
+                },
+                {
+                  "title": "BoAs/FAs for branch",
+                  "contents": "P209444\nP231961",
+                  "isEvidence": false,
+                  "id": "report-data-2fb052c5-0c04-4f07-950f-786c086ff376"
+                }
+              ],
+              "precondition": false,
+              "level": 2,
+              "children": [
+                {
+                  "number": 5,
+                  "description": "GET https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm\u003dAMC\u0026id\u003d4369\u0026idType\u003dB\u0026returnPopulation\u003dA\u0026returnHistoryCurrent\u003dC\u0026uidCd\u003dxxx",
+                  "duration": 131,
+                  "startTime": "2025-10-06T10:05:26.658699083-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png",
+                      "timeStamp": 1759763126790,
+                      "screenshotName": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "restQuery": {
+                    "method": "GET",
+                    "path": "https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm\u003dAMC\u0026id\u003d4369\u0026idType\u003dB\u0026returnPopulation\u003dA\u0026returnHistoryCurrent\u003dC\u0026uidCd\u003dxxx",
+                    "content": "",
+                    "contentType": "application/json",
+                    "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                    "requestCookies": "EJAUTH\u003dSTL69192B0C1C8D0AFBFE6C7F39D049ED6E7314EE02E3FE90A57B243C2212A98178D8E431EEC44CCA42B584B72FF60FAC966615ADCD766BBC1C639CBEC7AC6397BC\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0058929",
+                    "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 15:05:26 GMT\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                    "responseCookies": "",
+                    "responseBody": "[\n    {\n        \"teamName\": \"BRADLEY J. DAVIS devis\",\n        \"crbtID\": 25236,\n        \"ownerFaNo\": \"525377\",\n        \"ownerBrNo\": \"04369\",\n        \"tmBegDa\": \"2011-04-29T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"525377\",\n                \"ownerBrNo\": \"04369\",\n                \"ownerFaName\": \"BRADLEY J. DAVIS devis\",\n                \"teamBegDa\": \"2011-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 25236,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P209444\",\n                \"mbrEmplId\": \"0209444\",\n                \"mbrFaNo\": \"111481\",\n                \"mbrName\": \"Mahler,Danita L\",\n                \"mbrBrNo\": \"HQ010\",\n                \"mbrBegDa\": \"2023-11-14T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-11-14-08.55.49.657076\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"525377\",\n                \"ownerBrNo\": \"04369\",\n                \"ownerFaName\": \"BRADLEY J. DAVIS devis\",\n                \"teamBegDa\": \"2011-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 25236,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P231961\",\n                \"mbrEmplId\": \"0100781\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Dennis,Damon\",\n                \"mbrBrNo\": \"12622\",\n                \"mbrBegDa\": \"2011-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2011-04-29-17.36.25.528368\",\n                \"uidCd\": null\n            }\n        ]\n    }\n]",
+                    "statusCode": 200
+                  },
+                  "precondition": false,
+                  "level": 3
+                },
+                {
+                  "number": 6,
+                  "description": "Log the response time",
+                  "duration": 11,
+                  "startTime": "2025-10-06T10:05:26.791181069-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png",
+                      "timeStamp": 1759763126802,
+                      "screenshotName": "1d6359007ae0dedafbf00c13502e800146e74f056fb32665bb8e96af53e3d438.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "reportData": [
+                    {
+                      "title": "Response time",
+                      "contents": "74",
+                      "isEvidence": false,
+                      "id": "report-data-ac32eb54-e187-4970-a52e-d475c435dac2"
+                    },
+                    {
+                      "title": "response",
+                      "contents": "[{\"teamName\":\"BRADLEY J. DAVIS devis\",\"crbtID\":25236,\"ownerFaNo\":\"525377\",\"ownerBrNo\":\"04369\",\"tmBegDa\":\"2011-04-29T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"525377\",\"ownerBrNo\":\"04369\",\"ownerFaName\":\"BRADLEY J. DAVIS devis\",\"teamBegDa\":\"2011-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":25236,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P209444\",\"mbrEmplId\":\"0209444\",\"mbrFaNo\":\"111481\",\"mbrName\":\"Mahler,Danita L\",\"mbrBrNo\":\"HQ010\",\"mbrBegDa\":\"2023-11-14T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-11-14-08.55.49.657076\",\"uidCd\":null},{\"ownerFaNo\":\"525377\",\"ownerBrNo\":\"04369\",\"ownerFaName\":\"BRADLEY J. DAVIS devis\",\"teamBegDa\":\"2011-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":25236,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P231961\",\"mbrEmplId\":\"0100781\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Dennis,Damon\",\"mbrBrNo\":\"12622\",\"mbrBegDa\":\"2011-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2011-04-29-17.36.25.528368\",\"uidCd\":null}]}]",
+                      "isEvidence": false,
+                      "id": "report-data-9c394826-c8ef-40c3-9e4d-004a00578d74"
+                    }
+                  ],
+                  "precondition": false,
+                  "level": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "description": "Get if user can be used for authentication P209444",
+          "duration": 625,
+          "startTime": "2025-10-06T10:05:26.819088315-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b0fd3972cbb7b242846634f746f8996c355ea0f5470075229563ae59dcb8162c.png",
+              "timeStamp": 1759763127444,
+              "screenshotName": "b0fd3972cbb7b242846634f746f8996c355ea0f5470075229563ae59dcb8162c.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "auth cookies",
+              "contents": "{EJPKY\u003d0209444, EJAUTHRFC\u003d\"STLBB1EED20565B924AD4AE77B1B9B0DDE184DDF1879E3285BF619249F73504856115D3C5F1B6E0B6B22BBB0B8D1F56A4D30EAA841B6A9032991D261D4254CBE3DD\", ExpirationTime\u003d11:05:27, EJAUTH\u003dSTLBB1EED20565B924AD4AE77B1B9B0DDE184DDF1879E3285BF619249F73504856115D3C5F1B6E0B6B22BBB0B8D1F56A4D30EAA841B6A9032991D261D4254CBE3DD}",
+              "isEvidence": false,
+              "id": "report-data-5ed4a203-a471-404c-af85-19350bc326d9"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 8,
+          "description": "Send request to check user\u0027s access to relationship",
+          "duration": 910,
+          "startTime": "2025-10-06T10:05:27.449544280-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png",
+              "timeStamp": 1759763128359,
+              "screenshotName": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 9,
+              "description": "Authenticate the Session as P209444",
+              "duration": 630,
+              "startTime": "2025-10-06T10:05:27.454532453-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "23740de5420303e4a417771fa9add7cb7d955e7efe3fcfa564a83b9446f8c642.png",
+                  "timeStamp": 1759763128085,
+                  "screenshotName": "23740de5420303e4a417771fa9add7cb7d955e7efe3fcfa564a83b9446f8c642.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access \n PathParameters: Optional[{rlshpId\u003d110}]",
+                  "isEvidence": false,
+                  "id": "report-data-3bb0ef16-a6ee-49c7-b63d-51f7720e0123"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 10,
+              "description": "GET http://crt-authorization-rest.apps.edwardjones.com///relationships/110/access",
+              "duration": 128,
+              "startTime": "2025-10-06T10:05:28.212021997-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png",
+                  "timeStamp": 1759763128340,
+                  "screenshotName": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://crt-authorization-rest.apps.edwardjones.com///relationships/110/access",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL5C5326A743ACF798E385CCF496ABD7DB3FB6A3E9BEBD2026A9AF6016A88BCCA2E76BDC17925CF3D9B696ECEA4D4A46D9AF122DC558E6FF129D4613E8DF0CB04C\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0209444",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 15:05:28 GMT\nConnection: keep-alive\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "statusCode": 204
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 11,
+              "description": "Log the response time",
+              "duration": 11,
+              "startTime": "2025-10-06T10:05:28.341194557-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png",
+                  "timeStamp": 1759763128352,
+                  "screenshotName": "fff11cbd446ae8d610f656edb12956f3f7616d69d8099b2ac584a41f2971d0d7.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "123",
+                  "isEvidence": false,
+                  "id": "report-data-9ccf3873-3036-4e5f-8888-c11168d8342a"
+                },
+                {
+                  "title": "response",
+                  "contents": "",
+                  "isEvidence": false,
+                  "id": "report-data-f9c48488-37d1-467d-bc0f-d5c6e21a0f12"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "description": "Send request to the GET check transactions by account as user P209444",
+          "duration": 267,
+          "startTime": "2025-10-06T10:05:28.360106405-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png",
+              "timeStamp": 1759763128627,
+              "screenshotName": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: http://c21-scanref-svc.apps.edwardjones.com//checks \n PathParameters: Optional.empty",
+              "isEvidence": false,
+              "id": "report-data-224988b6-30ef-4819-ba98-3d596f54b53f"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 13,
+              "description": "GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate\u003d2025-10-06\u0026endDate\u003d2025-10-06\u0026accountIds\u003d118902370",
+              "duration": 136,
+              "startTime": "2025-10-06T10:05:28.473043162-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png",
+                  "timeStamp": 1759763128609,
+                  "screenshotName": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://c21-scanref-svc.apps.edwardjones.com/checks?startDate\u003d2025-10-06\u0026endDate\u003d2025-10-06\u0026accountIds\u003d118902370",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL5C5326A743ACF798E385CCF496ABD7DB3FB6A3E9BEBD2026A9AF6016A88BCCA2E76BDC17925CF3D9B696ECEA4D4A46D9AF122DC558E6FF129D4613E8DF0CB04C\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0209444",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 15:05:28 GMT\nContent-Type: application/json\nContent-Length: 74\nConnection: keep-alive\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"result\": \"Access Denied\",\n    \"status\": {\n        \"code\": 403,\n        \"description\": \"Forbidden\"\n    }\n}",
+                "statusCode": 403
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 14,
+              "description": "Log the response time",
+              "duration": 10,
+              "startTime": "2025-10-06T10:05:28.610205434-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png",
+                  "timeStamp": 1759763128620,
+                  "screenshotName": "ba1d059bf44fb03171cb3c2a21234e47b90ecd370c282078ce87ad4b052620d7.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "105",
+                  "isEvidence": false,
+                  "id": "report-data-0eeaa1fb-694e-46cf-a3b1-82e244417353"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"result\":\"Access Denied\",\"status\":{\"code\":403,\"description\":\"Forbidden\"}}",
+                  "isEvidence": false,
+                  "id": "report-data-f547a385-b81f-472a-a194-dddd6601f820"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "description": "Get if user can be used for authentication P231961",
+          "duration": 600,
+          "startTime": "2025-10-06T10:05:28.627551519-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "272a69eb03eb78714634ee3d2f87f0f9b59276d5fba921491e06b272df045046.png",
+              "timeStamp": 1759763129227,
+              "screenshotName": "272a69eb03eb78714634ee3d2f87f0f9b59276d5fba921491e06b272df045046.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "auth cookies",
+              "contents": "{EJPKY\u003d0231961, EJAUTHRFC\u003d\"STL853330B8A18CBA4E9F79901FCC135301B1FF0DC6EB092E756FC0F2518A9F0D1BB62087E5CDDC3B4CAF8B0E02DCB3EE6B7FCE406043D953AF730DE0038556F375\", ExpirationTime\u003d11:05:29, EJAUTH\u003dSTL853330B8A18CBA4E9F79901FCC135301B1FF0DC6EB092E756FC0F2518A9F0D1BB62087E5CDDC3B4CAF8B0E02DCB3EE6B7FCE406043D953AF730DE0038556F375}",
+              "isEvidence": false,
+              "id": "report-data-5d6bc13d-9368-4384-8de8-a8238784cd6a"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 16,
+          "description": "Send request to check user\u0027s access to relationship",
+          "duration": 889,
+          "startTime": "2025-10-06T10:05:29.231289795-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png",
+              "timeStamp": 1759763130120,
+              "screenshotName": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "validated BoA for branch",
+              "contents": "p058929",
+              "isEvidence": false,
+              "id": "report-data-8640550f-c9d9-4ff0-a834-19e6893bff91"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 17,
+              "description": "Authenticate the Session as P231961",
+              "duration": 592,
+              "startTime": "2025-10-06T10:05:29.235946571-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "add792281059498bef5f02ebbbae9e5d96895d8a16a3f4a6ef4595f66661c24c.png",
+                  "timeStamp": 1759763129828,
+                  "screenshotName": "add792281059498bef5f02ebbbae9e5d96895d8a16a3f4a6ef4595f66661c24c.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access \n PathParameters: Optional[{rlshpId\u003d110}]",
+                  "isEvidence": false,
+                  "id": "report-data-dab461f4-5751-4c9d-b154-c4941c02b253"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 18,
+              "description": "GET http://crt-authorization-rest.apps.edwardjones.com///relationships/110/access",
+              "duration": 124,
+              "startTime": "2025-10-06T10:05:29.975332612-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png",
+                  "timeStamp": 1759763130100,
+                  "screenshotName": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://crt-authorization-rest.apps.edwardjones.com///relationships/110/access",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTLA25C825CC4431A6F487E095C89FE64AE2C480624D57BACFDAB3E646AAB5069AF92E19EC32B3CE527C56666854434F9E05033E5C17CE74162A80A2AA57A86CC8C\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0231961",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 15:05:29 GMT\nContent-Length: 0\nConnection: keep-alive\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "statusCode": 403
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 19,
+              "description": "Log the response time",
+              "duration": 12,
+              "startTime": "2025-10-06T10:05:30.100872433-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png",
+                  "timeStamp": 1759763130112,
+                  "screenshotName": "41803c3f398e725c0f3285d8c67822d9d3f54a21d1fe1d40e562f84241f450af.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "143",
+                  "isEvidence": false,
+                  "id": "report-data-b9bbbed7-aabd-412a-a04f-9c509613764a"
+                },
+                {
+                  "title": "response",
+                  "contents": "",
+                  "isEvidence": false,
+                  "id": "report-data-f5a24988-1169-41c0-94e5-664e2eed4ab0"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2280,
+      "startTime": "2025-10-06T10:05:30.127866597-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9a6c87455aea3b420b6aa9b9bfe782a2e74907ee93004b4bc7dfe305b10983a2.png",
+          "timeStamp": 1759763132408,
+          "screenshotName": "9a6c87455aea3b420b6aa9b9bfe782a2e74907ee93004b4bc7dfe305b10983a2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 21,
+          "description": "Launch WAM and authenticate",
+          "duration": 1753,
+          "startTime": "2025-10-06T10:05:30.223180172-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9a6c87455aea3b420b6aa9b9bfe782a2e74907ee93004b4bc7dfe305b10983a2.png",
+              "timeStamp": 1759763131976,
+              "screenshotName": "9a6c87455aea3b420b6aa9b9bfe782a2e74907ee93004b4bc7dfe305b10983a2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "description": "Start test flow: Between transfer and verify restrictions for Acccount To",
+      "duration": 15905,
+      "startTime": "2025-10-06T10:05:32.410788330-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png",
+          "timeStamp": 1759763148315,
+          "screenshotName": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-7b7024ff-6145-4434-889a-49bb77bb5508"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-d9682e62-b539-4718-bb7e-4532875faa4a"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 23,
+          "description": "Opening the asset movement page for relationship id: 110",
+          "duration": 876,
+          "startTime": "2025-10-06T10:05:32.412900694-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "7bee2b453a19fb4c2ab8c78dd27bf2660d7acef92c2bb749a3c466ea17576815.png",
+              "timeStamp": 1759763133289,
+              "screenshotName": "7bee2b453a19fb4c2ab8c78dd27bf2660d7acef92c2bb749a3c466ea17576815.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 24,
+          "description": "Update the URL for Internal Transfer",
+          "duration": 611,
+          "startTime": "2025-10-06T10:05:33.290031032-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "967e02887d84ecc545cab4d1a62dd0eb781d5c30fa7dd950c7895a7b14f6e5ac.png",
+              "timeStamp": 1759763133901,
+              "screenshotName": "967e02887d84ecc545cab4d1a62dd0eb781d5c30fa7dd950c7895a7b14f6e5ac.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 25,
+          "description": "Choose transfer \u0027Between\u0027 accounts",
+          "duration": 8752,
+          "startTime": "2025-10-06T10:05:33.901607923-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ad754000918c9079c18f42ead7c4d0d8dd0dc1163f417be3dcc7244434b8da10.png",
+              "timeStamp": 1759763142653,
+              "screenshotName": "ad754000918c9079c18f42ead7c4d0d8dd0dc1163f417be3dcc7244434b8da10.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 26,
+          "description": "Select searched account 43694731",
+          "duration": 2469,
+          "startTime": "2025-10-06T10:05:42.653918309-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "8eb4ecbfb6ab2c367445c270aaa0016b1d79770a87cca2a8f352967f405443bf.png",
+              "timeStamp": 1759763145123,
+              "screenshotName": "8eb4ecbfb6ab2c367445c270aaa0016b1d79770a87cca2a8f352967f405443bf.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 27,
+              "description": "Search for account 43694731",
+              "duration": 1494,
+              "startTime": "2025-10-06T10:05:43.169247517-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "5ddef8add585314563ddf82ecb755afaaacb7afcc2d39645477ac193ce855d9f.png",
+                  "timeStamp": 1759763144663,
+                  "screenshotName": "5ddef8add585314563ddf82ecb755afaaacb7afcc2d39645477ac193ce855d9f.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2,
+              "children": [
+                {
+                  "number": 28,
+                  "description": "Wait for result list to be filtered by number",
+                  "duration": 203,
+                  "startTime": "2025-10-06T10:05:44.451899750-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "5ddef8add585314563ddf82ecb755afaaacb7afcc2d39645477ac193ce855d9f.png",
+                      "timeStamp": 1759763144655,
+                      "screenshotName": "5ddef8add585314563ddf82ecb755afaaacb7afcc2d39645477ac193ce855d9f.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "precondition": false,
+                  "level": 3
+                }
+              ]
+            },
+            {
+              "number": 29,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 199,
+              "startTime": "2025-10-06T10:05:44.663639892-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "4754a33782bc90944f6ebba0b957e0fbd7a717aba625d6044c3b7fb970d900b9.png",
+                  "timeStamp": 1759763144862,
+                  "screenshotName": "4754a33782bc90944f6ebba0b957e0fbd7a717aba625d6044c3b7fb970d900b9.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 30,
+          "description": "Select the First Available Owner",
+          "duration": 217,
+          "startTime": "2025-10-06T10:05:45.124183021-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ac90bda6b30b555e135c55eb2bafe3c1ab297e3840de3f08eb1c793cbb51a895.png",
+              "timeStamp": 1759763145342,
+              "screenshotName": "ac90bda6b30b555e135c55eb2bafe3c1ab297e3840de3f08eb1c793cbb51a895.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 31,
+          "description": "Click continue button",
+          "duration": 397,
+          "startTime": "2025-10-06T10:05:45.342339119-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png",
+              "timeStamp": 1759763145739,
+              "screenshotName": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 32,
+              "description": "Click \u0027Next\u0027 - go to Next Card",
+              "duration": 386,
+              "startTime": "2025-10-06T10:05:45.347261963-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png",
+                  "timeStamp": 1759763145733,
+                  "screenshotName": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2,
+              "children": [
+                {
+                  "number": 33,
+                  "description": "Click \u0027Next\u0027.",
+                  "duration": 376,
+                  "startTime": "2025-10-06T10:05:45.350243897-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png",
+                      "timeStamp": 1759763145727,
+                      "screenshotName": "6b018ddd44540fea5ec292e6ecd65b04d9a1f0a0be5ca7d99f417ce4b33eed1e.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "precondition": false,
+                  "level": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "description": "Select searched account 43694730",
+          "duration": 1957,
+          "startTime": "2025-10-06T10:05:45.739727664-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "620c4ae505a5519ca8ab7f723cb01e55f33b9779a3291fa82e1b9b2a51361672.png",
+              "timeStamp": 1759763147697,
+              "screenshotName": "620c4ae505a5519ca8ab7f723cb01e55f33b9779a3291fa82e1b9b2a51361672.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 35,
+              "description": "Search for account 43694730",
+              "duration": 1442,
+              "startTime": "2025-10-06T10:05:45.796740459-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "7c04745b7bfcf8dc1f787eeac425e4a0e93ce9ccfec926404adf90d46d2f35ba.png",
+                  "timeStamp": 1759763147239,
+                  "screenshotName": "7c04745b7bfcf8dc1f787eeac425e4a0e93ce9ccfec926404adf90d46d2f35ba.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2,
+              "children": [
+                {
+                  "number": 36,
+                  "description": "Wait for result list to be filtered by number",
+                  "duration": 182,
+                  "startTime": "2025-10-06T10:05:47.049732339-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "7c04745b7bfcf8dc1f787eeac425e4a0e93ce9ccfec926404adf90d46d2f35ba.png",
+                      "timeStamp": 1759763147232,
+                      "screenshotName": "7c04745b7bfcf8dc1f787eeac425e4a0e93ce9ccfec926404adf90d46d2f35ba.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "precondition": false,
+                  "level": 3
+                }
+              ]
+            },
+            {
+              "number": 37,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 196,
+              "startTime": "2025-10-06T10:05:47.239850175-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "ee0c5f3a3e074d85add5903dc93d490234a742397b9696e3b543bfaeef61254d.png",
+                  "timeStamp": 1759763147435,
+                  "screenshotName": "ee0c5f3a3e074d85add5903dc93d490234a742397b9696e3b543bfaeef61254d.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 38,
+          "description": "Verify account is restricted with message or not",
+          "duration": 612,
+          "startTime": "2025-10-06T10:05:47.697922240-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png",
+              "timeStamp": 1759763148310,
+              "screenshotName": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 39,
+              "description": "Verify Account 43694730 is Restricted true",
+              "duration": 197,
+              "startTime": "2025-10-06T10:05:47.700162663-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "6db12ee93c9c55c9fda46ba177d605c6aad7668e2c16798f1b7f9b85dbc2e3d6.png",
+                  "timeStamp": 1759763147897,
+                  "screenshotName": "6db12ee93c9c55c9fda46ba177d605c6aad7668e2c16798f1b7f9b85dbc2e3d6.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 40,
+              "description": "Verify Tool Tip Message for restricted Account with equal",
+              "duration": 406,
+              "startTime": "2025-10-06T10:05:47.898059781-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png",
+                  "timeStamp": 1759763148304,
+                  "screenshotName": "c9edf5aeae40137a1bbe3c411ecbc92a588950e018bc84181e9015afe05c5d29.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "storyName": "BetweenRetirementAccountToAccountTransferToggleOn",
+    "displayName": "BetweenRetirementAccountToAccountTransferToggleOn",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenRetirementAccountToAccountTransferToggleOn",
+        "description": "BetweenRetirementAccountToAccountTransferToggleOn"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Between flow: accounts are enabled for - From 312 rule ID to 312 rule ID, the different SSN",
+  "coreIssues": [
+    "ATMT-30288",
+    "ATMT-34297",
+    "ATMT-37866",
+    "ATMT-42489"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "Platform1-Between-Transfer",
+      "type": "tag",
+      "displayName": "Platform1-Between-Transfer"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T10:05:14.761727663-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:05:48.317039104-05:00[America/Chicago]",
+  "duration": 11675,
+  "projectKey": "",
+  "sessionId": "a9b5b877a02d443907dc97ac27cd3005",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-30288",
+    "ATMT-34297",
+    "ATMT-37866",
+    "ATMT-42489"
+  ],
+  "scenarioOutline": ""
+}

@@ -1,0 +1,1678 @@
+{
+  "name": "verifyBetweenAccountWhenLoanExist()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled]/[method:verifyBetweenAccountWhenLoanExist()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled",
+  "methodName": "verifyBetweenAccountWhenLoanExist",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve data for EJ account with balance by condition",
+      "duration": 15290,
+      "startTime": "2025-10-06T08:54:10.255519942-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: relationships for Branch",
+          "duration": 7166,
+          "startTime": "2025-10-06T08:54:10.286342256-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002704\u0027\n and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 4454\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002704\u0027\n                    and sub_acc.BR_NO \u003d 4454\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 7\nfetch first 500 rows only;",
+              "isEvidence": false,
+              "id": "report-data-f8c4c308-abf4-409e-abbe-210c947619c4"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{VNDR_ACCT_ID\u003d44503604            , ACCT_ID\u003d101346194, RLTSHP_ID\u003d306083, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90811589            , ACCT_ID\u003d107141450, RLTSHP_ID\u003d485109, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d46811188            , ACCT_ID\u003d107503176, RLTSHP_ID\u003d594845, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d46814698            , ACCT_ID\u003d121936827, RLTSHP_ID\u003d594845, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90809320            , ACCT_ID\u003d616563, RLTSHP_ID\u003d676013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d40910326            , ACCT_ID\u003d1154030, RLTSHP_ID\u003d37045484, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505812            , ACCT_ID\u003d2823872, RLTSHP_ID\u003d39584141, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513383            , ACCT_ID\u003d118272988, RLTSHP_ID\u003d39584141, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d25301474            , ACCT_ID\u003d1101569, RLTSHP_ID\u003d41997917, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90816643            , ACCT_ID\u003d121188760, RLTSHP_ID\u003d42519256, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513454            , ACCT_ID\u003d118536888, RLTSHP_ID\u003d44899031, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508668            , ACCT_ID\u003d2553715, RLTSHP_ID\u003d44899100, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508850            , ACCT_ID\u003d101541524, RLTSHP_ID\u003d44899116, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514878            , ACCT_ID\u003d122208281, RLTSHP_ID\u003d44899205, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44515635            , ACCT_ID\u003d124622965, RLTSHP_ID\u003d44899205, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512502            , ACCT_ID\u003d110648502, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512503            , ACCT_ID\u003d110648555, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507764            , ACCT_ID\u003d3018730, RLTSHP_ID\u003d44899315, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507763            , ACCT_ID\u003d3018775, RLTSHP_ID\u003d44899324, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501684            , ACCT_ID\u003d758844, RLTSHP_ID\u003d44899350, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513421            , ACCT_ID\u003d118421659, RLTSHP_ID\u003d44899465, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510887            , ACCT_ID\u003d106711798, RLTSHP_ID\u003d44899499, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506977            , ACCT_ID\u003d384812, RLTSHP_ID\u003d44899527, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44520152            , ACCT_ID\u003d138441982, RLTSHP_ID\u003d44899581, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503790            , ACCT_ID\u003d2128603, RLTSHP_ID\u003d44899651, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514356            , ACCT_ID\u003d120498837, RLTSHP_ID\u003d44899654, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501052            , ACCT_ID\u003d346761, RLTSHP_ID\u003d44899683, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506854            , ACCT_ID\u003d3318856, RLTSHP_ID\u003d44899691, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517344            , ACCT_ID\u003d129797427, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517345            , ACCT_ID\u003d129797594, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500371            , ACCT_ID\u003d238333, RLTSHP_ID\u003d44899711, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44519466            , ACCT_ID\u003d136360799, RLTSHP_ID\u003d44899731, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508565            , ACCT_ID\u003d1590585, RLTSHP_ID\u003d44899734, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512810            , ACCT_ID\u003d116376273, RLTSHP_ID\u003d44899853, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500628            , ACCT_ID\u003d25622, RLTSHP_ID\u003d44899859, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511672            , ACCT_ID\u003d108618821, RLTSHP_ID\u003d44899904, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44515040            , ACCT_ID\u003d122755894, RLTSHP_ID\u003d44899904, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503720            , ACCT_ID\u003d103375756, RLTSHP_ID\u003d44900072, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503721            , ACCT_ID\u003d103375857, RLTSHP_ID\u003d44900072, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505106            , ACCT_ID\u003d103375912, RLTSHP_ID\u003d44900380, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506142            , ACCT_ID\u003d2454798, RLTSHP_ID\u003d44900465, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511267            , ACCT_ID\u003d107618084, RLTSHP_ID\u003d44900653, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507246            , ACCT_ID\u003d781865, RLTSHP_ID\u003d44900655, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510586            , ACCT_ID\u003d101585958, RLTSHP_ID\u003d44900806, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508246            , ACCT_ID\u003d683431, RLTSHP_ID\u003d44900828, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501509            , ACCT_ID\u003d103375643, RLTSHP_ID\u003d44900938, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512243            , ACCT_ID\u003d110050221, RLTSHP_ID\u003d44901021, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510206            , ACCT_ID\u003d100059632, RLTSHP_ID\u003d44901081, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511196            , ACCT_ID\u003d107445314, RLTSHP_ID\u003d44901087, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504725            , ACCT_ID\u003d1613740, RLTSHP_ID\u003d44901168, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507270            , ACCT_ID\u003d1600857, RLTSHP_ID\u003d44901265, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508389            , ACCT_ID\u003d3322107, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517303            , ACCT_ID\u003d129692613, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510090            , ACCT_ID\u003d3427763, RLTSHP_ID\u003d44901358, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506138            , ACCT_ID\u003d2207066, RLTSHP_ID\u003d44901405, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514925            , ACCT_ID\u003d122382995, RLTSHP_ID\u003d44901454, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511275            , ACCT_ID\u003d107642619, RLTSHP_ID\u003d44901470, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44502830            , ACCT_ID\u003d3745079, RLTSHP_ID\u003d44901471, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510113            , ACCT_ID\u003d3524931, RLTSHP_ID\u003d44901575, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504143            , ACCT_ID\u003d103376387, RLTSHP_ID\u003d44901735, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508896            , ACCT_ID\u003d689053, RLTSHP_ID\u003d44901774, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508376            , ACCT_ID\u003d694384, RLTSHP_ID\u003d44901776, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d66909359            , ACCT_ID\u003d2743380, RLTSHP_ID\u003d44901791, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500166            , ACCT_ID\u003d103376318, RLTSHP_ID\u003d44901829, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d43503778            , ACCT_ID\u003d427700, RLTSHP_ID\u003d44901891, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505260            , ACCT_ID\u003d1943896, RLTSHP_ID\u003d44901915, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505261            , ACCT_ID\u003d1943891, RLTSHP_ID\u003d44901915, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503715            , ACCT_ID\u003d872029, RLTSHP_ID\u003d44902008, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503129            , ACCT_ID\u003d103376193, RLTSHP_ID\u003d44902015, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44502991            , ACCT_ID\u003d103376199, RLTSHP_ID\u003d44902240, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504269            , ACCT_ID\u003d693586, RLTSHP_ID\u003d44902240, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510716            , ACCT_ID\u003d105469896, RLTSHP_ID\u003d44902241, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513112            , ACCT_ID\u003d117524146, RLTSHP_ID\u003d44902319, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505491            , ACCT_ID\u003d2139043, RLTSHP_ID\u003d44902534, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508352            , ACCT_ID\u003d2139050, RLTSHP_ID\u003d44902534, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72712415            , ACCT_ID\u003d124052042, RLTSHP_ID\u003d47531430, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72712416            , ACCT_ID\u003d124052332, RLTSHP_ID\u003d47531430, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d15724464            , ACCT_ID\u003d137398257, RLTSHP_ID\u003d50605656, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44516215            , ACCT_ID\u003d126591124, RLTSHP_ID\u003d55581966, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90807830            , ACCT_ID\u003d620135, RLTSHP_ID\u003d55669533, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72118627            , ACCT_ID\u003d127635917, RLTSHP_ID\u003d56807569, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24215867            , ACCT_ID\u003d136069895, RLTSHP_ID\u003d62461554, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518166            , ACCT_ID\u003d132533326, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518167            , ACCT_ID\u003d132533446, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518276            , ACCT_ID\u003d132828904, RLTSHP_ID\u003d71341013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518431            , ACCT_ID\u003d133299088, RLTSHP_ID\u003d72647193, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d87611284            , ACCT_ID\u003d120631738, RLTSHP_ID\u003d73138342, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517255            , ACCT_ID\u003d129521865, RLTSHP_ID\u003d74124460, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503605            , ACCT_ID\u003d1838525, RLTSHP_ID\u003d76216978, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518908            , ACCT_ID\u003d134875033, RLTSHP_ID\u003d76266131, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90823420            , ACCT_ID\u003d136334385, RLTSHP_ID\u003d78683703, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512932            , ACCT_ID\u003d116797377, RLTSHP_ID\u003d79585309, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24215963            , ACCT_ID\u003d136330913, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24216141            , ACCT_ID\u003d136799428, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d77819508            , ACCT_ID\u003d129862475, RLTSHP_ID\u003d89296545, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}",
+              "isEvidence": false,
+              "id": "report-data-f9c23654-af6e-44f2-b8fb-66771f4c0947"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901081, eJAccountId\u003d100059632, eJAccountCustomerNumber\u003d44510206, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-bd7320db-3422-4c2a-9cc3-ded3f6c42b1e"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 3,
+          "description": "Get /accounts/accountId/balances for account 100059632 as user P033267",
+          "duration": 3524,
+          "startTime": "2025-10-06T08:54:17.810748559-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d100059632, totalAccountAmount\u003d152473.04, totalCashValue\u003d102827.51, availableCashAmount\u003d102827.51, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-cbdde849-8e25-40ff-9098-c5db9089d049"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901081, eJAccountId\u003d100059632, eJAccountCustomerNumber\u003d44510206, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-d32c8b60-b4e5-4fc3-8e26-a0b22f55a4fe"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d100059632, totalAccountAmount\u003d152473.04, totalCashValue\u003d102827.51, availableCashAmount\u003d102827.51, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-4b5a4d38-cdb8-447a-bb0e-66d172dac515"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d100059632, totalAccountAmount\u003d152473.04, totalCashValue\u003d102827.51, availableCashAmount\u003d102827.51, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-301acfc8-8b40-4d3d-9292-7e6e51a4bcbb"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901358, eJAccountId\u003d3427763, eJAccountCustomerNumber\u003d44510090, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-a8649e70-7ee9-475e-86e7-f5da094d9428"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 4,
+              "description": "Authenticate the Session as P033267",
+              "duration": 2314,
+              "startTime": "2025-10-06T08:54:17.821961698-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d100059632}]",
+                  "isEvidence": false,
+                  "id": "report-data-33e921f8-c4ad-47f5-98c4-911e915ec21e"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 5,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/100059632/balances",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:21.289301440-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/100059632/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:21 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 100059632,\n    \"totalAccountAmount\": 152473.04,\n    \"totalCashValue\": 102827.51,\n    \"availableCashAmount\": 102827.51\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 6,
+              "description": "Log the response time",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.307612845-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "253",
+                  "isEvidence": false,
+                  "id": "report-data-4de069da-d25d-47a1-865c-46b54bf42dc9"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":100059632,\"totalAccountAmount\":152473.04,\"totalCashValue\":102827.51,\"availableCashAmount\":102827.51}",
+                  "isEvidence": false,
+                  "id": "report-data-7e939a12-3136-4f4e-85fa-d76ebe6d10ae"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "description": "Get /accounts/accountId/balances for account 3427763 as user P033267",
+          "duration": 301,
+          "startTime": "2025-10-06T08:54:21.690178328-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d3427763}]",
+              "isEvidence": false,
+              "id": "report-data-f9018b9c-52ee-4973-943f-d8bffb59ea39"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d3427763, totalAccountAmount\u003d672812.63, totalCashValue\u003d43686.71, availableCashAmount\u003d43686.71, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-42929ae2-3814-4a72-a310-7c231ed8e49b"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901358, eJAccountId\u003d3427763, eJAccountCustomerNumber\u003d44510090, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-9ea1c37a-fe3b-4a70-9056-6a2f324ac0c9"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d3427763, totalAccountAmount\u003d672812.63, totalCashValue\u003d43686.71, availableCashAmount\u003d43686.71, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-3b5fe216-80e8-4506-8754-f6c5a6a23d91"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d3427763, totalAccountAmount\u003d672812.63, totalCashValue\u003d43686.71, availableCashAmount\u003d43686.71, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-d19ca3ce-c5b7-497b-9ab1-b21f17fd84d1"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901265, eJAccountId\u003d1600857, eJAccountCustomerNumber\u003d44507270, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-b86ee4b1-6f9a-4c6f-ba2f-da7be82401ef"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 8,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/3427763/balances",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.965311488-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/3427763/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:21 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 3427763,\n    \"totalAccountAmount\": 672812.63,\n    \"totalCashValue\": 43686.71,\n    \"availableCashAmount\": 43686.71\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 9,
+              "description": "Log the response time",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.975434095-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "262",
+                  "isEvidence": false,
+                  "id": "report-data-44da00ff-721c-40b6-99ef-ac91a615d0f9"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":3427763,\"totalAccountAmount\":672812.63,\"totalCashValue\":43686.71,\"availableCashAmount\":43686.71}",
+                  "isEvidence": false,
+                  "id": "report-data-62a6d847-215d-450b-9ce8-99f6e13c517f"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "description": "Get /accounts/accountId/balances for account 1600857 as user P033267",
+          "duration": 251,
+          "startTime": "2025-10-06T08:54:22.095053388-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d1600857}]",
+              "isEvidence": false,
+              "id": "report-data-9cc83938-0f7a-414c-9e84-08c55712f57f"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d1600857, totalAccountAmount\u003d1220613.01, totalCashValue\u003d2866.86, availableCashAmount\u003d2866.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-4b6b3174-ae35-4b38-bbf0-fa7af8024694"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901265, eJAccountId\u003d1600857, eJAccountCustomerNumber\u003d44507270, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-d063c2a5-1e54-42ca-9790-a4e1a7b43eb8"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d1600857, totalAccountAmount\u003d1220613.01, totalCashValue\u003d2866.86, availableCashAmount\u003d2866.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c89deeb4-2fe0-4156-bd41-a135db19e632"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d1600857, totalAccountAmount\u003d1220613.01, totalCashValue\u003d2866.86, availableCashAmount\u003d2866.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-548f2fd3-35d9-44e6-a5cd-4efa64dd59f0"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901776, eJAccountId\u003d694384, eJAccountCustomerNumber\u003d44508376, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-e23d0f94-dd6a-4a86-bec6-3dcfc10f48f5"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 11,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/1600857/balances",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:22.323757142-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/1600857/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:22 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 1600857,\n    \"totalAccountAmount\": 1220613.01,\n    \"totalCashValue\": 2866.86,\n    \"availableCashAmount\": 2866.86,\n    \"marginLoanAmount\": 0.0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 12,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:22.332562529-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "219",
+                  "isEvidence": false,
+                  "id": "report-data-fc027145-9d81-421d-b704-c23872fddbd5"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":1600857,\"totalAccountAmount\":1220613.01,\"totalCashValue\":2866.86,\"availableCashAmount\":2866.86,\"marginLoanAmount\":0.0}",
+                  "isEvidence": false,
+                  "id": "report-data-37606bcc-e5e4-45b3-90c0-ad37cd377826"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "description": "Get /accounts/accountId/balances for account 694384 as user P033267",
+          "duration": 264,
+          "startTime": "2025-10-06T08:54:22.459326877-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d694384}]",
+              "isEvidence": false,
+              "id": "report-data-c2fd2790-0899-47e6-b925-d2e5d6d72ef7"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d694384, totalAccountAmount\u003d-36556.65, totalCashValue\u003d-119292.38, availableCashAmount\u003d-119462.63, marginLoanAmount\u003d20762.67, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-6180e164-139d-4601-967f-e6c8b0ee3f3c"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901776, eJAccountId\u003d694384, eJAccountCustomerNumber\u003d44508376, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-ac589cfe-4e3d-49fd-a765-0a5b877e9e83"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d694384, totalAccountAmount\u003d-36556.65, totalCashValue\u003d-119292.38, availableCashAmount\u003d-119462.63, marginLoanAmount\u003d20762.67, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-199c5481-fdd0-450d-a82f-eb79b2ab9237"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d694384, totalAccountAmount\u003d-36556.65, totalCashValue\u003d-119292.38, availableCashAmount\u003d-119462.63, marginLoanAmount\u003d20762.67, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-75cdf5ac-a3ae-46a6-8c1d-a9702fd2cbe4"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44899350, eJAccountId\u003d758844, eJAccountCustomerNumber\u003d44501684, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-77120af9-bd29-4a25-bcb7-8abec832c39c"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 14,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/694384/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:22.701994417-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/694384/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:22 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 694384,\n    \"totalAccountAmount\": -36556.65,\n    \"totalCashValue\": -119292.38,\n    \"availableCashAmount\": -119462.63,\n    \"marginLoanAmount\": 20762.67\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 15,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:22.709679432-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "233",
+                  "isEvidence": false,
+                  "id": "report-data-74e68ab4-40f3-474a-a836-c13cc770b130"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":694384,\"totalAccountAmount\":-36556.65,\"totalCashValue\":-119292.38,\"availableCashAmount\":-119462.63,\"marginLoanAmount\":20762.67}",
+                  "isEvidence": false,
+                  "id": "report-data-bdc8e0b2-5a98-43c9-ad16-5812a0f78e0f"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 16,
+          "description": "Get /accounts/accountId/balances for account 758844 as user P033267",
+          "duration": 284,
+          "startTime": "2025-10-06T08:54:22.832177090-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d758844}]",
+              "isEvidence": false,
+              "id": "report-data-709d68d4-0c44-4030-9d85-830cd965d329"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d758844, totalAccountAmount\u003d758648.84, totalCashValue\u003d-118608.13, availableCashAmount\u003d-118608.13, marginLoanAmount\u003d-22532.29, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-775a1783-3de5-4fd5-bc95-d5e170d8e498"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44899350, eJAccountId\u003d758844, eJAccountCustomerNumber\u003d44501684, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-f20a665b-9354-41a8-9b26-873b54395082"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d758844, totalAccountAmount\u003d758648.84, totalCashValue\u003d-118608.13, availableCashAmount\u003d-118608.13, marginLoanAmount\u003d-22532.29, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-91c25fdc-77ca-44ca-9354-afc196d50209"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d758844, totalAccountAmount\u003d758648.84, totalCashValue\u003d-118608.13, availableCashAmount\u003d-118608.13, marginLoanAmount\u003d-22532.29, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-5c5c88d1-0190-4d64-96fc-d09b74bd635a"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d50605656, eJAccountId\u003d137398257, eJAccountCustomerNumber\u003d15724464, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c4edef7b-f685-4df7-8b74-a0a9eedfa9e6"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 17,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/758844/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:23.096472390-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/758844/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:23 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 758844,\n    \"totalAccountAmount\": 758648.84,\n    \"totalCashValue\": -118608.13,\n    \"availableCashAmount\": -118608.13,\n    \"marginLoanAmount\": -22532.29\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 18,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:23.104136909-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "254",
+                  "isEvidence": false,
+                  "id": "report-data-b2b4e81a-7787-449c-930f-b539bcd5368f"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":758844,\"totalAccountAmount\":758648.84,\"totalCashValue\":-118608.13,\"availableCashAmount\":-118608.13,\"marginLoanAmount\":-22532.29}",
+                  "isEvidence": false,
+                  "id": "report-data-1391775b-9b85-4cc5-a391-2355b4984a64"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 19,
+          "description": "Get /accounts/accountId/balances for account 137398257 as user P033267",
+          "duration": 276,
+          "startTime": "2025-10-06T08:54:23.220554182-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d137398257}]",
+              "isEvidence": false,
+              "id": "report-data-f99f2a52-7bb1-4698-9962-bb38066faedd"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d137398257, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.36, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-81abcb7c-923e-4a2a-9220-c1d3fe6ecbd4"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d50605656, eJAccountId\u003d137398257, eJAccountCustomerNumber\u003d15724464, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-d56890df-f1a4-472d-b830-49903b64614b"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d137398257, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.36, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-34b1689f-4e20-4035-9f6c-d05cbd88a0e7"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d137398257, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.36, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-f6e90600-6321-40eb-b550-53ba2534ca9f"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44899699, eJAccountId\u003d129797594, eJAccountCustomerNumber\u003d44517345, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-96c4bf95-abaa-4f00-962d-0f2bb2e86238"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 20,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/137398257/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:23.473549679-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/137398257/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:23 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 137398257,\n    \"totalAccountAmount\": 0.0,\n    \"totalCashValue\": 0.0,\n    \"availableCashAmount\": 0.36\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 21,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:23.482519387-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "242",
+                  "isEvidence": false,
+                  "id": "report-data-53183415-f78d-47c0-b370-8712454e86bd"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":137398257,\"totalAccountAmount\":0.0,\"totalCashValue\":0.0,\"availableCashAmount\":0.36}",
+                  "isEvidence": false,
+                  "id": "report-data-18a49033-9c88-4285-9159-11eb55096926"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "description": "Get /accounts/accountId/balances for account 129797594 as user P033267",
+          "duration": 243,
+          "startTime": "2025-10-06T08:54:23.602268919-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d129797594}]",
+              "isEvidence": false,
+              "id": "report-data-79777841-ff80-4cce-9b79-ff0ef79cb734"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d129797594, totalAccountAmount\u003d180167.30, totalCashValue\u003d-121.86, availableCashAmount\u003d-121.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c6a21919-b13d-495a-9d33-079eea715efe"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44899699, eJAccountId\u003d129797594, eJAccountCustomerNumber\u003d44517345, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-664b1503-548d-494c-98ef-6077e17252dd"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d129797594, totalAccountAmount\u003d180167.30, totalCashValue\u003d-121.86, availableCashAmount\u003d-121.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-6acd9841-d430-42a9-b5fd-5eac6efbd056"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d129797594, totalAccountAmount\u003d180167.30, totalCashValue\u003d-121.86, availableCashAmount\u003d-121.86, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-90c4d46a-211b-4786-8d0d-a49b4db1d2e9"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44899205, eJAccountId\u003d124622965, eJAccountCustomerNumber\u003d44515635, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-931b5522-3480-4cdd-8f84-9d45fcba5342"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 23,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/129797594/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:23.825065527-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/129797594/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:23 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 129797594,\n    \"totalAccountAmount\": 180167.30,\n    \"totalCashValue\": -121.86,\n    \"availableCashAmount\": -121.86,\n    \"marginLoanAmount\": 0.0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 24,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:23.832989475-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "213",
+                  "isEvidence": false,
+                  "id": "report-data-a3e64e3f-3015-49da-a918-2af65104a51d"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":129797594,\"totalAccountAmount\":180167.30,\"totalCashValue\":-121.86,\"availableCashAmount\":-121.86,\"marginLoanAmount\":0.0}",
+                  "isEvidence": false,
+                  "id": "report-data-ab7928bc-31a8-45cb-9b41-4a307028665e"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "description": "Get /accounts/accountId/balances for account 124622965 as user P033267",
+          "duration": 219,
+          "startTime": "2025-10-06T08:54:23.948518263-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d124622965}]",
+              "isEvidence": false,
+              "id": "report-data-9b19fbe4-c842-4b39-ae29-9cb06d783284"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d124622965, totalAccountAmount\u003d359121.98, totalCashValue\u003d3119767.91, availableCashAmount\u003d3119769.02, marginLoanAmount\u003d-3426.05, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-1b2c5abb-73cc-4ee8-92a3-45577d9c94e4"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44899205, eJAccountId\u003d124622965, eJAccountCustomerNumber\u003d44515635, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-661919fd-6d7d-4623-a3b2-f9e9eace5e50"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d124622965, totalAccountAmount\u003d359121.98, totalCashValue\u003d3119767.91, availableCashAmount\u003d3119769.02, marginLoanAmount\u003d-3426.05, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-12ed924f-ba68-42ad-9e18-e820de8bd93d"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d124622965, totalAccountAmount\u003d359121.98, totalCashValue\u003d3119767.91, availableCashAmount\u003d3119769.02, marginLoanAmount\u003d-3426.05, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-fb744005-529b-4e8a-b5b1-025cb01c5ee6"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901283, eJAccountId\u003d129692613, eJAccountCustomerNumber\u003d44517303, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-9c7db144-bb70-4068-9ab7-a16572657f09"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 26,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/124622965/balances",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:24.141087490-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/124622965/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:24 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 124622965,\n    \"totalAccountAmount\": 359121.98,\n    \"totalCashValue\": 3119767.91,\n    \"availableCashAmount\": 3119769.02,\n    \"marginLoanAmount\": -3426.05\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 27,
+              "description": "Log the response time",
+              "duration": 9,
+              "startTime": "2025-10-06T08:54:24.150801003-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "183",
+                  "isEvidence": false,
+                  "id": "report-data-484079f6-2d23-4549-b103-0c26926bda0c"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":124622965,\"totalAccountAmount\":359121.98,\"totalCashValue\":3119767.91,\"availableCashAmount\":3119769.02,\"marginLoanAmount\":-3426.05}",
+                  "isEvidence": false,
+                  "id": "report-data-36664c5e-229a-4910-bd35-c1c47f6cbc70"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 28,
+          "description": "Get /accounts/accountId/balances for account 129692613 as user P033267",
+          "duration": 240,
+          "startTime": "2025-10-06T08:54:24.271951025-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d129692613}]",
+              "isEvidence": false,
+              "id": "report-data-08138905-1c69-4243-bd06-3b653beaeba5"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d129692613, totalAccountAmount\u003d-1736721.77, totalCashValue\u003d34.03, availableCashAmount\u003d34.03, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-a3389222-6ab0-4391-89ac-4fe2d4c14dd2"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901283, eJAccountId\u003d129692613, eJAccountCustomerNumber\u003d44517303, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-7e6f8784-b9e0-419b-93af-f436b1bec3f3"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d129692613, totalAccountAmount\u003d-1736721.77, totalCashValue\u003d34.03, availableCashAmount\u003d34.03, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-14304dbc-a938-4030-8ba4-d21af2754814"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d129692613, totalAccountAmount\u003d-1736721.77, totalCashValue\u003d34.03, availableCashAmount\u003d34.03, marginLoanAmount\u003d0.0, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-5b874ae2-9b90-43a7-bf3f-eef2077dc1fd"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44899314, eJAccountId\u003d110648502, eJAccountCustomerNumber\u003d44512502, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-211b71d0-1b7a-46b6-ba5a-5bfc6da06a09"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 29,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/129692613/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:24.491862623-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/129692613/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:24 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 129692613,\n    \"totalAccountAmount\": -1736721.77,\n    \"totalCashValue\": 34.03,\n    \"availableCashAmount\": 34.03,\n    \"marginLoanAmount\": 0.0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 30,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:24.499516126-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "210",
+                  "isEvidence": false,
+                  "id": "report-data-55ff3679-6ebe-4ba5-9ed9-b64d3a537311"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":129692613,\"totalAccountAmount\":-1736721.77,\"totalCashValue\":34.03,\"availableCashAmount\":34.03,\"marginLoanAmount\":0.0}",
+                  "isEvidence": false,
+                  "id": "report-data-cfad9230-55aa-464f-bc70-786ee1751fb7"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "description": "Get /accounts/accountId/balances for account 110648502 as user P033267",
+          "duration": 254,
+          "startTime": "2025-10-06T08:54:24.615543550-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d110648502}]",
+              "isEvidence": false,
+              "id": "report-data-d4cbf132-0050-495c-b82c-2eff4d7972b5"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d110648502, totalAccountAmount\u003d378331.82, totalCashValue\u003d41.68, availableCashAmount\u003d41.68, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-b664b23d-a3d6-4698-a7a8-72435835505b"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44899314, eJAccountId\u003d110648502, eJAccountCustomerNumber\u003d44512502, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-9abd22c4-f193-4845-972c-ae039fb9361c"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d110648502, totalAccountAmount\u003d378331.82, totalCashValue\u003d41.68, availableCashAmount\u003d41.68, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-5f4d856e-3551-4c4a-afa5-345b943aa7da"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d110648502, totalAccountAmount\u003d378331.82, totalCashValue\u003d41.68, availableCashAmount\u003d41.68, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-626a7b18-7a9e-447b-b13b-1f493c8c77e6"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44902008, eJAccountId\u003d872029, eJAccountCustomerNumber\u003d44503715, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-e1bbb8b0-f01f-49b1-b943-8e913e351a2a"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 32,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/110648502/balances",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:24.844282911-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/110648502/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:24 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 110648502,\n    \"totalAccountAmount\": 378331.82,\n    \"totalCashValue\": 41.68,\n    \"availableCashAmount\": 41.68\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 33,
+              "description": "Log the response time",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:24.853695448-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "220",
+                  "isEvidence": false,
+                  "id": "report-data-e160a204-2aa2-4bb9-8470-0c068a668c5c"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":110648502,\"totalAccountAmount\":378331.82,\"totalCashValue\":41.68,\"availableCashAmount\":41.68}",
+                  "isEvidence": false,
+                  "id": "report-data-0c3dc591-b957-4ab3-b095-129d92aeff40"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 34,
+          "description": "Get /accounts/accountId/balances for account 872029 as user P033267",
+          "duration": 228,
+          "startTime": "2025-10-06T08:54:24.973412376-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d872029}]",
+              "isEvidence": false,
+              "id": "report-data-c052d5ce-b378-4a96-ad1f-d7bdeb74d324"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d872029, totalAccountAmount\u003d-58323.44, totalCashValue\u003d3202.62, availableCashAmount\u003d3535.95, marginLoanAmount\u003d-58323.44, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-2d8ae83c-2697-4c0d-b55c-bcd068db090a"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44902008, eJAccountId\u003d872029, eJAccountCustomerNumber\u003d44503715, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-ccee5999-fc71-434e-8e3b-85ba59bb25ee"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d872029, totalAccountAmount\u003d-58323.44, totalCashValue\u003d3202.62, availableCashAmount\u003d3535.95, marginLoanAmount\u003d-58323.44, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c23868b4-5e97-4250-a45e-cb2750b3928b"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d872029, totalAccountAmount\u003d-58323.44, totalCashValue\u003d3202.62, availableCashAmount\u003d3535.95, marginLoanAmount\u003d-58323.44, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-928a9ca1-d8be-4724-a6ef-ae2f4a54e789"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44902241, eJAccountId\u003d105469896, eJAccountCustomerNumber\u003d44510716, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-1a97c4c3-4a8c-4d50-a8a6-40340a8bd27e"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 35,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/872029/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:25.180642163-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/872029/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:25 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 872029,\n    \"totalAccountAmount\": -58323.44,\n    \"totalCashValue\": 3202.62,\n    \"availableCashAmount\": 3535.95,\n    \"marginLoanAmount\": -58323.44\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 36,
+              "description": "Log the response time",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:25.189907832-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "200",
+                  "isEvidence": false,
+                  "id": "report-data-b52aa112-f2a4-4484-a87b-4013735838ad"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":872029,\"totalAccountAmount\":-58323.44,\"totalCashValue\":3202.62,\"availableCashAmount\":3535.95,\"marginLoanAmount\":-58323.44}",
+                  "isEvidence": false,
+                  "id": "report-data-776a72aa-94a8-43f7-b4f4-1de978eac098"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 37,
+          "description": "Get /accounts/accountId/balances for account 105469896 as user P033267",
+          "duration": 231,
+          "startTime": "2025-10-06T08:54:25.306935675-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d105469896}]",
+              "isEvidence": false,
+              "id": "report-data-36d5884d-9ac9-4ce9-a2d1-8e2c45bc5bea"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-5779fee8-0c8a-437c-90b1-ad6e018fe636"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44902241, eJAccountId\u003d105469896, eJAccountCustomerNumber\u003d44510716, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-72fd446b-9c00-4543-9a88-4f42451787c6"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-14ac8190-9a1b-4459-8230-8dbe3a7ca334"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-e8d2f4ca-24c7-4f8d-bcaa-7ffe009249fa"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 38,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/105469896/balances",
+              "duration": 37,
+              "startTime": "2025-10-06T08:54:25.487032759-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/105469896/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:25 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 105469896,\n    \"totalAccountAmount\": 1292011.36,\n    \"totalCashValue\": 91278.82,\n    \"availableCashAmount\": 91278.82,\n    \"marginLoanAmount\": -40404.71,\n    \"nonPurposeLoanAmount\": -25000.0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 39,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:25.525733101-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "172",
+                  "isEvidence": false,
+                  "id": "report-data-308bd092-d99b-4d37-91d5-9e6abb3f7b95"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":105469896,\"totalAccountAmount\":1292011.36,\"totalCashValue\":91278.82,\"availableCashAmount\":91278.82,\"marginLoanAmount\":-40404.71,\"nonPurposeLoanAmount\":-25000.0}",
+                  "isEvidence": false,
+                  "id": "report-data-121d46fe-205e-4068-ab37-b6b867101bf0"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 5372,
+      "startTime": "2025-10-06T08:54:25.600437642-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png",
+          "timeStamp": 1759758870973,
+          "screenshotName": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 41,
+          "description": "Launch WAM and authenticate",
+          "duration": 2479,
+          "startTime": "2025-10-06T08:54:28.024280115-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b14f79754f7ca251276a6b4dbc0f92dcb3082d06cf07e2808811d68248e283af.png",
+              "timeStamp": 1759758870502,
+              "screenshotName": "b14f79754f7ca251276a6b4dbc0f92dcb3082d06cf07e2808811d68248e283af.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "description": "WHEN: EJ account has Non-purpose loan and account is used as From account for Between flow",
+      "duration": 9,
+      "startTime": "2025-10-06T08:54:30.973664594-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png",
+          "timeStamp": 1759758870983,
+          "screenshotName": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 43,
+      "description": "WHEN: AND Cash sub account is selected",
+      "duration": 7,
+      "startTime": "2025-10-06T08:54:30.983471737-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png",
+          "timeStamp": 1759758870990,
+          "screenshotName": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 44,
+      "description": "WHEN: AND in advance -  account has margin sub account with non-zero balance",
+      "duration": 7,
+      "startTime": "2025-10-06T08:54:30.990885577-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png",
+          "timeStamp": 1759758870997,
+          "screenshotName": "f032f6ccf2404f10c9c5b23adba820bbe319a6edf760dc3a61d50bb2b0ae6717.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 45,
+      "description": "Opening the asset movement page for relationship id: 44902241",
+      "duration": 2263,
+      "startTime": "2025-10-06T08:54:30.998474638-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png",
+          "timeStamp": 1759758873261,
+          "screenshotName": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 46,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 733,
+      "startTime": "2025-10-06T08:54:33.262140372-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png",
+          "timeStamp": 1759758873995,
+          "screenshotName": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 47,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8727,
+      "startTime": "2025-10-06T08:54:33.995814852-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9cfb778f88533814661fc698fb2f2b306b70be3127ab6e8694a92e5c2aa7b7d6.png",
+          "timeStamp": 1759758882723,
+          "screenshotName": "9cfb778f88533814661fc698fb2f2b306b70be3127ab6e8694a92e5c2aa7b7d6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 48,
+      "description": "Select searched account 44510716",
+      "duration": 2667,
+      "startTime": "2025-10-06T08:54:42.724030676-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0d3124517a7e25f2935980f13fdacf759cdef5988a67d20ef0b20b769486d5af.png",
+          "timeStamp": 1759758885391,
+          "screenshotName": "0d3124517a7e25f2935980f13fdacf759cdef5988a67d20ef0b20b769486d5af.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 49,
+          "description": "Search for account 44510716",
+          "duration": 1724,
+          "startTime": "2025-10-06T08:54:43.192621727-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "97b9c1d447f68e142701189bc99811696d3f25cea12e21ed9d51fcbff58d2997.png",
+              "timeStamp": 1759758884917,
+              "screenshotName": "97b9c1d447f68e142701189bc99811696d3f25cea12e21ed9d51fcbff58d2997.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 50,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 254,
+              "startTime": "2025-10-06T08:54:44.655853996-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "97b9c1d447f68e142701189bc99811696d3f25cea12e21ed9d51fcbff58d2997.png",
+                  "timeStamp": 1759758884910,
+                  "screenshotName": "97b9c1d447f68e142701189bc99811696d3f25cea12e21ed9d51fcbff58d2997.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 51,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 175,
+          "startTime": "2025-10-06T08:54:44.918020010-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "f70dd630b1ea04026d228f20a4393ad08b19ca919750401f7fc6dc4d2bf32006.png",
+              "timeStamp": 1759758885093,
+              "screenshotName": "f70dd630b1ea04026d228f20a4393ad08b19ca919750401f7fc6dc4d2bf32006.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "description": "Select the First Available Owner, and subsequent users until continue is enabled",
+      "duration": 222,
+      "startTime": "2025-10-06T08:54:45.391703322-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e22c520f72db6285043cd9fd32b858dd37fc72eca08aa89c5ea762103ffbd6e8.png",
+          "timeStamp": 1759758885614,
+          "screenshotName": "e22c520f72db6285043cd9fd32b858dd37fc72eca08aa89c5ea762103ffbd6e8.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 53,
+      "description": "Click \u0027Next\u0027 - go to Next Card",
+      "duration": 400,
+      "startTime": "2025-10-06T08:54:45.617851767-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png",
+          "timeStamp": 1759758886017,
+          "screenshotName": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 54,
+          "description": "Click \u0027Next\u0027.",
+          "duration": 392,
+          "startTime": "2025-10-06T08:54:45.619631903-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png",
+              "timeStamp": 1759758886011,
+              "screenshotName": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "description": "THEN: The same EJ account can be selected as To account",
+      "duration": 6,
+      "startTime": "2025-10-06T08:54:46.018555279-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png",
+          "timeStamp": 1759758886025,
+          "screenshotName": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 56,
+      "description": "WHEN: AND Margin and Loan sub-accounts are available for selection",
+      "duration": 6,
+      "startTime": "2025-10-06T08:54:46.025678431-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png",
+          "timeStamp": 1759758886031,
+          "screenshotName": "1568f44f372f1282e73aa99b9ef17d33fc7171f2e9d03e488c3dddb62b954a1d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 57,
+      "description": "Select searched account 44510716",
+      "duration": 2230,
+      "startTime": "2025-10-06T08:54:46.032237924-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ac732a6041256f462d942dc14b0026538f43704903b385948ff10ce1e006c55f.png",
+          "timeStamp": 1759758888263,
+          "screenshotName": "ac732a6041256f462d942dc14b0026538f43704903b385948ff10ce1e006c55f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 58,
+          "description": "Search for account 44510716",
+          "duration": 1600,
+          "startTime": "2025-10-06T08:54:46.105552596-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e5a4753104ba9f69d43dbe3485eb8847b49f5e83b2df8963ead8228d5577ea20.png",
+              "timeStamp": 1759758887705,
+              "screenshotName": "e5a4753104ba9f69d43dbe3485eb8847b49f5e83b2df8963ead8228d5577ea20.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 59,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 192,
+              "startTime": "2025-10-06T08:54:47.506289208-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "e5a4753104ba9f69d43dbe3485eb8847b49f5e83b2df8963ead8228d5577ea20.png",
+                  "timeStamp": 1759758887698,
+                  "screenshotName": "e5a4753104ba9f69d43dbe3485eb8847b49f5e83b2df8963ead8228d5577ea20.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 60,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 330,
+          "startTime": "2025-10-06T08:54:47.706107221-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b8d41811867095ad509c53ca3099f4ba8c818c9173e76e1dc038866a97b65af0.png",
+              "timeStamp": 1759758888036,
+              "screenshotName": "b8d41811867095ad509c53ca3099f4ba8c818c9173e76e1dc038866a97b65af0.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "description": "Verify Cash Account Type disabled is true",
+      "duration": 326,
+      "startTime": "2025-10-06T08:54:48.264017886-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8445eebb12aca4878ce6d163b260df832492ea9fbb8a17a524b6907b816abf94.png",
+          "timeStamp": 1759758888590,
+          "screenshotName": "8445eebb12aca4878ce6d163b260df832492ea9fbb8a17a524b6907b816abf94.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 62,
+      "description": "Verify Margin Account Type disabled is false",
+      "duration": 286,
+      "startTime": "2025-10-06T08:54:48.590753195-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8d1ef16db9ab24b7361971584a5b85ac8bcfcb1bfb947fd32c51fba384a18b58.png",
+          "timeStamp": 1759758888877,
+          "screenshotName": "8d1ef16db9ab24b7361971584a5b85ac8bcfcb1bfb947fd32c51fba384a18b58.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 63,
+      "description": "Verify Non-Purpose Loan Account Type disabled is false",
+      "duration": 294,
+      "startTime": "2025-10-06T08:54:48.877844087-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f65b1eb51833a36fb24089c7137f0dab2fd1a66b204fc030838f9c98c7e08ee1.png",
+          "timeStamp": 1759758889172,
+          "screenshotName": "f65b1eb51833a36fb24089c7137f0dab2fd1a66b204fc030838f9c98c7e08ee1.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-1abcbba4-b15f-4815-ae01-ed38e7238dba"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-e778b3bd-e858-4e70-9b06-4fcd36a23ba7"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled",
+    "storyName": "BetweenAccountTypeDisabled",
+    "displayName": "BetweenAccountTypeDisabled",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenAccountTypeDisabled",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenAccountTypeDisabled",
+        "description": "BetweenAccountTypeDisabled"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Verify Cash Account disabled in A2A transfer between same accounts - Loan and Margin exist",
+  "coreIssues": [
+    "ATMT-39324"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "true",
+      "type": "amc_use_new_accounts_service",
+      "displayName": "true"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    },
+    {
+      "name": "Priority-3a",
+      "type": "tag",
+      "displayName": "Priority-3a"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T08:54:10.188848301-05:00[America/Chicago]",
+  "endTime": "2025-10-06T08:54:49.179991354-05:00[America/Chicago]",
+  "duration": 7247,
+  "projectKey": "",
+  "sessionId": "d7cbca5c3021590c17e5a99b4495a267",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-39324"
+  ],
+  "scenarioOutline": ""
+}

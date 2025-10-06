@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>TC27 - Verify Outgoing checks is unavailable when toggle - amc-outgoing-check is - ON and from account is 312 with Inherited</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="7d9bed28dc8880d35c772d9d28460c27458eef20114fa3f8c83aca7243545153.html">Out of edward jones checks</a>
+        > TC27 - verify outgoing checks is unavailable when toggle - amc-outgoing-check is - ON and from account is 312 with inherited
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 10:48</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Out Of Edward Jones Checks </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="1f61fb8a68992ad1116e11432840e81c88c726d98f6a8cd7273ab04ac05561b2.html">Outgoing Checks
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6511a1b38a72d29af49be5be6f3f4e87d043526f597fff115ec3e6fcf7085095.html">Platform1-New-Accounts-Service
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="50691dc86cb4b2804f4ba739f47089b3edc1f0bda4b3a58f28026278ba8dc49d.html">Priority-2a
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">DB-Test-Data
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">New-Old-Ui
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon fa-2x' title='SUCCESS'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="success-color">
+                                    TC27 - Verify Outgoing checks is unavailable when toggle - amc-outgoing-check is - ON and from account is 312 with Inherited
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-64020">ATMT-64020</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-71433">ATMT-71433</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Retrieve random data from DB2: inherited EJ account, branch BR_4454, ownership ruleID=312
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-eeac2850-3ed3-4a42-a5f9-3d237ae0a34a"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-0">select<br>acct.ACCT_ID, acct.CUST_NO,<br>rlt.RLTSHP_ID AS RLTSHP_ID,<br>acct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,<br>contact.CON_ID, contact.DEATH_DA,<br>hq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,<br>sub_acc.BR_NO,<br>us_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.ACCOUNT_12280 as acct on grp.ACCT_ID = acct.ACCT_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>join PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID=acct.ACCT_ID<br>join PROD.CONTACT_12250 as contact on contact.CON_ID  = sub_acc.TAX_RPT_CON_ID<br>join PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID = us_sub_acc.ACCT_ID<br>left outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID = acct.ACCT_ID<br><br>where<br>acct.TAX_RPT_CTRY_CD='US'<br>and acct.ACCT_OWN_RULE_ID=312<br>and sub_acc.br_no   = 4454<br><br>--account is not deleted and closed<br>and acct.LGCL_DEL_DA is null<br>and acct.ACCT_CLS_DA is null<br>--owner is not deceased<br>and contact.DEATH_DA is  null<br>--inherited = Y<br>and acct.dcdnt_retr_ind = 'Y'<br><br>---- Y[hqEjToBank=true] = client is allowed to initiate transfers from this Edward Jones account to their bank account<br>--and (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND='Y')<br>--and hq_system_restrictions.ACH_DB_ALLW_IND='N'<br>---- Y[hqEjToBank=true] = client is allowed to initiate transfers from their bank account to this Edward Jones account<br>--and (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND='Y')<br>--and hq_system_restrictions.ACH_CR_ALLW_IND='N'<br><br>     and acct_svc.ACCT_SVC_TY_CD = 'GD'<br><br>--account is [not] restricted by restrictions from list<br>and not acct.cust_no in (<br>    select distinct acct.CUST_NO<br><br>    from PROD.ACCOUNT_12280 as acct<br>    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>    left outer join PROD.acct_rst_10214 v on v.account_no=acct.cust_no<br><br>    where<br>    acct.TAX_RPT_CTRY_CD='US'<br><br>    and acct.ACCT_OWN_RULE_ID=312<br>    and sub_acc.br_no   = 4454<br>    and acct.LGCL_DEL_DA is null<br>    and acct.ACCT_CLS_DA is null<br>    and v.rst_rsn_cd in ('CIPR','COPD','FTRN','MAIL','RISK','WARN','72T','SSN','AUTH','RESTRICTION')<br>    and v.RST_START_DA&lt;'2025-10-06'<br>)</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-9021bad2-b6b5-423c-8db2-6008f1f9b365"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-1">{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=136396396, ACH_DB_ALLW_IND=null, RLTSHP_ID=80936125, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=279536351, CUST_NO=14585741, ACCT_PREFERRED_NAME=Alee, Andrew                   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=136396579, ACH_DB_ALLW_IND=null, RLTSHP_ID=80936125, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=279536396, CUST_NO=14585742, ACCT_PREFERRED_NAME=Alee, Kailyn                   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=141918700, ACH_DB_ALLW_IND=null, RLTSHP_ID=44899289, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186591811, CUST_NO=44587691, ACCT_PREFERRED_NAME=BONECUTTER, AMY L *INHERITED*  , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=142132874, ACH_DB_ALLW_IND=null, RLTSHP_ID=94874635, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321934764, CUST_NO=90985964, ACCT_PREFERRED_NAME=BRELAND, D INHERITED           , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=117138319, ACH_DB_ALLW_IND=null, RLTSHP_ID=1033711, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=269608481, CUST_NO=32095496, ACCT_PREFERRED_NAME=BUCICCHIA, BRITTANY *INH IRA*  , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=127712460, ACH_DB_ALLW_IND=null, RLTSHP_ID=44899566, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=197699043, CUST_NO=44581083, ACCT_PREFERRED_NAME=CONSIGLIO, CARA N *INHERITED*  , ACCT_SVC_STAT_CD=B }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=141946482, ACH_DB_ALLW_IND=null, RLTSHP_ID=93198397, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=309967781, CUST_NO=90985825, ACCT_PREFERRED_NAME=DALE, SARA (DEC)               , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=138868078, ACH_DB_ALLW_IND=null, RLTSHP_ID=80557060, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=278476529, CUST_NO=24282532, ACCT_PREFERRED_NAME=DRUMMOND, MELONIE *INH IRA*    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=133367923, ACH_DB_ALLW_IND=null, RLTSHP_ID=44900397, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186592907, CUST_NO=44583728, ACCT_PREFERRED_NAME=FURNEY, LINDA J *INHERITED*    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=141449374, ACH_DB_ALLW_IND=null, RLTSHP_ID=92048984, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=230188664, CUST_NO=44587484, ACCT_PREFERRED_NAME=HORN, TODD T *INHERITED*       , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=142132347, ACH_DB_ALLW_IND=null, RLTSHP_ID=94873722, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321934765, CUST_NO=90985963, ACCT_PREFERRED_NAME=Krol, Robin                    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=136926326, ACH_DB_ALLW_IND=null, RLTSHP_ID=82738387, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186598106, CUST_NO=44585546, ACCT_PREFERRED_NAME=LOVE, JOEL M *INHERITED*       , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=140116399, ACH_DB_ALLW_IND=null, RLTSHP_ID=34687863, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321109478, CUST_NO=94085056, ACCT_PREFERRED_NAME=LUCAS, AMY                     , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=144456781, ACH_DB_ALLW_IND=null, RLTSHP_ID=42505202, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=269463882, CUST_NO=90988962, ACCT_PREFERRED_NAME=MANUEL, MARSHA G               , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=143732016, ACH_DB_ALLW_IND=null, RLTSHP_ID=100232944, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321935600, CUST_NO=90988096, ACCT_PREFERRED_NAME=May, Anna K                    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=136298054, ACH_DB_ALLW_IND=null, RLTSHP_ID=79848257, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=276402096, CUST_NO=24281599, ACCT_PREFERRED_NAME=MENICHELLI, RONALD *INH-IRA*   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=134700796, ACH_DB_ALLW_IND=null, RLTSHP_ID=66188291, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=265062048, CUST_NO=98786332, ACCT_PREFERRED_NAME=MYERS, JODI L *INHERIT/LARRY*  , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=134829257, ACH_DB_ALLW_IND=null, RLTSHP_ID=66188291, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=265062048, CUST_NO=44584644, ACCT_PREFERRED_NAME=MYERS, JODI L *INHERIT/GARY*   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=145266852, ACH_DB_ALLW_IND=null, RLTSHP_ID=44901424, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186599086, CUST_NO=44565378, ACCT_PREFERRED_NAME=NAGEL, DONNANew KAY            , ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=145266868, ACH_DB_ALLW_IND=null, RLTSHP_ID=63109785, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186598342, CUST_NO=44565373, ACCT_PREFERRED_NAME=NANCY L VERHOFF-MARTIN LIVING T, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=145267188, ACH_DB_ALLW_IND=null, RLTSHP_ID=102976198, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321245493, CUST_NO=44565414, ACCT_PREFERRED_NAME=PAIGE, MALISSA                 , ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=143986015, ACH_DB_ALLW_IND=null, RLTSHP_ID=55310244, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186600674, CUST_NO=44588583, ACCT_PREFERRED_NAME=REED, PALMA J *INHERITED IRA*  , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=133958280, ACH_DB_ALLW_IND=null, RLTSHP_ID=73075479, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321934783, CUST_NO=90885960, ACCT_PREFERRED_NAME=RODGERS, PAMELA J              , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=136787965, ACH_DB_ALLW_IND=null, RLTSHP_ID=81989490, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=294892547, CUST_NO=30685038, ACCT_PREFERRED_NAME=RUTH, ARTHUR *INHERITED IRA*   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=142247670, ACH_DB_ALLW_IND=null, RLTSHP_ID=98788756, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186600526, CUST_NO=44587826, ACCT_PREFERRED_NAME=SERGENT, COLLEEN R *INHERITED* , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=142247299, ACH_DB_ALLW_IND=null, RLTSHP_ID=98788772, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186600525, CUST_NO=44587824, ACCT_PREFERRED_NAME=SERGENT, SUSAN M *INHERITED*   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=141439090, ACH_DB_ALLW_IND=null, RLTSHP_ID=92048106, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=153210226, CUST_NO=44587481, ACCT_PREFERRED_NAME=SHERER, DEIRDRE *INHERITED*    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=132088794, ACH_DB_ALLW_IND=null, RLTSHP_ID=44902007, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=201576425, CUST_NO=44583000, ACCT_PREFERRED_NAME=SMITH, DANE S *INHERITED*      , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=138584168, ACH_DB_ALLW_IND=null, RLTSHP_ID=87274083, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=193323500, CUST_NO=44586204, ACCT_PREFERRED_NAME=SMITH, RICK *INHERITED*        , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=138592613, ACH_DB_ALLW_IND=null, RLTSHP_ID=87273823, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=193323501, CUST_NO=44586209, ACCT_PREFERRED_NAME=SMITH, RONALD A *INHERITED*    , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=137139120, ACH_DB_ALLW_IND=null, RLTSHP_ID=83517710, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=216373393, CUST_NO=44585634, ACCT_PREFERRED_NAME=SPRINGER, JUSTIN *INHERITED*   , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=144412533, ACH_DB_ALLW_IND=null, RLTSHP_ID=102083867, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=321935659, CUST_NO=90988915, ACCT_PREFERRED_NAME=Townsend, Mary                 , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=137442576, ACH_DB_ALLW_IND=null, RLTSHP_ID=83192084, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=289998901, CUST_NO=24282043, ACCT_PREFERRED_NAME=WHITE, LAURA S *INH-IRA*       , ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=312, ACCT_SVC_TY_CD=GD, DEATH_DA=null, ACCT_ID=124984974, ACH_DB_ALLW_IND=null, RLTSHP_ID=52119285, ACH_CR_ALLW_IND=null, BR_NO=4454, CON_ID=186602608, CUST_NO=44599944, ACCT_PREFERRED_NAME=WHITNEY, BECKY *INHERITED*     , ACCT_SVC_STAT_CD=A }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=0">
+                                    <img src="56d12ca2af24763833af51d23168248b0c2096921f929aa464695b31291848f7.png"
+                                         href="56d12ca2af24763833af51d23168248b0c2096921f929aa464695b31291848f7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 464ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Get p-number for BOA of branch 4454, relationship 87274083, account 138584168, for Platform flow
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=1">
+                                    <img src="56d12ca2af24763833af51d23168248b0c2096921f929aa464695b31291848f7.png"
+                                         href="56d12ca2af24763833af51d23168248b0c2096921f929aa464695b31291848f7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">006ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection2 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: p058929
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=4">
+                                    <img src="3ea97105256d63c99e43f6aa547c56e245ff3ac14097197153ae816ebebdcd76.png"
+                                         href="3ea97105256d63c99e43f6aa547c56e245ff3ac14097197153ae816ebebdcd76.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 125ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="2-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=3">
+                                    <img src="3ea97105256d63c99e43f6aa547c56e245ff3ac14097197153ae816ebebdcd76.png"
+                                         href="3ea97105256d63c99e43f6aa547c56e245ff3ac14097197153ae816ebebdcd76.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 602ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Opening the asset movement page for relationship id: 87274083
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=5">
+                                    <img src="39d457490ac627a74f92e518c27d974c06393dfe2f72cea32b756061611b5e1b.png"
+                                         href="39d457490ac627a74f92e518c27d974c06393dfe2f72cea32b756061611b5e1b.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">913ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="4"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Given set amc_outgoing_check toggle true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=6">
+                                    <img src="5c833e6e8c2126d242d1e2ab0aee38ff47b58e5afef76b737afd44187fc9fe3a.png"
+                                         href="5c833e6e8c2126d242d1e2ab0aee38ff47b58e5afef76b737afd44187fc9fe3a.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">589ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="5"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Given set amc_outgoing_check_trad_roth toggle true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=7">
+                                    <img src="0b812014565cde7aa9e181c45cbf415b21b65e00d08fea38b088a8600b79c2d1.png"
+                                         href="0b812014565cde7aa9e181c45cbf415b21b65e00d08fea38b088a8600b79c2d1.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">488ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="6"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Choose transfer 'Out of' accounts
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=8">
+                                    <img src="1489b21b2a6973864367f3c625f2c6b71b7b89b5b7a1ac2ab6605f6921951f59.png"
+                                         href="1489b21b2a6973864367f3c625f2c6b71b7b89b5b7a1ac2ab6605f6921951f59.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">1s 063ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="7"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select searched account 44586204
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=9">
+                                    <img src="d8deb9ac87d4d1f11be378f007e54a9671cc73ce5c6f9475b98eed92c00fb128.png"
+                                         href="d8deb9ac87d4d1f11be378f007e54a9671cc73ce5c6f9475b98eed92c00fb128.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">4s 472ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="8"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select Owner if Next button in not enabled
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=10">
+                                    <img src="13ccea5e5ba170eef86a6f85de1b00e3bf45c3dc329ed5e7d7beb2b10a437ef4.png"
+                                         href="13ccea5e5ba170eef86a6f85de1b00e3bf45c3dc329ed5e7d7beb2b10a437ef4.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">168ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="9"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection9')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection9 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection9')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Click continue button
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=15">
+                                    <img src="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         href="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">418ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection9" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="9-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection9-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection9-0 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection9-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Click 'Next' - go to Next Card
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=14">
+                                    <img src="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         href="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">409ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection9-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="9-0-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Click 'Next'.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=13">
+                                    <img src="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         href="7c792b170ecb569c29470956be35afe15ca1ad2839c34d7b8a30887bd6f378a7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">401ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="10"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify Outgoing Checks Tile
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-3b4fe7a1-dfb9-4a8a-af4d-f3509e5a09a7"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-14-0">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-14-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-14-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-14-0">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-1f3ea8b1-c520-4f14-885a-d1b9ddfcc35f"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-14-1">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-14-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-14-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-14-1">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="a72d6e79e9a563491e8971d33c4d4a1926f09dfd872e1c248d99cc588c9e910d_screenshots.html#screenshots?screenshot=16">
+                                    <img src="9c644decda55575736f45f132b84472cff6d548b29f7e475171a6caeaaef825b.png"
+                                         href="9c644decda55575736f45f132b84472cff6d548b29f7e475171a6caeaaef825b.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">672ms</span></td>
+                </tr>
+            <tr class="test-SUCCESS">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>SUCCESS</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.35s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

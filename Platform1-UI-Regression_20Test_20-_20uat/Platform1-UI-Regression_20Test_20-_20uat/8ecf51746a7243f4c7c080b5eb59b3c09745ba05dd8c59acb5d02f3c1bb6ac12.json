@@ -1,0 +1,443 @@
+{
+  "name": "verifyMultipleAccountsBetweenFlow()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount]/[method:verifyMultipleAccountsBetweenFlow()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount",
+  "methodName": "verifyMultipleAccountsBetweenFlow",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: relationships with many(\u003e\u003d4) EJ accounts",
+      "duration": 6461,
+      "startTime": "2025-10-06T08:54:10.528384569-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\naccountsData.RLTSHP_ID AS RELID, accountsData.BR_NO,\ncount(distinct accountsData.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct accountsData.acct_ID) as ACCOUNTS_COUNT,\ncount(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then 1 end) as CASH_MARGIN_LOAN_ACC_COUNT,\nmin(accountsData.TAX_RPT_TIN_NO) as ssn1, max(accountsData.TAX_RPT_TIN_NO) as ssn2,\nmin(accountsData.acct_ID) as acct1, max(accountsData.acct_ID) as acct2,\nmax(accountsData.COUNT_CASH) as cash,\nmax(accountsData.COUNT_MARGIN) as margin,\nmax(accountsData.COUNT_LOAN) as loan,\nmin(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) as account1_cash_only,\nmax(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) as account2_cash_only,\nmin(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) as account1_cash_margin_loan,\nmax(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) as account2_cash_margin_loan\n\nfrom (\n        select\n        rlt.RLTSHP_ID AS RLTSHP_ID, sub_acc.BR_NO as BR_NO,\n        sub_acc.TAX_RPT_TIN_NO as TAX_RPT_TIN_NO,\n        sub_acc_svc.acct_ID as ACCT_ID,\n        account.acct_own_rule_id as acct_own_rule_id,\n        count(distinct sub_acc_type1.ACCT_ID) as COUNT_CASH,\n        count(distinct sub_acc_type2.ACCT_ID) as COUNT_MARGIN,\n        count(distinct sub_acc_type4.ACCT_ID) as COUNT_LOAN\n\n        from PROD.SUB_ACCOUNT_12512 as sub_acc\n        join PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\n        join PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\n        join PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\n        join PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type1 on (sub_acc.ACCT_ID \u003d sub_acc_type1.ACCT_ID and sub_acc_type1.ACCT_TY_CD \u003d 1) --cash\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type2 on (sub_acc.ACCT_ID \u003d sub_acc_type2.ACCT_ID and sub_acc_type2.ACCT_TY_CD \u003d 2) --margin\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type4 on (sub_acc.ACCT_ID \u003d sub_acc_type4.ACCT_ID and sub_acc_type4.ACCT_TY_CD \u003d 4) --loan\n\n        where\n        -- sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\n        sub_acc.ACCT_CLS_UT is NULL\n        and sub_acc.BR_NO in (34065)\n        and sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\n        and account.acct_own_rule_id in (309)\n        and account.dcdnt_retr_ind \u003d \u0027N\u0027\n        and rlt.RLTSHP_ID not in (82130780)\n         and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n         and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\n        and sub_acc.acct_id not in\n\n    (               select a.acct_id\n                    from\n                        PROD.ACCOUNT_12280 a\n                        left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                        inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                        inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                        inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                    where\n                        v.rst_rsn_cd is not null\n                        and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                        and a.acct_own_rule_id in (309)\n                        and sub_acc.BR_NO in (34065)\n                        and a.ACCT_CLS_DA is null\n                        and v.RST_START_DA\u003c\u00272025-10-06\u0027\n    )\n\n        group by\n            rlt.RLTSHP_ID, sub_acc.BR_NO,\n            sub_acc.TAX_RPT_TIN_NO,\n            sub_acc_svc.acct_ID,\n            account.acct_own_rule_id\n\n        order by sub_acc.BR_NO, rlt.RLTSHP_ID\n\n        fetch first 3000 rows only\n) as accountsData\ngroup by accountsData.RLTSHP_ID, accountsData.BR_NO\nhaving\ncount(distinct accountsData.ACCT_ID)\u003e\u003d4\nand count(distinct accountsData.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct accountsData.acct_own_rule_id) \u003d 1\nand max(accountsData.COUNT_CASH)\u003d1\nand max(accountsData.COUNT_MARGIN)\u003d1\nand max(accountsData.COUNT_LOAN)\u003d1\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null",
+          "isEvidence": false,
+          "id": "report-data-8e9602f9-69d8-4fbc-bb1a-9c465ac9d609"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d489442237           , SSN1\u003d480446467           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d103298348, CASH\u003d1, ACCT1\u003d2821535, RELID\u003d64699006, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d2821535, LOAN\u003d1, ACCOUNTS_COUNT\u003d4, SSN_COUNT\u003d4, BR_NO\u003d34065, CASH_MARGIN_LOAN_ACC_COUNT\u003d4, ACCOUNT2_CASH_MARGIN_LOAN\u003d103298348}",
+          "isEvidence": false,
+          "id": "report-data-d7c29d05-5168-497f-a538-0c410b0e5f72"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: relationships with many EJ accounts",
+      "duration": 5141,
+      "startTime": "2025-10-06T08:54:16.991169151-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\n    rlt.RLTSHP_ID AS RLTSHP_ID, sub_acc.BR_NO as BR_NO,\n    sub_acc.TAX_RPT_TIN_NO as TAX_RPT_TIN_NO,\n    sub_acc_svc.acct_ID as ACCT_ID,\n    account.acct_own_rule_id as acct_own_rule_id,\n    us_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME,\n    sub_acc.VNDR_ACCT_ID as VNDR_ACCT_ID,\n    count(distinct sub_acc_type1.ACCT_ID) as COUNT_CASH,\n    count(distinct sub_acc_type2.ACCT_ID) as COUNT_MARGIN,\n    count(distinct sub_acc_type4.ACCT_ID) as COUNT_LOAN\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type1 on (sub_acc.ACCT_ID \u003d sub_acc_type1.ACCT_ID and sub_acc_type1.ACCT_TY_CD \u003d 1) --cash\nleft outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type2 on (sub_acc.ACCT_ID \u003d sub_acc_type2.ACCT_ID and sub_acc_type2.ACCT_TY_CD \u003d 2) --margin\nleft outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type4 on (sub_acc.ACCT_ID \u003d sub_acc_type4.ACCT_ID and sub_acc_type4.ACCT_TY_CD \u003d 4) --loan\n\nwhere\n-- sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\nsub_acc.ACCT_CLS_UT is NULL\nand rlt.RLTSHP_ID \u003d 64699006\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.acct_own_rule_id in (309)\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\nand sub_acc.acct_id not in\n\n    (select a.acct_id\n        from\n            PROD.ACCOUNT_12280 a\n            left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n            inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n            inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n            inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n            join PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\n            join PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003da.ACCT_ID\n        where\n            v.rst_rsn_cd is not null\n            and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n            and a.acct_own_rule_id in (309)\n            and rlt.RLTSHP_ID \u003d 64699006\n            and a.ACCT_CLS_DA is null\n            and v.RST_START_DA\u003c\u00272025-10-06\u0027\n    )\n\ngroup by\n    rlt.RLTSHP_ID, sub_acc.BR_NO,\n    sub_acc.TAX_RPT_TIN_NO,\n    sub_acc_svc.acct_ID,\n    account.acct_own_rule_id,\n    us_sub_acc.EDJ_ACCT_PRFD_NA,\n    sub_acc.VNDR_ACCT_ID\n\n",
+          "isEvidence": false,
+          "id": "report-data-88ffd94b-62e0-48f1-bb92-f06a1e5cde0d"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, COUNT_CASH\u003d1, TAX_RPT_TIN_NO\u003d480446467           , VNDR_ACCT_ID\u003d40600429            , ACCT_ID\u003d103297672, COUNT_LOAN\u003d1, RLTSHP_ID\u003d64699006, BR_NO\u003d34065, ACCT_PREFERRED_NAME\u003dROSS, JOHN J                   , COUNT_MARGIN\u003d1}\n{ACCT_OWN_RULE_ID\u003d309, COUNT_CASH\u003d1, TAX_RPT_TIN_NO\u003d480818855           , VNDR_ACCT_ID\u003d40600754            , ACCT_ID\u003d2821535, COUNT_LOAN\u003d1, RLTSHP_ID\u003d64699006, BR_NO\u003d34065, ACCT_PREFERRED_NAME\u003dROSS, CHRISTINA D              , COUNT_MARGIN\u003d1}\n{ACCT_OWN_RULE_ID\u003d309, COUNT_CASH\u003d1, TAX_RPT_TIN_NO\u003d486952317           , VNDR_ACCT_ID\u003d40603856            , ACCT_ID\u003d2821556, COUNT_LOAN\u003d1, RLTSHP_ID\u003d64699006, BR_NO\u003d34065, ACCT_PREFERRED_NAME\u003dLACKEY, ELIZABETH H            , COUNT_MARGIN\u003d1}\n{ACCT_OWN_RULE_ID\u003d309, COUNT_CASH\u003d1, TAX_RPT_TIN_NO\u003d489442237           , VNDR_ACCT_ID\u003d40600428            , ACCT_ID\u003d103298348, COUNT_LOAN\u003d1, RLTSHP_ID\u003d64699006, BR_NO\u003d34065, ACCT_PREFERRED_NAME\u003dROSS, HARRIET L                , COUNT_MARGIN\u003d1}",
+          "isEvidence": false,
+          "id": "report-data-c838679e-5f17-4dcd-8c46-b89d87a05b32"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: P153089",
+      "duration": 5506,
+      "startTime": "2025-10-06T08:54:22.267911814-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "84fd2cc853a0c60e63d980341835ece2782a45abc2ec94fb6dcb0fe898e573c9.png",
+          "timeStamp": 1759758867774,
+          "screenshotName": "84fd2cc853a0c60e63d980341835ece2782a45abc2ec94fb6dcb0fe898e573c9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 4,
+          "description": "Launch WAM and authenticate",
+          "duration": 2597,
+          "startTime": "2025-10-06T08:54:24.692544198-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "0a871330a8556e59ddbdc2f7c09d448f59c23c15ed56a3596a1ef470ed3f5e38.png",
+              "timeStamp": 1759758867289,
+              "screenshotName": "0a871330a8556e59ddbdc2f7c09d448f59c23c15ed56a3596a1ef470ed3f5e38.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Opening the asset movement page for relationship id: 64699006",
+      "duration": 2158,
+      "startTime": "2025-10-06T08:54:27.776874625-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f8bc0939b8d941f095537c626d5f4313daf1892ba59bfb086d4e5a0b580587e3.png",
+          "timeStamp": 1759758869935,
+          "screenshotName": "f8bc0939b8d941f095537c626d5f4313daf1892ba59bfb086d4e5a0b580587e3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Given set amc_tfr_one_to_many",
+      "duration": 767,
+      "startTime": "2025-10-06T08:54:29.936288365-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "de65953d15527d29af41179f0159041d3c28b1bc63ad961dc2c900d210c2d63a.png",
+          "timeStamp": 1759758870704,
+          "screenshotName": "de65953d15527d29af41179f0159041d3c28b1bc63ad961dc2c900d210c2d63a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Given set amc_tfr_security_transfer_to_margin_non_purpose_loan",
+      "duration": 638,
+      "startTime": "2025-10-06T08:54:30.704736030-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ceaa907722b92dc05e419c5189e0beffb76cac190014f46e63aa6abafe7125d5.png",
+          "timeStamp": 1759758871343,
+          "screenshotName": "ceaa907722b92dc05e419c5189e0beffb76cac190014f46e63aa6abafe7125d5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8766,
+      "startTime": "2025-10-06T08:54:31.344237896-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "72a93f47f3ff36faa8f1d10b159799ce6b7ce4928b7f747bcaf449bd63f28ae7.png",
+          "timeStamp": 1759758880110,
+          "screenshotName": "72a93f47f3ff36faa8f1d10b159799ce6b7ce4928b7f747bcaf449bd63f28ae7.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Select searched account 40600429",
+      "duration": 4020,
+      "startTime": "2025-10-06T08:54:40.111404483-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "dea3b68e2094bf4eb821b2e02d13147860028dde22df51c641b16d67e91eb083.png",
+          "timeStamp": 1759758884132,
+          "screenshotName": "dea3b68e2094bf4eb821b2e02d13147860028dde22df51c641b16d67e91eb083.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 10,
+          "description": "Search for account 40600429",
+          "duration": 1733,
+          "startTime": "2025-10-06T08:54:41.843148669-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "6c9b554e852a84811593b1b5317b2fa2cf5e84a56c174623153781c1589a7ccd.png",
+              "timeStamp": 1759758883576,
+              "screenshotName": "6c9b554e852a84811593b1b5317b2fa2cf5e84a56c174623153781c1589a7ccd.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 11,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 233,
+              "startTime": "2025-10-06T08:54:43.334492403-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "6c9b554e852a84811593b1b5317b2fa2cf5e84a56c174623153781c1589a7ccd.png",
+                  "timeStamp": 1759758883568,
+                  "screenshotName": "6c9b554e852a84811593b1b5317b2fa2cf5e84a56c174623153781c1589a7ccd.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 207,
+          "startTime": "2025-10-06T08:54:43.576784378-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e9ad902bc45302185b795fd2faedf8234839ef59b7f9b6d779c8843d5f6889f2.png",
+              "timeStamp": 1759758883784,
+              "screenshotName": "e9ad902bc45302185b795fd2faedf8234839ef59b7f9b6d779c8843d5f6889f2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "description": "Select the First Available Owner",
+      "duration": 567,
+      "startTime": "2025-10-06T08:54:44.133478518-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f57476e4c1b4bae4589fe986d60f86989cc050e41bd89ea5b3ebca095acdb7bc.png",
+          "timeStamp": 1759758884700,
+          "screenshotName": "f57476e4c1b4bae4589fe986d60f86989cc050e41bd89ea5b3ebca095acdb7bc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 14,
+      "description": "Click continue button",
+      "duration": 450,
+      "startTime": "2025-10-06T08:54:44.701602795-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png",
+          "timeStamp": 1759758885151,
+          "screenshotName": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 15,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 435,
+          "startTime": "2025-10-06T08:54:44.710233120-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png",
+              "timeStamp": 1759758885145,
+              "screenshotName": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 16,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 426,
+              "startTime": "2025-10-06T08:54:44.713532404-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png",
+                  "timeStamp": 1759758885139,
+                  "screenshotName": "250474bccbac68f225b2a2074ac7d41c114d720a33c259604587339f9e846bdd.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "description": "Search for account 40600429",
+      "duration": 1595,
+      "startTime": "2025-10-06T08:54:45.152166122-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "deb8cf8ab7075bb6addd4d2dd48db7b75bc2313c88482bfa672d45dd7c03f516.png",
+          "timeStamp": 1759758886747,
+          "screenshotName": "deb8cf8ab7075bb6addd4d2dd48db7b75bc2313c88482bfa672d45dd7c03f516.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 18,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 220,
+          "startTime": "2025-10-06T08:54:46.520602136-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "deb8cf8ab7075bb6addd4d2dd48db7b75bc2313c88482bfa672d45dd7c03f516.png",
+              "timeStamp": 1759758886741,
+              "screenshotName": "deb8cf8ab7075bb6addd4d2dd48db7b75bc2313c88482bfa672d45dd7c03f516.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "description": "Verify if any account selected is false",
+      "duration": 206,
+      "startTime": "2025-10-06T08:54:46.748262675-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "206c922a31993ef7a216ebcfac767493cc68f22770e96f7b4b9b93eb9ec66c53.png",
+          "timeStamp": 1759758886954,
+          "screenshotName": "206c922a31993ef7a216ebcfac767493cc68f22770e96f7b4b9b93eb9ec66c53.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-ec6e008b-a557-4aca-856a-a893aa797cc1"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-f992efe6-daf2-44d8-8fab-4c21bc16491f"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount",
+    "storyName": "BetweenFlowVerifySameToAccount",
+    "displayName": "BetweenFlowVerifySameToAccount",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowVerifySameToAccount",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenFlowVerifySameToAccount",
+        "description": "BetweenFlowVerifySameToAccount"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Verify Same TO Account is not selectable",
+  "coreIssues": [
+    "ATMT-57715",
+    "ATMT-56754"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-4",
+      "type": "tag",
+      "displayName": "Priority-4"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "false",
+      "type": "amc_tfr_one_to_many",
+      "displayName": "false"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T08:54:10.462156841-05:00[America/Chicago]",
+  "endTime": "2025-10-06T08:54:46.961909563-05:00[America/Chicago]",
+  "duration": 6512,
+  "projectKey": "",
+  "sessionId": "4ec01d5427f9c6db4ac9088a34cf08f3",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-57715",
+    "ATMT-56754"
+  ],
+  "scenarioOutline": ""
+}

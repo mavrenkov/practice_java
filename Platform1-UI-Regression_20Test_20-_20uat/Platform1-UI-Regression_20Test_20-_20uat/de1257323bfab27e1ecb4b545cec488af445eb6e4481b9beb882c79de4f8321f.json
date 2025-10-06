@@ -1,0 +1,372 @@
+{
+  "name": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GD()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8]/[method:verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GD()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+  "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GD",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ownership ruleID\u003d309, for restriction\u003dBR_FATEST",
+      "duration": 6760,
+      "startTime": "2025-10-06T09:44:53.296165379-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9714c4bb6adcb16aead194eaab1cbeba7f8ae758e78a6b23edd64ca7994cf2f2.png",
+          "timeStamp": 1759761900056,
+          "screenshotName": "9714c4bb6adcb16aead194eaab1cbeba7f8ae758e78a6b23edd64ca7994cf2f2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d309, branch BR_FATEST, ACCT_SVC_TY_CD GD, ACCT_SVC_STAT_CD O",
+          "duration": 5563,
+          "startTime": "2025-10-06T09:44:53.301057431-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5dd2c890650e0686692984e815b1e9f9bd1c1dcf68d8830ea26efcf0db93c0d8.png",
+              "timeStamp": 1759761898864,
+              "screenshotName": "5dd2c890650e0686692984e815b1e9f9bd1c1dcf68d8830ea26efcf0db93c0d8.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d309\nand sub_acc.br_no   \u003d 9979\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027GD\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027O\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d309\n    and sub_acc.br_no   \u003d 9979\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+              "isEvidence": false,
+              "id": "report-data-43fccb0c-b4c4-42fa-baf6-2519cc990fc2"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d129854298, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d33199712, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d188453059, CUST_NO\u003d99765361, ACCT_PREFERRED_NAME\u003dABNER, GINGER                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145239283, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d103021185, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321323199, CUST_NO\u003d13024327, ACCT_PREFERRED_NAME\u003dCADEN, MITCHELL A              , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145155250, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d82584485, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d296223131, CUST_NO\u003d13021314, ACCT_PREFERRED_NAME\u003dJames, Robert                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145224372, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102972437, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321239658, CUST_NO\u003d13023287, ACCT_PREFERRED_NAME\u003dTEST, TESTYONE                 , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145152112, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102732881, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320643439, CUST_NO\u003d13021240, ACCT_PREFERRED_NAME\u003dMoneyguide, Rafeul             , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d129854264, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d63919155, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d230429069, CUST_NO\u003d99765318, ACCT_PREFERRED_NAME\u003dSETTLOR, TEST                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225587, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102977733, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321247934, CUST_NO\u003d13023468, ACCT_PREFERRED_NAME\u003dPlica adadfih, Lynn adadfic    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225603, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102977733, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321247934, CUST_NO\u003d13023477, ACCT_PREFERRED_NAME\u003dPlica adadfih, Lynn adadfic    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225606, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102977852, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321248146, CUST_NO\u003d13023484, ACCT_PREFERRED_NAME\u003dPlica adbbccg, Lynn adbbccf    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225633, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102977854, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321248148, CUST_NO\u003d13023485, ACCT_PREFERRED_NAME\u003dPlica adbbddf, Lynn adbbddc    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225634, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102977863, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321248167, CUST_NO\u003d13023487, ACCT_PREFERRED_NAME\u003dPlica adbcbbf, Lynn adbcbbg    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225702, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102978557, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321249110, CUST_NO\u003d13023491, ACCT_PREFERRED_NAME\u003dPlica agaddif, Lynn agaddic    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225703, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102978565, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321249145, CUST_NO\u003d13023492, ACCT_PREFERRED_NAME\u003dPlica agadfib, Lynn agadfie    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225704, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102978572, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321249153, CUST_NO\u003d13023493, ACCT_PREFERRED_NAME\u003dPlica agaebdi, Lynn agaebdh    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225893, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979473, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250429, CUST_NO\u003d13023520, ACCT_PREFERRED_NAME\u003dPlica ahaddfa, Lynn ahaddff    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226022, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979489, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250449, CUST_NO\u003d13023522, ACCT_PREFERRED_NAME\u003dPlica ahaedba, Lynn ahaedbh    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226024, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979493, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250453, CUST_NO\u003d13023524, ACCT_PREFERRED_NAME\u003dPlica ahaeegi, Lynn ahaeega    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226027, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979499, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250462, CUST_NO\u003d13023525, ACCT_PREFERRED_NAME\u003dPlica ahafadd, Lynn ahafade    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226048, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979501, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250464, CUST_NO\u003d13023526, ACCT_PREFERRED_NAME\u003dPlica ahafbaf, Lynn ahafbac    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226029, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979503, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250466, CUST_NO\u003d13023528, ACCT_PREFERRED_NAME\u003dPlica ahafcfc, Lynn ahafcfb    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145226035, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102979534, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321250602, CUST_NO\u003d13023531, ACCT_PREFERRED_NAME\u003dPlica ahaidcf, Lynn ahaidcd    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145225458, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102974045, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321242139, CUST_NO\u003d13023435, ACCT_PREFERRED_NAME\u003dPlica cgaiagd, Lynn cgaiagf    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d144569548, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d72426446, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d254844394, CUST_NO\u003d13020729, ACCT_PREFERRED_NAME\u003dSECPROC, CATINA                , ACCT_SVC_STAT_CD\u003dO }",
+              "isEvidence": false,
+              "id": "report-data-3299655f-2368-427d-9a61-b3cec29fdab6"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: FATEST",
+      "duration": 25820,
+      "startTime": "2025-10-06T09:45:00.080003640-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b9738cd0a5f34502d3d565d179b02a8124ca15afc6ac76fc44f5b60bec2eae8e.png",
+          "timeStamp": 1759761925900,
+          "screenshotName": "b9738cd0a5f34502d3d565d179b02a8124ca15afc6ac76fc44f5b60bec2eae8e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 4,
+          "description": "Launch WAM and authenticate",
+          "duration": 14633,
+          "startTime": "2025-10-06T09:45:05.534055271-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b9738cd0a5f34502d3d565d179b02a8124ca15afc6ac76fc44f5b60bec2eae8e.png",
+              "timeStamp": 1759761920167,
+              "screenshotName": "b9738cd0a5f34502d3d565d179b02a8124ca15afc6ac76fc44f5b60bec2eae8e.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Opening the asset movement page for relationship id: 102977863",
+      "duration": 82066,
+      "startTime": "2025-10-06T09:45:30.003271541-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0ebbff0cbb930b7a759172515bcf03c43f4f5eceb24d0678484d5723d4952fb9.png",
+          "timeStamp": 1759762012069,
+          "screenshotName": "0ebbff0cbb930b7a759172515bcf03c43f4f5eceb24d0678484d5723d4952fb9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 623,
+      "startTime": "2025-10-06T09:46:52.069816392-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2d60097cf7a2cff8f3be3056598af5bb582a16a0b7846df15ce7768e142c0c19.png",
+          "timeStamp": 1759762012693,
+          "screenshotName": "2d60097cf7a2cff8f3be3056598af5bb582a16a0b7846df15ce7768e142c0c19.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 371971,
+      "startTime": "2025-10-06T09:46:52.693607647-05:00[America/Chicago]",
+      "exception": {
+        "errorType": "org.openqa.selenium.NoSuchElementException",
+        "message": "Timed out after 2 seconds. Element not found\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+        "stackTrace": [
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+            "methodName": "scrollTo",
+            "fileName": "BasePageObject.java",
+            "lineNumber": 66
+          },
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.ChooseAssetMovementTypeCard",
+            "methodName": "chooseIntoAccountTransfer",
+            "fileName": "ChooseAssetMovementTypeCard.java",
+            "lineNumber": 35
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.ChooseAssetMovementTypeStep",
+            "methodName": "chooseTransferIntoAccounts",
+            "fileName": "ChooseAssetMovementTypeStep.java",
+            "lineNumber": 68
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+            "methodName": "runTestFlowForIntoCheckDepositForRestrictedAccountFrom",
+            "fileName": "PlatformFlowSteps.java",
+            "lineNumber": 146
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+            "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GD",
+            "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart8.java",
+            "lineNumber": 67
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Select Check Deposit option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:53:04.701872245-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Verify Account 13023487 is Restricted true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:53:04.724751409-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 0,
+      "startTime": "2025-10-06T09:53:04.739108603-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-972ed5dd-c967-4a7b-b39a-fb2c9b8d9898"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-cf284d94-c1d3-450a-9a3b-2f04372259f7"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "storyName": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "displayName": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositRestrictionsNewAccountServicePart8",
+        "description": "IntoCheckDepositRestrictionsNewAccountServicePart8"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Part 8 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  Restriction Code - CCT_SVC_STAT_CD \u003dO ACCT_SVC_TY_CD \u003d GD",
+  "coreIssues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "ATMT-23447",
+      "type": "tag",
+      "displayName": "ATMT-23447"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T09:44:53.292659225-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:53:06.570747271-05:00[America/Chicago]",
+  "duration": 5388,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchElementException",
+    "message": "Timed out after 2 seconds. Element not found\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+    "stackTrace": [
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+        "methodName": "scrollTo",
+        "fileName": "BasePageObject.java",
+        "lineNumber": 66
+      },
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.ChooseAssetMovementTypeCard",
+        "methodName": "chooseIntoAccountTransfer",
+        "fileName": "ChooseAssetMovementTypeCard.java",
+        "lineNumber": 35
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.ChooseAssetMovementTypeStep",
+        "methodName": "chooseTransferIntoAccounts",
+        "fileName": "ChooseAssetMovementTypeStep.java",
+        "lineNumber": 68
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+        "methodName": "runTestFlowForIntoCheckDepositForRestrictedAccountFrom",
+        "fileName": "PlatformFlowSteps.java",
+        "lineNumber": 146
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart8",
+        "methodName": "verifyRestrictedAccountsForExternalTransferForRestrictinonCode_SVCSTAT_O_SVCTV_GD",
+        "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart8.java",
+        "lineNumber": 67
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchElementException",
+  "testFailureMessage": "Timed out after 2 seconds. Element not found\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchElementException;Timed out after 2 seconds. Element not found\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown;BasePageObject.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "5011da96d8e685bbe9df2956cf57974c",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "scenarioOutline": ""
+}

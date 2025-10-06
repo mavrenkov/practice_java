@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Integrate New Account Service with Restrictions for ACH Transfers - WARN Restriction</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="63dfd09114e234d6a38005e30e2f49e9c42c85691689731e1139c487e850b644.html">Out of restrictions new service part2 test</a>
+        > Integrate new account service with restrictions for ACH transfers - WARN restriction
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 10:38</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Out Of Restrictions New Service Part2 Test </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">Priority-3b
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">DB-Test-Data
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="bda029d8e1840c329e3201c7c134abc8a46593a4274a5c31f599de2deee76c49.html">False
+                                              (amc-ach-sep-ira-cashout-transfers-enable)
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon fa-2x' title='SUCCESS'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="success-color">
+                                    Integrate New Account Service with Restrictions for ACH Transfers - WARN Restriction
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-23446">ATMT-23446</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-25307">ATMT-25307</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-33319">ATMT-33319</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-37829">ATMT-37829</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-39561">ATMT-39561</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Retrieve random data from DB2: restricted EJ account, restriction=WARN
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-bfe2d268-e060-4c6b-bd2b-96d62d046fb9"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-0">select<br>acct.ACCT_ID, acct.CUST_NO,<br>rlt.RLTSHP_ID AS RLTSHP_ID,<br>acct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,<br>v.rst_rsn_cd, v.RST_START_DA, sub_acc.br_no<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.ACCOUNT_12280 as acct on grp.ACCT_ID = acct.ACCT_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>join PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID=acct.ACCT_ID<br>join PROD.acct_rst_10214 v on v.account_no=acct.cust_no<br><br>where<br>acct.TAX_RPT_CTRY_CD='US'<br>and acct.LGCL_DEL_DA is null<br>and acct.ACCT_CLS_DA is null<br>and v.rst_rsn_cd = 'WARN'<br>and v.RST_START_DA&lt;'2025-10-06'<br>and sub_acc.br_no = '9979' and acct.ACCT_OWN_RULE_ID in (309)<br>FETCH FIRST 500 ROWS ONLY</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-e1d8f327-a83f-42a8-af35-c9e7f6a3e498"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-1">{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=109601530, RLTSHP_ID=33611168, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753174, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=109671243, RLTSHP_ID=39999398, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753205, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=109702724, RLTSHP_ID=40000302, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753263, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=109967110, RLTSHP_ID=39998378, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753374, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110332641, RLTSHP_ID=76715, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753546, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110335280, RLTSHP_ID=76715, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753551, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110346903, RLTSHP_ID=58343279, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753563, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110408184, RLTSHP_ID=58343262, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753611, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110408236, RLTSHP_ID=39999267, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753612, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110408241, RLTSHP_ID=58343298, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753613, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110456091, RLTSHP_ID=40000097, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753649, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110466058, RLTSHP_ID=39998986, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753665, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110466078, RLTSHP_ID=39999190, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753666, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110466101, RLTSHP_ID=824495, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753667, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110533493, RLTSHP_ID=39999514, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753689, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110586709, RLTSHP_ID=39999661, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753717, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=110733518, RLTSHP_ID=39999799, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753802, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=116051217, RLTSHP_ID=58343300, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753948, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=116132584, RLTSHP_ID=27, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754010, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=116381751, RLTSHP_ID=58343283, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754058, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=116402670, RLTSHP_ID=40000155, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754080, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=116515361, RLTSHP_ID=40546451, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754129, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=116731765, RLTSHP_ID=76715, RST_START_DA=2016-04-12, BR_NO=9979, CUST_NO=99754173, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117397634, RLTSHP_ID=40000084, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754337, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117417044, RLTSHP_ID=39998980, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754351, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117425471, RLTSHP_ID=930831, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754365, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117614717, RLTSHP_ID=39999210, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754390, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117760045, RLTSHP_ID=40000150, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754467, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117872927, RLTSHP_ID=39999241, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99753461, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117883233, RLTSHP_ID=60521341, RST_START_DA=2022-05-04, BR_NO=9979, CUST_NO=99754497, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117961089, RLTSHP_ID=39999206, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754542, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117961146, RLTSHP_ID=1251110, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754544, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117961486, RLTSHP_ID=39999466, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754549, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117970061, RLTSHP_ID=39999640, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754551, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117990949, RLTSHP_ID=39999383, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754560, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118026521, RLTSHP_ID=39999323, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754569, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118163863, RLTSHP_ID=67995, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754634, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175914, RLTSHP_ID=39999031, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754652, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175955, RLTSHP_ID=39999349, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754655, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175968, RLTSHP_ID=39999425, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754656, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175969, RLTSHP_ID=32216765, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754657, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175975, RLTSHP_ID=33912599, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754659, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118175983, RLTSHP_ID=39999025, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754662, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118179226, RLTSHP_ID=39999515, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754669, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118327510, RLTSHP_ID=40000333, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754703, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118327526, RLTSHP_ID=32523659, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754704, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332033, RLTSHP_ID=39998398, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754707, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332034, RLTSHP_ID=39999450, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754708, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332035, RLTSHP_ID=39999230, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754709, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332036, RLTSHP_ID=40000169, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754710, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332038, RLTSHP_ID=40546450, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754712, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332041, RLTSHP_ID=33287324, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754713, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332042, RLTSHP_ID=39999351, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754714, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332045, RLTSHP_ID=39999549, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754716, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332046, RLTSHP_ID=39999217, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754717, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332048, RLTSHP_ID=32460394, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754719, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118332049, RLTSHP_ID=39999155, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754720, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118427985, RLTSHP_ID=40000102, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754779, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118459371, RLTSHP_ID=40000177, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754789, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118631153, RLTSHP_ID=62326760, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754879, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118741803, RLTSHP_ID=39999562, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754952, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118743223, RLTSHP_ID=40000191, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754954, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118744769, RLTSHP_ID=39999020, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754956, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118803467, RLTSHP_ID=39999581, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754970, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118806613, RLTSHP_ID=39999476, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754974, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118840512, RLTSHP_ID=40000180, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99754979, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118890468, RLTSHP_ID=39999160, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755006, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118890530, RLTSHP_ID=40000198, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755011, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118890537, RLTSHP_ID=39999608, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755012, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=118960695, RLTSHP_ID=40000201, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755027, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093119, RLTSHP_ID=39999669, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755056, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093132, RLTSHP_ID=39999578, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755058, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093137, RLTSHP_ID=39999566, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755059, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093151, RLTSHP_ID=39999222, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755060, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093153, RLTSHP_ID=39999183, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755061, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119093184, RLTSHP_ID=39999181, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755064, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119135345, RLTSHP_ID=40000211, RST_START_DA=2016-04-12, BR_NO=9979, CUST_NO=99755105, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119154528, RLTSHP_ID=91053740, RST_START_DA=2021-11-29, BR_NO=9979, CUST_NO=99755195, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119294225, RLTSHP_ID=39999102, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755421, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119349765, RLTSHP_ID=40000274, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755541, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119585892, RLTSHP_ID=39999620, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99755872, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=119651336, RLTSHP_ID=39999140, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756032, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120075310, RLTSHP_ID=40000180, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756191, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120253168, RLTSHP_ID=930835, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756363, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120365553, RLTSHP_ID=40000378, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756559, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120369848, RLTSHP_ID=62326756, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756602, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120369851, RLTSHP_ID=62326754, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756619, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120394637, RLTSHP_ID=39999132, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756643, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120395141, RLTSHP_ID=39999570, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756706, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120431067, RLTSHP_ID=39999273, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756719, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120459558, RLTSHP_ID=41525001, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756751, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120459560, RLTSHP_ID=27208268, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756752, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120477428, RLTSHP_ID=40625424, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756762, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120509770, RLTSHP_ID=40734380, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99756872, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120566783, RLTSHP_ID=930814, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757051, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120721700, RLTSHP_ID=928652, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757216, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=120784461, RLTSHP_ID=41444211, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757256, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120882119, RLTSHP_ID=41761479, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757357, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=120896278, RLTSHP_ID=41795279, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757367, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121042620, RLTSHP_ID=40000126, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757491, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121048799, RLTSHP_ID=58343405, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757550, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121079421, RLTSHP_ID=42250457, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757580, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121224959, RLTSHP_ID=355988, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757741, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=121275728, RLTSHP_ID=42731772, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99757779, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121380635, RLTSHP_ID=43011464, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758084, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121527932, RLTSHP_ID=40504302, RST_START_DA=2019-06-05, BR_NO=9979, CUST_NO=99758197, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121898068, RLTSHP_ID=44561630, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758877, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121955195, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758937, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121966374, RLTSHP_ID=41813602, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758942, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121966503, RLTSHP_ID=41813602, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758943, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=121967718, RLTSHP_ID=41813602, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99758944, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=122169350, RLTSHP_ID=45353517, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99759252, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=IB, RST_RSN_CD=WARN, ACCT_ID=122394403, RLTSHP_ID=45178276, RST_START_DA=2022-07-12, BR_NO=9979, CUST_NO=99759424, ACCT_SVC_STAT_CD=null}<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=122899796, RLTSHP_ID=47033269, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99759812, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=123042054, RLTSHP_ID=47353404, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99759946, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=123080778, RLTSHP_ID=47033268, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99759995, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=123137007, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760020, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=123487074, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760235, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124037366, RLTSHP_ID=49889371, RST_START_DA=2013-11-17, BR_NO=9979, CUST_NO=99760534, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124051680, RLTSHP_ID=49918174, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760540, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=124055066, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760550, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124218311, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760651, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124218313, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760653, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124223009, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760656, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124278737, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760695, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124385343, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760807, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124385419, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760810, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124385469, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760812, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124385470, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760813, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124408005, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760828, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124425781, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99760836, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=124809565, RLTSHP_ID=51717753, RST_START_DA=2014-04-12, BR_NO=9979, CUST_NO=99761075, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=125649322, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761493, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=125831002, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761584, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126261003, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761857, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126376246, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761920, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126376271, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761924, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126376320, RLTSHP_ID=44737192, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761921, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126464579, RLTSHP_ID=55234767, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99761959, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=126611001, RLTSHP_ID=52748878, RST_START_DA=2015-01-11, BR_NO=9979, CUST_NO=99762151, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=127497522, RLTSHP_ID=81770355, RST_START_DA=2021-04-14, BR_NO=9979, CUST_NO=99762689, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=128738948, RLTSHP_ID=1097373, RST_START_DA=2022-07-18, BR_NO=9979, CUST_NO=99763927, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=128967050, RLTSHP_ID=27205625, RST_START_DA=2020-01-08, BR_NO=9979, CUST_NO=99764130, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=129241249, RLTSHP_ID=27204330, RST_START_DA=2020-08-29, BR_NO=9979, CUST_NO=99764359, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=129417441, RLTSHP_ID=39999225, RST_START_DA=2020-07-27, BR_NO=9979, CUST_NO=99764541, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=129854326, RLTSHP_ID=39999225, RST_START_DA=2020-07-27, BR_NO=9979, CUST_NO=99765367, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=131711917, RLTSHP_ID=41850444, RST_START_DA=2020-10-12, BR_NO=9979, CUST_NO=99766692, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=131729405, RLTSHP_ID=41850444, RST_START_DA=2020-10-12, BR_NO=9979, CUST_NO=99766713, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=131788129, RLTSHP_ID=100585195, RST_START_DA=2022-06-08, BR_NO=9979, CUST_NO=99766775, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=132060978, RLTSHP_ID=41850444, RST_START_DA=2020-10-12, BR_NO=9979, CUST_NO=99767229, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=132668117, RLTSHP_ID=66333380, RST_START_DA=2020-10-20, BR_NO=9979, CUST_NO=99767728, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=133276215, RLTSHP_ID=41850444, RST_START_DA=2020-10-12, BR_NO=9979, CUST_NO=99768081, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=137014547, RLTSHP_ID=83081121, RST_START_DA=2019-08-13, BR_NO=9979, CUST_NO=99770512, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=137015893, RLTSHP_ID=87323114, RST_START_DA=2020-01-08, BR_NO=9979, CUST_NO=99770518, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=137251886, RLTSHP_ID=84002313, RST_START_DA=2019-12-04, BR_NO=9979, CUST_NO=99770635, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GD, RST_RSN_CD=WARN, ACCT_ID=138622234, RLTSHP_ID=88504496, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771450, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=138782883, RLTSHP_ID=98815658, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771654, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=139451999, RLTSHP_ID=88504496, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771888, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=139452141, RLTSHP_ID=88504496, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771889, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GD, RST_RSN_CD=WARN, ACCT_ID=139467387, RLTSHP_ID=88504496, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771907, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=139543026, RLTSHP_ID=88504496, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99771922, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=140848252, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99772258, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=140876786, RLTSHP_ID=98815662, RST_START_DA=2021-10-16, BR_NO=9979, CUST_NO=99772260, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=141852833, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772462, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=142037843, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772533, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142054788, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772536, ACCT_SVC_STAT_CD=B }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142083606, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772541, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142102876, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772558, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=FF, RST_RSN_CD=WARN, ACCT_ID=142126241, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772581, ACCT_SVC_STAT_CD=null}<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=IB, RST_RSN_CD=WARN, ACCT_ID=142126437, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772582, ACCT_SVC_STAT_CD=null}<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142127476, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772583, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=142265275, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772619, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=WARN, ACCT_ID=142282267, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772625, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=WARN, ACCT_ID=142316835, RLTSHP_ID=87378623, RST_START_DA=2022-02-23, BR_NO=9979, CUST_NO=99772632, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=142379199, RLTSHP_ID=98969813, RST_START_DA=2021-12-22, BR_NO=9979, CUST_NO=99772652, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=142479456, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99772666, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=143612240, RLTSHP_ID=100869353, RST_START_DA=2022-07-14, BR_NO=9979, CUST_NO=99773415, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=143927576, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99773793, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=143927581, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99773796, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=144069216, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774199, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=144103429, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774232, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=144264685, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774360, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=144273703, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774363, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=144278378, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774365, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=144333563, RLTSHP_ID=102048540, RST_START_DA=2022-11-18, BR_NO=9979, CUST_NO=99774421, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=144333570, RLTSHP_ID=102057796, RST_START_DA=2023-01-18, BR_NO=9979, CUST_NO=99774425, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=144348178, RLTSHP_ID=90778083, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=99774455, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=117417050, RLTSHP_ID=79144886, RST_START_DA=2021-05-06, BR_NO=9979, CUST_NO=99754354, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=133361072, RLTSHP_ID=72703411, RST_START_DA=2022-10-10, BR_NO=9979, CUST_NO=99768155, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=134001057, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99768457, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=134981820, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99768945, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=135422560, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99769408, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=136184340, RLTSHP_ID=80253707, RST_START_DA=2020-08-31, BR_NO=9979, CUST_NO=99769918, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=136203925, RLTSHP_ID=80307981, RST_START_DA=2019-03-04, BR_NO=9979, CUST_NO=99769940, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=137236309, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99770626, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=137553573, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99770969, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=137553716, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99770970, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=WARN, ACCT_ID=137558986, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99770973, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=WARN, ACCT_ID=137558987, RLTSHP_ID=76973531, RST_START_DA=2021-12-29, BR_NO=9979, CUST_NO=99770974, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=138642043, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99771499, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=138791342, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99771660, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=138982670, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99771706, ACCT_SVC_STAT_CD=E }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=WARN, ACCT_ID=141811817, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772457, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=141811995, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772458, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=141995385, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772509, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142760415, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772820, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142760542, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772821, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142762327, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772824, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=UM, RST_RSN_CD=WARN, ACCT_ID=142762467, RLTSHP_ID=69074542, RST_START_DA=2022-07-04, BR_NO=9979, CUST_NO=99772825, ACCT_SVC_STAT_CD=A }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=0">
+                                    <img src="59c1f5a20bfd97ce4e4c3e6f66bea368659f13d3665a1140b8b333558228db51.png"
+                                         href="59c1f5a20bfd97ce4e4c3e6f66bea368659f13d3665a1140b8b333558228db51.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 299ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Get p-number for BOA of branch 9979, relationship 62326754, account 120369851, for Platform flow
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=1">
+                                    <img src="59c1f5a20bfd97ce4e4c3e6f66bea368659f13d3665a1140b8b333558228db51.png"
+                                         href="59c1f5a20bfd97ce4e4c3e6f66bea368659f13d3665a1140b8b333558228db51.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">007ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection2 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: p058929
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=4">
+                                    <img src="a69495bd540124bb4c052a4bca645ce223a8602aa8c2df55869d4e08846279a6.png"
+                                         href="a69495bd540124bb4c052a4bca645ce223a8602aa8c2df55869d4e08846279a6.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 320ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="2-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=3">
+                                    <img src="a69495bd540124bb4c052a4bca645ce223a8602aa8c2df55869d4e08846279a6.png"
+                                         href="a69495bd540124bb4c052a4bca645ce223a8602aa8c2df55869d4e08846279a6.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 803ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection3')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection3 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection3')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Integrate New Account Service with Restrictions for ACH Transfers
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-f6660498-85b3-41d9-addc-a6d211fd547b"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-5-0">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-5-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-5-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-5-0">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-097065ff-279a-4744-b946-d9ea491575c6"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-5-1">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-5-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-5-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-5-1">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=5">
+                                    <img src="dd14d089281ebaf51aa5a9b58ae98ca0130d496a366b8efb1d4ebaf5c5b03d87.png"
+                                         href="dd14d089281ebaf51aa5a9b58ae98ca0130d496a366b8efb1d4ebaf5c5b03d87.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=11">
+                                    <img src="a78ea941674679d72ff1bd6d3166fd6efac5e411784587a959b51a71291a4302.png"
+                                         href="a78ea941674679d72ff1bd6d3166fd6efac5e411784587a959b51a71291a4302.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 438ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection3" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Opening the asset movement page for relationship id: 62326754
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=6">
+                                    <img src="dd14d089281ebaf51aa5a9b58ae98ca0130d496a366b8efb1d4ebaf5c5b03d87.png"
+                                         href="dd14d089281ebaf51aa5a9b58ae98ca0130d496a366b8efb1d4ebaf5c5b03d87.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">913ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-1"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Given set amc_use_new_accounts_service true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=7">
+                                    <img src="9f00bb36ff7906e946a4e415c7211d47caec1d238fcdc3e4a4ba61d2bbcdc516.png"
+                                         href="9f00bb36ff7906e946a4e415c7211d47caec1d238fcdc3e4a4ba61d2bbcdc516.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">755ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-2"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Choose transfer 'Out of' accounts
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=8">
+                                    <img src="3f41a1383aa5b21d679be61b0c7349ce2ca9b8b35a15326df3d93a8b9c5bd46f.png"
+                                         href="3f41a1383aa5b21d679be61b0c7349ce2ca9b8b35a15326df3d93a8b9c5bd46f.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">929ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-3"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Verify Account 99756619 is Restricted true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=9">
+                                    <img src="599ab7c91fdcb5d2934138dd56e90e194eb881a6ba7d9add26dcd88262f7a878.png"
+                                         href="599ab7c91fdcb5d2934138dd56e90e194eb881a6ba7d9add26dcd88262f7a878.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">204ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="3-4"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Verify Tool Tip Message for restricted Account
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="691b48e89132d228b2b1d7b7e2386999405d147e4946e2e858352e3cb3d9af76_screenshots.html#screenshots?screenshot=10">
+                                    <img src="a78ea941674679d72ff1bd6d3166fd6efac5e411784587a959b51a71291a4302.png"
+                                         href="a78ea941674679d72ff1bd6d3166fd6efac5e411784587a959b51a71291a4302.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">2s 626ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+            <tr class="test-SUCCESS">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>SUCCESS</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.17s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

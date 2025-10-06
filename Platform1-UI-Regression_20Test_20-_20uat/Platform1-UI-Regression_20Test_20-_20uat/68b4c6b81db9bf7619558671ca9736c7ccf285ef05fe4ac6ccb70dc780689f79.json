@@ -1,0 +1,223 @@
+{
+  "name": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForLEVYRestriction()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test]/[method:verifyRestrictedAccountsForOutOfFlowNewServiceFlowForLEVYRestriction()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+  "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForLEVYRestriction",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: restricted EJ account, restriction\u003dLEVY",
+      "duration": 5426,
+      "startTime": "2025-10-06T10:36:38.451474086-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\nv.rst_rsn_cd, v.RST_START_DA, sub_acc.br_no\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\nand v.rst_rsn_cd \u003d \u0027LEVY\u0027\nand v.RST_START_DA\u003c\u00272025-10-06\u0027\nand sub_acc.br_no \u003d \u00279979\u0027 and acct.ACCT_OWN_RULE_ID in (309)\nFETCH FIRST 500 ROWS ONLY",
+          "isEvidence": false,
+          "id": "report-data-c6c06813-6fa1-44fc-83a1-ff04fe290a1d"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dSE, RST_RSN_CD\u003dLEVY, ACCT_ID\u003d117710929, RLTSHP_ID\u003d39999266, RST_START_DA\u003d2024-04-19, BR_NO\u003d9979, CUST_NO\u003d99754416, ACCT_SVC_STAT_CD\u003dA }",
+          "isEvidence": false,
+          "id": "report-data-2b9f0cc4-2032-4ffa-8c4f-de6e40426f15"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Get p-number for BOA of branch 9979, relationship 39999266, account 117710929, for Platform flow",
+      "duration": 14,
+      "startTime": "2025-10-06T10:36:43.877929322-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 27,
+      "startTime": "2025-10-06T10:36:43.893100507-05:00[America/Chicago]",
+      "exception": {
+        "errorType": "org.openqa.selenium.NoSuchSessionException",
+        "message": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+            "methodName": "authenticateSession",
+            "fileName": "AuthenticationSteps.java",
+            "lineNumber": 60
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+            "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForLEVYRestriction",
+            "fileName": "OutOfRestrictionsNewServicePart1Test.java",
+            "lineNumber": 141
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Integrate New Account Service with Restrictions for ACH Transfers",
+      "duration": 0,
+      "startTime": "2025-10-06T10:36:43.923450273-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-a009ceb0-74d8-44f2-a5dc-4792d57afb7e"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-f3e25966-b0c2-402c-a0fa-0c5c6e7277a2"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "storyName": "OutOfRestrictionsNewServicePart1Test",
+    "displayName": "OutOfRestrictionsNewServicePart1Test",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "path": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "OutOfRestrictionsNewServicePart1Test",
+        "description": "OutOfRestrictionsNewServicePart1Test"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Integrate New Account Service with Restrictions for ACH Transfers - LEVY Restriction",
+  "coreIssues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829"
+  ],
+  "tags": [
+    {
+      "name": "Priority-3b",
+      "type": "tag",
+      "displayName": "Priority-3b"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "false",
+      "type": "amc-ach-sep-ira-cashout-transfers-enable",
+      "displayName": "false"
+    }
+  ],
+  "startTime": "2025-10-06T10:36:38.447687012-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:36:43.925077960-05:00[America/Chicago]",
+  "duration": 5413,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchSessionException",
+    "message": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.AuthenticationSteps",
+        "methodName": "authenticateSession",
+        "fileName": "AuthenticationSteps.java",
+        "lineNumber": 60
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfRestrictionsNewServicePart1Test",
+        "methodName": "verifyRestrictedAccountsForOutOfFlowNewServiceFlowForLEVYRestriction",
+        "fileName": "OutOfRestrictionsNewServicePart1Test.java",
+        "lineNumber": 141
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchSessionException",
+  "testFailureMessage": "Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchSessionException;Unable to find session with ID: 0c20994803fef514b6bf8e6f3c11e40b\nBuild info: version: \u00274.20.0\u0027, revision: \u0027866c76ca80\u0027\nSystem info: os.name: \u0027Windows Server 2016\u0027, os.arch: \u0027amd64\u0027, os.version: \u002710.0\u0027, java.version: \u002717.0.8\u0027\nDriver info: driver.version: unknown\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [0c20994803fef514b6bf8e6f3c11e40b, get {url\u003dhttp://amc-gateway.apps.edwardjones.com/actuator/health}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:53484}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 0c20994803fef514b6bf8e6f3c11e40b;AuthenticationSteps.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "0c20994803fef514b6bf8e6f3c11e40b",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-33319",
+    "ATMT-39561",
+    "ATMT-37829"
+  ],
+  "scenarioOutline": ""
+}

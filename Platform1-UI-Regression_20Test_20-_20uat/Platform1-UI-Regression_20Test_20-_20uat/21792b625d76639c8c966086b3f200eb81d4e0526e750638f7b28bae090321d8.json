@@ -1,0 +1,409 @@
+{
+  "name": "verifyTransferOutCheckDepositFor307WithInheritedAccountIsNotVisible()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks]/[method:verifyTransferOutCheckDepositFor307WithInheritedAccountIsNotVisible()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks",
+  "methodName": "verifyTransferOutCheckDepositFor307WithInheritedAccountIsNotVisible",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: inherited EJ account, branch BR_FATEST, ownership ruleID\u003d307",
+      "duration": 5332,
+      "startTime": "2025-10-06T11:04:00.635970312-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "40a259741f59bb5f3bf144f77d0ecdcab6b329f67800467ba1550996be3fe93e.png",
+          "timeStamp": 1759766645968,
+          "screenshotName": "40a259741f59bb5f3bf144f77d0ecdcab6b329f67800467ba1550996be3fe93e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d307\nand sub_acc.br_no   \u003d 9979\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027Y\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\n--and (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\n--and (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n     and acct_svc.ACCT_SVC_TY_CD \u003d \u0027GD\u0027\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d307\n    and sub_acc.br_no   \u003d 9979\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+          "isEvidence": false,
+          "id": "report-data-884c67b5-04dd-41bf-a643-3fa6e7ff0d9e"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d307, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145233233, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102891849, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321142681, CUST_NO\u003d99776094, ACCT_PREFERRED_NAME\u003dPAMARTHI, LAKSHMI              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d307, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d145285409, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102891849, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321142681, CUST_NO\u003d99776451, ACCT_PREFERRED_NAME\u003dPAMARTHI, LAKSHMI              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d307, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d133286721, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d39998408, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d158992919, CUST_NO\u003d99783311, ACCT_PREFERRED_NAME\u003dVICKIE DEAR TR                 , ACCT_SVC_STAT_CD\u003dO }",
+          "isEvidence": false,
+          "id": "report-data-0e4f9325-c4ab-4475-8085-c3dc47777dd5"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Get p-number for BOA of branch 9979, relationship 102891849, account 145233233, for Platform flow",
+      "duration": 8,
+      "startTime": "2025-10-06T11:04:05.968955502-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "40a259741f59bb5f3bf144f77d0ecdcab6b329f67800467ba1550996be3fe93e.png",
+          "timeStamp": 1759766645977,
+          "screenshotName": "40a259741f59bb5f3bf144f77d0ecdcab6b329f67800467ba1550996be3fe93e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2122,
+      "startTime": "2025-10-06T11:04:05.977348955-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3fc3d44cfbd96d67b14514d73c0978d9b29ab4b30c5315a35fe063a24ef35cac.png",
+          "timeStamp": 1759766648099,
+          "screenshotName": "3fc3d44cfbd96d67b14514d73c0978d9b29ab4b30c5315a35fe063a24ef35cac.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 4,
+          "description": "Launch WAM and authenticate",
+          "duration": 1615,
+          "startTime": "2025-10-06T11:04:06.064258304-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "3fc3d44cfbd96d67b14514d73c0978d9b29ab4b30c5315a35fe063a24ef35cac.png",
+              "timeStamp": 1759766647679,
+              "screenshotName": "3fc3d44cfbd96d67b14514d73c0978d9b29ab4b30c5315a35fe063a24ef35cac.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Opening the asset movement page for relationship id: 102891849",
+      "duration": 884,
+      "startTime": "2025-10-06T11:04:08.099707603-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "372ca492d95be1ca1e2da71068036e938c95c3fd9b60af060c06b12bc5c4d0f6.png",
+          "timeStamp": 1759766648984,
+          "screenshotName": "372ca492d95be1ca1e2da71068036e938c95c3fd9b60af060c06b12bc5c4d0f6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Given set amc_outgoing_check toggle true",
+      "duration": 535,
+      "startTime": "2025-10-06T11:04:08.984509330-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3b7e274543c1a25bf004856bf69111b238ce47462b60275c9269c01534e1a2d1.png",
+          "timeStamp": 1759766649520,
+          "screenshotName": "3b7e274543c1a25bf004856bf69111b238ce47462b60275c9269c01534e1a2d1.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Given set amc_outgoing_check_trad_roth toggle true",
+      "duration": 650,
+      "startTime": "2025-10-06T11:04:09.520483866-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e9fa2ab2f75667e212c893fad53b162bb063c87b2c5ee59030446c25d636bb1c.png",
+          "timeStamp": 1759766650170,
+          "screenshotName": "e9fa2ab2f75667e212c893fad53b162bb063c87b2c5ee59030446c25d636bb1c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Choose transfer \u0027Out of\u0027 accounts",
+      "duration": 3315,
+      "startTime": "2025-10-06T11:04:10.171024396-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4d49085ef907079e5ac636199fc475e925417735dd25aa637a1b88677b060960.png",
+          "timeStamp": 1759766653486,
+          "screenshotName": "4d49085ef907079e5ac636199fc475e925417735dd25aa637a1b88677b060960.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Select searched account 99776094",
+      "duration": 2137,
+      "startTime": "2025-10-06T11:04:13.486571034-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "25070fec4d55aa45d65009a361e00d6b8ce788ae9ce753f72ac0e94b44b8f040.png",
+          "timeStamp": 1759766655624,
+          "screenshotName": "25070fec4d55aa45d65009a361e00d6b8ce788ae9ce753f72ac0e94b44b8f040.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 10,
+          "description": "Search for account 99776094",
+          "duration": 1613,
+          "startTime": "2025-10-06T11:04:13.557371394-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c4fab54418dbb28cb04366cebc1a62f80fd7999a22c4b167bbbda034ab9cadf8.png",
+              "timeStamp": 1759766655171,
+              "screenshotName": "c4fab54418dbb28cb04366cebc1a62f80fd7999a22c4b167bbbda034ab9cadf8.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 11,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 209,
+              "startTime": "2025-10-06T11:04:14.955236999-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "c4fab54418dbb28cb04366cebc1a62f80fd7999a22c4b167bbbda034ab9cadf8.png",
+                  "timeStamp": 1759766655164,
+                  "screenshotName": "c4fab54418dbb28cb04366cebc1a62f80fd7999a22c4b167bbbda034ab9cadf8.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 12,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 196,
+          "startTime": "2025-10-06T11:04:15.171366566-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "90fe56ede269aec775d759ef6c1d8f6a4c6a5e3764a2f85f625a9ceed32d52d2.png",
+              "timeStamp": 1759766655368,
+              "screenshotName": "90fe56ede269aec775d759ef6c1d8f6a4c6a5e3764a2f85f625a9ceed32d52d2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "description": "Select Owner if Next button in not enabled",
+      "duration": 172,
+      "startTime": "2025-10-06T11:04:15.624879056-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "389d973d0354d4f4568f0d009e228c62b7bd469e6b70b38e34b35fc47c91e706.png",
+          "timeStamp": 1759766655796,
+          "screenshotName": "389d973d0354d4f4568f0d009e228c62b7bd469e6b70b38e34b35fc47c91e706.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 14,
+      "description": "Click continue button",
+      "duration": 388,
+      "startTime": "2025-10-06T11:04:15.797358441-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png",
+          "timeStamp": 1759766656186,
+          "screenshotName": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 15,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 375,
+          "startTime": "2025-10-06T11:04:15.804473442-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png",
+              "timeStamp": 1759766656179,
+              "screenshotName": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 16,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 364,
+              "startTime": "2025-10-06T11:04:15.807002634-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png",
+                  "timeStamp": 1759766656171,
+                  "screenshotName": "21318ce23c0521bfffd5765b1312b74550eaeaa22d4455eb4c8eed8a0d504c6f.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "description": "Verify Outgoing Checks Tile",
+      "duration": 661,
+      "startTime": "2025-10-06T11:04:16.186592842-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f2ff206728cf0245460834d5ec6540a56e28d8236a5d8c1ccf4271a015ff1644.png",
+          "timeStamp": 1759766656847,
+          "screenshotName": "f2ff206728cf0245460834d5ec6540a56e28d8236a5d8c1ccf4271a015ff1644.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-b0408574-9744-438f-9d3e-bc891e4a957c"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-e2a99ff6-dda5-4590-9cf9-eff8a16bc473"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks",
+    "storyName": "OutOfEdwardJonesChecks",
+    "displayName": "OutOfEdwardJonesChecks",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks",
+    "path": "com.edwardjones.platform_ui_tests.testcases.OutOfEdwardJonesChecks",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "OutOfEdwardJonesChecks",
+        "description": "OutOfEdwardJonesChecks"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "TC26 - Verify Outgoing checks is unavailable when toggle - amc-outgoing-check is - ON and from account is 307 with Inherited",
+  "coreIssues": [
+    "ATMT-64020",
+    "ATMT-71433"
+  ],
+  "tags": [
+    {
+      "name": "OutgoingChecks",
+      "type": "tag",
+      "displayName": "OutgoingChecks"
+    },
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T11:04:00.632696255-05:00[America/Chicago]",
+  "endTime": "2025-10-06T11:04:16.848992479-05:00[America/Chicago]",
+  "duration": 5214,
+  "projectKey": "",
+  "sessionId": "0be5df73565c666643e6a3f18e3ab243",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-64020",
+    "ATMT-71433"
+  ],
+  "scenarioOutline": ""
+}

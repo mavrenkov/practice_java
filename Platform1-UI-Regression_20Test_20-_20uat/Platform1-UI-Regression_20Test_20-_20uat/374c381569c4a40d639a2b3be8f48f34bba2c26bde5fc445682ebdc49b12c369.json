@@ -1,0 +1,838 @@
+{
+  "name": "testNonPurposeLoanWithActiveLoan1to1()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount]/[method:testNonPurposeLoanWithActiveLoan1to1()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount",
+  "methodName": "testNonPurposeLoanWithActiveLoan1to1",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve data for EJ account with balance by condition",
+      "duration": 11370,
+      "startTime": "2025-10-06T08:54:11.055871732-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: relationships for Branch",
+          "duration": 6382,
+          "startTime": "2025-10-06T08:54:11.070546760-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002704\u0027\n and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 4454\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002704\u0027\n                    and sub_acc.BR_NO \u003d 4454\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 7\nfetch first 500 rows only;",
+              "isEvidence": false,
+              "id": "report-data-1491ecdf-c5de-463d-8607-b9c1b5c5d8bb"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{VNDR_ACCT_ID\u003d44503604            , ACCT_ID\u003d101346194, RLTSHP_ID\u003d306083, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90811589            , ACCT_ID\u003d107141450, RLTSHP_ID\u003d485109, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d46811188            , ACCT_ID\u003d107503176, RLTSHP_ID\u003d594845, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d46814698            , ACCT_ID\u003d121936827, RLTSHP_ID\u003d594845, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90809320            , ACCT_ID\u003d616563, RLTSHP_ID\u003d676013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d40910326            , ACCT_ID\u003d1154030, RLTSHP_ID\u003d37045484, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505812            , ACCT_ID\u003d2823872, RLTSHP_ID\u003d39584141, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513383            , ACCT_ID\u003d118272988, RLTSHP_ID\u003d39584141, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d25301474            , ACCT_ID\u003d1101569, RLTSHP_ID\u003d41997917, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90816643            , ACCT_ID\u003d121188760, RLTSHP_ID\u003d42519256, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513454            , ACCT_ID\u003d118536888, RLTSHP_ID\u003d44899031, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508668            , ACCT_ID\u003d2553715, RLTSHP_ID\u003d44899100, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508850            , ACCT_ID\u003d101541524, RLTSHP_ID\u003d44899116, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514878            , ACCT_ID\u003d122208281, RLTSHP_ID\u003d44899205, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44515635            , ACCT_ID\u003d124622965, RLTSHP_ID\u003d44899205, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512502            , ACCT_ID\u003d110648502, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512503            , ACCT_ID\u003d110648555, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507764            , ACCT_ID\u003d3018730, RLTSHP_ID\u003d44899315, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507763            , ACCT_ID\u003d3018775, RLTSHP_ID\u003d44899324, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501684            , ACCT_ID\u003d758844, RLTSHP_ID\u003d44899350, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513421            , ACCT_ID\u003d118421659, RLTSHP_ID\u003d44899465, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510887            , ACCT_ID\u003d106711798, RLTSHP_ID\u003d44899499, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506977            , ACCT_ID\u003d384812, RLTSHP_ID\u003d44899527, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44520152            , ACCT_ID\u003d138441982, RLTSHP_ID\u003d44899581, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503790            , ACCT_ID\u003d2128603, RLTSHP_ID\u003d44899651, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514356            , ACCT_ID\u003d120498837, RLTSHP_ID\u003d44899654, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501052            , ACCT_ID\u003d346761, RLTSHP_ID\u003d44899683, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506854            , ACCT_ID\u003d3318856, RLTSHP_ID\u003d44899691, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517344            , ACCT_ID\u003d129797427, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517345            , ACCT_ID\u003d129797594, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500371            , ACCT_ID\u003d238333, RLTSHP_ID\u003d44899711, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44519466            , ACCT_ID\u003d136360799, RLTSHP_ID\u003d44899731, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508565            , ACCT_ID\u003d1590585, RLTSHP_ID\u003d44899734, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512810            , ACCT_ID\u003d116376273, RLTSHP_ID\u003d44899853, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500628            , ACCT_ID\u003d25622, RLTSHP_ID\u003d44899859, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511672            , ACCT_ID\u003d108618821, RLTSHP_ID\u003d44899904, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44515040            , ACCT_ID\u003d122755894, RLTSHP_ID\u003d44899904, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503720            , ACCT_ID\u003d103375756, RLTSHP_ID\u003d44900072, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503721            , ACCT_ID\u003d103375857, RLTSHP_ID\u003d44900072, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505106            , ACCT_ID\u003d103375912, RLTSHP_ID\u003d44900380, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506142            , ACCT_ID\u003d2454798, RLTSHP_ID\u003d44900465, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511267            , ACCT_ID\u003d107618084, RLTSHP_ID\u003d44900653, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507246            , ACCT_ID\u003d781865, RLTSHP_ID\u003d44900655, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510586            , ACCT_ID\u003d101585958, RLTSHP_ID\u003d44900806, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508246            , ACCT_ID\u003d683431, RLTSHP_ID\u003d44900828, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501509            , ACCT_ID\u003d103375643, RLTSHP_ID\u003d44900938, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512243            , ACCT_ID\u003d110050221, RLTSHP_ID\u003d44901021, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510206            , ACCT_ID\u003d100059632, RLTSHP_ID\u003d44901081, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511196            , ACCT_ID\u003d107445314, RLTSHP_ID\u003d44901087, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504725            , ACCT_ID\u003d1613740, RLTSHP_ID\u003d44901168, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507270            , ACCT_ID\u003d1600857, RLTSHP_ID\u003d44901265, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508389            , ACCT_ID\u003d3322107, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517303            , ACCT_ID\u003d129692613, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510090            , ACCT_ID\u003d3427763, RLTSHP_ID\u003d44901358, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506138            , ACCT_ID\u003d2207066, RLTSHP_ID\u003d44901405, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44514925            , ACCT_ID\u003d122382995, RLTSHP_ID\u003d44901454, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511275            , ACCT_ID\u003d107642619, RLTSHP_ID\u003d44901470, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44502830            , ACCT_ID\u003d3745079, RLTSHP_ID\u003d44901471, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510113            , ACCT_ID\u003d3524931, RLTSHP_ID\u003d44901575, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504143            , ACCT_ID\u003d103376387, RLTSHP_ID\u003d44901735, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508896            , ACCT_ID\u003d689053, RLTSHP_ID\u003d44901774, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508376            , ACCT_ID\u003d694384, RLTSHP_ID\u003d44901776, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d66909359            , ACCT_ID\u003d2743380, RLTSHP_ID\u003d44901791, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500166            , ACCT_ID\u003d103376318, RLTSHP_ID\u003d44901829, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d43503778            , ACCT_ID\u003d427700, RLTSHP_ID\u003d44901891, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505260            , ACCT_ID\u003d1943896, RLTSHP_ID\u003d44901915, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505261            , ACCT_ID\u003d1943891, RLTSHP_ID\u003d44901915, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503715            , ACCT_ID\u003d872029, RLTSHP_ID\u003d44902008, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503129            , ACCT_ID\u003d103376193, RLTSHP_ID\u003d44902015, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44502991            , ACCT_ID\u003d103376199, RLTSHP_ID\u003d44902240, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44504269            , ACCT_ID\u003d693586, RLTSHP_ID\u003d44902240, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510716            , ACCT_ID\u003d105469896, RLTSHP_ID\u003d44902241, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513112            , ACCT_ID\u003d117524146, RLTSHP_ID\u003d44902319, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44505491            , ACCT_ID\u003d2139043, RLTSHP_ID\u003d44902534, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508352            , ACCT_ID\u003d2139050, RLTSHP_ID\u003d44902534, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72712415            , ACCT_ID\u003d124052042, RLTSHP_ID\u003d47531430, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72712416            , ACCT_ID\u003d124052332, RLTSHP_ID\u003d47531430, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d15724464            , ACCT_ID\u003d137398257, RLTSHP_ID\u003d50605656, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44516215            , ACCT_ID\u003d126591124, RLTSHP_ID\u003d55581966, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90807830            , ACCT_ID\u003d620135, RLTSHP_ID\u003d55669533, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72118627            , ACCT_ID\u003d127635917, RLTSHP_ID\u003d56807569, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24215867            , ACCT_ID\u003d136069895, RLTSHP_ID\u003d62461554, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518166            , ACCT_ID\u003d132533326, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518167            , ACCT_ID\u003d132533446, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518276            , ACCT_ID\u003d132828904, RLTSHP_ID\u003d71341013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518431            , ACCT_ID\u003d133299088, RLTSHP_ID\u003d72647193, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d87611284            , ACCT_ID\u003d120631738, RLTSHP_ID\u003d73138342, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517255            , ACCT_ID\u003d129521865, RLTSHP_ID\u003d74124460, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503605            , ACCT_ID\u003d1838525, RLTSHP_ID\u003d76216978, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518908            , ACCT_ID\u003d134875033, RLTSHP_ID\u003d76266131, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90823420            , ACCT_ID\u003d136334385, RLTSHP_ID\u003d78683703, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512932            , ACCT_ID\u003d116797377, RLTSHP_ID\u003d79585309, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24215963            , ACCT_ID\u003d136330913, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d24216141            , ACCT_ID\u003d136799428, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d77819508            , ACCT_ID\u003d129862475, RLTSHP_ID\u003d89296545, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}",
+              "isEvidence": false,
+              "id": "report-data-c69f6de9-44bd-44c9-b239-6f008532f82b"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d78683703, eJAccountId\u003d136334385, eJAccountCustomerNumber\u003d90823420, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c8a0d013-12f6-4fb2-8920-bbfc6f1683e9"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 3,
+          "description": "Get /accounts/accountId/balances for account 136334385 as user P033267",
+          "duration": 3468,
+          "startTime": "2025-10-06T08:54:17.810894395-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d136334385, totalAccountAmount\u003d464790.98, totalCashValue\u003d1388.53, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-86ac32ab-75a1-4147-addc-efd17599847d"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d78683703, eJAccountId\u003d136334385, eJAccountCustomerNumber\u003d90823420, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-3f580f12-8fb4-4712-a19e-779c05b747ec"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d136334385, totalAccountAmount\u003d464790.98, totalCashValue\u003d1388.53, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-8e080f88-2b19-4695-92fd-560ef3db606f"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d136334385, totalAccountAmount\u003d464790.98, totalCashValue\u003d1388.53, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-3e9bb50f-0c95-4361-91de-3b9c847fbec6"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44901915, eJAccountId\u003d1943896, eJAccountCustomerNumber\u003d44505260, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-92f55809-66dc-43fc-b744-b3fa14203630"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 4,
+              "description": "Authenticate the Session as P033267",
+              "duration": 2316,
+              "startTime": "2025-10-06T08:54:17.821944760-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d136334385}]",
+                  "isEvidence": false,
+                  "id": "report-data-5f6b3b7d-e575-4930-b7c9-9d1221a1f4fa"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 5,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/136334385/balances",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.226796505-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/136334385/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL5FF2162F4ADA6E467C96C71AC7827BE3696D3847609137793527E473CF165740627DEF13C36F0FDED2CE911B462AD28CFAC26D95C1A3E77A05AD25CA76EC0751\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:21 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 136334385,\n    \"totalAccountAmount\": 464790.98,\n    \"totalCashValue\": 1388.53,\n    \"availableCashAmount\": 0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 6,
+              "description": "Log the response time",
+              "duration": 9,
+              "startTime": "2025-10-06T08:54:21.240818689-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "266",
+                  "isEvidence": false,
+                  "id": "report-data-6ad46a41-1342-4970-94e7-75d40d9d72b3"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":136334385,\"totalAccountAmount\":464790.98,\"totalCashValue\":1388.53,\"availableCashAmount\":0}",
+                  "isEvidence": false,
+                  "id": "report-data-e067228f-2566-4b7b-84e7-97d5e455b4da"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "description": "Get /accounts/accountId/balances for account 1943896 as user P033267",
+          "duration": 296,
+          "startTime": "2025-10-06T08:54:21.690599121-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d1943896}]",
+              "isEvidence": false,
+              "id": "report-data-5d2e129d-02d9-477b-99af-911ce6f026dc"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d1943896, totalAccountAmount\u003d1059112.11, totalCashValue\u003d1799031691.33, availableCashAmount\u003d799031691.33, marginLoanAmount\u003d-91069.43, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-b024281d-514d-4686-8e55-7a82ca0d0bfd"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44901915, eJAccountId\u003d1943896, eJAccountCustomerNumber\u003d44505260, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-f19527da-b096-46f5-9fa0-22996957f53a"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d1943896, totalAccountAmount\u003d1059112.11, totalCashValue\u003d1799031691.33, availableCashAmount\u003d799031691.33, marginLoanAmount\u003d-91069.43, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-59ce6f2b-c07b-47e6-8aa0-1b40a3307edb"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d1943896, totalAccountAmount\u003d1059112.11, totalCashValue\u003d1799031691.33, availableCashAmount\u003d799031691.33, marginLoanAmount\u003d-91069.43, nonPurposeLoanAmount\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-e4fdfff2-3ea5-4134-84f8-94a8043b2395"
+            },
+            {
+              "title": "DB random data",
+              "contents": "EjAccountTestData(relShipId\u003d44902241, eJAccountId\u003d105469896, eJAccountCustomerNumber\u003d44510716, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-a78129f2-97d0-4042-8773-8b847b5c0392"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 8,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/1943896/balances",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.960092892-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/1943896/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL5FF2162F4ADA6E467C96C71AC7827BE3696D3847609137793527E473CF165740627DEF13C36F0FDED2CE911B462AD28CFAC26D95C1A3E77A05AD25CA76EC0751\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:21 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 1943896,\n    \"totalAccountAmount\": 1059112.11,\n    \"totalCashValue\": 1799031691.33,\n    \"availableCashAmount\": 799031691.33,\n    \"marginLoanAmount\": -91069.43\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 9,
+              "description": "Log the response time",
+              "duration": 8,
+              "startTime": "2025-10-06T08:54:21.970602772-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "255",
+                  "isEvidence": false,
+                  "id": "report-data-1725ef5e-2f20-450b-b645-c31c826f350e"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":1943896,\"totalAccountAmount\":1059112.11,\"totalCashValue\":1799031691.33,\"availableCashAmount\":799031691.33,\"marginLoanAmount\":-91069.43}",
+                  "isEvidence": false,
+                  "id": "report-data-30b597f1-75fe-49ae-92bc-9f50ba492c22"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "description": "Get /accounts/accountId/balances for account 105469896 as user P033267",
+          "duration": 327,
+          "startTime": "2025-10-06T08:54:22.091175431-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/{accountId}/balances \n PathParameters: Optional[{accountId\u003d105469896}]",
+              "isEvidence": false,
+              "id": "report-data-9a7ef3f8-741d-47b2-9031-9174edda4090"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-0633f6a3-b003-41b4-a962-afb040e2ab68"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "EjAccountTestData(relShipId\u003d44902241, eJAccountId\u003d105469896, eJAccountCustomerNumber\u003d44510716, branch\u003d4454, eJAccountPreferredName\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-38757b08-d678-40fa-816a-ccc2c0444b96"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-83262139-78ef-42a0-80c4-db74abdfa3b4"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountBalance(accountId\u003d105469896, totalAccountAmount\u003d1292011.36, totalCashValue\u003d91278.82, availableCashAmount\u003d91278.82, marginLoanAmount\u003d-40404.71, nonPurposeLoanAmount\u003d-25000.0)",
+              "isEvidence": false,
+              "id": "report-data-f117ecda-2626-4858-9b58-e3657adae24b"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 11,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/105469896/balances",
+              "duration": 6,
+              "startTime": "2025-10-06T08:54:22.396178089-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/accounts/105469896/balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL5FF2162F4ADA6E467C96C71AC7827BE3696D3847609137793527E473CF165740627DEF13C36F0FDED2CE911B462AD28CFAC26D95C1A3E77A05AD25CA76EC0751\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 13:54:22 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"accountId\": 105469896,\n    \"totalAccountAmount\": 1292011.36,\n    \"totalCashValue\": 91278.82,\n    \"availableCashAmount\": 91278.82,\n    \"marginLoanAmount\": -40404.71,\n    \"nonPurposeLoanAmount\": -25000.0\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 12,
+              "description": "Log the response time",
+              "duration": 7,
+              "startTime": "2025-10-06T08:54:22.404127492-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "294",
+                  "isEvidence": false,
+                  "id": "report-data-ad4c2400-efa9-4e5b-b9fa-b6e5ac1ae853"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"accountId\":105469896,\"totalAccountAmount\":1292011.36,\"totalCashValue\":91278.82,\"availableCashAmount\":91278.82,\"marginLoanAmount\":-40404.71,\"nonPurposeLoanAmount\":-25000.0}",
+                  "isEvidence": false,
+                  "id": "report-data-d132cfa8-f6f6-4a64-9e24-3501757a03e8"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 5154,
+      "startTime": "2025-10-06T08:54:22.427134051-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7bc12d8599e433a00c009d258335a858e27199275b0384756655537545027a64.png",
+          "timeStamp": 1759758867582,
+          "screenshotName": "7bc12d8599e433a00c009d258335a858e27199275b0384756655537545027a64.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 14,
+          "description": "Launch WAM and authenticate",
+          "duration": 2157,
+          "startTime": "2025-10-06T08:54:24.926501861-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4d4e8aac97af16dd1fd62f0d1d29993aadfc9b2ea492055968730e62ece6c562.png",
+              "timeStamp": 1759758867083,
+              "screenshotName": "4d4e8aac97af16dd1fd62f0d1d29993aadfc9b2ea492055968730e62ece6c562.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "description": "Opening the asset movement page for relationship id: 44902241",
+      "duration": 2217,
+      "startTime": "2025-10-06T08:54:27.582751006-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b979e1e05044eb5d45347341d9fefb8cb80590edeb0790c6ff0a3479c552ecb9.png",
+          "timeStamp": 1759758869800,
+          "screenshotName": "b979e1e05044eb5d45347341d9fefb8cb80590edeb0790c6ff0a3479c552ecb9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 16,
+      "description": "Given set amc_tfr_one_to_many",
+      "duration": 802,
+      "startTime": "2025-10-06T08:54:29.801137123-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png",
+          "timeStamp": 1759758870603,
+          "screenshotName": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 17,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 589,
+      "startTime": "2025-10-06T08:54:30.604055737-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png",
+          "timeStamp": 1759758871193,
+          "screenshotName": "8e5cbfb46270e835dba6d15cdb3d79bb79979f54a926fcfcbbfde52d8dd9dbbf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 18,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8825,
+      "startTime": "2025-10-06T08:54:31.193740731-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "17bb93a076699b13066a95d8a201030b60cd14dbd279727eb480bd65ef941082.png",
+          "timeStamp": 1759758880019,
+          "screenshotName": "17bb93a076699b13066a95d8a201030b60cd14dbd279727eb480bd65ef941082.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 19,
+      "description": "Select searched account 44510716",
+      "duration": 2735,
+      "startTime": "2025-10-06T08:54:40.020083879-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e8011a5f1f11fe24d146db007e9fa0946e34e3833a000a56dff4ffe93d1bbafb.png",
+          "timeStamp": 1759758882755,
+          "screenshotName": "e8011a5f1f11fe24d146db007e9fa0946e34e3833a000a56dff4ffe93d1bbafb.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 20,
+          "description": "Search for account 44510716",
+          "duration": 1649,
+          "startTime": "2025-10-06T08:54:40.612514529-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "cc69be319e0d9003f2a170fd110f649a05855ea48e285f7d6d32264a19f5c926.png",
+              "timeStamp": 1759758882262,
+              "screenshotName": "cc69be319e0d9003f2a170fd110f649a05855ea48e285f7d6d32264a19f5c926.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 21,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 219,
+              "startTime": "2025-10-06T08:54:42.036581087-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "cc69be319e0d9003f2a170fd110f649a05855ea48e285f7d6d32264a19f5c926.png",
+                  "timeStamp": 1759758882255,
+                  "screenshotName": "cc69be319e0d9003f2a170fd110f649a05855ea48e285f7d6d32264a19f5c926.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 22,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 195,
+          "startTime": "2025-10-06T08:54:42.262773727-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "66728632964a006dfe13f0e65d9ff8d1f28b9a770f55833385f86ffafb383a7d.png",
+              "timeStamp": 1759758882457,
+              "screenshotName": "66728632964a006dfe13f0e65d9ff8d1f28b9a770f55833385f86ffafb383a7d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "description": "Verify Cash Account Type Selection is selected true",
+      "duration": 336,
+      "startTime": "2025-10-06T08:54:42.755850830-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "be36d95d0c56931fd30184fdcf00c3180b0f21680047cea6d654fc62923057e7.png",
+          "timeStamp": 1759758883092,
+          "screenshotName": "be36d95d0c56931fd30184fdcf00c3180b0f21680047cea6d654fc62923057e7.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 24,
+      "description": "Select sub account NONLOAN",
+      "duration": 425,
+      "startTime": "2025-10-06T08:54:43.093000415-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0043c6b5d609acabdb9084a0c402e4dd09a39e0c5fca4d5745c5df55a459fc7f.png",
+          "timeStamp": 1759758883518,
+          "screenshotName": "0043c6b5d609acabdb9084a0c402e4dd09a39e0c5fca4d5745c5df55a459fc7f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 25,
+      "description": "Select the First Available Owner, and subsequent users until continue is enabled",
+      "duration": 233,
+      "startTime": "2025-10-06T08:54:43.518906910-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "fc6b50d548fab4d1b3642b5e63500211829997d1c9c1390e993826701a3ea52f.png",
+          "timeStamp": 1759758883752,
+          "screenshotName": "fc6b50d548fab4d1b3642b5e63500211829997d1c9c1390e993826701a3ea52f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 26,
+      "description": "Click \u0027Next\u0027 - go to Next Card",
+      "duration": 413,
+      "startTime": "2025-10-06T08:54:43.756243673-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "38e984acdd3e622ad76224319084a73a31cd4441de7367a3517e70cf7bf73474.png",
+          "timeStamp": 1759758884169,
+          "screenshotName": "38e984acdd3e622ad76224319084a73a31cd4441de7367a3517e70cf7bf73474.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 27,
+          "description": "Click \u0027Next\u0027.",
+          "duration": 405,
+          "startTime": "2025-10-06T08:54:43.758171291-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "38e984acdd3e622ad76224319084a73a31cd4441de7367a3517e70cf7bf73474.png",
+              "timeStamp": 1759758884163,
+              "screenshotName": "38e984acdd3e622ad76224319084a73a31cd4441de7367a3517e70cf7bf73474.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "description": "Select searched account 44510716",
+      "duration": 2240,
+      "startTime": "2025-10-06T08:54:44.170132338-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6e69ac307695c1d124b2a62e57e4e3ba423c6c1d05d63d264c9e484ce1f37022.png",
+          "timeStamp": 1759758886411,
+          "screenshotName": "6e69ac307695c1d124b2a62e57e4e3ba423c6c1d05d63d264c9e484ce1f37022.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 29,
+          "description": "Search for account 44510716",
+          "duration": 1665,
+          "startTime": "2025-10-06T08:54:44.252167308-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "27f53dddbd2874be210f7a5d7514cbb48f5d373ea5a1013ca632260a9e9e9b03.png",
+              "timeStamp": 1759758885917,
+              "screenshotName": "27f53dddbd2874be210f7a5d7514cbb48f5d373ea5a1013ca632260a9e9e9b03.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 30,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 238,
+              "startTime": "2025-10-06T08:54:45.672805511-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "27f53dddbd2874be210f7a5d7514cbb48f5d373ea5a1013ca632260a9e9e9b03.png",
+                  "timeStamp": 1759758885910,
+                  "screenshotName": "27f53dddbd2874be210f7a5d7514cbb48f5d373ea5a1013ca632260a9e9e9b03.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 31,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 217,
+          "startTime": "2025-10-06T08:54:45.917685392-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "f7eeece35e2fa3ffdd08af60017f9a325e48457b35e2acc6ec1de27325a122dd.png",
+              "timeStamp": 1759758886134,
+              "screenshotName": "f7eeece35e2fa3ffdd08af60017f9a325e48457b35e2acc6ec1de27325a122dd.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "description": "Verify Margin Account Type disabled is true",
+      "duration": 264,
+      "startTime": "2025-10-06T08:54:46.411601498-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8324e36703507d23f54c1e62046c828e14cb17f15e1b6b3bcc249ca3130517f5.png",
+          "timeStamp": 1759758886676,
+          "screenshotName": "8324e36703507d23f54c1e62046c828e14cb17f15e1b6b3bcc249ca3130517f5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 33,
+      "description": "Verify Non-Purpose Loan Account Type disabled is true",
+      "duration": 277,
+      "startTime": "2025-10-06T08:54:46.676803495-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "eeeef60c81f93644be63b2aeac332988f28004aa297de497f095187f642c8d8d.png",
+          "timeStamp": 1759758886954,
+          "screenshotName": "eeeef60c81f93644be63b2aeac332988f28004aa297de497f095187f642c8d8d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 34,
+      "description": "Verify in-line warning Message",
+      "duration": 2158,
+      "startTime": "2025-10-06T08:54:46.954796482-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0adf30f75995697022110b0a87af77afc32c5299e0c2d50b5b0415c5146d2764.png",
+          "timeStamp": 1759758889113,
+          "screenshotName": "0adf30f75995697022110b0a87af77afc32c5299e0c2d50b5b0415c5146d2764.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 35,
+      "description": "Verify the Tool Tip Message for MARGIN Sub Account MARGIN_SUB_ACCOUNT_DESTINATION_RESTRICTION",
+      "duration": 457,
+      "startTime": "2025-10-06T08:54:49.113762494-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "dab69430df4b737f2d130d88f119d77afd92e1a33ba467c8afb4970b93595f6d.png",
+          "timeStamp": 1759758889571,
+          "screenshotName": "dab69430df4b737f2d130d88f119d77afd92e1a33ba467c8afb4970b93595f6d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 36,
+      "description": "Verify the Tool Tip Message for 44510716 NONLOAN Sub Account is present false",
+      "duration": 2204,
+      "startTime": "2025-10-06T08:54:49.571697194-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f492116143f03ece8985cb2323ca41d0efa736ac523df852bdade993f3909b22.png",
+          "timeStamp": 1759758891776,
+          "screenshotName": "f492116143f03ece8985cb2323ca41d0efa736ac523df852bdade993f3909b22.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-3acf4680-2b26-4571-8a1a-ae2f3253c0c2"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-0a57c7b4-c837-4a5a-9463-f2bf1caf5c63"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount",
+    "storyName": "A2AVerifyOutstandingLoanMessageForSubAccount",
+    "displayName": "A2AVerifyOutstandingLoanMessageForSubAccount",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount",
+    "path": "com.edwardjones.platform_ui_tests.testcases.A2AVerifyOutstandingLoanMessageForSubAccount",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "A2AVerifyOutstandingLoanMessageForSubAccount",
+        "description": "A2AVerifyOutstandingLoanMessageForSubAccount"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Verify TO sub Account when FROM Account is Non Purpose Loan sub-account WITH active loan, 1 to 1 flow",
+  "coreIssues": [
+    "ATMT-53632",
+    "ATMT-81616"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Priority-3b",
+      "type": "tag",
+      "displayName": "Priority-3b"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "false",
+      "type": "amc_tfr_one_to_many",
+      "displayName": "false"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T08:54:10.981974071-05:00[America/Chicago]",
+  "endTime": "2025-10-06T08:54:51.783535164-05:00[America/Chicago]",
+  "duration": 6454,
+  "projectKey": "",
+  "sessionId": "eb8d46064349edfc94c5e951ca4e0755",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-53632",
+    "ATMT-81616"
+  ],
+  "scenarioOutline": ""
+}

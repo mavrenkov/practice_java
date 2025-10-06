@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Part 7 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  Restriction Code - RISK</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="91daa8bbfdd7c025b8dcda88b9ea962b904b10a0dd65f29f4df32e9e5decc85e.html">Into check deposit restrictions new account service part7</a>
+        > Part 7 - integrate new account service with restrictions for check deposits, add inherited IRA rule in checks transaction rules -  restriction code - RISK
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 10:08</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Into Check Deposit Restrictions New Account Service Part7 </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6511a1b38a72d29af49be5be6f3f4e87d043526f597fff115ec3e6fcf7085095.html">Platform1-New-Accounts-Service
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="50691dc86cb4b2804f4ba739f47089b3edc1f0bda4b3a58f28026278ba8dc49d.html">Priority-2a
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="a4a136b5aa8b518e0fa1cce2b35ddd438d6787f7138cab13dfd31e17795f2158.html">Checks Deposit
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="c5f42c748d154a9995f5d107aae97ad86b4ee481869034a88c411152abfd0d4e.html">ATMT-23447
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">DB-Test-Data
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">New-Old-Ui
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon fa-2x' title='ERROR'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="error-color">
+                                    Part 7 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  Restriction Code - RISK
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-17617">ATMT-17617</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-17619">ATMT-17619</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-19205">ATMT-19205</a>, <a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-23447">ATMT-23447</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Retrieve random data from DB2: restricted EJ account, restriction=RISK
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-1c0081e0-7316-4f6f-8afd-07e064b5a8a9"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-0">select<br>acct.ACCT_ID, acct.CUST_NO,<br>rlt.RLTSHP_ID AS RLTSHP_ID,<br>acct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,<br>v.rst_rsn_cd, v.RST_START_DA, sub_acc.br_no<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.ACCOUNT_12280 as acct on grp.ACCT_ID = acct.ACCT_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=acct.ACCT_ID<br>join PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID=acct.ACCT_ID<br>join PROD.acct_rst_10214 v on v.account_no=acct.cust_no<br><br>where<br>acct.TAX_RPT_CTRY_CD='US'<br>and acct.LGCL_DEL_DA is null<br>and acct.ACCT_CLS_DA is null<br>and v.rst_rsn_cd = 'RISK'<br>and v.RST_START_DA&lt;'2025-10-06'<br>and sub_acc.br_no = '9979' and acct.ACCT_OWN_RULE_ID in (309)<br>FETCH FIRST 500 ROWS ONLY</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-af7f1be5-0025-435d-9b1f-e2bc7c691274"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-1-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-1-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-1-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-1-1">{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=140236353, RLTSHP_ID=89906515, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99772133, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=105694252, RLTSHP_ID=101020213, RST_START_DA=2022-11-02, BR_NO=9979, CUST_NO=99752511, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=109732038, RLTSHP_ID=40000073, RST_START_DA=2022-01-28, BR_NO=9979, CUST_NO=99753196, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=110582415, RLTSHP_ID=571441, RST_START_DA=2022-03-02, BR_NO=9979, CUST_NO=99753716, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=110632665, RLTSHP_ID=571441, RST_START_DA=2022-03-02, BR_NO=9979, CUST_NO=99753734, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=117293412, RLTSHP_ID=92346561, RST_START_DA=2021-08-27, BR_NO=9979, CUST_NO=99754306, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=117721586, RLTSHP_ID=40000104, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99754419, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=119297662, RLTSHP_ID=44830638, RST_START_DA=2021-06-30, BR_NO=9979, CUST_NO=99755451, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=119297663, RLTSHP_ID=1251116, RST_START_DA=2021-06-30, BR_NO=9979, CUST_NO=99755452, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=120896278, RLTSHP_ID=41795279, RST_START_DA=2022-12-05, BR_NO=9979, CUST_NO=99757367, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=120897659, RLTSHP_ID=41795279, RST_START_DA=2022-12-05, BR_NO=9979, CUST_NO=99757380, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=123588606, RLTSHP_ID=73981995, RST_START_DA=2016-01-29, BR_NO=9979, CUST_NO=99760305, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=131729405, RLTSHP_ID=41850444, RST_START_DA=2025-01-09, BR_NO=9979, CUST_NO=99766713, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=132004583, RLTSHP_ID=68453330, RST_START_DA=2017-05-02, BR_NO=9979, CUST_NO=99767130, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=133276215, RLTSHP_ID=41850444, RST_START_DA=2025-01-09, BR_NO=9979, CUST_NO=99768081, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=135685280, RLTSHP_ID=87374470, RST_START_DA=2021-06-10, BR_NO=9979, CUST_NO=99769604, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=137580742, RLTSHP_ID=84932058, RST_START_DA=2019-12-02, BR_NO=9979, CUST_NO=13016604, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=137701379, RLTSHP_ID=82398279, RST_START_DA=2022-04-28, BR_NO=9979, CUST_NO=99770997, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=RISK, ACCT_ID=139009523, RLTSHP_ID=92362383, RST_START_DA=2022-08-17, BR_NO=9979, CUST_NO=13017463, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=141122883, RLTSHP_ID=91135308, RST_START_DA=2022-08-23, BR_NO=9979, CUST_NO=99772285, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=FF, RST_RSN_CD=RISK, ACCT_ID=141123494, RLTSHP_ID=91135308, RST_START_DA=2022-08-23, BR_NO=9979, CUST_NO=99772286, ACCT_SVC_STAT_CD=null}<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=141951516, RLTSHP_ID=93431802, RST_START_DA=2021-10-19, BR_NO=9979, CUST_NO=99772482, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=141966525, RLTSHP_ID=93448749, RST_START_DA=2021-10-20, BR_NO=9979, CUST_NO=99772489, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=141970875, RLTSHP_ID=93454877, RST_START_DA=2021-10-22, BR_NO=9979, CUST_NO=99772491, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142015968, RLTSHP_ID=93845819, RST_START_DA=2021-10-28, BR_NO=9979, CUST_NO=99772521, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142086720, RLTSHP_ID=99488111, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772549, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142086848, RLTSHP_ID=96570118, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772548, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142106530, RLTSHP_ID=96583831, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772563, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142107380, RLTSHP_ID=96582560, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772569, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GD, RST_RSN_CD=RISK, ACCT_ID=142108684, RLTSHP_ID=96583751, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772570, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142126111, RLTSHP_ID=96611854, RST_START_DA=2021-11-11, BR_NO=9979, CUST_NO=99772580, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142269066, RLTSHP_ID=98743004, RST_START_DA=2025-09-03, BR_NO=9979, CUST_NO=99772621, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142379199, RLTSHP_ID=98969813, RST_START_DA=2021-12-20, BR_NO=9979, CUST_NO=99772652, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142528561, RLTSHP_ID=99183615, RST_START_DA=2022-01-24, BR_NO=9979, CUST_NO=99772682, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142528563, RLTSHP_ID=99205617, RST_START_DA=2022-01-24, BR_NO=9979, CUST_NO=99772685, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142629952, RLTSHP_ID=99141944, RST_START_DA=2022-01-27, BR_NO=9979, CUST_NO=99772750, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142755559, RLTSHP_ID=99618678, RST_START_DA=2022-02-25, BR_NO=9979, CUST_NO=99772818, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142791675, RLTSHP_ID=99579109, RST_START_DA=2022-02-22, BR_NO=9979, CUST_NO=99772832, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142824089, RLTSHP_ID=99618678, RST_START_DA=2022-02-25, BR_NO=9979, CUST_NO=99772836, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=143214163, RLTSHP_ID=100200997, RST_START_DA=2022-04-27, BR_NO=9979, CUST_NO=99772999, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=143234930, RLTSHP_ID=100235960, RST_START_DA=2022-04-25, BR_NO=9979, CUST_NO=99773075, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=143252197, RLTSHP_ID=100258154, RST_START_DA=2022-04-27, BR_NO=9979, CUST_NO=99773116, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=RISK, ACCT_ID=143278939, RLTSHP_ID=100286905, RST_START_DA=2022-05-03, BR_NO=9979, CUST_NO=99773129, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=143315443, RLTSHP_ID=100011008, RST_START_DA=2022-05-09, BR_NO=9979, CUST_NO=99773135, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=143631606, RLTSHP_ID=87427017, RST_START_DA=2022-07-08, BR_NO=9979, CUST_NO=99773435, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=FF, RST_RSN_CD=RISK, ACCT_ID=143698374, RLTSHP_ID=100936369, RST_START_DA=2022-11-08, BR_NO=9979, CUST_NO=99773525, ACCT_SVC_STAT_CD=null}<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144337225, RLTSHP_ID=102057790, RST_START_DA=2022-11-18, BR_NO=9979, CUST_NO=99774434, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144439435, RLTSHP_ID=100587262, RST_START_DA=2022-12-27, BR_NO=9979, CUST_NO=99774649, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144475982, RLTSHP_ID=102274338, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99774656, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144476328, RLTSHP_ID=102274338, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99774658, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144477670, RLTSHP_ID=102276660, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99774660, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144477929, RLTSHP_ID=102277122, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99774662, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144495941, RLTSHP_ID=102303186, RST_START_DA=2022-12-02, BR_NO=9979, CUST_NO=99774666, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144495951, RLTSHP_ID=102303186, RST_START_DA=2022-12-02, BR_NO=9979, CUST_NO=99774667, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144527419, RLTSHP_ID=27211728, RST_START_DA=2022-12-07, BR_NO=9979, CUST_NO=13020638, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144527424, RLTSHP_ID=90198987, RST_START_DA=2022-12-07, BR_NO=9979, CUST_NO=13020639, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144527466, RLTSHP_ID=47812540, RST_START_DA=2022-12-08, BR_NO=9979, CUST_NO=13020640, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144534285, RLTSHP_ID=102374273, RST_START_DA=2022-12-09, BR_NO=9979, CUST_NO=13020651, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144534348, RLTSHP_ID=102354998, RST_START_DA=2022-12-09, BR_NO=9979, CUST_NO=13020652, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144534371, RLTSHP_ID=102374272, RST_START_DA=2022-12-09, BR_NO=9979, CUST_NO=13020653, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144538266, RLTSHP_ID=102354996, RST_START_DA=2022-12-09, BR_NO=9979, CUST_NO=13020657, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144542563, RLTSHP_ID=102371914, RST_START_DA=2022-12-09, BR_NO=9979, CUST_NO=13020663, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144550639, RLTSHP_ID=70366882, RST_START_DA=2022-12-12, BR_NO=9979, CUST_NO=13020686, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=RISK, ACCT_ID=144554234, RLTSHP_ID=102379395, RST_START_DA=2022-12-12, BR_NO=9979, CUST_NO=13020694, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144556729, RLTSHP_ID=101865367, RST_START_DA=2022-12-13, BR_NO=9979, CUST_NO=13020703, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144566424, RLTSHP_ID=102407188, RST_START_DA=2022-12-14, BR_NO=9979, CUST_NO=13020723, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144616656, RLTSHP_ID=102404925, RST_START_DA=2022-12-21, BR_NO=9979, CUST_NO=13020814, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=RISK, ACCT_ID=144617388, RLTSHP_ID=102475366, RST_START_DA=2022-12-21, BR_NO=9979, CUST_NO=13020815, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144618147, RLTSHP_ID=102477204, RST_START_DA=2022-12-21, BR_NO=9979, CUST_NO=13020818, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144626957, RLTSHP_ID=102487583, RST_START_DA=2022-12-22, BR_NO=9979, CUST_NO=13020833, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GD, RST_RSN_CD=RISK, ACCT_ID=144646509, RLTSHP_ID=87517336, RST_START_DA=2022-12-27, BR_NO=9979, CUST_NO=13020867, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144677584, RLTSHP_ID=102557148, RST_START_DA=2023-01-04, BR_NO=9979, CUST_NO=13020925, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144680262, RLTSHP_ID=87427017, RST_START_DA=2023-01-04, BR_NO=9979, CUST_NO=13020932, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=AV, RST_RSN_CD=RISK, ACCT_ID=144683946, RLTSHP_ID=102568169, RST_START_DA=2023-01-05, BR_NO=9979, CUST_NO=13020946, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144716362, RLTSHP_ID=102573522, RST_START_DA=2023-01-10, BR_NO=9979, CUST_NO=13021002, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144716372, RLTSHP_ID=102573467, RST_START_DA=2023-01-11, BR_NO=9979, CUST_NO=13021003, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=TL, RST_RSN_CD=RISK, ACCT_ID=144728900, RLTSHP_ID=102636205, RST_START_DA=2023-01-11, BR_NO=9979, CUST_NO=13021021, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=144758006, RLTSHP_ID=100353099, RST_START_DA=2023-01-17, BR_NO=9979, CUST_NO=13021078, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GE, RST_RSN_CD=RISK, ACCT_ID=145181002, RLTSHP_ID=102740882, RST_START_DA=2024-06-20, BR_NO=9979, CUST_NO=13021693, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=145186416, RLTSHP_ID=102816617, RST_START_DA=2024-06-21, BR_NO=9979, CUST_NO=13021849, ACCT_SVC_STAT_CD=A }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=134606391, RLTSHP_ID=75552098, RST_START_DA=2022-02-15, BR_NO=9979, CUST_NO=99768740, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=136382755, RLTSHP_ID=80899862, RST_START_DA=2022-11-30, BR_NO=9979, CUST_NO=99770085, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=WA, RST_RSN_CD=RISK, ACCT_ID=138642349, RLTSHP_ID=62326733, RST_START_DA=2020-12-10, BR_NO=9979, CUST_NO=99771556, ACCT_SVC_STAT_CD=C }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142106108, RLTSHP_ID=96583122, RST_START_DA=2021-11-09, BR_NO=9979, CUST_NO=99772561, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=SE, RST_RSN_CD=RISK, ACCT_ID=142738520, RLTSHP_ID=99495896, RST_START_DA=2022-02-11, BR_NO=9979, CUST_NO=99772809, ACCT_SVC_STAT_CD=O }<br>{ACCT_OWN_RULE_ID=309, ACCT_SVC_TY_CD=GD, RST_RSN_CD=RISK, ACCT_ID=143748356, RLTSHP_ID=100503704, RST_START_DA=2022-07-29, BR_NO=9979, CUST_NO=99773602, ACCT_SVC_STAT_CD=O }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=0">
+                                    <img src="9e8302a8512bafce3ea69d927fe2a5555179c58154428c65a52b055d23fc90fe.png"
+                                         href="9e8302a8512bafce3ea69d927fe2a5555179c58154428c65a52b055d23fc90fe.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 332ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Get p-number for BOA of branch 9979, relationship 100353099, account 144758006, for Platform flow
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=1">
+                                    <img src="9e8302a8512bafce3ea69d927fe2a5555179c58154428c65a52b055d23fc90fe.png"
+                                         href="9e8302a8512bafce3ea69d927fe2a5555179c58154428c65a52b055d23fc90fe.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">007ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection2 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: p058929
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=4">
+                                    <img src="cab53163a3f6d2353df5c6508126bd884c256bb645553965a6f54e8392dce609.png"
+                                         href="cab53163a3f6d2353df5c6508126bd884c256bb645553965a6f54e8392dce609.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 245ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="2-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=3">
+                                    <img src="cab53163a3f6d2353df5c6508126bd884c256bb645553965a6f54e8392dce609.png"
+                                         href="cab53163a3f6d2353df5c6508126bd884c256bb645553965a6f54e8392dce609.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 682ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Opening the asset movement page for relationship id: 100353099
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=5">
+                                    <img src="6714a6906e906a11646f7c12cbf2bc62c23f81cbda1b9ed29e835b16d91ec9a6.png"
+                                         href="6714a6906e906a11646f7c12cbf2bc62c23f81cbda1b9ed29e835b16d91ec9a6.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">840ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="4"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Given set amc_use_new_accounts_service true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=6">
+                                    <img src="90a973a140a70727134122cfb29c1a40139bc765b22116ae8c75ee703f13b37c.png"
+                                         href="90a973a140a70727134122cfb29c1a40139bc765b22116ae8c75ee703f13b37c.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">662ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="5"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Choose transfer 'Into' accounts
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=7">
+                                    <img src="6ed4937bdd20c8ed4efe449a30951ad33534ef9c418a91c7961259cd8844feef.png"
+                                         href="6ed4937bdd20c8ed4efe449a30951ad33534ef9c418a91c7961259cd8844feef.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">16s 789ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="6"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select Check Deposit option
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=8">
+                                    <img src="be0e9d1d58a4bd2352629533706316b93232fe246471b687531265c1ebee5da2.png"
+                                         href="be0e9d1d58a4bd2352629533706316b93232fe246471b687531265c1ebee5da2.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">3s 388ms</span></td>
+                </tr>
+                <tr class="test-ERROR">
+
+                    <td width="50" class="step-icon">
+                        <a name="7"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify Account 13021078 is Restricted true
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="ERROR-text">
+
+                                <a href="d58ed79b8979edd3c5cba4641459388536aa5fc3575c488d391ce1a02283e356_screenshots.html#screenshots?screenshot=9">
+                                    <img src="9bcf82b16cc38ce1851a5b1bb878341877584389e24eae04c9b6b97a223e18ac.png"
+                                         href="9bcf82b16cc38ce1851a5b1bb878341877584389e24eae04c9b6b97a223e18ac.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">ERROR</span></td>
+                    <td width="100"><span class="top-level-step">20s 613ms</span></td>
+                </tr>
+                    <tr class="test-ERROR">
+                        <td width="40">&nbsp</td>
+                        <td width="%" colspan="4" class="error-message-cell">
+
+
+    <div style="display:block">
+        <div class="table">
+            <div class="row">
+                <div class="col-sm-10" style="padding-left:1.5em; padding-top:0.5em; padding-bottom:0.5em;">
+                    <span class="error-message error-message-title">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for List should have &gt;=1 elements while actual number is 0 <br>Household has EJ accounts (tried for 20 second(s) with 250 milliseconds interval)<br>Build info: version: &#39;4.21.0&#39;, revision: &#39;79ed462ef4&#39;<br>System info: os.name: &#39;Linux&#39;, os.arch: &#39;amd64&#39;, os.version: &#39;4.18.0-553.51.1.el8_10.x86_64&#39;, java.version: &#39;17.0.1&#39;<br>Driver info: driver.version: unknown</span>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-warning details-button" data-toggle="collapse" href="#stacktraceModal-9"
+                       role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><i class="bi bi-eye"></i> More details</a>
+                </div>
+             </div>
+        </div>
+    <div>
+
+    <!-- Details Section -->
+    <div class="row stacktrace-details">
+      <div class="col">
+        <div class="collapse multi-collapse" id="stacktraceModal-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4>org.openqa.selenium.TimeoutException </h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <pre>com.ej.taf.core.ui.pages.widgets.SearchAccountWidget.waitForAccounts(SearchAccountWidget.java:206)<br />com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps.verifyAcctRestricted(AccountItemSteps.java:80)<br />com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps.runTestFlowForIntoCheckDepositForRestrictedAccountFrom(PlatformFlowSteps.java:148)<br />com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart7.verifyRestrictedAccountsForExternalTransferForRestrictinonCode_RISK(IntoCheckDepositRestrictionsNewAccountServicePart7.java:69)<br />worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)<br />worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)<br /></pre>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+                        </td>
+                    </tr>
+                <tr class="test-SKIPPED">
+
+                    <td width="50" class="step-icon">
+                        <a name="8"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-skip-forward skipped-icon ' title='SKIPPED'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify Tool Tip Message for restricted Account
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-7223c21f-0860-477d-a176-4447188ab2c2"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-10-0">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-10-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-10-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-10-0">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-8398bf2d-c4d3-4f28-ba28-4113c6bba685"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-10-1">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-10-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-10-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-10-1">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SKIPPED-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SKIPPED</span></td>
+                    <td width="100"><span class="top-level-step"></span></td>
+                </tr>
+            <tr class="test-ERROR">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>ERROR</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.21s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

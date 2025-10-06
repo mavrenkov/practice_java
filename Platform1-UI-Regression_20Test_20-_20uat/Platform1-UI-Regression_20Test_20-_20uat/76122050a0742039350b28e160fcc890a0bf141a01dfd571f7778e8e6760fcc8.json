@@ -1,0 +1,1008 @@
+{
+  "name": "verifyFromCashToMarginWithNoLoanFtOn1to1SameAccount()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest]/[method:verifyFromCashToMarginWithNoLoanFtOn1to1SameAccount()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest",
+  "methodName": "verifyFromCashToMarginWithNoLoanFtOn1to1SameAccount",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve data for Between flow: From account - any, To account - with margin subAccount and no loan",
+      "duration": 17965,
+      "startTime": "2025-10-06T09:04:54.619123043-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "380d6c849265a484a0c4f408c86326e76736822171c5ac2b41c4b236e6ac7077.png",
+          "timeStamp": 1759759512584,
+          "screenshotName": "380d6c849265a484a0c4f408c86326e76736822171c5ac2b41c4b236e6ac7077.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve DB data for \u0027Between\u0027 flow: relationships with many EJ accounts for flow with loans",
+          "duration": 5620,
+          "startTime": "2025-10-06T09:04:54.621782853-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4e1232b20d6131f1eff6ef9a98fada553225b33f6ea313a88569328ed94746b4.png",
+              "timeStamp": 1759759500242,
+              "screenshotName": "4e1232b20d6131f1eff6ef9a98fada553225b33f6ea313a88569328ed94746b4.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "DB random data",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d35789427, ssn1\u003d404765587, ssn2\u003d552833920, accountId1\u003d129983653, accountId2\u003d137575881, accountId1CashOnly\u003dnull, accountId2CashOnly\u003dnull, accountId1CashMarginLoan\u003d129983653, accountId2CashMarginLoan\u003d137575881, countOfAccounts\u003d2, countOfCashMarginLoanAccounts\u003d2, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-ac66a3d6-422d-4e0f-aa75-dee043a45885"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 3,
+              "description": "Retrieve DB data for \u0027Between\u0027 flow: relationships with many(\u003e\u003d2) EJ accounts",
+              "duration": 5607,
+              "startTime": "2025-10-06T09:04:54.623474558-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "4e1232b20d6131f1eff6ef9a98fada553225b33f6ea313a88569328ed94746b4.png",
+                  "timeStamp": 1759759500231,
+                  "screenshotName": "4e1232b20d6131f1eff6ef9a98fada553225b33f6ea313a88569328ed94746b4.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "SQL query",
+                  "contents": "select\naccountsData.RLTSHP_ID AS RELID, accountsData.BR_NO,\ncount(distinct accountsData.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct accountsData.acct_ID) as ACCOUNTS_COUNT,\ncount(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then 1 end) as CASH_MARGIN_LOAN_ACC_COUNT,\nmin(accountsData.TAX_RPT_TIN_NO) as ssn1, max(accountsData.TAX_RPT_TIN_NO) as ssn2,\nmin(accountsData.acct_ID) as acct1, max(accountsData.acct_ID) as acct2,\nmax(accountsData.COUNT_CASH) as cash,\nmax(accountsData.COUNT_MARGIN) as margin,\nmax(accountsData.COUNT_LOAN) as loan,\nmin(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) as account1_cash_only,\nmax(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) as account2_cash_only,\nmin(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) as account1_cash_margin_loan,\nmax(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) as account2_cash_margin_loan\n\nfrom (\n        select\n        rlt.RLTSHP_ID AS RLTSHP_ID, sub_acc.BR_NO as BR_NO,\n        sub_acc.TAX_RPT_TIN_NO as TAX_RPT_TIN_NO,\n        sub_acc_svc.acct_ID as ACCT_ID,\n        account.acct_own_rule_id as acct_own_rule_id,\n        count(distinct sub_acc_type1.ACCT_ID) as COUNT_CASH,\n        count(distinct sub_acc_type2.ACCT_ID) as COUNT_MARGIN,\n        count(distinct sub_acc_type4.ACCT_ID) as COUNT_LOAN\n\n        from PROD.SUB_ACCOUNT_12512 as sub_acc\n        join PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\n        join PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\n        join PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\n        join PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type1 on (sub_acc.ACCT_ID \u003d sub_acc_type1.ACCT_ID and sub_acc_type1.ACCT_TY_CD \u003d 1) --cash\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type2 on (sub_acc.ACCT_ID \u003d sub_acc_type2.ACCT_ID and sub_acc_type2.ACCT_TY_CD \u003d 2) --margin\n        left outer join PROD.SUBACCT_TYPE_12528 as sub_acc_type4 on (sub_acc.ACCT_ID \u003d sub_acc_type4.ACCT_ID and sub_acc_type4.ACCT_TY_CD \u003d 4) --loan\n\n        where\n        -- sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\n        sub_acc.ACCT_CLS_UT is NULL\n        and sub_acc.BR_NO in (4454)\n        and sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\n        and account.acct_own_rule_id in (309)\n        and account.dcdnt_retr_ind \u003d \u0027N\u0027\n        and rlt.RLTSHP_ID not in (82130780)\n         and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n         and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\n        and sub_acc.acct_id not in\n\n    (               select a.acct_id\n                    from\n                        PROD.ACCOUNT_12280 a\n                        left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                        inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                        inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                        inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                    where\n                        v.rst_rsn_cd is not null\n                        and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                        and a.acct_own_rule_id in (309)\n                        and sub_acc.BR_NO in (4454)\n                        and a.ACCT_CLS_DA is null\n                        and v.RST_START_DA\u003c\u00272025-10-06\u0027\n    )\n\n        group by\n            rlt.RLTSHP_ID, sub_acc.BR_NO,\n            sub_acc.TAX_RPT_TIN_NO,\n            sub_acc_svc.acct_ID,\n            account.acct_own_rule_id\n\n        order by sub_acc.BR_NO, rlt.RLTSHP_ID\n\n        fetch first 3000 rows only\n) as accountsData\ngroup by accountsData.RLTSHP_ID, accountsData.BR_NO\nhaving\ncount(distinct accountsData.ACCT_ID)\u003e\u003d2\nand count(distinct accountsData.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct accountsData.acct_own_rule_id) \u003d 1\nand max(accountsData.COUNT_CASH)\u003d1\nand max(accountsData.COUNT_MARGIN)\u003d1\nand max(accountsData.COUNT_LOAN)\u003d1\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null",
+                  "isEvidence": false,
+                  "id": "report-data-cd744610-06f8-4c56-b13c-52e275c5b349"
+                },
+                {
+                  "title": "SQL result",
+                  "contents": "{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d250086111           , SSN1\u003d243101890           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d107317851, CASH\u003d1, ACCT1\u003d106700333, RELID\u003d90541, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d106700333, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d107317851}\n{ACCOUNT2_CASH_ONLY\u003d1481527, SSN2\u003d247148263           , SSN1\u003d227874613           , ACCOUNT1_CASH_ONLY\u003d1481527, ACCT2\u003d130986119, CASH\u003d1, ACCT1\u003d1481527, RELID\u003d319185, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d130986119, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d130986119}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d228419442           , SSN1\u003d117587570           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d130138152, CASH\u003d1, ACCT1\u003d124055959, RELID\u003d1033711, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d124055959, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d130138152}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d683052353           , SSN1\u003d539179712           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d139408250, CASH\u003d1, ACCT1\u003d118004652, RELID\u003d32141603, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d118004652, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d3, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d3, ACCOUNT2_CASH_MARGIN_LOAN\u003d139408250}\n{ACCOUNT2_CASH_ONLY\u003d108870184, SSN2\u003d707790253           , SSN1\u003d491761001           , ACCOUNT1_CASH_ONLY\u003d108870184, ACCT2\u003d127675478, CASH\u003d1, ACCT1\u003d108870184, RELID\u003d34331118, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d127675478, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d127675478}\n{ACCOUNT2_CASH_ONLY\u003d117263394, SSN2\u003d391348702           , SSN1\u003d374586151           , ACCOUNT1_CASH_ONLY\u003d117263394, ACCT2\u003d123913867, CASH\u003d1, ACCT1\u003d117263394, RELID\u003d35750515, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d123913867, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d123913867}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d552833920           , SSN1\u003d404765587           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d137575881, CASH\u003d1, ACCT1\u003d129983653, RELID\u003d35789427, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d129983653, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d137575881}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d492236456           , SSN1\u003d492231905           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d142990752, CASH\u003d1, ACCT1\u003d107203369, RELID\u003d35789576, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d107203369, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d142990752}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d237834147           , SSN1\u003d204605894           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d131005050, CASH\u003d1, ACCT1\u003d239530, RELID\u003d35789764, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d239530, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d131005050}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d552503582           , SSN1\u003d552120241           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d142788040, CASH\u003d1, ACCT1\u003d133896597, RELID\u003d35789793, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d133896597, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d142788040}\n{ACCOUNT2_CASH_ONLY\u003d116645761, SSN2\u003d429222541           , SSN1\u003d425162239           , ACCOUNT1_CASH_ONLY\u003d116645761, ACCT2\u003d139385100, CASH\u003d1, ACCT1\u003d116645761, RELID\u003d38851683, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d139385100, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d139385100}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d377041676           , SSN1\u003d256080521           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d138479639, CASH\u003d1, ACCT1\u003d885995, RELID\u003d44899216, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d885995, LOAN\u003d1, ACCOUNTS_COUNT\u003d4, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d4, ACCOUNT2_CASH_MARGIN_LOAN\u003d138479639}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d376383440           , SSN1\u003d248427691           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d127631154, CASH\u003d1, ACCT1\u003d103375478, RELID\u003d44899308, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d103375478, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d127631154}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d377760927           , SSN1\u003d245262768           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145190558, CASH\u003d1, ACCT1\u003d1609658, RELID\u003d44899826, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d1609658, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d3, ACCOUNT2_CASH_MARGIN_LOAN\u003d145190558}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d269087208           , SSN1\u003d240083907           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d125108205, CASH\u003d1, ACCT1\u003d124076520, RELID\u003d44900205, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d124076520, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d125108205}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d254541488           , SSN1\u003d252621781           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d125900197, CASH\u003d1, ACCT1\u003d125899660, RELID\u003d44900475, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d125899660, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d125900197}\n{ACCOUNT2_CASH_ONLY\u003d109636662, SSN2\u003d266185589           , SSN1\u003d256322964           , ACCOUNT1_CASH_ONLY\u003d109636662, ACCT2\u003d109636662, CASH\u003d1, ACCT1\u003d3377408, RELID\u003d44900747, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d3377408, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d3377408}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d386245652           , SSN1\u003d258220092           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d106631597, CASH\u003d1, ACCT1\u003d103376443, RELID\u003d44901041, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d103376443, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d106631597}\n{ACCOUNT2_CASH_ONLY\u003d138339248, SSN2\u003d256382210           , SSN1\u003d248400968           , ACCOUNT1_CASH_ONLY\u003d138339248, ACCT2\u003d138339248, CASH\u003d1, ACCT1\u003d128239016, RELID\u003d44901427, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d128239016, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d128239016}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d377569958           , SSN1\u003d375362903           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d122340002, CASH\u003d1, ACCT1\u003d3067963, RELID\u003d44901656, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d3067963, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d122340002}\n{ACCOUNT2_CASH_ONLY\u003d832306, SSN2\u003d251063889           , SSN1\u003d240083287           , ACCOUNT1_CASH_ONLY\u003d832306, ACCT2\u003d3283293, CASH\u003d1, ACCT1\u003d832306, RELID\u003d44901716, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d3283293, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d3283293}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d258549461           , SSN1\u003d245302062           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d125088928, CASH\u003d1, ACCT1\u003d119411683, RELID\u003d44901941, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d119411683, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d125088928}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d333344484           , SSN1\u003d266528807           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145165722, CASH\u003d1, ACCT1\u003d100085623, RELID\u003d44901972, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d100085623, LOAN\u003d1, ACCOUNTS_COUNT\u003d34, SSN_COUNT\u003d34, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d34, ACCOUNT2_CASH_MARGIN_LOAN\u003d145165722}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d848484848           , SSN1\u003d177128473           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145162923, CASH\u003d1, ACCT1\u003d145159498, RELID\u003d44901988, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d145159498, LOAN\u003d1, ACCOUNTS_COUNT\u003d47, SSN_COUNT\u003d33, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d47, ACCOUNT2_CASH_MARGIN_LOAN\u003d145162923}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d267566666           , SSN1\u003d234603985           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d141405807, CASH\u003d1, ACCT1\u003d109798593, RELID\u003d44902049, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d109798593, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d141405807}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d255045732           , SSN1\u003d246985192           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145233699, CASH\u003d1, ACCT1\u003d1650662, RELID\u003d44902203, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d1650662, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d3, ACCOUNT2_CASH_MARGIN_LOAN\u003d145233699}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d245023150           , SSN1\u003d233026834           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145152500, CASH\u003d1, ACCT1\u003d103376183, RELID\u003d44902351, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d103376183, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d3, ACCOUNT2_CASH_MARGIN_LOAN\u003d145152500}\n{ACCOUNT2_CASH_ONLY\u003d110330397, SSN2\u003d241103956           , SSN1\u003d123005895           , ACCOUNT1_CASH_ONLY\u003d110330397, ACCT2\u003d110330397, CASH\u003d1, ACCT1\u003d110330377, RELID\u003d44902633, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d110330377, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d110330377}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d401212110           , SSN1\u003d401090247           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d144235243, CASH\u003d1, ACCT1\u003d143217116, RELID\u003d45374735, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d143217116, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d144235243}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d491404948           , SSN1\u003d401345161           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d131038256, CASH\u003d1, ACCT1\u003d123787934, RELID\u003d47916695, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d123787934, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d131038256}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d497427450           , SSN1\u003d482261554           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d123799890, CASH\u003d1, ACCT1\u003d123799888, RELID\u003d48513803, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d123799888, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d123799890}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d540207884           , SSN1\u003d530680135           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d124096747, CASH\u003d1, ACCT1\u003d123861461, RELID\u003d48921010, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d123861461, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d124096747}\n{ACCOUNT2_CASH_ONLY\u003d126058275, SSN2\u003d537394688           , SSN1\u003d236176574           , ACCOUNT1_CASH_ONLY\u003d126058275, ACCT2\u003d145322619, CASH\u003d1, ACCT1\u003d126058275, RELID\u003d51347043, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d134775726, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d145322619}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d493859188           , SSN1\u003d488954915           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d127658526, CASH\u003d1, ACCT1\u003d126838285, RELID\u003d56269665, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d126838285, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d127658526}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d491855122           , SSN1\u003d491762852           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d129996488, CASH\u003d1, ACCT1\u003d129993052, RELID\u003d56989301, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d129993052, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d129996488}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d416148053           , SSN1\u003d415141659           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d139189312, CASH\u003d1, ACCT1\u003d128286985, RELID\u003d59951712, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d128286985, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d139189312}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d235350001           , SSN1\u003d220397240           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d139962709, CASH\u003d1, ACCT1\u003d109020149, RELID\u003d61459164, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d109020149, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d139962709}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d253141515           , SSN1\u003d240367043           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d140118940, CASH\u003d1, ACCT1\u003d130840494, RELID\u003d66050231, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d130840494, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d140118940}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d640738940           , SSN1\u003d220458867           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d138285716, CASH\u003d1, ACCT1\u003d124531634, RELID\u003d66778798, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d124531634, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d138285716}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d227472661           , SSN1\u003d187442296           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d136256506, CASH\u003d1, ACCT1\u003d136253086, RELID\u003d67504828, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d136253086, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d136256506}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d649863148           , SSN1\u003d214875236           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d141998283, CASH\u003d1, ACCT1\u003d141379167, RELID\u003d73322441, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d141379167, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d141998283}\n{ACCOUNT2_CASH_ONLY\u003d101053445, SSN2\u003d491786186           , SSN1\u003d490996830           , ACCOUNT1_CASH_ONLY\u003d101053445, ACCT2\u003d101053452, CASH\u003d1, ACCT1\u003d101053445, RELID\u003d73458259, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d101053452, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d101053452}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d409581942           , SSN1\u003d409380950           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d142951529, CASH\u003d1, ACCT1\u003d134114743, RELID\u003d74225519, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d134114743, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d142951529}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d400464418           , SSN1\u003d341362167           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d135223307, CASH\u003d1, ACCT1\u003d135223301, RELID\u003d77077064, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d135223301, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d135223307}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d552275277           , SSN1\u003d510217539           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d141767019, CASH\u003d1, ACCT1\u003d141764933, RELID\u003d77479357, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d141764933, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d141767019}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d258605080           , SSN1\u003d244569023           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d141961435, CASH\u003d1, ACCT1\u003d132373964, RELID\u003d86580540, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d132373964, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d141961435}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d267763180           , SSN1\u003d234340568           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145290958, CASH\u003d1, ACCT1\u003d138710877, RELID\u003d87233629, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d138710877, LOAN\u003d1, ACCOUNTS_COUNT\u003d4, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d4, ACCOUNT2_CASH_MARGIN_LOAN\u003d145290958}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d505766108           , SSN1\u003d408477907           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d143499116, CASH\u003d1, ACCT1\u003d143499110, RELID\u003d87699462, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d143499110, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d143499116}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d493622080           , SSN1\u003d493382174           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d139278674, CASH\u003d1, ACCT1\u003d124073360, RELID\u003d88189822, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d124073360, LOAN\u003d1, ACCOUNTS_COUNT\u003d3, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d3, ACCOUNT2_CASH_MARGIN_LOAN\u003d139278674}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d645717266           , SSN1\u003d229697829           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d140150014, CASH\u003d1, ACCT1\u003d140057782, RELID\u003d89691729, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d140057782, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d140150014}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d422076964           , SSN1\u003d289335613           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145244304, CASH\u003d1, ACCT1\u003d144122293, RELID\u003d90631186, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d144122293, LOAN\u003d1, ACCOUNTS_COUNT\u003d4, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d4, ACCOUNT2_CASH_MARGIN_LOAN\u003d145244304}\n{ACCOUNT2_CASH_ONLY\u003d101026331, SSN2\u003d552397206           , SSN1\u003d439337416           , ACCOUNT1_CASH_ONLY\u003d101026331, ACCT2\u003d142124121, CASH\u003d1, ACCT1\u003d101026331, RELID\u003d93249855, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d142124121, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d1, ACCOUNT2_CASH_MARGIN_LOAN\u003d142124121}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d375227328           , SSN1\u003d246469456           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d143002976, CASH\u003d1, ACCT1\u003d143002786, RELID\u003d99882415, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d143002786, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d143002976}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d651313391           , SSN1\u003d123156864           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145221713, CASH\u003d1, ACCT1\u003d145147230, RELID\u003d102719019, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d145147230, LOAN\u003d1, ACCOUNTS_COUNT\u003d4, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d4, ACCOUNT2_CASH_MARGIN_LOAN\u003d145221713}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d767676767           , SSN1\u003d333445557           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145163040, CASH\u003d1, ACCT1\u003d145152612, RELID\u003d102733575, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d145152612, LOAN\u003d1, ACCOUNTS_COUNT\u003d31, SSN_COUNT\u003d31, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d31, ACCOUNT2_CASH_MARGIN_LOAN\u003d145163040}\n{ACCOUNT2_CASH_ONLY\u003dnull, SSN2\u003d555551208           , SSN1\u003d487025987           , ACCOUNT1_CASH_ONLY\u003dnull, ACCT2\u003d145322767, CASH\u003d1, ACCT1\u003d145322739, RELID\u003d463105398, MARGIN\u003d1, ACCOUNT1_CASH_MARGIN_LOAN\u003d145322739, LOAN\u003d1, ACCOUNTS_COUNT\u003d2, SSN_COUNT\u003d2, BR_NO\u003d4454, CASH_MARGIN_LOAN_ACC_COUNT\u003d2, ACCOUNT2_CASH_MARGIN_LOAN\u003d145322767}",
+                  "isEvidence": false,
+                  "id": "report-data-e7c5ebed-5a3f-4e16-8117-c300e01c3e60"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "description": "Get /relationship/relationshipId/balances for relationship 35789427 as user P033267",
+          "duration": 541,
+          "startTime": "2025-10-06T09:05:00.344001688-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png",
+              "timeStamp": 1759759500885,
+              "screenshotName": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/{relationshipId}/account-balances \n PathParameters: Optional[{relationshipId\u003d35789427}]",
+              "isEvidence": false,
+              "id": "report-data-8a3c9e8c-8e11-4894-9ece-1bb831ce4b7f"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d109032385, totalAccountAmount\u003d167358.74, totalCashValue\u003d401.66, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d129983653, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d137575881, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.28, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d139509799, totalAccountAmount\u003d5779.46, totalCashValue\u003d0.0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-528d6b64-576e-4e36-90a7-f68bf91ba4a7"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d35789427, ssn1\u003d404765587, ssn2\u003d552833920, accountId1\u003d129983653, accountId2\u003d137575881, accountId1CashOnly\u003dnull, accountId2CashOnly\u003dnull, accountId1CashMarginLoan\u003d129983653, accountId2CashMarginLoan\u003d137575881, countOfAccounts\u003d2, countOfCashMarginLoanAccounts\u003d2, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-c92d48cb-b369-4ff6-aa10-c4d14001cfa7"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d109032385, totalAccountAmount\u003d167358.74, totalCashValue\u003d401.66, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d129983653, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d137575881, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.28, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d139509799, totalAccountAmount\u003d5779.46, totalCashValue\u003d0.0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-84c0675f-3e09-43f9-9e08-9f484fce54eb"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d109032385, totalAccountAmount\u003d167358.74, totalCashValue\u003d401.66, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d129983653, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d137575881, totalAccountAmount\u003d0.0, totalCashValue\u003d0.0, availableCashAmount\u003d0.28, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d139509799, totalAccountAmount\u003d5779.46, totalCashValue\u003d0.0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-386421c8-d0f5-4a0e-9f60-981b72de4859"
+            },
+            {
+              "title": "DB random data",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d44902633, ssn1\u003d123005895, ssn2\u003d241103956, accountId1\u003d110330377, accountId2\u003d110330397, accountId1CashOnly\u003d110330397, accountId2CashOnly\u003d110330397, accountId1CashMarginLoan\u003d110330377, accountId2CashMarginLoan\u003d110330377, countOfAccounts\u003d2, countOfCashMarginLoanAccounts\u003d1, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-11b712d0-c713-4257-b4ef-749465ffb746"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 5,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/35789427/account-balances",
+              "duration": 149,
+              "startTime": "2025-10-06T09:05:00.718403768-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png",
+                  "timeStamp": 1759759500867,
+                  "screenshotName": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/35789427/account-balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 14:05:00 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"balances\": [\n        {\n            \"accountId\": 109032385,\n            \"totalAccountAmount\": 167358.74,\n            \"totalCashValue\": 401.66,\n            \"availableCashAmount\": 0\n        },\n        {\n            \"accountId\": 129983653,\n            \"totalAccountAmount\": 0,\n            \"totalCashValue\": 0,\n            \"availableCashAmount\": 0\n        },\n        {\n            \"accountId\": 137575881,\n            \"totalAccountAmount\": 0.0,\n            \"totalCashValue\": 0.0,\n            \"availableCashAmount\": 0.28\n        },\n        {\n            \"accountId\": 139509799,\n            \"totalAccountAmount\": 5779.46,\n            \"totalCashValue\": 0.0,\n            \"availableCashAmount\": 0\n        }\n    ],\n    \"resultStatus\": \"FULL\"\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 6,
+              "description": "Log the response time",
+              "duration": 10,
+              "startTime": "2025-10-06T09:05:00.868392160-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png",
+                  "timeStamp": 1759759500879,
+                  "screenshotName": "62ec28091726a9723bd2581fcc39b39a652cb76091aa5e3852b59497ac8ca0c5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "363",
+                  "isEvidence": false,
+                  "id": "report-data-f04a57e9-7d78-4229-8186-f51e46c2a151"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"balances\":[{\"accountId\":109032385,\"totalAccountAmount\":167358.74,\"totalCashValue\":401.66,\"availableCashAmount\":0},{\"accountId\":129983653,\"totalAccountAmount\":0,\"totalCashValue\":0,\"availableCashAmount\":0},{\"accountId\":137575881,\"totalAccountAmount\":0.0,\"totalCashValue\":0.0,\"availableCashAmount\":0.28},{\"accountId\":139509799,\"totalAccountAmount\":5779.46,\"totalCashValue\":0.0,\"availableCashAmount\":0}],\"resultStatus\":\"FULL\"}",
+                  "isEvidence": false,
+                  "id": "report-data-6e8d9165-472e-4aa0-9aff-798f8c9e71ac"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "description": "Get /relationship/relationshipId/balances for relationship 44902633 as user P033267",
+          "duration": 535,
+          "startTime": "2025-10-06T09:05:00.988411030-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png",
+              "timeStamp": 1759759501523,
+              "screenshotName": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/{relationshipId}/account-balances \n PathParameters: Optional[{relationshipId\u003d44902633}]",
+              "isEvidence": false,
+              "id": "report-data-52e48ae0-03f7-414d-9414-6a1c7a74cd35"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d110330377, totalAccountAmount\u003d1098485.39, totalCashValue\u003d75856.21, availableCashAmount\u003d75856.21, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330417, totalAccountAmount\u003d1282335.98, totalCashValue\u003d-144042.55, availableCashAmount\u003d-443989.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330397, totalAccountAmount\u003d10446311.55, totalCashValue\u003d-8360541.35, availableCashAmount\u003d-8360541.35, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330437, totalAccountAmount\u003d533081.30, totalCashValue\u003d77.5, availableCashAmount\u003d77.50, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d117971975, totalAccountAmount\u003d442470.32, totalCashValue\u003d2.57, availableCashAmount\u003d2.57, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145187685, totalAccountAmount\u003d2.96, totalCashValue\u003d0.05, availableCashAmount\u003d0.05, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145189006, totalAccountAmount\u003d0.0, totalCashValue\u003d8752.19, availableCashAmount\u003d8775.95, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145270189, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-571c2898-4bd7-4675-b86d-16a799e316f2"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d44902633, ssn1\u003d123005895, ssn2\u003d241103956, accountId1\u003d110330377, accountId2\u003d110330397, accountId1CashOnly\u003d110330397, accountId2CashOnly\u003d110330397, accountId1CashMarginLoan\u003d110330377, accountId2CashMarginLoan\u003d110330377, countOfAccounts\u003d2, countOfCashMarginLoanAccounts\u003d1, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-fab2facc-946f-4291-80ab-9497b2029cc0"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d110330377, totalAccountAmount\u003d1098485.39, totalCashValue\u003d75856.21, availableCashAmount\u003d75856.21, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330417, totalAccountAmount\u003d1282335.98, totalCashValue\u003d-144042.55, availableCashAmount\u003d-443989.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330397, totalAccountAmount\u003d10446311.55, totalCashValue\u003d-8360541.35, availableCashAmount\u003d-8360541.35, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330437, totalAccountAmount\u003d533081.30, totalCashValue\u003d77.5, availableCashAmount\u003d77.50, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d117971975, totalAccountAmount\u003d442470.32, totalCashValue\u003d2.57, availableCashAmount\u003d2.57, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145187685, totalAccountAmount\u003d2.96, totalCashValue\u003d0.05, availableCashAmount\u003d0.05, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145189006, totalAccountAmount\u003d0.0, totalCashValue\u003d8752.19, availableCashAmount\u003d8775.95, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145270189, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-b7af376b-5dc6-4584-9abc-765438e63fee"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d110330377, totalAccountAmount\u003d1098485.39, totalCashValue\u003d75856.21, availableCashAmount\u003d75856.21, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330417, totalAccountAmount\u003d1282335.98, totalCashValue\u003d-144042.55, availableCashAmount\u003d-443989.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330397, totalAccountAmount\u003d10446311.55, totalCashValue\u003d-8360541.35, availableCashAmount\u003d-8360541.35, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d110330437, totalAccountAmount\u003d533081.30, totalCashValue\u003d77.5, availableCashAmount\u003d77.50, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d117971975, totalAccountAmount\u003d442470.32, totalCashValue\u003d2.57, availableCashAmount\u003d2.57, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145187685, totalAccountAmount\u003d2.96, totalCashValue\u003d0.05, availableCashAmount\u003d0.05, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145189006, totalAccountAmount\u003d0.0, totalCashValue\u003d8752.19, availableCashAmount\u003d8775.95, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145270189, totalAccountAmount\u003d0, totalCashValue\u003d0, availableCashAmount\u003d0, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-60944989-4639-4e2e-9564-bf55e5685ae7"
+            },
+            {
+              "title": "DB random data",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d44902351, ssn1\u003d233026834, ssn2\u003d245023150, accountId1\u003d103376183, accountId2\u003d145152500, accountId1CashOnly\u003dnull, accountId2CashOnly\u003dnull, accountId1CashMarginLoan\u003d103376183, accountId2CashMarginLoan\u003d145152500, countOfAccounts\u003d3, countOfCashMarginLoanAccounts\u003d3, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-67437eb6-6da6-46eb-b256-2c78ec7a38e8"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 8,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/44902633/account-balances",
+              "duration": 130,
+              "startTime": "2025-10-06T09:05:01.374720606-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png",
+                  "timeStamp": 1759759501505,
+                  "screenshotName": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/44902633/account-balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 14:05:01 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"balances\": [\n        {\n            \"accountId\": 110330377,\n            \"totalAccountAmount\": 1098485.39,\n            \"totalCashValue\": 75856.21,\n            \"availableCashAmount\": 75856.21\n        },\n        {\n            \"accountId\": 110330417,\n            \"totalAccountAmount\": 1282335.98,\n            \"totalCashValue\": -144042.55,\n            \"availableCashAmount\": -443989.04\n        },\n        {\n            \"accountId\": 110330397,\n            \"totalAccountAmount\": 10446311.55,\n            \"totalCashValue\": -8360541.35,\n            \"availableCashAmount\": -8360541.35\n        },\n        {\n            \"accountId\": 110330437,\n            \"totalAccountAmount\": 533081.30,\n            \"totalCashValue\": 77.5,\n            \"availableCashAmount\": 77.50\n        },\n        {\n            \"accountId\": 117971975,\n            \"totalAccountAmount\": 442470.32,\n            \"totalCashValue\": 2.57,\n            \"availableCashAmount\": 2.57\n        },\n        {\n            \"accountId\": 145187685,\n            \"totalAccountAmount\": 2.96,\n            \"totalCashValue\": 0.05,\n            \"availableCashAmount\": 0.05\n        },\n        {\n            \"accountId\": 145189006,\n            \"totalAccountAmount\": 0.0,\n            \"totalCashValue\": 8752.19,\n            \"availableCashAmount\": 8775.95\n        },\n        {\n            \"accountId\": 145270189,\n            \"totalAccountAmount\": 0,\n            \"totalCashValue\": 0,\n            \"availableCashAmount\": 0\n        }\n    ],\n    \"resultStatus\": \"FULL\"\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 9,
+              "description": "Log the response time",
+              "duration": 10,
+              "startTime": "2025-10-06T09:05:01.506187212-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png",
+                  "timeStamp": 1759759501516,
+                  "screenshotName": "00bdf316fce1539c7b912801c4e3c50f2a93ec080563f2ea4786b1e5a23546db.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "379",
+                  "isEvidence": false,
+                  "id": "report-data-18a52d22-d1fd-4a87-a294-db25abf53311"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"balances\":[{\"accountId\":110330377,\"totalAccountAmount\":1098485.39,\"totalCashValue\":75856.21,\"availableCashAmount\":75856.21},{\"accountId\":110330417,\"totalAccountAmount\":1282335.98,\"totalCashValue\":-144042.55,\"availableCashAmount\":-443989.04},{\"accountId\":110330397,\"totalAccountAmount\":10446311.55,\"totalCashValue\":-8360541.35,\"availableCashAmount\":-8360541.35},{\"accountId\":110330437,\"totalAccountAmount\":533081.30,\"totalCashValue\":77.5,\"availableCashAmount\":77.50},{\"accountId\":117971975,\"totalAccountAmount\":442470.32,\"totalCashValue\":2.57,\"availableCashAmount\":2.57},{\"accountId\":145187685,\"totalAccountAmount\":2.96,\"totalCashValue\":0.05,\"availableCashAmount\":0.05},{\"accountId\":145189006,\"totalAccountAmount\":0.0,\"totalCashValue\":8752.19,\"availableCashAmount\":8775.95},{\"accountId\":145270189,\"totalAccountAmount\":0,\"totalCashValue\":0,\"availableCashAmount\":0}],\"resultStatus\":\"FULL\"}",
+                  "isEvidence": false,
+                  "id": "report-data-3cdfe0ad-d72d-4991-8dd5-feef48af37c0"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 10,
+          "description": "Get /relationship/relationshipId/balances for relationship 44902351 as user P033267",
+          "duration": 491,
+          "startTime": "2025-10-06T09:05:01.626786582-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png",
+              "timeStamp": 1759759502117,
+              "screenshotName": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/{relationshipId}/account-balances \n PathParameters: Optional[{relationshipId\u003d44902351}]",
+              "isEvidence": false,
+              "id": "report-data-296cc90d-dc79-4355-ae1e-7ee2c71f3bb7"
+            },
+            {
+              "title": "Response body",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d103376183, totalAccountAmount\u003d126188.99, totalCashValue\u003d0.0, availableCashAmount\u003d15754.81, marginLoanAmount\u003d-20988.43, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d119527492, totalAccountAmount\u003d12637.31, totalCashValue\u003d96572.09, availableCashAmount\u003d96572.09, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145148740, totalAccountAmount\u003d894492.51, totalCashValue\u003d117689.04, availableCashAmount\u003d117689.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145152500, totalAccountAmount\u003d17646.22, totalCashValue\u003d75418.71, availableCashAmount\u003d51510.67, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d103376466, totalAccountAmount\u003d236240.55, totalCashValue\u003d120380.18, availableCashAmount\u003d120380.18, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-3c8d850f-8690-4f75-8622-5b89003d56b2"
+            },
+            {
+              "title": "retrieved data | DB",
+              "contents": "BetweenFlowDb2TestDataProvider.RetrievedDataForRelationshipsForLoanFlows(branchNo\u003d4454, relationshipId\u003d44902351, ssn1\u003d233026834, ssn2\u003d245023150, accountId1\u003d103376183, accountId2\u003d145152500, accountId1CashOnly\u003dnull, accountId2CashOnly\u003dnull, accountId1CashMarginLoan\u003d103376183, accountId2CashMarginLoan\u003d145152500, countOfAccounts\u003d3, countOfCashMarginLoanAccounts\u003d3, foundAccountIdFrom\u003dnull, foundAccountIdTo\u003dnull, foundAccountCustomerNumberFrom\u003dnull, foundAccountCustomerNumberTo\u003dnull)",
+              "isEvidence": false,
+              "id": "report-data-b4fdf8ed-926e-4478-9bdf-05ecf4007cf2"
+            },
+            {
+              "title": "retrieved data | API",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d103376183, totalAccountAmount\u003d126188.99, totalCashValue\u003d0.0, availableCashAmount\u003d15754.81, marginLoanAmount\u003d-20988.43, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d119527492, totalAccountAmount\u003d12637.31, totalCashValue\u003d96572.09, availableCashAmount\u003d96572.09, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145148740, totalAccountAmount\u003d894492.51, totalCashValue\u003d117689.04, availableCashAmount\u003d117689.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145152500, totalAccountAmount\u003d17646.22, totalCashValue\u003d75418.71, availableCashAmount\u003d51510.67, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d103376466, totalAccountAmount\u003d236240.55, totalCashValue\u003d120380.18, availableCashAmount\u003d120380.18, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-ce98d2cc-133a-42fd-a634-df48090adc7a"
+            },
+            {
+              "title": "API data before validation",
+              "contents": "AccountsBalanceForRelationship(balances\u003d[AccountBalance(accountId\u003d103376183, totalAccountAmount\u003d126188.99, totalCashValue\u003d0.0, availableCashAmount\u003d15754.81, marginLoanAmount\u003d-20988.43, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d119527492, totalAccountAmount\u003d12637.31, totalCashValue\u003d96572.09, availableCashAmount\u003d96572.09, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145148740, totalAccountAmount\u003d894492.51, totalCashValue\u003d117689.04, availableCashAmount\u003d117689.04, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d145152500, totalAccountAmount\u003d17646.22, totalCashValue\u003d75418.71, availableCashAmount\u003d51510.67, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull), AccountBalance(accountId\u003d103376466, totalAccountAmount\u003d236240.55, totalCashValue\u003d120380.18, availableCashAmount\u003d120380.18, marginLoanAmount\u003dnull, nonPurposeLoanAmount\u003dnull)], resultStatus\u003dFULL)",
+              "isEvidence": false,
+              "id": "report-data-41bec4b1-8adb-4c35-968e-ff1494ea90f9"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 11,
+              "description": "GET https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/44902351/account-balances",
+              "duration": 151,
+              "startTime": "2025-10-06T09:05:01.950182081-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png",
+                  "timeStamp": 1759759502101,
+                  "screenshotName": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "https://amc-account-common-svc.apps2.uat.edwardjones.com/relationships/44902351/account-balances",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL10712E6CDD9501703403B9DD716267C7E31DBA14366FF1C0A0FAAD695F3FF7EE67CE3DDFC6DDBE5EEDB344285837EEF3CD393100D654A023D88E2C00351E4469\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0033267",
+                "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 14:05:01 GMT\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "{\n    \"balances\": [\n        {\n            \"accountId\": 103376183,\n            \"totalAccountAmount\": 126188.99,\n            \"totalCashValue\": 0.0,\n            \"availableCashAmount\": 15754.81,\n            \"marginLoanAmount\": -20988.43\n        },\n        {\n            \"accountId\": 119527492,\n            \"totalAccountAmount\": 12637.31,\n            \"totalCashValue\": 96572.09,\n            \"availableCashAmount\": 96572.09\n        },\n        {\n            \"accountId\": 145148740,\n            \"totalAccountAmount\": 894492.51,\n            \"totalCashValue\": 117689.04,\n            \"availableCashAmount\": 117689.04\n        },\n        {\n            \"accountId\": 145152500,\n            \"totalAccountAmount\": 17646.22,\n            \"totalCashValue\": 75418.71,\n            \"availableCashAmount\": 51510.67\n        },\n        {\n            \"accountId\": 103376466,\n            \"totalAccountAmount\": 236240.55,\n            \"totalCashValue\": 120380.18,\n            \"availableCashAmount\": 120380.18\n        }\n    ],\n    \"resultStatus\": \"FULL\"\n}",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 12,
+              "description": "Log the response time",
+              "duration": 9,
+              "startTime": "2025-10-06T09:05:02.102277857-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png",
+                  "timeStamp": 1759759502111,
+                  "screenshotName": "adf8c6ae70d58d45652543b3ac367b937be07748540c8719437b6d2bc3804942.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "314",
+                  "isEvidence": false,
+                  "id": "report-data-41e19f08-debc-4220-9cd1-13e53cf26403"
+                },
+                {
+                  "title": "response",
+                  "contents": "{\"balances\":[{\"accountId\":103376183,\"totalAccountAmount\":126188.99,\"totalCashValue\":0.0,\"availableCashAmount\":15754.81,\"marginLoanAmount\":-20988.43},{\"accountId\":119527492,\"totalAccountAmount\":12637.31,\"totalCashValue\":96572.09,\"availableCashAmount\":96572.09},{\"accountId\":145148740,\"totalAccountAmount\":894492.51,\"totalCashValue\":117689.04,\"availableCashAmount\":117689.04},{\"accountId\":145152500,\"totalAccountAmount\":17646.22,\"totalCashValue\":75418.71,\"availableCashAmount\":51510.67},{\"accountId\":103376466,\"totalAccountAmount\":236240.55,\"totalCashValue\":120380.18,\"availableCashAmount\":120380.18}],\"resultStatus\":\"FULL\"}",
+                  "isEvidence": false,
+                  "id": "report-data-90dcd711-2551-4a34-a99b-d11eaad64a83"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "description": "Get customer number for EJ account by account ID 103376183",
+          "duration": 5216,
+          "startTime": "2025-10-06T09:05:02.121054681-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "efa738781309f807b68df636ec7ee1734c55d244d78413d218a13e8c1b1a32fc.png",
+              "timeStamp": 1759759507337,
+              "screenshotName": "efa738781309f807b68df636ec7ee1734c55d244d78413d218a13e8c1b1a32fc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select sub_acc.VNDR_ACCT_ID as VNDR_ACCT_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\nwhere sub_acc.ACCT_ID \u003d \u0027103376183\u0027",
+              "isEvidence": false,
+              "id": "report-data-fe5d8424-8279-4553-a04b-c2f90e6ecb8d"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{VNDR_ACCT_ID\u003d44504202            }",
+              "isEvidence": false,
+              "id": "report-data-470639c5-fc7e-4e0f-b6dd-4f756f01dc77"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 14,
+          "description": "Get customer number for EJ account by account ID 145152500",
+          "duration": 5240,
+          "startTime": "2025-10-06T09:05:07.337544033-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "380d6c849265a484a0c4f408c86326e76736822171c5ac2b41c4b236e6ac7077.png",
+              "timeStamp": 1759759512577,
+              "screenshotName": "380d6c849265a484a0c4f408c86326e76736822171c5ac2b41c4b236e6ac7077.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select sub_acc.VNDR_ACCT_ID as VNDR_ACCT_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\nwhere sub_acc.ACCT_ID \u003d \u0027145152500\u0027",
+              "isEvidence": false,
+              "id": "report-data-6514ca86-6eff-4f60-a74f-7138ab0e8f59"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{VNDR_ACCT_ID\u003d44522456            }",
+              "isEvidence": false,
+              "id": "report-data-e67e338a-54b1-4e7e-a17f-7a204d1ca5a2"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 2085,
+      "startTime": "2025-10-06T09:05:12.584888916-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png",
+          "timeStamp": 1759759514670,
+          "screenshotName": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 16,
+          "description": "Launch WAM and authenticate",
+          "duration": 1577,
+          "startTime": "2025-10-06T09:05:12.671518398-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png",
+              "timeStamp": 1759759514248,
+              "screenshotName": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "description": "WHEN: EJ account has MARGIN sub account and NO loan and selected as To account in Between flow",
+      "duration": 7,
+      "startTime": "2025-10-06T09:05:14.670407924-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png",
+          "timeStamp": 1759759514678,
+          "screenshotName": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 18,
+      "description": "WHEN: Feature toggle AMC_TFR_SECURITY_TRANSFER_TO_MARGIN_NON_PURPOSE_LOAN is ON",
+      "duration": 6,
+      "startTime": "2025-10-06T09:05:14.678496462-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png",
+          "timeStamp": 1759759514684,
+          "screenshotName": "394d426791138efd231c9eb5a4a73e35109a6e2ce4cbc0b34626ff88e7d0ef49.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 19,
+      "description": "Opening the asset movement page for relationship id: 44902351",
+      "duration": 835,
+      "startTime": "2025-10-06T09:05:14.685060810-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "33c6d4febae93b85839abbbcdf562efa4ad648972e735a07f59a67b48dad1c53.png",
+          "timeStamp": 1759759515520,
+          "screenshotName": "33c6d4febae93b85839abbbcdf562efa4ad648972e735a07f59a67b48dad1c53.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 20,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 597,
+      "startTime": "2025-10-06T09:05:15.858865070-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "bcc93a27c4e5e4ea0af9d48a4d60b14b6d54b4a9953143206c8bf4e72b47097e.png",
+          "timeStamp": 1759759516456,
+          "screenshotName": "bcc93a27c4e5e4ea0af9d48a4d60b14b6d54b4a9953143206c8bf4e72b47097e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 21,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8626,
+      "startTime": "2025-10-06T09:05:16.457131322-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "25737b9c6ac8bd8c3cfe8718ee954a210cff7cac18f4a0fbe6788394fa21287c.png",
+          "timeStamp": 1759759525083,
+          "screenshotName": "25737b9c6ac8bd8c3cfe8718ee954a210cff7cac18f4a0fbe6788394fa21287c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 22,
+      "description": "Select searched account 44522456",
+      "duration": 2347,
+      "startTime": "2025-10-06T09:05:25.083795644-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "71f20572c05b0ac5d338a427b363e8211683fb40f837becfb0da2c1ed708c1cb.png",
+          "timeStamp": 1759759527431,
+          "screenshotName": "71f20572c05b0ac5d338a427b363e8211683fb40f837becfb0da2c1ed708c1cb.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 23,
+          "description": "Search for account 44522456",
+          "duration": 1543,
+          "startTime": "2025-10-06T09:05:25.457472603-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "49d2576ef428c41cd83b9c1db4c690a555446e3de4f319548d8c263c632f88a0.png",
+              "timeStamp": 1759759527000,
+              "screenshotName": "49d2576ef428c41cd83b9c1db4c690a555446e3de4f319548d8c263c632f88a0.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 24,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 222,
+              "startTime": "2025-10-06T09:05:26.772038840-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "49d2576ef428c41cd83b9c1db4c690a555446e3de4f319548d8c263c632f88a0.png",
+                  "timeStamp": 1759759526994,
+                  "screenshotName": "49d2576ef428c41cd83b9c1db4c690a555446e3de4f319548d8c263c632f88a0.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 25,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 161,
+          "startTime": "2025-10-06T09:05:27.001289509-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e872ca1a5fe90696c76a6626a4be5835f8759556681794a6dbc86a45e6989f24.png",
+              "timeStamp": 1759759527163,
+              "screenshotName": "e872ca1a5fe90696c76a6626a4be5835f8759556681794a6dbc86a45e6989f24.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "description": "Select Sub Account Type CASH",
+      "duration": 369,
+      "startTime": "2025-10-06T09:05:27.432351819-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "aca490499d0c388ebabe49c4739071f93af0b0ab2f0845712ccfd8b16eaec702.png",
+          "timeStamp": 1759759527802,
+          "screenshotName": "aca490499d0c388ebabe49c4739071f93af0b0ab2f0845712ccfd8b16eaec702.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 27,
+      "description": "Select the First Available Owner, and subsequent users until continue is enabled",
+      "duration": 189,
+      "startTime": "2025-10-06T09:05:27.802536619-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "90cb4d3d8f1050f4fc8f662139354851c1fcdafcd6b8ab65e87a91f5ea0faf93.png",
+          "timeStamp": 1759759527992,
+          "screenshotName": "90cb4d3d8f1050f4fc8f662139354851c1fcdafcd6b8ab65e87a91f5ea0faf93.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 28,
+      "description": "Click \u0027Next\u0027 - go to Next Card",
+      "duration": 350,
+      "startTime": "2025-10-06T09:05:27.995860128-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "5ae1d576c91886f6be68f54762450a917394a873ecd80caa560e88cc916d63f2.png",
+          "timeStamp": 1759759528346,
+          "screenshotName": "5ae1d576c91886f6be68f54762450a917394a873ecd80caa560e88cc916d63f2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 29,
+          "description": "Click \u0027Next\u0027.",
+          "duration": 341,
+          "startTime": "2025-10-06T09:05:27.997675264-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5ae1d576c91886f6be68f54762450a917394a873ecd80caa560e88cc916d63f2.png",
+              "timeStamp": 1759759528339,
+              "screenshotName": "5ae1d576c91886f6be68f54762450a917394a873ecd80caa560e88cc916d63f2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "description": "Select searched account 44522456",
+      "duration": 1912,
+      "startTime": "2025-10-06T09:05:28.346607631-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "98816878ace9969f9a6488f33be418e239463711d272ea8007cb6c2e6f746b98.png",
+          "timeStamp": 1759759530259,
+          "screenshotName": "98816878ace9969f9a6488f33be418e239463711d272ea8007cb6c2e6f746b98.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 31,
+          "description": "Search for account 44522456",
+          "duration": 1405,
+          "startTime": "2025-10-06T09:05:28.422469031-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "06fad596c6e2fa00242c1cec9b9d8dec837ef0913b55e71105cd118d5852c1ef.png",
+              "timeStamp": 1759759529828,
+              "screenshotName": "06fad596c6e2fa00242c1cec9b9d8dec837ef0913b55e71105cd118d5852c1ef.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 32,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 173,
+              "startTime": "2025-10-06T09:05:29.647624510-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "06fad596c6e2fa00242c1cec9b9d8dec837ef0913b55e71105cd118d5852c1ef.png",
+                  "timeStamp": 1759759529821,
+                  "screenshotName": "06fad596c6e2fa00242c1cec9b9d8dec837ef0913b55e71105cd118d5852c1ef.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 33,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 164,
+          "startTime": "2025-10-06T09:05:29.828492192-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "fc2ef2a3e93b2b58676692433413719fd325d985d13e81832ae7c7e327291876.png",
+              "timeStamp": 1759759529992,
+              "screenshotName": "fc2ef2a3e93b2b58676692433413719fd325d985d13e81832ae7c7e327291876.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "description": "THEN: Margin sub account is enabled for selection for To account",
+      "duration": 7,
+      "startTime": "2025-10-06T09:05:30.259696858-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "98816878ace9969f9a6488f33be418e239463711d272ea8007cb6c2e6f746b98.png",
+          "timeStamp": 1759759530266,
+          "screenshotName": "98816878ace9969f9a6488f33be418e239463711d272ea8007cb6c2e6f746b98.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 35,
+      "description": "Verify MARGIN Account Type disabled is false",
+      "duration": 210,
+      "startTime": "2025-10-06T09:05:30.267004274-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "fa3011c911401b161a0baa0605762611dc0f834daefe49880c3bc0edc56c3b5f.png",
+          "timeStamp": 1759759530477,
+          "screenshotName": "fa3011c911401b161a0baa0605762611dc0f834daefe49880c3bc0edc56c3b5f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 36,
+      "description": "THEN: The tool-tip stating that \u0027No loan exists\u0027 will NOT appear",
+      "duration": 7,
+      "startTime": "2025-10-06T09:05:30.477441462-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "fa3011c911401b161a0baa0605762611dc0f834daefe49880c3bc0edc56c3b5f.png",
+          "timeStamp": 1759759530484,
+          "screenshotName": "fa3011c911401b161a0baa0605762611dc0f834daefe49880c3bc0edc56c3b5f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 37,
+      "description": "Verify the Tool Tip Message for 44522456 MARGIN Sub Account is present false",
+      "duration": 2132,
+      "startTime": "2025-10-06T09:05:30.484783759-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "861ddb5cfcfc5e5b0ad25df3c94f63c06bce12089f01a9531b3475500999c871.png",
+          "timeStamp": 1759759532617,
+          "screenshotName": "861ddb5cfcfc5e5b0ad25df3c94f63c06bce12089f01a9531b3475500999c871.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 38,
+      "description": "Select Sub Account Type MARGIN",
+      "duration": 375,
+      "startTime": "2025-10-06T09:05:32.617702010-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "91cea067df60888792ea5c0d2b73c2c7e29a80ddc656cd6eb95005c5d75ae1c9.png",
+          "timeStamp": 1759759532993,
+          "screenshotName": "91cea067df60888792ea5c0d2b73c2c7e29a80ddc656cd6eb95005c5d75ae1c9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 39,
+      "description": "Validate Account Type is selected MARGIN",
+      "duration": 212,
+      "startTime": "2025-10-06T09:05:32.993548386-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8cb5c7c2ff7f430790771d381b05c5301eb16b487867cbb34d7efbce25c4d844.png",
+          "timeStamp": 1759759533206,
+          "screenshotName": "8cb5c7c2ff7f430790771d381b05c5301eb16b487867cbb34d7efbce25c4d844.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-9e8fddb5-a7c5-4dfc-8f08-ce4e6210dd29"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-6b52703d-57cc-46c2-814a-41598c9f4a4d"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest",
+    "storyName": "BetweenFlowToMarginLoanTest",
+    "displayName": "BetweenFlowToMarginLoanTest",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenFlowToMarginLoanTest",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenFlowToMarginLoanTest",
+        "description": "BetweenFlowToMarginLoanTest"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "TC07 Verify Between flow, CASH-\u003eSAME account MARGIN and no loan (feature toggle ON, 1-1 transfer)",
+  "coreIssues": [
+    "ATMT-55328"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "ATMT-55328",
+      "type": "tag",
+      "displayName": "ATMT-55328"
+    },
+    {
+      "name": "Priority-2b",
+      "type": "tag",
+      "displayName": "Priority-2b"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "true",
+      "type": "amc_use_new_accounts_service",
+      "displayName": "true"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T09:04:54.614910431-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:05:33.207772921-05:00[America/Chicago]",
+  "duration": 5376,
+  "projectKey": "",
+  "sessionId": "ee72e5ce10fa1b9ca066d97e5ef573e0",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-55328"
+  ],
+  "scenarioOutline": ""
+}

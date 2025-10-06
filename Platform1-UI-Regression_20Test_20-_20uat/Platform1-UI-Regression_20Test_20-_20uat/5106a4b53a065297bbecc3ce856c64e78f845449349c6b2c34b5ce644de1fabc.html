@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Demo New Transaction flow under 'amc_new_transfers_layout'.</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<!-- ImgPreview -->
+<script src="scripts/imgpreview.full.jquery.js" type="text/javascript"></script>
+</head>
+
+<body class="results-page">
+
+
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs">Home</a>
+
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="f4f387a3a7c8162d2c5573cffd878cb9ccf28c2d1afef2cd73f3e3aac7031190.html">Com</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html">Edwardjones</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="e2c5ae5c6d48543042f7af0ad34d441fce73cebb5d3af2a2a67e18f80a99d122.html">Platform ui tests</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="446e2b89ac909f7b1aa7e98ca229c105f7501d2289dd227683205cb8a182ad04.html">Testcases</a>
+ <!-- inflection.of(breadcrumb.displayName).asATitle()-->
+            > <a href="70e3453443fb76fbd7f0621089d74462cc41bfd41245fda2dd643e8389cb0732.html">Verify new transaction design touch test</a>
+        > Demo new transaction flow under 'amc new transfers layout'.
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 11:11</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+
+
+    <div id="contentbody">
+        <div class="titlebar">
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td>
+                                <div>
+                                    <h3 class="discreet-story-header">
+                                        <i class="fs-2 bi bi-chat-left-quote title-icon"></i>
+                                        <span class="story-header-title">Verify New Transaction Design Touch Test </span>
+                                    </h3>
+
+                                </div>
+
+                        </td>
+                        <td valign="top">
+                            <p class="tag">
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="1512d572cd1bb6385a9a2e7632ceac6226ee6dfb6c692a365c4e37b272617614.html">Priority-3
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                              (Duration)
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">Platform1-Regression
+                                        </a>
+                                </span>
+                                    <span class="badge example-tag tag-badge" style="background:default;">
+                                    <i class="bi bi-tag-fill"></i>&nbsp;
+                                        <a class="tagLink" style="background:default;"
+                                           href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">DB-Test-Data
+                                        </a>
+                                </span>
+                                    <span class='context-icon'>MICROSOFTEDGE</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="story-title">
+                <table class="outcome-header">
+                    <tr>
+                        <td colspan="2" class="test-title-bar">
+                            <span class="outcome-icon"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon fa-2x' title='ERROR'></i></a></span>
+                            <span class="test-case-title">
+                                <span class="error-color">
+                                    Demo New Transaction flow under 'amc_new_transfers_layout'.
+                                        <span class="related-issue-title">(<a target="_blank" href="https://edwardjones.atlassian.net/browse/ATMT-43056">ATMT-43056</a>)</span>
+                                </span>
+                            </span>
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+</div>
+</div>
+
+<div class="clr"></div>
+
+
+<div id="beforetable"></div>
+
+
+<div id="tablecontents">
+    <div>
+        <table class="step-table">
+            <tr class="step-titles">
+                <th width="65">
+                </th>
+                <th class="step-description-column greentext">
+                    Steps
+                </th>
+
+                    <th width="150" class="greentext">Screenshots</th>
+                <th width="130" class="greentext">Outcome</th>
+                <th width="100" class="greentext"><i title="Duration" class="bi bi-stopwatch"></i></th>
+            </tr>
+            <tr class="step-table-separator">
+                <td colspan="5"></td>
+            </tr>
+
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection0 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Get Select Individual non restricted account
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 282ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="0-0"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0-0')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection0-0 success-icon"
+                                   style="margin-left: 40px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection0-0')"
+                               style="display:block;">
+                                <span class="nested-step">
+                                                Retrieve random data from DB2: relationships for Branch - Single Select account with cash, margin and loan sub accounts
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-step">5s 277ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection0-0" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="90" class="step-icon">
+                        <a name="0-0-0"></a>
+                            <span style="margin-left: 60px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Retrieve data from DB2: relationships for Branch
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-db398c6f-d372-482b-b640-caf267c73690"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-0">select rlt.RLTSHP_ID AS RLTSHP_ID,<br>sub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,<br>sub_acc.ACCT_ID AS ACCT_ID,<br>sub_acc.BR_NO as BR_NO,<br>count(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,<br>sum(sub_acc_type.ACCT_TY_CD) as subAccountsSum<br><br>from PROD.RLTSHP_13120 rlt<br>join PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID = grp.ACCT_FUNC_GRP_ID<br>join PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID = sub_acct_svc.ACCT_ID<br>join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID = sub_acct_svc.ACCT_ID<br>join PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID = sub_acc_type.ACCT_ID<br>join PROD.ACCOUNT_12280 as acct on acct.ACCT_ID = sub_acct_svc.ACCT_ID<br>join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID =  acct.ACCT_OWN_RULE_ID<br>join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID = cls.ACCT_OWN_RULE_ID<br>join PROD.CONTACT_12250 as contact on contact.CON_ID  = sub_acc.TAX_RPT_CON_ID<br><br>where rlt.ISO_CTRY_CD = 'US'<br>and cls.ACCT_CLASS_CD ='01'<br> and sub_acct_svc.ACTV_IND = 'Y'<br> and sub_acc.AUTH_FORM_IND = 'Y'<br>and sub_acc.BR_NO = 9979<br>and sub_acc.ACCT_CLS_UT is NULL<br>and sub_acc.acct_rst_ind = 'N'<br> and sub_acct_svc.ACCT_SVC_TY_CD='SE'<br>--owner is not deceased<br>and contact.DEATH_DA is null<br>--inherited = N<br> and acct.dcdnt_retr_ind = 'N'<br>-- and acct.ACCT_ACTV_IND='N'<br><br>and sub_acc.acct_id not in<br>(               select a.acct_id<br>                from<br>                    PROD.ACCOUNT_12280 a<br>                    left outer join PROD.acct_rst_10214 v on v.account_no= a.cust_no<br>                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID =  a.ACCT_OWN_RULE_ID<br>                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID =  cls.ACCT_OWN_RULE_ID<br>                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID=a.ACCT_ID<br>                where<br>                    v.rst_rsn_cd is not null<br>                    and v.rst_rsn_cd in ('AUTH', 'DOCU', 'WARN', 'CIPR', 'COPD', 'CO', 'RISK', 'SSN', 'FTRN', '72T', 'MISC', 'MAIL', 'FOR', 'FOR2', 'R471', 'R407','DEATH')<br>                    and cls.ACCT_CLASS_CD ='01'<br>                    and sub_acc.BR_NO = 9979<br>                    and a.ACCT_CLS_DA is null<br>)<br>group by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO<br>having sum(sub_acc_type.ACCT_TY_CD) &gt;= 7<br>fetch first 500 rows only;</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-50b13365-a2d7-42db-b84c-04b8f821f767"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-3-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-3-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-3-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-3-1">{VNDR_ACCT_ID=99754009            , ACCT_ID=116132583, RLTSHP_ID=27, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99752580            , ACCT_ID=106827308, RLTSHP_ID=761539, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99758085            , ACCT_ID=121385265, RLTSHP_ID=1088362, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99758086            , ACCT_ID=121385269, RLTSHP_ID=1088362, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757266            , ACCT_ID=120812546, RLTSHP_ID=1097373, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761814            , ACCT_ID=126185613, RLTSHP_ID=1251116, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768136            , ACCT_ID=133361046, RLTSHP_ID=27203750, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99763535            , ACCT_ID=128456522, RLTSHP_ID=27209262, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764602            , ACCT_ID=129433613, RLTSHP_ID=39998442, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99752386            , ACCT_ID=100436033, RLTSHP_ID=39999009, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99756677            , ACCT_ID=120395125, RLTSHP_ID=39999284, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757316            , ACCT_ID=120860728, RLTSHP_ID=39999565, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99751434            , ACCT_ID=3339857, RLTSHP_ID=40000077, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99755083            , ACCT_ID=119108007, RLTSHP_ID=40000110, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99755551            , ACCT_ID=119400118, RLTSHP_ID=40000110, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99754781            , ACCT_ID=118427994, RLTSHP_ID=40000176, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99755214            , ACCT_ID=119162208, RLTSHP_ID=40000273, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99755679            , ACCT_ID=119521159, RLTSHP_ID=40000305, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99755841            , ACCT_ID=119567329, RLTSHP_ID=40000307, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99756303            , ACCT_ID=120146971, RLTSHP_ID=40000356, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99754363            , ACCT_ID=117425460, RLTSHP_ID=40504354, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99758833            , ACCT_ID=121855969, RLTSHP_ID=41813602, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757794            , ACCT_ID=121282494, RLTSHP_ID=42757658, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761906            , ACCT_ID=126359048, RLTSHP_ID=43389371, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765702            , ACCT_ID=130046087, RLTSHP_ID=43775066, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757408            , ACCT_ID=120917770, RLTSHP_ID=44445268, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757615            , ACCT_ID=121102976, RLTSHP_ID=44445268, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757479            , ACCT_ID=121035828, RLTSHP_ID=44457548, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760832            , ACCT_ID=124425730, RLTSHP_ID=44737192, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760833            , ACCT_ID=124425755, RLTSHP_ID=44737192, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99762463            , ACCT_ID=127162848, RLTSHP_ID=44737192, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99767850            , ACCT_ID=132883471, RLTSHP_ID=45290141, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764441            , ACCT_ID=129331801, RLTSHP_ID=46462083, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760309            , ACCT_ID=123588902, RLTSHP_ID=48685337, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760517            , ACCT_ID=123991740, RLTSHP_ID=48685337, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760519            , ACCT_ID=123991965, RLTSHP_ID=48685337, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761850            , ACCT_ID=126240446, RLTSHP_ID=54613408, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761935            , ACCT_ID=126429720, RLTSHP_ID=55135078, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761936            , ACCT_ID=126429839, RLTSHP_ID=55135620, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761944            , ACCT_ID=126441192, RLTSHP_ID=55169339, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99762020            , ACCT_ID=126507365, RLTSHP_ID=55170519, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769253            , ACCT_ID=135287356, RLTSHP_ID=55170519, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766815            , ACCT_ID=131856577, RLTSHP_ID=55234793, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768916            , ACCT_ID=134931607, RLTSHP_ID=57103176, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99754204            , ACCT_ID=117818258, RLTSHP_ID=58343295, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99763257            , ACCT_ID=128292491, RLTSHP_ID=59965748, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765601            , ACCT_ID=129941523, RLTSHP_ID=59965748, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765603            , ACCT_ID=129941728, RLTSHP_ID=59965748, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765627            , ACCT_ID=129941735, RLTSHP_ID=59965748, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99763640            , ACCT_ID=128567575, RLTSHP_ID=60716847, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99762690            , ACCT_ID=127498009, RLTSHP_ID=62355280, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99762691            , ACCT_ID=127498017, RLTSHP_ID=62355280, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768414            , ACCT_ID=133923656, RLTSHP_ID=62849513, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765230            , ACCT_ID=129815343, RLTSHP_ID=63393073, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764855            , ACCT_ID=129614003, RLTSHP_ID=63429702, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764965            , ACCT_ID=129629394, RLTSHP_ID=63430236, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766629            , ACCT_ID=131601917, RLTSHP_ID=63808690, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765190            , ACCT_ID=129798840, RLTSHP_ID=63914968, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765730            , ACCT_ID=130101920, RLTSHP_ID=64713270, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765942            , ACCT_ID=130557477, RLTSHP_ID=65103605, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99765927            , ACCT_ID=130537987, RLTSHP_ID=65379783, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771182            , ACCT_ID=138149582, RLTSHP_ID=65657184, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766223            , ACCT_ID=130847179, RLTSHP_ID=66064207, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766225            , ACCT_ID=130847947, RLTSHP_ID=66064207, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771399            , ACCT_ID=138599019, RLTSHP_ID=66064207, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99760407            , ACCT_ID=123724320, RLTSHP_ID=66082802, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766339            , ACCT_ID=131004485, RLTSHP_ID=66350775, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769042            , ACCT_ID=135071510, RLTSHP_ID=66350775, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99758122            , ACCT_ID=121396813, RLTSHP_ID=67172954, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771195            , ACCT_ID=138175078, RLTSHP_ID=67495679, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771196            , ACCT_ID=138175215, RLTSHP_ID=67495679, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771197            , ACCT_ID=138175609, RLTSHP_ID=67495679, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771198            , ACCT_ID=138175699, RLTSHP_ID=67495679, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766714            , ACCT_ID=131743516, RLTSHP_ID=67495725, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99756489            , ACCT_ID=120340062, RLTSHP_ID=67781053, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766822            , ACCT_ID=131868860, RLTSHP_ID=68225167, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99767080            , ACCT_ID=131984788, RLTSHP_ID=68420316, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99761946            , ACCT_ID=126441347, RLTSHP_ID=68947457, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99767410            , ACCT_ID=132259077, RLTSHP_ID=69069018, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770041            , ACCT_ID=136321983, RLTSHP_ID=69081140, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771477            , ACCT_ID=138635392, RLTSHP_ID=69153915, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768016            , ACCT_ID=133134146, RLTSHP_ID=72272811, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768362            , ACCT_ID=133832096, RLTSHP_ID=73660994, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769298            , ACCT_ID=135306282, RLTSHP_ID=73660994, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769854            , ACCT_ID=136092166, RLTSHP_ID=73660994, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770864            , ACCT_ID=137446162, RLTSHP_ID=73660994, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771091            , ACCT_ID=137980391, RLTSHP_ID=73660994, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768416            , ACCT_ID=133925606, RLTSHP_ID=73864065, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768919            , ACCT_ID=134938563, RLTSHP_ID=76418359, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770182            , ACCT_ID=136537672, RLTSHP_ID=76529869, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770183            , ACCT_ID=136537864, RLTSHP_ID=76529869, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770197            , ACCT_ID=136542919, RLTSHP_ID=76529869, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769286            , ACCT_ID=135306265, RLTSHP_ID=76530239, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769056            , ACCT_ID=135086848, RLTSHP_ID=76860126, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769041            , ACCT_ID=135071263, RLTSHP_ID=76873600, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766717            , ACCT_ID=131743567, RLTSHP_ID=77392930, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769321            , ACCT_ID=135309394, RLTSHP_ID=77402561, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769466            , ACCT_ID=135512365, RLTSHP_ID=78145838, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99769879            , ACCT_ID=136107482, RLTSHP_ID=78145838, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99754357            , ACCT_ID=117417058, RLTSHP_ID=79760567, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768918            , ACCT_ID=134938486, RLTSHP_ID=80296031, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770251            , ACCT_ID=136624440, RLTSHP_ID=81694813, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757286            , ACCT_ID=120860624, RLTSHP_ID=81826584, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99773895            , ACCT_ID=143960134, RLTSHP_ID=82036128, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770349            , ACCT_ID=136755538, RLTSHP_ID=82194159, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771112            , ACCT_ID=138050069, RLTSHP_ID=83336753, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99763308            , ACCT_ID=128318638, RLTSHP_ID=83559124, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770710            , ACCT_ID=137335699, RLTSHP_ID=83832958, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770711            , ACCT_ID=137335862, RLTSHP_ID=83832958, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770939            , ACCT_ID=137544743, RLTSHP_ID=83832958, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770940            , ACCT_ID=137544745, RLTSHP_ID=83832958, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770951            , ACCT_ID=137545906, RLTSHP_ID=83832958, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770750            , ACCT_ID=137361869, RLTSHP_ID=84265565, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771486            , ACCT_ID=138640601, RLTSHP_ID=84265565, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99751754            , ACCT_ID=104372004, RLTSHP_ID=84970137, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770986            , ACCT_ID=137638636, RLTSHP_ID=85096915, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770365            , ACCT_ID=136791961, RLTSHP_ID=86531279, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771194            , ACCT_ID=138174537, RLTSHP_ID=86873541, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99768775            , ACCT_ID=134702220, RLTSHP_ID=87200780, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764578            , ACCT_ID=129430377, RLTSHP_ID=87300396, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99771625            , ACCT_ID=138710328, RLTSHP_ID=87387332, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99770462            , ACCT_ID=136947514, RLTSHP_ID=88404307, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=13022776            , ACCT_ID=145215662, RLTSHP_ID=96584212, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99764363            , ACCT_ID=129242704, RLTSHP_ID=101029389, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99766796            , ACCT_ID=131806011, RLTSHP_ID=102735384, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=13024455            , ACCT_ID=145243300, RLTSHP_ID=102774030, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=13023834            , ACCT_ID=145229242, RLTSHP_ID=102891849, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=13022981            , ACCT_ID=145220276, RLTSHP_ID=102936656, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}<br>{VNDR_ACCT_ID=99757382            , ACCT_ID=120903304, RLTSHP_ID=102983051, BR_NO=9979, SUBACCOUNTTYPECOUNT=4, SUBACCOUNTSSUM=12}</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">5s 273ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="1"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection1 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection1')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Prepare approved bank profile
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">5s 130ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection1" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get bank accounts with approved profiles by account id 133361046
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-52c24b58-2ba8-403c-aa80-d8e38ca70552"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-5-0">
+                        SQL query for AMC_PROFILE
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-5-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query for AMC_PROFILE
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-5-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-5-0">SELECT bank_profile.bank_profile_guid as bank_profile_guid, bank_profile.account_id as account_id, bank_account.bank_account_guid as bank_account_guid, bank_account.bank_account_no as bank_account_no, bank_account.bank_na as bank_na, bank_account.routing_no as routing_no, bank_account.bank_account_type_cd as bank_account_type_cd, bank_account.bank_account_ownership_type_cd as bank_account_ownership_type_cd, bank_account.bank_account_nick_na as bank_account_nick_na, bank_account.bank_account_legal_entity_na as bank_account_legal_entity_na FROM bank_profile, bank_account WHERE bank_profile.bank_account_id = bank_account.bank_account_id and bank_profile.account_id = 133361046 and bank_profile.bank_profile_status_cd='APPROVED'</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">025ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="1-1"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Get bank name by routing number 101000077
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-c2678313-d9e7-4e75-ac3f-e82e1612ed5d"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-6-0">
+                        SQL query
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-6-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL query
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-6-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-6-0">select BK_NA<br>from PROD.BK_DATA_HST_11218<br>where<br>BK_RTE_NO=101000077<br>and END_TS is null</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-cbe7444b-4d21-49d0-b86b-d95726ca2c09"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-6-1">
+                        SQL result
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-6-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                SQL result
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-6-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-6-1">{BK_NA=UMB, NA                             }</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-844ad074-494d-4a11-974c-d67c92562fa4"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-6-2">
+                        Prepared bank profile
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-6-2" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Prepared bank profile
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-6-2')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-6-2">LinkedBank(name=nnban8964, number=****8964, entityType=UMB, NA, accountType=CHECKING, id=A3521773-50B6-4FD7-AB53-E4951C28B845)</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">5s 100ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="2"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection2 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection2')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Authenticating the session with pid: FATEST
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=0">
+                                    <img src="eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png"
+                                         href="eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                                <i class="bi bi-arrow-right"></i>
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=2">
+                                    <img src="2186f73535418b36e210ef5c3b335c672b346e633b1e08eca0d2cc3a59bb1781.png"
+                                         href="2186f73535418b36e210ef5c3b335c672b346e633b1e08eca0d2cc3a59bb1781.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">4s 202ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection2" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="2-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Launch WAM and authenticate
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=1">
+                                    <img src="eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png"
+                                         href="eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">1s 561ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="3"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Opening the asset movement page for relationship id: 27203750
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=3">
+                                    <img src="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         href="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">1s 990ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="4"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify 'Progress Stepper' isDisplayed is true.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=4">
+                                    <img src="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         href="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">124ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="5"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify footer button 'Next' isPresent=true.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=5">
+                                    <img src="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         href="ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">133ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="6"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Verify footer button 'Continue' isPresent=false.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=6">
+                                    <img src="6c59cd458190f41fabd3159b599461c772b702e5fe699140feb829a6af94ded7.png"
+                                         href="6c59cd458190f41fabd3159b599461c772b702e5fe699140feb829a6af94ded7.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">2s 148ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="7"></a>
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection7')"
+                               style="display:block">
+                                <i class="bi bi-caret-right-square imgstepSection7 success-icon"
+                                   style="margin-left: 20px; float:left; padding-right:5px"></i>
+                            </a>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                            <a href="javaScript:void(0)" onClick="toggleDiv('stepSection7')"
+                               style="display:block;">
+                                <span class="top-level-step">
+                                                Validate the Next button is enabled
+                                        </span>
+                            </a>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=9">
+                                    <img src="6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+                                         href="6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">20s 246ms</span></td>
+                </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table id="stepSection7" class="step-table-nested" style="display:none;">
+                <tr class="test-SUCCESS">
+
+                    <td width="70" class="step-icon">
+                        <a name="7-0"></a>
+                            <span style="margin-left: 40px;"
+                                  class="nested-group-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="nested-group-step">
+                                                Validate 'Next' button is enabled false
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=8">
+                                    <img src="6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+                                         href="6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="nested-group-step">SUCCESS</span></td>
+                    <td width="100"><span class="nested-group-step">20s 236ms</span></td>
+                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="8"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Cancel Transfer button is enabled false
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=10">
+                                    <img src="7bd6926a95ea7eac187e2f968b53b23cbd9b386554eb04ca3e742eb12e8000d5.png"
+                                         href="7bd6926a95ea7eac187e2f968b53b23cbd9b386554eb04ca3e742eb12e8000d5.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">20s 231ms</span></td>
+                </tr>
+                <tr class="test-SUCCESS">
+
+                    <td width="50" class="step-icon">
+                        <a name="9"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select Asset Movement direction as 'Out Of'.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SUCCESS-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=11">
+                                    <img src="d56d100b22a8907c677d884afd49dc73fbad4b33d8ed6609172afcb46472e57e.png"
+                                         href="d56d100b22a8907c677d884afd49dc73fbad4b33d8ed6609172afcb46472e57e.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">SUCCESS</span></td>
+                    <td width="100"><span class="top-level-step">398ms</span></td>
+                </tr>
+                <tr class="test-ERROR">
+
+                    <td width="50" class="step-icon">
+                        <a name="10"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select 'From Account' by account number 99768136.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="ERROR-text">
+
+                                <a href="5106a4b53a065297bbecc3ce856c64e78f845449349c6b2c34b5ce644de1fabc_screenshots.html#screenshots?screenshot=12">
+                                    <img src="ff2d291a187cc4e2310bd5c0f31670fc8a2733320df4bc9e0e12e100f6a05f42.png"
+                                         href="ff2d291a187cc4e2310bd5c0f31670fc8a2733320df4bc9e0e12e100f6a05f42.png"
+                                         class="screenshot"
+                                         width="48" height="48"/>
+                                </a>
+                        </td>
+                    <td width="130"><span class="top-level-step">ERROR</span></td>
+                    <td width="100"><span class="top-level-step">22s 475ms</span></td>
+                </tr>
+                    <tr class="test-ERROR">
+                        <td width="40">&nbsp</td>
+                        <td width="%" colspan="4" class="error-message-cell">
+
+
+    <div style="display:block">
+        <div class="table">
+            <div class="row">
+                <div class="col-sm-10" style="padding-left:1.5em; padding-top:0.5em; padding-bottom:0.5em;">
+                    <span class="error-message error-message-title">org.openqa.selenium.TimeoutException: Expected condition failed: waiting for Account &#39;From&#39; list should contain value 99768136 (tried for 20 second(s) with 500 milliseconds interval)<br>Build info: version: &#39;4.21.0&#39;, revision: &#39;79ed462ef4&#39;<br>System info: os.name: &#39;Linux&#39;, os.arch: &#39;amd64&#39;, os.version: &#39;4.18.0-553.51.1.el8_10.x86_64&#39;, java.version: &#39;17.0.1&#39;<br>Driver info: net.thucydides.core.webdriver.WebDriverFacade</span>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-warning details-button" data-toggle="collapse" href="#stacktraceModal-17"
+                       role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><i class="bi bi-eye"></i> More details</a>
+                </div>
+             </div>
+        </div>
+    <div>
+
+    <!-- Details Section -->
+    <div class="row stacktrace-details">
+      <div class="col">
+        <div class="collapse multi-collapse" id="stacktraceModal-17">
+            <div class="card">
+                <div class="card-header">
+                    <h4>org.openqa.selenium.TimeoutException </h4>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <pre>com.edwardjones.automation.pages_elements.BasePageObject_ACH.waitForListElement(BasePageObject_ACH.java:247)<br />com.edwardjones.automation.pages_elements.ChooseAccountModule_ACH.selectAccountFrom(ChooseAccountModule_ACH.java:182)<br />com.edwardjones.automation.steps.newtransaction_progresser.ChooseAssetMovementSteps_PGR.selectFromAccountByNumber(ChooseAssetMovementSteps_PGR.java:20)<br />com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest.verifyNewTransactionProgressStepperIsUnderToggle(VerifyNewTransactionDesignTouchTest.java:46)<br />worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)<br />worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)<br /></pre>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+                        </td>
+                    </tr>
+                <tr class="test-SKIPPED">
+
+                    <td width="50" class="step-icon">
+                        <a name="11"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-skip-forward skipped-icon ' title='SKIPPED'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Click 'Next'.
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SKIPPED-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SKIPPED</span></td>
+                    <td width="100"><span class="top-level-step"></span></td>
+                </tr>
+                <tr class="test-SKIPPED">
+
+                    <td width="50" class="step-icon">
+                        <a name="12"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-skip-forward skipped-icon ' title='SKIPPED'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Select searched account ****8964
+                                        </span>
+                            <span class="evidence">
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SKIPPED-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SKIPPED</span></td>
+                    <td width="100"><span class="top-level-step"></span></td>
+                </tr>
+                <tr class="test-SKIPPED">
+
+                    <td width="50" class="step-icon">
+                        <a name="13"></a>
+                            <span style="margin-left: 20px;"
+                                  class="top-level-icon"><a href='##beforetable'><i class='bi bi-skip-forward skipped-icon ' title='SKIPPED'></i></a>
+                                </span>
+                    </td>
+
+                    <td class="step-description-column">
+                        <div class="step-description">
+                                <span class="top-level-step">
+                                                Validate 'Next' button is enabled
+                                        </span>
+                            <span class="evidence">
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-a580dea8-e82a-414f-a451-d7e80251210f"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-20-0">
+                        ...qTest Listener disabled
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-20-0" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                ...qTest Listener disabled
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-20-0')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-20-0">Listener disabled or Serenity 'Result' is 'IGNORED' or Test Suite is invalid</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                        <span class="piece-of-evidence">
+
+    <script>
+        function copyContent(id) {
+            console.log("copy content of " + id)
+            const content = document.getElementById(id).innerText
+            navigator.clipboard.writeText(content);
+        }
+    </script>
+
+                <a name="report-data-4e84085b-f13a-4b2a-9e0a-34509deb1b9c"></a>
+                <span>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="collapse"
+                            data-target="#reportData-EVIDENCE-20-1">
+                        Error submitting test results. INFO only
+                    </button>
+                </span>
+                <div class="rest-query-details">
+                    <div class="collapse multi-collapse" id="reportData-EVIDENCE-20-1" tabindex="-1" role="dialog"
+                         aria-labelledby="restModalLabel" aria-hidden="true">
+                        <div class="card">
+                            <h4 class="card-header" id="restModalLabel">
+                                Error submitting test results. INFO only
+                            <a role="button" class="btn btn-xs copy-button" onclick="copyContent('reportDataContent-EVIDENCE-20-1')">
+                                <i class="bi bi-clipboard"></i>&nbsp;Copy
+                            </a>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <pre id="reportDataContent-EVIDENCE-20-1">closed</pre>
+                        </div>
+                    </div>
+                </div>
+                                            </span>
+                                </span>
+                        </div>
+                    </td>
+
+                        <td width="160" class="SKIPPED-text">
+
+                        </td>
+                    <td width="130"><span class="top-level-step">SKIPPED</span></td>
+                    <td width="100"><span class="top-level-step"></span></td>
+                </tr>
+            <tr class="test-ERROR">
+                    <td colspan="3"></td>
+                <td width="130"><span class="top-level-step"><em>ERROR</em></span></td>
+                <td width="100"><span class="top-level-step"><em>5.27s</em></span></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+<div id="beforefooter"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleDiv(divId) {
+        $("#" + divId).toggle();
+        var $icon = $(".img" + divId);
+        $icon.toggleClass("bi-caret-right-square");
+        $icon.toggleClass("bi-caret-down-square");
+    }
+</script>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+
+    $(document).ready(function () {
+        $('img.screenshot').imgPreview({
+            imgCSS: {
+                width: '500px'
+            },
+            distanceFromCursor: {top: 10, left: -200}
+        });
+    });
+
+    //]]>
+</script>
+<div id="imgPreviewContainer" style="position: absolute; top: 612px; left: 355px; display: none; " class=""><img
+            src="" style="display: none; "></div>
+<div id="imgPreviewContainer2" style="position: absolute; top: 925px; left: 320px; display: none; " class="">
+    <img style="width: 200px; display: none; " src=""></div>
+<div id="imgPreviewWithStyles" style="position: absolute; top: 1272px; left: 321px; display: none; " class="">
+    <img style="height: 200px; opacity: 1; display: none; " src=""></div>
+<div id="imgPreviewWithStyles2" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+<div id="imgPreviewWithStyles3" style="display: none; position: absolute; "><img style="height: 200px; "></div>
+
+</div>
+</body>
+</html>

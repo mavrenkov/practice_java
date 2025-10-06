@@ -1,0 +1,538 @@
+{
+  "name": "verifyWhoInitiatedTransferWithMultipleAuthRoles()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]/[method:verifyWhoInitiatedTransferWithMultipleAuthRoles()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+  "methodName": "verifyWhoInitiatedTransferWithMultipleAuthRoles",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Authenticating the session with pid: p044073",
+      "duration": 2280,
+      "startTime": "2025-10-06T09:27:36.119291877-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+          "timeStamp": 1759760858399,
+          "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Launch WAM and authenticate",
+          "duration": 1747,
+          "startTime": "2025-10-06T09:27:36.212783993-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+              "timeStamp": 1759760857960,
+              "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Retrieve random data from DB2: EJ accounts with contact roles 2 for 61 class code",
+      "duration": 6201,
+      "startTime": "2025-10-06T09:27:38.400168614-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+          "timeStamp": 1759760864602,
+          "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002761\u0027\n-- and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n-- and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 9979\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n-- and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n-- and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n and sub_acc.ACCT_ID in (\nselect\nsub_acc.ACCT_ID AS ACCT_ID\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.ACCT_RLTD_PY_12310 as rol on rol.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.CONTACT_12250 as con on con.CON_ID \u003d rol.RLTD_CON_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\n\nwhere sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind\u003d\u0027N\u0027\nand sub_acc.BR_NO \u003d 9979\nand con.DEATH_DA is null\nand rol.LGCL_DEL_DA is NULL\nand rol.CON_RLSHP_TY_CD in (\u0027AUTH\u0027,\u0027CNTRLPRSN\u0027,\u0027COMM\u0027,\u0027CONSV\u0027,\u0027CURATOR\u0027,\u0027CUST\u0027,\u0027GRDN\u0027,\u0027OWNROLE\u0027,\u0027TTEE\u0027,\u0027TUTOR\u0027,\u0027POA\u0027)\nand cls.ACCT_CLASS_CD \u003d\u002761\u0027\n\ngroup by sub_acc.ACCT_ID\nhaving count(distinct rol.CON_RLSHP_TY_CD)\u003e\u003d2\n)\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002761\u0027\n                    and sub_acc.BR_NO \u003d 9979\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 1\nfetch first 500 rows only;",
+          "isEvidence": false,
+          "id": "report-data-32cf513e-cd33-4a27-a54c-8696a8ca109f"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{VNDR_ACCT_ID\u003d99783425            , ACCT_ID\u003d133605178, RLTSHP_ID\u003d52078863, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785613            , ACCT_ID\u003d143469836, RLTSHP_ID\u003d56926618, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99784388            , ACCT_ID\u003d136245121, RLTSHP_ID\u003d61034561, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99783328            , ACCT_ID\u003d133300324, RLTSHP_ID\u003d72649911, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99783578            , ACCT_ID\u003d134047251, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99784076            , ACCT_ID\u003d135306281, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785037            , ACCT_ID\u003d139728453, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99783411            , ACCT_ID\u003d133554365, RLTSHP_ID\u003d75359721, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99783707            , ACCT_ID\u003d134577888, RLTSHP_ID\u003d76482798, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785743            , ACCT_ID\u003d143894308, RLTSHP_ID\u003d82036128, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99784537            , ACCT_ID\u003d136756277, RLTSHP_ID\u003d82194159, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785586            , ACCT_ID\u003d143350615, RLTSHP_ID\u003d82194159, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785370            , ACCT_ID\u003d141937673, RLTSHP_ID\u003d83391515, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775314            , ACCT_ID\u003d145213555, RLTSHP_ID\u003d84265565, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785354            , ACCT_ID\u003d141808309, RLTSHP_ID\u003d87405022, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785420            , ACCT_ID\u003d142349005, RLTSHP_ID\u003d87405022, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785421            , ACCT_ID\u003d142349128, RLTSHP_ID\u003d87405022, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785448            , ACCT_ID\u003d142524700, RLTSHP_ID\u003d87405022, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785030            , ACCT_ID\u003d139698418, RLTSHP_ID\u003d89204360, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99774682            , ACCT_ID\u003d144521086, RLTSHP_ID\u003d90722687, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785725            , ACCT_ID\u003d143861490, RLTSHP_ID\u003d100197462, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99776180            , ACCT_ID\u003d145236698, RLTSHP_ID\u003d101638208, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99785744            , ACCT_ID\u003d143894521, RLTSHP_ID\u003d102761548, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775147            , ACCT_ID\u003d145202595, RLTSHP_ID\u003d102762781, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775173            , ACCT_ID\u003d145203689, RLTSHP_ID\u003d102769107, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775355            , ACCT_ID\u003d145215682, RLTSHP_ID\u003d102772330, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99774977            , ACCT_ID\u003d145176423, RLTSHP_ID\u003d102794279, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99774986            , ACCT_ID\u003d145179326, RLTSHP_ID\u003d102799197, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775299            , ACCT_ID\u003d145209707, RLTSHP_ID\u003d102808814, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775131            , ACCT_ID\u003d145201977, RLTSHP_ID\u003d102849459, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775134            , ACCT_ID\u003d145202123, RLTSHP_ID\u003d102849805, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775139            , ACCT_ID\u003d145202147, RLTSHP_ID\u003d102849980, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775141            , ACCT_ID\u003d145202221, RLTSHP_ID\u003d102850222, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775144            , ACCT_ID\u003d145202564, RLTSHP_ID\u003d102850944, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775157            , ACCT_ID\u003d145203115, RLTSHP_ID\u003d102852908, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775165            , ACCT_ID\u003d145203313, RLTSHP_ID\u003d102853707, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775175            , ACCT_ID\u003d145203696, RLTSHP_ID\u003d102854727, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775187            , ACCT_ID\u003d145203900, RLTSHP_ID\u003d102855341, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775195            , ACCT_ID\u003d145204138, RLTSHP_ID\u003d102855745, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775236            , ACCT_ID\u003d145205736, RLTSHP_ID\u003d102860512, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775281            , ACCT_ID\u003d145208050, RLTSHP_ID\u003d102867443, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775300            , ACCT_ID\u003d145210166, RLTSHP_ID\u003d102875453, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775304            , ACCT_ID\u003d145212088, RLTSHP_ID\u003d102888949, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775308            , ACCT_ID\u003d145212385, RLTSHP_ID\u003d102889730, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775339            , ACCT_ID\u003d145215160, RLTSHP_ID\u003d102905238, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775340            , ACCT_ID\u003d145215201, RLTSHP_ID\u003d102905743, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775341            , ACCT_ID\u003d145215202, RLTSHP_ID\u003d102905745, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775348            , ACCT_ID\u003d145215421, RLTSHP_ID\u003d102906252, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775351            , ACCT_ID\u003d145215457, RLTSHP_ID\u003d102906284, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775354            , ACCT_ID\u003d145215589, RLTSHP_ID\u003d102906792, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775397            , ACCT_ID\u003d145217492, RLTSHP_ID\u003d102913893, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775433            , ACCT_ID\u003d145218052, RLTSHP_ID\u003d102916368, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775435            , ACCT_ID\u003d145218133, RLTSHP_ID\u003d102916449, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775445            , ACCT_ID\u003d145218458, RLTSHP_ID\u003d102917510, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775450            , ACCT_ID\u003d145218471, RLTSHP_ID\u003d102917575, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775519            , ACCT_ID\u003d145219925, RLTSHP_ID\u003d102935750, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775753            , ACCT_ID\u003d145223904, RLTSHP_ID\u003d102966926, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775743            , ACCT_ID\u003d145223862, RLTSHP_ID\u003d102970970, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775744            , ACCT_ID\u003d145223885, RLTSHP_ID\u003d102970972, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775745            , ACCT_ID\u003d145223863, RLTSHP_ID\u003d102970974, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775746            , ACCT_ID\u003d145223886, RLTSHP_ID\u003d102970976, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775747            , ACCT_ID\u003d145223887, RLTSHP_ID\u003d102970978, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775748            , ACCT_ID\u003d145223888, RLTSHP_ID\u003d102970980, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775749            , ACCT_ID\u003d145223889, RLTSHP_ID\u003d102970986, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775750            , ACCT_ID\u003d145223866, RLTSHP_ID\u003d102970988, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775752            , ACCT_ID\u003d145223896, RLTSHP_ID\u003d102971062, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775810            , ACCT_ID\u003d145225341, RLTSHP_ID\u003d102976519, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775820            , ACCT_ID\u003d145225523, RLTSHP_ID\u003d102977269, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775823            , ACCT_ID\u003d145225532, RLTSHP_ID\u003d102977362, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775829            , ACCT_ID\u003d145225586, RLTSHP_ID\u003d102977757, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775832            , ACCT_ID\u003d145225600, RLTSHP_ID\u003d102977786, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775867            , ACCT_ID\u003d145226199, RLTSHP_ID\u003d102980141, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775922            , ACCT_ID\u003d145228013, RLTSHP_ID\u003d102983539, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775923            , ACCT_ID\u003d145228124, RLTSHP_ID\u003d102983541, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775924            , ACCT_ID\u003d145228171, RLTSHP_ID\u003d102983542, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775910            , ACCT_ID\u003d145227243, RLTSHP_ID\u003d102984045, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775911            , ACCT_ID\u003d145227365, RLTSHP_ID\u003d102984105, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775919            , ACCT_ID\u003d145227811, RLTSHP_ID\u003d102985714, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775920            , ACCT_ID\u003d145227947, RLTSHP_ID\u003d102985956, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99775921            , ACCT_ID\u003d145227959, RLTSHP_ID\u003d102986324, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d99776441            , ACCT_ID\u003d145276126, RLTSHP_ID\u003d103172210, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}",
+          "isEvidence": false,
+          "id": "report-data-c833f897-7aa1-4542-b7b5-12aaac8c0bf7"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Get authorized contacts for EJ account 143469836",
+      "duration": 5195,
+      "startTime": "2025-10-06T09:27:44.602435819-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+          "timeStamp": 1759760869798,
+          "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Get contact name by ID 143469836",
+          "duration": 5185,
+          "startTime": "2025-10-06T09:27:44.604110961-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+              "timeStamp": 1759760869790,
+              "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "SELECT \n    L.ACCT_ID, \n    L.CON_ID, \n    L.LGCL_DEL_DA,\n    L.ACCT_ROLE_CD, \n    L.CON_RLSHP_TY_CD, \n    K.LOC_ACCT_ROLE_NA,\n    \n    D.FST_GVN_NA,\n    D.MID_GVN_NA,\n    D.MAIN_FAM_NA,\n    C.EMAIL_ADR_TXT,\n    B.DEATH_DA\n\nFROM\n\n(\n    SELECT \n        A.IR_NO, A.ACCT_ID, B.ACCT_ROLE_CD, A.CON_ID, A.ACCT_SEQ_NO,\n        A.CON_DATA_COMPL_IND, A.LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD,\n        CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.CUST_ACCT_12281 AS A, \n        PROD.ACCTROLEXREF_10099 AS B\n    WHERE \n        A.ACCT_ID \u003d 143469836 \n        AND A.ACCT_ROLE_CD \u003d B.LGCY_ACCT_ROLE_CD AND A.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, \u0027Y\u0027 AS CON_DATA_COMPL_IND,\n        LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.CLNT_SACCT_12553 AS C \n    WHERE \n        ACCT_ID \u003d 143469836 \n        AND LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        D.CON_PART_KEY AS IR_NO, D.ACCT_ID, E.ACCT_ROLE_CD, D.RLTD_CON_ID AS CON_ID, D.ACCT_SEQ_NO,\n        D.CON_DATA_COMPL_IND, D.LGCL_DEL_DA, D.ACCT_PRTY_APP_STAT_CD, D.ACCT_PRTY_APP_EMPL_ID, D.ACCT_PRTY_APP_DA,\n        D.CON_RLSHP_TY_CD, D.ACCT_PRTY_BUS_TITLE_CD, CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.ACCT_RLTD_PY_12310 AS D, PROD.ACCTROLEXREF_10099 AS E\n    WHERE \n        D.ACCT_ID \u003d 143469836 \n        AND D.CON_RLSHP_TY_CD \u003d E.LGCY_ACCT_ROLE_CD AND D.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, CON_DATA_COMPL_IND, LGCL_DEL_DA,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID,\n        CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA, CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.SACC_AUTH_PY_12548 AS O\n    WHERE \n        ACCT_ID \u003d 143469836 \n        AND LGCL_DEL_DA IS NULL\n) AS L\n\nLEFT OUTER JOIN PROD.LOC_ACCTROLE_12610 AS K ON L.ACCT_ROLE_CD \u003d K.ACCT_ROLE_CD AND K.ISO_CTRY_CD \u003d \u0027US\u0027\nLEFT JOIN PROD.CON_NAME_12284 D ON L.CON_ID \u003d D.CON_ID\nLEFT JOIN PROD.CON_EMAIL_13899 A ON A.CON_ID \u003d L.CON_ID\nLEFT JOIN PROD.EMAIL_ADR_13898 C ON C.EMAIL_ID \u003d A.EMAIL_ID\nLEFT JOIN PROD.CONTACT_12250 B on B.CON_ID \u003d L.CON_ID",
+              "isEvidence": false,
+              "id": "report-data-35a9e0fb-c093-413b-a6a2-d3a8ffd9396a"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{LOC_ACCT_ROLE_NA\u003dAuthorized Person             , CON_RLSHP_TY_CD\u003dnull, DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d214641685, FST_GVN_NA\u003dNicole                        , MAIN_FAM_NA\u003dFenske                        , EMAIL_ADR_TXT\u003designtest4@edwardjones.com, ACCT_ROLE_CD\u003dAP}\n{LOC_ACCT_ROLE_NA\u003dTrading Authority             , CON_RLSHP_TY_CD\u003dFTA       , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d318013402, FST_GVN_NA\u003dCODY                          , MAIN_FAM_NA\u003dFENSKE                        , EMAIL_ADR_TXT\u003dis-ca@edwardjones.com, ACCT_ROLE_CD\u003dTA}\n{LOC_ACCT_ROLE_NA\u003dPower of Attorney             , CON_RLSHP_TY_CD\u003dPOA       , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d321211693, FST_GVN_NA\u003dGwendolynDAS                  , MAIN_FAM_NA\u003dfuIPmWZm                      , EMAIL_ADR_TXT\u003designtest0@edwardjones.com, ACCT_ROLE_CD\u003dPA}\n{LOC_ACCT_ROLE_NA\u003dGuardian                      , CON_RLSHP_TY_CD\u003dGRDN      , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d321235441, FST_GVN_NA\u003dKrishnaDAS                    , MAIN_FAM_NA\u003dyVClvqtr                      , EMAIL_ADR_TXT\u003designtest0@edwardjones.com, ACCT_ROLE_CD\u003dGN}",
+              "isEvidence": false,
+              "id": "report-data-d416e511-7c5c-4062-b9cc-68f18b39712b"
+            },
+            {
+              "title": "Authorized contacts",
+              "contents": "[AccountOwnerRole(name\u003dNicole Fenske, role\u003dAuthorized Person), AccountOwnerRole(name\u003dGwendolynDAS fuIPmWZm, role\u003dPower of Attorney), AccountOwnerRole(name\u003dKrishnaDAS yVClvqtr, role\u003dGuardian)]",
+              "isEvidence": false,
+              "id": "report-data-53eb31bd-a45b-49df-9837-6ab8c859336e"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Get unauthorized contacts for EJ account 143469836",
+      "duration": 5185,
+      "startTime": "2025-10-06T09:27:49.798672296-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+          "timeStamp": 1759760874984,
+          "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 7,
+          "description": "Get contact name by ID 143469836",
+          "duration": 5176,
+          "startTime": "2025-10-06T09:27:49.800188420-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png",
+              "timeStamp": 1759760874976,
+              "screenshotName": "ec8c3c01b76fcec942f884f4b95a64114e264f610364f7794351b4f60042068b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "SELECT \n    L.ACCT_ID, \n    L.CON_ID, \n    L.LGCL_DEL_DA,\n    L.ACCT_ROLE_CD, \n    L.CON_RLSHP_TY_CD, \n    K.LOC_ACCT_ROLE_NA,\n    \n    D.FST_GVN_NA,\n    D.MID_GVN_NA,\n    D.MAIN_FAM_NA,\n    C.EMAIL_ADR_TXT,\n    B.DEATH_DA\n\nFROM\n\n(\n    SELECT \n        A.IR_NO, A.ACCT_ID, B.ACCT_ROLE_CD, A.CON_ID, A.ACCT_SEQ_NO,\n        A.CON_DATA_COMPL_IND, A.LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD,\n        CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.CUST_ACCT_12281 AS A, \n        PROD.ACCTROLEXREF_10099 AS B\n    WHERE \n        A.ACCT_ID \u003d 143469836 \n        AND A.ACCT_ROLE_CD \u003d B.LGCY_ACCT_ROLE_CD AND A.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, \u0027Y\u0027 AS CON_DATA_COMPL_IND,\n        LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.CLNT_SACCT_12553 AS C \n    WHERE \n        ACCT_ID \u003d 143469836 \n        AND LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        D.CON_PART_KEY AS IR_NO, D.ACCT_ID, E.ACCT_ROLE_CD, D.RLTD_CON_ID AS CON_ID, D.ACCT_SEQ_NO,\n        D.CON_DATA_COMPL_IND, D.LGCL_DEL_DA, D.ACCT_PRTY_APP_STAT_CD, D.ACCT_PRTY_APP_EMPL_ID, D.ACCT_PRTY_APP_DA,\n        D.CON_RLSHP_TY_CD, D.ACCT_PRTY_BUS_TITLE_CD, CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.ACCT_RLTD_PY_12310 AS D, PROD.ACCTROLEXREF_10099 AS E\n    WHERE \n        D.ACCT_ID \u003d 143469836 \n        AND D.CON_RLSHP_TY_CD \u003d E.LGCY_ACCT_ROLE_CD AND D.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, CON_DATA_COMPL_IND, LGCL_DEL_DA,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID,\n        CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA, CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.SACC_AUTH_PY_12548 AS O\n    WHERE \n        ACCT_ID \u003d 143469836 \n        AND LGCL_DEL_DA IS NULL\n) AS L\n\nLEFT OUTER JOIN PROD.LOC_ACCTROLE_12610 AS K ON L.ACCT_ROLE_CD \u003d K.ACCT_ROLE_CD AND K.ISO_CTRY_CD \u003d \u0027US\u0027\nLEFT JOIN PROD.CON_NAME_12284 D ON L.CON_ID \u003d D.CON_ID\nLEFT JOIN PROD.CON_EMAIL_13899 A ON A.CON_ID \u003d L.CON_ID\nLEFT JOIN PROD.EMAIL_ADR_13898 C ON C.EMAIL_ID \u003d A.EMAIL_ID\nLEFT JOIN PROD.CONTACT_12250 B on B.CON_ID \u003d L.CON_ID",
+              "isEvidence": false,
+              "id": "report-data-7efbcd99-9763-4721-a916-f2eec1fac73a"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{LOC_ACCT_ROLE_NA\u003dAuthorized Person             , CON_RLSHP_TY_CD\u003dnull, DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d214641685, FST_GVN_NA\u003dNicole                        , MAIN_FAM_NA\u003dFenske                        , EMAIL_ADR_TXT\u003designtest4@edwardjones.com, ACCT_ROLE_CD\u003dAP}\n{LOC_ACCT_ROLE_NA\u003dTrading Authority             , CON_RLSHP_TY_CD\u003dFTA       , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d318013402, FST_GVN_NA\u003dCODY                          , MAIN_FAM_NA\u003dFENSKE                        , EMAIL_ADR_TXT\u003dis-ca@edwardjones.com, ACCT_ROLE_CD\u003dTA}\n{LOC_ACCT_ROLE_NA\u003dPower of Attorney             , CON_RLSHP_TY_CD\u003dPOA       , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d321211693, FST_GVN_NA\u003dGwendolynDAS                  , MAIN_FAM_NA\u003dfuIPmWZm                      , EMAIL_ADR_TXT\u003designtest0@edwardjones.com, ACCT_ROLE_CD\u003dPA}\n{LOC_ACCT_ROLE_NA\u003dGuardian                      , CON_RLSHP_TY_CD\u003dGRDN      , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d143469836, MID_GVN_NA\u003dnull, CON_ID\u003d321235441, FST_GVN_NA\u003dKrishnaDAS                    , MAIN_FAM_NA\u003dyVClvqtr                      , EMAIL_ADR_TXT\u003designtest0@edwardjones.com, ACCT_ROLE_CD\u003dGN}",
+              "isEvidence": false,
+              "id": "report-data-89372df3-44e7-462a-b063-3b9e4b32f057"
+            },
+            {
+              "title": "Unauthorized contacts",
+              "contents": "[AccountOwnerRole(name\u003dCODY FENSKE, role\u003dTrading Authority)]",
+              "isEvidence": false,
+              "id": "report-data-823b0e63-47bf-486c-a13b-d5919f074e44"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "description": "Authenticating the session with pid: P060783",
+      "duration": 2386,
+      "startTime": "2025-10-06T09:27:54.984353994-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "119236ce4c4d279991fec125702b9cb11cf455b8af1bb038292ce60d6dcd8c42.png",
+          "timeStamp": 1759760877370,
+          "screenshotName": "119236ce4c4d279991fec125702b9cb11cf455b8af1bb038292ce60d6dcd8c42.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 9,
+          "description": "Launch WAM and authenticate",
+          "duration": 1843,
+          "startTime": "2025-10-06T09:27:55.076538674-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "119236ce4c4d279991fec125702b9cb11cf455b8af1bb038292ce60d6dcd8c42.png",
+              "timeStamp": 1759760876919,
+              "screenshotName": "119236ce4c4d279991fec125702b9cb11cf455b8af1bb038292ce60d6dcd8c42.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "description": "Opening the asset movement page for relationship id: 56926618",
+      "duration": 925,
+      "startTime": "2025-10-06T09:27:57.371179464-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "febfe05a0ab95c08d389a68a5f4a197000b71ddb4e3d3098454f5e6fc8f274e1.png",
+          "timeStamp": 1759760878296,
+          "screenshotName": "febfe05a0ab95c08d389a68a5f4a197000b71ddb4e3d3098454f5e6fc8f274e1.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 600,
+      "startTime": "2025-10-06T09:27:58.296900276-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "509b598254dc6a195067fc932e0c9986c6109343c33787fa4936642982786739.png",
+          "timeStamp": 1759760878897,
+          "screenshotName": "509b598254dc6a195067fc932e0c9986c6109343c33787fa4936642982786739.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 12,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8775,
+      "startTime": "2025-10-06T09:27:58.898233641-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b69af2f72848170538abe4aa0a03d41f28a9f457a6bbce6c26491bb2632451e0.png",
+          "timeStamp": 1759760887673,
+          "screenshotName": "b69af2f72848170538abe4aa0a03d41f28a9f457a6bbce6c26491bb2632451e0.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 13,
+      "description": "Select searched account 99785613",
+      "duration": 6488,
+      "startTime": "2025-10-06T09:28:07.673965481-05:00[America/Chicago]",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 14,
+          "description": "Select account 99785613",
+          "duration": 2407,
+          "startTime": "2025-10-06T09:28:11.749850387-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "172295b1abf4a5236fd0e8131e80eb71ae62bad92053ea4608c14f91b174cab0.png",
+              "htmlSource": "pagesource17253674078911479450.html",
+              "timeStamp": 1759760894154,
+              "screenshotName": "172295b1abf4a5236fd0e8131e80eb71ae62bad92053ea4608c14f91b174cab0.png"
+            }
+          ],
+          "exception": {
+            "errorType": "org.openqa.selenium.NoSuchElementException",
+            "message": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.3CFE19B6345164CEDBA16D59D2847D70.e.85, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5",
+            "stackTrace": [
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+                "methodName": "getWebElement",
+                "fileName": "AccountListElement.java",
+                "lineNumber": 100
+              },
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+                "methodName": "getTextFromAttribute",
+                "fileName": "AccountListElement.java",
+                "lineNumber": 26
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+                "methodName": "lambda$isAccountNumberMatch$1",
+                "fileName": "SearchAccountSteps.java",
+                "lineNumber": 150
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+                "methodName": "openSpecifiedAcctFromTheList",
+                "fileName": "SearchAccountSteps.java",
+                "lineNumber": 130
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+                "methodName": "selectAnAccount",
+                "fileName": "SearchAccountSteps.java",
+                "lineNumber": 120
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+                "methodName": "searchForAccountAndSelect",
+                "fileName": "SearchAccountSteps.java",
+                "lineNumber": 108
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+                "methodName": "verifyWhoInitiatedTransferWithMultipleAuthRoles",
+                "fileName": "BetweenVerifyWhoInitiatedTransfer.java",
+                "lineNumber": 167
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "run",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 69
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "main",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 74
+              }
+            ]
+          },
+          "result": "ERROR",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "description": "Verify Authorized header message",
+      "duration": 0,
+      "startTime": "2025-10-06T09:28:14.165350293-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 16,
+      "description": "Verify Owner Names and Roles",
+      "duration": 0,
+      "startTime": "2025-10-06T09:28:14.168922861-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 17,
+      "description": "Verify UnAuthorized Header displayed is true",
+      "duration": 0,
+      "startTime": "2025-10-06T09:28:14.172280508-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-e7d4d3dd-b82d-4e01-b598-6bfb877881c9"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-841f80ce-2521-4c0c-b1d4-84a29573f41d"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "storyName": "BetweenVerifyWhoInitiatedTransfer",
+    "displayName": "BetweenVerifyWhoInitiatedTransfer",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenVerifyWhoInitiatedTransfer",
+        "description": "BetweenVerifyWhoInitiatedTransfer"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Between EDJ Accounts: Account roles , Who Initiated Transfer? Multiple Authorized Roles",
+  "coreIssues": [
+    "ATMT-16316"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-4",
+      "type": "tag",
+      "displayName": "Priority-4"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "preprod-regression",
+      "type": "tag",
+      "displayName": "preprod-regression"
+    }
+  ],
+  "startTime": "2025-10-06T09:27:36.115477909-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:28:14.174315808-05:00[America/Chicago]",
+  "duration": 1744,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchElementException",
+    "message": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.3CFE19B6345164CEDBA16D59D2847D70.e.85, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5",
+    "stackTrace": [
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+        "methodName": "getWebElement",
+        "fileName": "AccountListElement.java",
+        "lineNumber": 100
+      },
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+        "methodName": "getTextFromAttribute",
+        "fileName": "AccountListElement.java",
+        "lineNumber": 26
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+        "methodName": "lambda$isAccountNumberMatch$1",
+        "fileName": "SearchAccountSteps.java",
+        "lineNumber": 150
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+        "methodName": "openSpecifiedAcctFromTheList",
+        "fileName": "SearchAccountSteps.java",
+        "lineNumber": 130
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+        "methodName": "selectAnAccount",
+        "fileName": "SearchAccountSteps.java",
+        "lineNumber": 120
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+        "methodName": "searchForAccountAndSelect",
+        "fileName": "SearchAccountSteps.java",
+        "lineNumber": 108
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+        "methodName": "verifyWhoInitiatedTransferWithMultipleAuthRoles",
+        "fileName": "BetweenVerifyWhoInitiatedTransfer.java",
+        "lineNumber": 167
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchElementException",
+  "testFailureMessage": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.3CFE19B6345164CEDBA16D59D2847D70.e.85, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchElementException;no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.3CFE19B6345164CEDBA16D59D2847D70.e.85, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5;AccountListElement.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "b6b0b763623b390bfe541405473aa3b5",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-16316"
+  ],
+  "scenarioOutline": ""
+}

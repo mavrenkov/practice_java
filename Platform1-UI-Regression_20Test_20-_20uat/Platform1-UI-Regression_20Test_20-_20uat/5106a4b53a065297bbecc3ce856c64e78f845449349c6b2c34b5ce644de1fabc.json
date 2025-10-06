@@ -1,0 +1,494 @@
+{
+  "name": "verifyNewTransactionProgressStepperIsUnderToggle()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest]/[method:verifyNewTransactionProgressStepperIsUnderToggle()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+  "methodName": "verifyNewTransactionProgressStepperIsUnderToggle",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Get Select Individual non restricted account",
+      "duration": 5282,
+      "startTime": "2025-10-06T11:11:15.036150624-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve random data from DB2: relationships for Branch - Single Select account with cash, margin and loan sub accounts",
+          "duration": 5277,
+          "startTime": "2025-10-06T11:11:15.036538748-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 3,
+              "description": "Retrieve data from DB2: relationships for Branch",
+              "duration": 5273,
+              "startTime": "2025-10-06T11:11:15.036866326-05:00[America/Chicago]",
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "SQL query",
+                  "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002701\u0027\n and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 9979\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002701\u0027\n                    and sub_acc.BR_NO \u003d 9979\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 7\nfetch first 500 rows only;",
+                  "isEvidence": false,
+                  "id": "report-data-db398c6f-d372-482b-b640-caf267c73690"
+                },
+                {
+                  "title": "SQL result",
+                  "contents": "{VNDR_ACCT_ID\u003d99754009            , ACCT_ID\u003d116132583, RLTSHP_ID\u003d27, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99752580            , ACCT_ID\u003d106827308, RLTSHP_ID\u003d761539, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99758085            , ACCT_ID\u003d121385265, RLTSHP_ID\u003d1088362, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99758086            , ACCT_ID\u003d121385269, RLTSHP_ID\u003d1088362, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757266            , ACCT_ID\u003d120812546, RLTSHP_ID\u003d1097373, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761814            , ACCT_ID\u003d126185613, RLTSHP_ID\u003d1251116, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768136            , ACCT_ID\u003d133361046, RLTSHP_ID\u003d27203750, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99763535            , ACCT_ID\u003d128456522, RLTSHP_ID\u003d27209262, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764602            , ACCT_ID\u003d129433613, RLTSHP_ID\u003d39998442, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99752386            , ACCT_ID\u003d100436033, RLTSHP_ID\u003d39999009, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99756677            , ACCT_ID\u003d120395125, RLTSHP_ID\u003d39999284, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757316            , ACCT_ID\u003d120860728, RLTSHP_ID\u003d39999565, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99751434            , ACCT_ID\u003d3339857, RLTSHP_ID\u003d40000077, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99755083            , ACCT_ID\u003d119108007, RLTSHP_ID\u003d40000110, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99755551            , ACCT_ID\u003d119400118, RLTSHP_ID\u003d40000110, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99754781            , ACCT_ID\u003d118427994, RLTSHP_ID\u003d40000176, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99755214            , ACCT_ID\u003d119162208, RLTSHP_ID\u003d40000273, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99755679            , ACCT_ID\u003d119521159, RLTSHP_ID\u003d40000305, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99755841            , ACCT_ID\u003d119567329, RLTSHP_ID\u003d40000307, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99756303            , ACCT_ID\u003d120146971, RLTSHP_ID\u003d40000356, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99754363            , ACCT_ID\u003d117425460, RLTSHP_ID\u003d40504354, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99758833            , ACCT_ID\u003d121855969, RLTSHP_ID\u003d41813602, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757794            , ACCT_ID\u003d121282494, RLTSHP_ID\u003d42757658, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761906            , ACCT_ID\u003d126359048, RLTSHP_ID\u003d43389371, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765702            , ACCT_ID\u003d130046087, RLTSHP_ID\u003d43775066, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757408            , ACCT_ID\u003d120917770, RLTSHP_ID\u003d44445268, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757615            , ACCT_ID\u003d121102976, RLTSHP_ID\u003d44445268, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757479            , ACCT_ID\u003d121035828, RLTSHP_ID\u003d44457548, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760832            , ACCT_ID\u003d124425730, RLTSHP_ID\u003d44737192, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760833            , ACCT_ID\u003d124425755, RLTSHP_ID\u003d44737192, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99762463            , ACCT_ID\u003d127162848, RLTSHP_ID\u003d44737192, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99767850            , ACCT_ID\u003d132883471, RLTSHP_ID\u003d45290141, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764441            , ACCT_ID\u003d129331801, RLTSHP_ID\u003d46462083, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760309            , ACCT_ID\u003d123588902, RLTSHP_ID\u003d48685337, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760517            , ACCT_ID\u003d123991740, RLTSHP_ID\u003d48685337, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760519            , ACCT_ID\u003d123991965, RLTSHP_ID\u003d48685337, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761850            , ACCT_ID\u003d126240446, RLTSHP_ID\u003d54613408, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761935            , ACCT_ID\u003d126429720, RLTSHP_ID\u003d55135078, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761936            , ACCT_ID\u003d126429839, RLTSHP_ID\u003d55135620, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761944            , ACCT_ID\u003d126441192, RLTSHP_ID\u003d55169339, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99762020            , ACCT_ID\u003d126507365, RLTSHP_ID\u003d55170519, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769253            , ACCT_ID\u003d135287356, RLTSHP_ID\u003d55170519, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766815            , ACCT_ID\u003d131856577, RLTSHP_ID\u003d55234793, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768916            , ACCT_ID\u003d134931607, RLTSHP_ID\u003d57103176, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99754204            , ACCT_ID\u003d117818258, RLTSHP_ID\u003d58343295, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99763257            , ACCT_ID\u003d128292491, RLTSHP_ID\u003d59965748, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765601            , ACCT_ID\u003d129941523, RLTSHP_ID\u003d59965748, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765603            , ACCT_ID\u003d129941728, RLTSHP_ID\u003d59965748, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765627            , ACCT_ID\u003d129941735, RLTSHP_ID\u003d59965748, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99763640            , ACCT_ID\u003d128567575, RLTSHP_ID\u003d60716847, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99762690            , ACCT_ID\u003d127498009, RLTSHP_ID\u003d62355280, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99762691            , ACCT_ID\u003d127498017, RLTSHP_ID\u003d62355280, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768414            , ACCT_ID\u003d133923656, RLTSHP_ID\u003d62849513, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765230            , ACCT_ID\u003d129815343, RLTSHP_ID\u003d63393073, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764855            , ACCT_ID\u003d129614003, RLTSHP_ID\u003d63429702, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764965            , ACCT_ID\u003d129629394, RLTSHP_ID\u003d63430236, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766629            , ACCT_ID\u003d131601917, RLTSHP_ID\u003d63808690, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765190            , ACCT_ID\u003d129798840, RLTSHP_ID\u003d63914968, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765730            , ACCT_ID\u003d130101920, RLTSHP_ID\u003d64713270, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765942            , ACCT_ID\u003d130557477, RLTSHP_ID\u003d65103605, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99765927            , ACCT_ID\u003d130537987, RLTSHP_ID\u003d65379783, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771182            , ACCT_ID\u003d138149582, RLTSHP_ID\u003d65657184, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766223            , ACCT_ID\u003d130847179, RLTSHP_ID\u003d66064207, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766225            , ACCT_ID\u003d130847947, RLTSHP_ID\u003d66064207, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771399            , ACCT_ID\u003d138599019, RLTSHP_ID\u003d66064207, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99760407            , ACCT_ID\u003d123724320, RLTSHP_ID\u003d66082802, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766339            , ACCT_ID\u003d131004485, RLTSHP_ID\u003d66350775, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769042            , ACCT_ID\u003d135071510, RLTSHP_ID\u003d66350775, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99758122            , ACCT_ID\u003d121396813, RLTSHP_ID\u003d67172954, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771195            , ACCT_ID\u003d138175078, RLTSHP_ID\u003d67495679, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771196            , ACCT_ID\u003d138175215, RLTSHP_ID\u003d67495679, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771197            , ACCT_ID\u003d138175609, RLTSHP_ID\u003d67495679, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771198            , ACCT_ID\u003d138175699, RLTSHP_ID\u003d67495679, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766714            , ACCT_ID\u003d131743516, RLTSHP_ID\u003d67495725, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99756489            , ACCT_ID\u003d120340062, RLTSHP_ID\u003d67781053, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766822            , ACCT_ID\u003d131868860, RLTSHP_ID\u003d68225167, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99767080            , ACCT_ID\u003d131984788, RLTSHP_ID\u003d68420316, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99761946            , ACCT_ID\u003d126441347, RLTSHP_ID\u003d68947457, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99767410            , ACCT_ID\u003d132259077, RLTSHP_ID\u003d69069018, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770041            , ACCT_ID\u003d136321983, RLTSHP_ID\u003d69081140, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771477            , ACCT_ID\u003d138635392, RLTSHP_ID\u003d69153915, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768016            , ACCT_ID\u003d133134146, RLTSHP_ID\u003d72272811, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768362            , ACCT_ID\u003d133832096, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769298            , ACCT_ID\u003d135306282, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769854            , ACCT_ID\u003d136092166, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770864            , ACCT_ID\u003d137446162, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771091            , ACCT_ID\u003d137980391, RLTSHP_ID\u003d73660994, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768416            , ACCT_ID\u003d133925606, RLTSHP_ID\u003d73864065, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768919            , ACCT_ID\u003d134938563, RLTSHP_ID\u003d76418359, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770182            , ACCT_ID\u003d136537672, RLTSHP_ID\u003d76529869, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770183            , ACCT_ID\u003d136537864, RLTSHP_ID\u003d76529869, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770197            , ACCT_ID\u003d136542919, RLTSHP_ID\u003d76529869, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769286            , ACCT_ID\u003d135306265, RLTSHP_ID\u003d76530239, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769056            , ACCT_ID\u003d135086848, RLTSHP_ID\u003d76860126, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769041            , ACCT_ID\u003d135071263, RLTSHP_ID\u003d76873600, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766717            , ACCT_ID\u003d131743567, RLTSHP_ID\u003d77392930, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769321            , ACCT_ID\u003d135309394, RLTSHP_ID\u003d77402561, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769466            , ACCT_ID\u003d135512365, RLTSHP_ID\u003d78145838, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99769879            , ACCT_ID\u003d136107482, RLTSHP_ID\u003d78145838, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99754357            , ACCT_ID\u003d117417058, RLTSHP_ID\u003d79760567, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768918            , ACCT_ID\u003d134938486, RLTSHP_ID\u003d80296031, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770251            , ACCT_ID\u003d136624440, RLTSHP_ID\u003d81694813, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757286            , ACCT_ID\u003d120860624, RLTSHP_ID\u003d81826584, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99773895            , ACCT_ID\u003d143960134, RLTSHP_ID\u003d82036128, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770349            , ACCT_ID\u003d136755538, RLTSHP_ID\u003d82194159, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771112            , ACCT_ID\u003d138050069, RLTSHP_ID\u003d83336753, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99763308            , ACCT_ID\u003d128318638, RLTSHP_ID\u003d83559124, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770710            , ACCT_ID\u003d137335699, RLTSHP_ID\u003d83832958, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770711            , ACCT_ID\u003d137335862, RLTSHP_ID\u003d83832958, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770939            , ACCT_ID\u003d137544743, RLTSHP_ID\u003d83832958, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770940            , ACCT_ID\u003d137544745, RLTSHP_ID\u003d83832958, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770951            , ACCT_ID\u003d137545906, RLTSHP_ID\u003d83832958, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770750            , ACCT_ID\u003d137361869, RLTSHP_ID\u003d84265565, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771486            , ACCT_ID\u003d138640601, RLTSHP_ID\u003d84265565, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99751754            , ACCT_ID\u003d104372004, RLTSHP_ID\u003d84970137, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770986            , ACCT_ID\u003d137638636, RLTSHP_ID\u003d85096915, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770365            , ACCT_ID\u003d136791961, RLTSHP_ID\u003d86531279, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771194            , ACCT_ID\u003d138174537, RLTSHP_ID\u003d86873541, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99768775            , ACCT_ID\u003d134702220, RLTSHP_ID\u003d87200780, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764578            , ACCT_ID\u003d129430377, RLTSHP_ID\u003d87300396, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99771625            , ACCT_ID\u003d138710328, RLTSHP_ID\u003d87387332, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99770462            , ACCT_ID\u003d136947514, RLTSHP_ID\u003d88404307, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d13022776            , ACCT_ID\u003d145215662, RLTSHP_ID\u003d96584212, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99764363            , ACCT_ID\u003d129242704, RLTSHP_ID\u003d101029389, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99766796            , ACCT_ID\u003d131806011, RLTSHP_ID\u003d102735384, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d13024455            , ACCT_ID\u003d145243300, RLTSHP_ID\u003d102774030, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d13023834            , ACCT_ID\u003d145229242, RLTSHP_ID\u003d102891849, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d13022981            , ACCT_ID\u003d145220276, RLTSHP_ID\u003d102936656, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d99757382            , ACCT_ID\u003d120903304, RLTSHP_ID\u003d102983051, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}",
+                  "isEvidence": false,
+                  "id": "report-data-50b13365-a2d7-42db-b84c-04b8f821f767"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "description": "Prepare approved bank profile",
+      "duration": 5130,
+      "startTime": "2025-10-06T11:11:20.318812477-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Get bank accounts with approved profiles by account id 133361046",
+          "duration": 25,
+          "startTime": "2025-10-06T11:11:20.319179172-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query for AMC_PROFILE",
+              "contents": "SELECT bank_profile.bank_profile_guid as bank_profile_guid, bank_profile.account_id as account_id, bank_account.bank_account_guid as bank_account_guid, bank_account.bank_account_no as bank_account_no, bank_account.bank_na as bank_na, bank_account.routing_no as routing_no, bank_account.bank_account_type_cd as bank_account_type_cd, bank_account.bank_account_ownership_type_cd as bank_account_ownership_type_cd, bank_account.bank_account_nick_na as bank_account_nick_na, bank_account.bank_account_legal_entity_na as bank_account_legal_entity_na FROM bank_profile, bank_account WHERE bank_profile.bank_account_id \u003d bank_account.bank_account_id and bank_profile.account_id \u003d 133361046 and bank_profile.bank_profile_status_cd\u003d\u0027APPROVED\u0027",
+              "isEvidence": false,
+              "id": "report-data-52c24b58-2ba8-403c-aa80-d8e38ca70552"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 6,
+          "description": "Get bank name by routing number 101000077",
+          "duration": 5100,
+          "startTime": "2025-10-06T11:11:20.345074269-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select BK_NA\nfrom PROD.BK_DATA_HST_11218\nwhere\nBK_RTE_NO\u003d101000077\nand END_TS is null",
+              "isEvidence": false,
+              "id": "report-data-c2678313-d9e7-4e75-ac3f-e82e1612ed5d"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{BK_NA\u003dUMB, NA                             }",
+              "isEvidence": false,
+              "id": "report-data-cbe7444b-4d21-49d0-b86b-d95726ca2c09"
+            },
+            {
+              "title": "Prepared bank profile",
+              "contents": "LinkedBank(name\u003dnnban8964, number\u003d****8964, entityType\u003dUMB, NA, accountType\u003dCHECKING, id\u003dA3521773-50B6-4FD7-AB53-E4951C28B845)",
+              "isEvidence": false,
+              "id": "report-data-844ad074-494d-4a11-974c-d67c92562fa4"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "description": "Authenticating the session with pid: FATEST",
+      "duration": 4202,
+      "startTime": "2025-10-06T11:11:25.449676905-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2186f73535418b36e210ef5c3b335c672b346e633b1e08eca0d2cc3a59bb1781.png",
+          "timeStamp": 1759767089651,
+          "screenshotName": "2186f73535418b36e210ef5c3b335c672b346e633b1e08eca0d2cc3a59bb1781.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 8,
+          "description": "Launch WAM and authenticate",
+          "duration": 1561,
+          "startTime": "2025-10-06T11:11:27.621814790-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png",
+              "timeStamp": 1759767089182,
+              "screenshotName": "eaac68aabc55f987c249734149e179c03e3bd097cb100c4e615582432338e8ab.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "description": "Opening the asset movement page for relationship id: 27203750",
+      "duration": 1990,
+      "startTime": "2025-10-06T11:11:29.652318312-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png",
+          "timeStamp": 1759767091642,
+          "screenshotName": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify \u0027Progress Stepper\u0027 isDisplayed is true.",
+      "duration": 124,
+      "startTime": "2025-10-06T11:11:31.642694178-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png",
+          "timeStamp": 1759767091767,
+          "screenshotName": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify footer button \u0027Next\u0027 isPresent\u003dtrue.",
+      "duration": 133,
+      "startTime": "2025-10-06T11:11:31.767856392-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png",
+          "timeStamp": 1759767091901,
+          "screenshotName": "ff8ff96c93cc5c7318250bf9c0260dfcbf193a1d8d1e62506fa9d766b01e5c9e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 12,
+      "description": "Verify footer button \u0027Continue\u0027 isPresent\u003dfalse.",
+      "duration": 2148,
+      "startTime": "2025-10-06T11:11:31.901400164-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6c59cd458190f41fabd3159b599461c772b702e5fe699140feb829a6af94ded7.png",
+          "timeStamp": 1759767094049,
+          "screenshotName": "6c59cd458190f41fabd3159b599461c772b702e5fe699140feb829a6af94ded7.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 13,
+      "description": "Validate the Next button is enabled",
+      "duration": 20246,
+      "startTime": "2025-10-06T11:11:34.053725328-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png",
+          "timeStamp": 1759767114300,
+          "screenshotName": "6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 14,
+          "description": "Validate \u0027Next\u0027 button is enabled false",
+          "duration": 20236,
+          "startTime": "2025-10-06T11:11:34.055825796-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png",
+              "timeStamp": 1759767114292,
+              "screenshotName": "6f0bdc449649d343816189684e9f8a6aba70049c465b409e8cc54860371d40bb.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "description": "Cancel Transfer button is enabled false",
+      "duration": 20231,
+      "startTime": "2025-10-06T11:11:54.300914251-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7bd6926a95ea7eac187e2f968b53b23cbd9b386554eb04ca3e742eb12e8000d5.png",
+          "timeStamp": 1759767134532,
+          "screenshotName": "7bd6926a95ea7eac187e2f968b53b23cbd9b386554eb04ca3e742eb12e8000d5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 16,
+      "description": "Select Asset Movement direction as \u0027Out Of\u0027.",
+      "duration": 398,
+      "startTime": "2025-10-06T11:12:14.532978486-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d56d100b22a8907c677d884afd49dc73fbad4b33d8ed6609172afcb46472e57e.png",
+          "timeStamp": 1759767134931,
+          "screenshotName": "d56d100b22a8907c677d884afd49dc73fbad4b33d8ed6609172afcb46472e57e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 17,
+      "description": "Select \u0027From Account\u0027 by account number 99768136.",
+      "duration": 22475,
+      "startTime": "2025-10-06T11:12:14.932225199-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ff2d291a187cc4e2310bd5c0f31670fc8a2733320df4bc9e0e12e100f6a05f42.png",
+          "htmlSource": "pagesource3089234002883180978.html",
+          "timeStamp": 1759767157405,
+          "screenshotName": "ff2d291a187cc4e2310bd5c0f31670fc8a2733320df4bc9e0e12e100f6a05f42.png"
+        }
+      ],
+      "exception": {
+        "errorType": "org.openqa.selenium.TimeoutException",
+        "message": "Expected condition failed: waiting for Account \u0027From\u0027 list should contain value 99768136 (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.automation.pages_elements.BasePageObject_ACH",
+            "methodName": "waitForListElement",
+            "fileName": "BasePageObject_ACH.java",
+            "lineNumber": 247
+          },
+          {
+            "declaringClass": "com.edwardjones.automation.pages_elements.ChooseAccountModule_ACH",
+            "methodName": "selectAccountFrom",
+            "fileName": "ChooseAccountModule_ACH.java",
+            "lineNumber": 182
+          },
+          {
+            "declaringClass": "com.edwardjones.automation.steps.newtransaction_progresser.ChooseAssetMovementSteps_PGR",
+            "methodName": "selectFromAccountByNumber",
+            "fileName": "ChooseAssetMovementSteps_PGR.java",
+            "lineNumber": 20
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+            "methodName": "verifyNewTransactionProgressStepperIsUnderToggle",
+            "fileName": "VerifyNewTransactionDesignTouchTest.java",
+            "lineNumber": 46
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 18,
+      "description": "Click \u0027Next\u0027.",
+      "duration": 0,
+      "startTime": "2025-10-06T11:12:37.410517978-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 19,
+      "description": "Select searched account ****8964",
+      "duration": 0,
+      "startTime": "2025-10-06T11:12:37.413992501-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 20,
+      "description": "Validate \u0027Next\u0027 button is enabled",
+      "duration": 0,
+      "startTime": "2025-10-06T11:12:37.416913530-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-a580dea8-e82a-414f-a451-d7e80251210f"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-4e84085b-f13a-4b2a-9e0a-34509deb1b9c"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+    "storyName": "VerifyNewTransactionDesignTouchTest",
+    "displayName": "VerifyNewTransactionDesignTouchTest",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+    "path": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "VerifyNewTransactionDesignTouchTest",
+        "description": "VerifyNewTransactionDesignTouchTest"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Demo New Transaction flow under \u0027amc_new_transfers_layout\u0027.",
+  "coreIssues": [
+    "ATMT-43056"
+  ],
+  "tags": [
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-3",
+      "type": "tag",
+      "displayName": "Priority-3"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    }
+  ],
+  "startTime": "2025-10-06T11:11:15.031692014-05:00[America/Chicago]",
+  "endTime": "2025-10-06T11:12:37.418612897-05:00[America/Chicago]",
+  "duration": 5271,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.TimeoutException",
+    "message": "Expected condition failed: waiting for Account \u0027From\u0027 list should contain value 99768136 (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.automation.pages_elements.BasePageObject_ACH",
+        "methodName": "waitForListElement",
+        "fileName": "BasePageObject_ACH.java",
+        "lineNumber": 247
+      },
+      {
+        "declaringClass": "com.edwardjones.automation.pages_elements.ChooseAccountModule_ACH",
+        "methodName": "selectAccountFrom",
+        "fileName": "ChooseAccountModule_ACH.java",
+        "lineNumber": 182
+      },
+      {
+        "declaringClass": "com.edwardjones.automation.steps.newtransaction_progresser.ChooseAssetMovementSteps_PGR",
+        "methodName": "selectFromAccountByNumber",
+        "fileName": "ChooseAssetMovementSteps_PGR.java",
+        "lineNumber": 20
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.VerifyNewTransactionDesignTouchTest",
+        "methodName": "verifyNewTransactionProgressStepperIsUnderToggle",
+        "fileName": "VerifyNewTransactionDesignTouchTest.java",
+        "lineNumber": 46
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.TimeoutException",
+  "testFailureMessage": "Expected condition failed: waiting for Account \u0027From\u0027 list should contain value 99768136 (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+  "testFailureSummary": "ERROR;org.openqa.selenium.TimeoutException;Expected condition failed: waiting for Account \u0027From\u0027 list should contain value 99768136 (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade;BasePageObject_ACH.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "6bc734ac9d0ce60d13ef891c6f6a6c77",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-43056"
+  ],
+  "scenarioOutline": ""
+}

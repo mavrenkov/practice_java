@@ -1,0 +1,462 @@
+{
+  "name": "verifyBetweenFlow313To308DifferentSsn()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn]/[method:verifyBetweenFlow313To308DifferentSsn()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+  "methodName": "verifyBetweenFlow313To308DifferentSsn",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: ruleID from 313, rule ID to 308, same SSN false",
+      "duration": 65338,
+      "startTime": "2025-10-06T10:16:14.217953309-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "be828b9eaf23ba17358e51ea3d8704a46d83257e618ee36c717705a55d9088aa.png",
+          "timeStamp": 1759763839556,
+          "screenshotName": "be828b9eaf23ba17358e51ea3d8704a46d83257e618ee36c717705a55d9088aa.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nrlt.RLTSHP_ID AS RELID, sub_acc.BR_NO,\ncount(distinct sub_acc.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct sub_acc_svc.acct_ID) as ACCOUNTS_COUNT,\nmin(sub_acc.TAX_RPT_TIN_NO) as ssn1, max(sub_acc.TAX_RPT_TIN_NO) as ssn2,\nmin(sub_acc_svc.acct_ID) as acct1, max(sub_acc_svc.acct_ID) as acct2\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\n sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\nsub_acc.ACCT_CLS_UT is NULL\nand sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.acct_own_rule_id in (308,313)\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and sub_acc_svc.ACCT_SVC_TY_CD in ()\n-- and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n-- and rlt.RLTSHP_ID in ()\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand a.acct_own_rule_id in (308,313)\n                    and sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n\ngroup by rlt.RLTSHP_ID, sub_acc.BR_NO\nhaving \ncount(distinct sub_acc_svc.ACCT_ID)\u003e1 \nand count(distinct sub_acc.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct account.acct_own_rule_id) \u003d 2\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n\nfetch first 1 rows only;",
+          "isEvidence": false,
+          "id": "report-data-ac017897-4214-48d3-b665-9c5bc1cfdb20"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{RELID\u003d5924, SSN2\u003d456984720           , ACCOUNTS_COUNT\u003d2, SSN1\u003d198699258           , SSN_COUNT\u003d2, BR_NO\u003d9979, ACCT2\u003d124207002, ACCT1\u003d121732216}",
+          "isEvidence": false,
+          "id": "report-data-1c494c70-7694-454a-bdd8-92a39cf1aec3"
+        },
+        {
+          "title": "SQL query",
+          "contents": "select\nsub_acc.acct_id,\nsub_acc.VNDR_ACCT_ID,\nsub_acc.TAX_RPT_TIN_NO,\nsub_acc.acct_own_rule_id\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n\nwhere\nrlt.RLTSHP_ID \u003d 5924\nand sub_acc.BR_NO \u003d 9979\nand account.acct_own_rule_id in (308,313)\n\n and sub_acc.ACCT_OWN_SUBTY_CD is not NULL\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and sub_acc_svc.ACCT_SVC_TY_CD in ()\n-- and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand rlt.RLTSHP_ID \u003d 5924\n\t\t\t\t\tand sub_acc.BR_NO \u003d 9979\n\t\t\t\t\tand a.acct_own_rule_id in (308,313)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n",
+          "isEvidence": false,
+          "id": "report-data-2ecaaefb-d1c1-44cb-b4f5-3fd80c6e0780"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d313, TAX_RPT_TIN_NO\u003d456984720           , VNDR_ACCT_ID\u003d99798458            , ACCT_ID\u003d121732216}\n{ACCT_OWN_RULE_ID\u003d308, TAX_RPT_TIN_NO\u003d198699258           , VNDR_ACCT_ID\u003d99799364            , ACCT_ID\u003d124207002}",
+          "isEvidence": false,
+          "id": "report-data-4ef1a92a-3a95-46c9-9e19-954b15563396"
+        },
+        {
+          "title": "Found data",
+          "contents": "BetweenFlowDb2TestDataProvider.BetweenFlowData(branchNo\u003d9979, relationshipId\u003d5924, accountIdFrom\u003d121732216, accountIdTo\u003d124207002, accountCustomerNumberFrom\u003d99798458, accountCustomerNumberTo\u003d99799364)",
+          "isEvidence": false,
+          "id": "report-data-25883f32-dd8e-413d-8400-ef89da1a4fbf"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Get p-number for BOA of branch 9979, relationship 5924, account 121732216, for Platform flow",
+      "duration": 6,
+      "startTime": "2025-10-06T10:17:19.557190420-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "be828b9eaf23ba17358e51ea3d8704a46d83257e618ee36c717705a55d9088aa.png",
+          "timeStamp": 1759763839563,
+          "screenshotName": "be828b9eaf23ba17358e51ea3d8704a46d83257e618ee36c717705a55d9088aa.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2280,
+      "startTime": "2025-10-06T10:17:19.563986612-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "018d548f288bdb391dc9d56e3a4cf3ba34175b33d3fffa430bb65c461da1bbdd.png",
+          "timeStamp": 1759763841844,
+          "screenshotName": "018d548f288bdb391dc9d56e3a4cf3ba34175b33d3fffa430bb65c461da1bbdd.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 4,
+          "description": "Launch WAM and authenticate",
+          "duration": 1741,
+          "startTime": "2025-10-06T10:17:19.649924506-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "018d548f288bdb391dc9d56e3a4cf3ba34175b33d3fffa430bb65c461da1bbdd.png",
+              "timeStamp": 1759763841391,
+              "screenshotName": "018d548f288bdb391dc9d56e3a4cf3ba34175b33d3fffa430bb65c461da1bbdd.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Start test flow: Between transfer and verify restrictions for Acccount To",
+      "duration": 36838,
+      "startTime": "2025-10-06T10:17:21.845183472-05:00[America/Chicago]",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-234a7c17-229b-4114-9183-3c86e5b62e50"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-3df6be65-49c5-4b31-9cbd-cdb8caed5f5e"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 6,
+          "description": "Opening the asset movement page for relationship id: 5924",
+          "duration": 861,
+          "startTime": "2025-10-06T10:17:21.847345650-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9c7f2919a1e6307c9ae4bd1d32684ca94c2e254c2990981d7554ed06fb72a983.png",
+              "timeStamp": 1759763842709,
+              "screenshotName": "9c7f2919a1e6307c9ae4bd1d32684ca94c2e254c2990981d7554ed06fb72a983.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 7,
+          "description": "Update the URL for Internal Transfer",
+          "duration": 616,
+          "startTime": "2025-10-06T10:17:22.709499194-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9c7f2919a1e6307c9ae4bd1d32684ca94c2e254c2990981d7554ed06fb72a983.png",
+              "timeStamp": 1759763843326,
+              "screenshotName": "9c7f2919a1e6307c9ae4bd1d32684ca94c2e254c2990981d7554ed06fb72a983.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 8,
+          "description": "Choose transfer \u0027Between\u0027 accounts",
+          "duration": 8652,
+          "startTime": "2025-10-06T10:17:23.326409610-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4d1355c5b8ff0b175c2b76c79e8af832e036533da2862a2b13d80dd17d378b12.png",
+              "timeStamp": 1759763851979,
+              "screenshotName": "4d1355c5b8ff0b175c2b76c79e8af832e036533da2862a2b13d80dd17d378b12.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 9,
+          "description": "Select searched account 99798458",
+          "duration": 26683,
+          "startTime": "2025-10-06T10:17:31.979750505-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "f5a0156ebf5ba16e0cd260ebb58eccdd52759c8d138ce19f55ecf814d0f4eb9c.png",
+              "htmlSource": "pagesource15976859002059154097.html",
+              "timeStamp": 1759763878661,
+              "screenshotName": "f5a0156ebf5ba16e0cd260ebb58eccdd52759c8d138ce19f55ecf814d0f4eb9c.png"
+            }
+          ],
+          "exception": {
+            "errorType": "org.openqa.selenium.TimeoutException",
+            "message": "Expected condition failed: waiting for Account 99798458 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+            "stackTrace": [
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+                "methodName": "waitForListElement",
+                "fileName": "BasePageObject.java",
+                "lineNumber": 91
+              },
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+                "methodName": "waitForPresenceOfAccountInList",
+                "fileName": "SearchAccountWidget.java",
+                "lineNumber": 76
+              },
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+                "methodName": "ensureAccountIsSelected",
+                "fileName": "SearchAccountWidget.java",
+                "lineNumber": 156
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+                "methodName": "searchForAccountAndSelect",
+                "fileName": "AccountItemSteps.java",
+                "lineNumber": 517
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+                "methodName": "runTestFlowBetweenTransferAndVerifyRestrictionForAccountTo",
+                "fileName": "PlatformFlowSteps.java",
+                "lineNumber": 261
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+                "methodName": "runTestFlow",
+                "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+                "lineNumber": 504
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+                "methodName": "runTestFlow",
+                "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+                "lineNumber": 496
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+                "methodName": "verifyBetweenFlow313To308DifferentSsn",
+                "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+                "lineNumber": 467
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "run",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 69
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "main",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 74
+              }
+            ]
+          },
+          "result": "ERROR",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 10,
+          "description": "Select the First Available Owner",
+          "duration": 0,
+          "startTime": "2025-10-06T10:17:58.667829724-05:00[America/Chicago]",
+          "result": "SKIPPED",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 11,
+          "description": "Click continue button",
+          "duration": 0,
+          "startTime": "2025-10-06T10:17:58.672534509-05:00[America/Chicago]",
+          "result": "SKIPPED",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 12,
+          "description": "Select searched account 99799364",
+          "duration": 0,
+          "startTime": "2025-10-06T10:17:58.675959944-05:00[America/Chicago]",
+          "result": "SKIPPED",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 13,
+          "description": "Verify account is restricted with message or not",
+          "duration": 0,
+          "startTime": "2025-10-06T10:17:58.679646712-05:00[America/Chicago]",
+          "result": "SKIPPED",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "storyName": "BetweenRetirementAccountToAccountTransferToggleOn",
+    "displayName": "BetweenRetirementAccountToAccountTransferToggleOn",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenRetirementAccountToAccountTransferToggleOn",
+        "description": "BetweenRetirementAccountToAccountTransferToggleOn"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Between flow: accounts are enabled for - From 313 rule ID to 308 rule ID, different SSN",
+  "coreIssues": [
+    "ATMT-30288",
+    "ATMT-34297",
+    "ATMT-37866",
+    "ATMT-42489"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "Platform1-Between-Transfer",
+      "type": "tag",
+      "displayName": "Platform1-Between-Transfer"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T10:16:14.214497212-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:17:58.685824139-05:00[America/Chicago]",
+  "duration": 65201,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.TimeoutException",
+    "message": "Expected condition failed: waiting for Account 99798458 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+    "stackTrace": [
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+        "methodName": "waitForListElement",
+        "fileName": "BasePageObject.java",
+        "lineNumber": 91
+      },
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+        "methodName": "waitForPresenceOfAccountInList",
+        "fileName": "SearchAccountWidget.java",
+        "lineNumber": 76
+      },
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+        "methodName": "ensureAccountIsSelected",
+        "fileName": "SearchAccountWidget.java",
+        "lineNumber": 156
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+        "methodName": "searchForAccountAndSelect",
+        "fileName": "AccountItemSteps.java",
+        "lineNumber": 517
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+        "methodName": "runTestFlowBetweenTransferAndVerifyRestrictionForAccountTo",
+        "fileName": "PlatformFlowSteps.java",
+        "lineNumber": 261
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+        "methodName": "runTestFlow",
+        "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+        "lineNumber": 504
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+        "methodName": "runTestFlow",
+        "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+        "lineNumber": 496
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenRetirementAccountToAccountTransferToggleOn",
+        "methodName": "verifyBetweenFlow313To308DifferentSsn",
+        "fileName": "BetweenRetirementAccountToAccountTransferToggleOn.java",
+        "lineNumber": 467
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.TimeoutException",
+  "testFailureMessage": "Expected condition failed: waiting for Account 99798458 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade",
+  "testFailureSummary": "ERROR;org.openqa.selenium.TimeoutException;Expected condition failed: waiting for Account 99798458 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: net.thucydides.core.webdriver.WebDriverFacade;BasePageObject.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "a9b5b877a02d443907dc97ac27cd3005",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-30288",
+    "ATMT-34297",
+    "ATMT-37866",
+    "ATMT-42489"
+  ],
+  "scenarioOutline": ""
+}

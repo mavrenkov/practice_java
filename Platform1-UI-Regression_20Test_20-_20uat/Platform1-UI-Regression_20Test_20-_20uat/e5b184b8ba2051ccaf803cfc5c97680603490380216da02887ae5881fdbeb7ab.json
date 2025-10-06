@@ -1,0 +1,1347 @@
+{
+  "name": "displayAccountCashValueInFromAndToCardsNewTransaction()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]/[method:displayAccountCashValueInFromAndToCardsNewTransaction()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+  "methodName": "displayAccountCashValueInFromAndToCardsNewTransaction",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Authenticating the session with pid: p044073",
+      "duration": 4404,
+      "startTime": "2025-10-06T09:20:26.457774456-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+          "timeStamp": 1759760430862,
+          "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Launch WAM and authenticate",
+          "duration": 1894,
+          "startTime": "2025-10-06T09:20:28.499635440-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "af5c75aa91a6f8660b412a5cf99440355f4296afce045a74e237093b4c5b2a4e.png",
+              "timeStamp": 1759760430393,
+              "screenshotName": "af5c75aa91a6f8660b412a5cf99440355f4296afce045a74e237093b4c5b2a4e.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: Select Individual accounts",
+      "duration": 11752,
+      "startTime": "2025-10-06T09:20:30.863167532-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+          "timeStamp": 1759760442615,
+          "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nrlt.RLTSHP_ID AS RELID, sub_acc.BR_NO,\ncount(distinct sub_acc.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct sub_acc_svc.acct_ID) as ACCOUNTS_COUNT,\nmin(sub_acc.TAX_RPT_TIN_NO) as ssn1, max(sub_acc.TAX_RPT_TIN_NO) as ssn2,\nmin(sub_acc_svc.acct_ID) as acct1, max(sub_acc_svc.acct_ID) as acct2\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\n-- sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\nsub_acc.ACCT_CLS_UT is NULL\nand sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.acct_own_rule_id in (309)\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n-- and rlt.RLTSHP_ID in ()\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand a.acct_own_rule_id in (309)\n                    and sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n\ngroup by rlt.RLTSHP_ID, sub_acc.BR_NO\nhaving \ncount(distinct sub_acc_svc.ACCT_ID)\u003e1 \nand count(distinct sub_acc.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct account.acct_own_rule_id) \u003d 1\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n\nfetch first 1 rows only;",
+          "isEvidence": false,
+          "id": "report-data-db4d29af-86e9-4386-9122-a135ca43f431"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{RELID\u003d90541, SSN2\u003d250086111           , ACCOUNTS_COUNT\u003d2, SSN1\u003d243101890           , SSN_COUNT\u003d2, BR_NO\u003d4454, ACCT2\u003d107317851, ACCT1\u003d106700333}",
+          "isEvidence": false,
+          "id": "report-data-85856c21-436e-459c-a48d-fba3ad87bfff"
+        },
+        {
+          "title": "SQL query",
+          "contents": "select\nsub_acc.acct_id,\nsub_acc.VNDR_ACCT_ID,\nsub_acc.TAX_RPT_TIN_NO,\nsub_acc.acct_own_rule_id\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n\nwhere\nrlt.RLTSHP_ID \u003d 90541\nand sub_acc.BR_NO \u003d 4454\nand account.acct_own_rule_id in (309)\n\n-- and sub_acc.ACCT_OWN_SUBTY_CD is not NULL\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand rlt.RLTSHP_ID \u003d 90541\n\t\t\t\t\tand sub_acc.BR_NO \u003d 4454\n\t\t\t\t\tand a.acct_own_rule_id in (309)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n",
+          "isEvidence": false,
+          "id": "report-data-ecf5d6b9-b982-4848-a264-fc520836d40f"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, TAX_RPT_TIN_NO\u003d250086111           , VNDR_ACCT_ID\u003d44510879            , ACCT_ID\u003d106700333}\n{ACCT_OWN_RULE_ID\u003d309, TAX_RPT_TIN_NO\u003d243101890           , VNDR_ACCT_ID\u003d44511136            , ACCT_ID\u003d107317851}",
+          "isEvidence": false,
+          "id": "report-data-20bb9edf-2753-49fe-8481-6f3d31a59316"
+        },
+        {
+          "title": "Found data",
+          "contents": "BetweenFlowDb2TestDataProvider.BetweenFlowData(branchNo\u003d4454, relationshipId\u003d90541, accountIdFrom\u003d107317851, accountIdTo\u003d106700333, accountCustomerNumberFrom\u003d44511136, accountCustomerNumberTo\u003d44510879)",
+          "isEvidence": false,
+          "id": "report-data-f9b8866b-b089-416e-a2f0-ab8400312f3b"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Prepare approved bank profile",
+      "duration": 5565,
+      "startTime": "2025-10-06T09:20:42.615850563-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+          "timeStamp": 1759760448181,
+          "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Get bank accounts with approved profiles by account id 107317851",
+          "duration": 388,
+          "startTime": "2025-10-06T09:20:42.617595296-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760443006,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query for AMC_PROFILE",
+              "contents": "SELECT bank_profile.bank_profile_guid as bank_profile_guid, bank_profile.account_id as account_id, bank_account.bank_account_guid as bank_account_guid, bank_account.bank_account_no as bank_account_no, bank_account.bank_na as bank_na, bank_account.routing_no as routing_no, bank_account.bank_account_type_cd as bank_account_type_cd, bank_account.bank_account_ownership_type_cd as bank_account_ownership_type_cd, bank_account.bank_account_nick_na as bank_account_nick_na, bank_account.bank_account_legal_entity_na as bank_account_legal_entity_na FROM bank_profile, bank_account WHERE bank_profile.bank_account_id \u003d bank_account.bank_account_id and bank_profile.account_id \u003d 107317851 and bank_profile.bank_profile_status_cd\u003d\u0027APPROVED\u0027",
+              "isEvidence": false,
+              "id": "report-data-3e07b511-5551-448e-91cd-9f9b028665ca"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 6,
+          "description": "Get bank name by routing number 101000035",
+          "duration": 5161,
+          "startTime": "2025-10-06T09:20:43.013447445-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760448175,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select BK_NA\nfrom PROD.BK_DATA_HST_11218\nwhere\nBK_RTE_NO\u003d101000035\nand END_TS is null",
+              "isEvidence": false,
+              "id": "report-data-ce0c3782-ec49-4656-972c-56dc85fb2e2e"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{BK_NA\u003dBANK OF AMERICA, N.A.               }",
+              "isEvidence": false,
+              "id": "report-data-dd5b0bf8-666d-498f-bef0-7e4a2f968c03"
+            },
+            {
+              "title": "Prepared bank profile",
+              "contents": "LinkedBank(name\u003dnnban3879, number\u003d****3879, entityType\u003dBANK OF AMERICA, N.A., accountType\u003dCHECKING, id\u003d34310F81-D17C-47F0-8EF9-9F104189DE1A)",
+              "isEvidence": false,
+              "id": "report-data-dc2d4461-e714-4c2f-bb08-b161140991a0"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "description": "Get p-number for BOA of branch 4454, relationship 90541, account 107317851, for Platform flow",
+      "duration": 7269,
+      "startTime": "2025-10-06T09:20:48.181985833-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+          "timeStamp": 1759760455451,
+          "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 8,
+          "description": "Get p-numbers for BOAs of branch 4454",
+          "duration": 2794,
+          "startTime": "2025-10-06T09:20:48.183366283-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760450977,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 9,
+              "description": "Send request to the GET branch BoAs",
+              "duration": 2487,
+              "startTime": "2025-10-06T09:20:48.184710128-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760450672,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "BoAs/FAs for branch",
+                  "contents": "P178960\nP170447\nP230883\nP139143\nP050478\nP044073\nP033267\nP132700\nP057112\nP226548\nP152960\nP143279\nP206312\nP101440\nP163594\nP170642\nP157558\nP165835\nP137116\nP043733\nP037111\nP219518\nP214945\nP203355\nP170153\nP116804\nP083881\nP209252\nP180713",
+                  "isEvidence": false,
+                  "id": "report-data-413c4bfd-e75d-4069-bed6-69e811723cb6"
+                }
+              ],
+              "precondition": false,
+              "level": 2,
+              "children": [
+                {
+                  "number": 10,
+                  "description": "Authenticate the Session as p058929",
+                  "duration": 1484,
+                  "startTime": "2025-10-06T09:20:48.191052459-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                      "timeStamp": 1759760449675,
+                      "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "reportData": [
+                    {
+                      "title": "Get request URI",
+                      "contents": "URI: https://crt-crtsvc-rest.apps2.uat.edwardjones.com//crt-teams \n PathParameters: Optional.empty",
+                      "isEvidence": false,
+                      "id": "report-data-71f00edd-e617-4b02-a6f4-bb32eca76124"
+                    }
+                  ],
+                  "precondition": false,
+                  "level": 3
+                },
+                {
+                  "number": 11,
+                  "description": "GET https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm\u003dAMC\u0026id\u003d4454\u0026idType\u003dB\u0026returnPopulation\u003dA\u0026returnHistoryCurrent\u003dC\u0026uidCd\u003dxxx",
+                  "duration": 66,
+                  "startTime": "2025-10-06T09:20:50.499847039-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                      "timeStamp": 1759760450566,
+                      "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "restQuery": {
+                    "method": "GET",
+                    "path": "https://crt-crtsvc-rest.apps2.uat.edwardjones.com/crt-teams?callingPgm\u003dAMC\u0026id\u003d4454\u0026idType\u003dB\u0026returnPopulation\u003dA\u0026returnHistoryCurrent\u003dC\u0026uidCd\u003dxxx",
+                    "content": "",
+                    "contentType": "application/json",
+                    "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                    "requestCookies": "EJAUTH\u003dSTL69FD91CB0855DFEEAE790A4D94F9A255E7A6EFA2BC85C334AB6C147E72C53C195B161BE62E716E78D18BC1E7EE8A7E3FE90C1C70FC69AEB9DC9F0A2A8528A9EE\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0058929",
+                    "responseHeaders": "Content-Type: application/json\nTransfer-Encoding: chunked\nConnection: keep-alive\nDate: Mon, 06 Oct 2025 14:20:50 GMT\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nStrict-Transport-Security: max-age\u003d15724800; includeSubDomains\nX-Frame-Options: DENY",
+                    "responseCookies": "",
+                    "responseBody": "[\n    {\n        \"teamName\": \"TROY A. BAKER\",\n        \"crbtID\": 13192,\n        \"ownerFaNo\": \"574715\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"SFA\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P178960\",\n                \"mbrEmplId\": \"0178960\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Miller,Kari M\",\n                \"mbrBrNo\": \"45894\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.35.25.271891\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P170447\",\n                \"mbrEmplId\": \"0170447\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Young,Kristi\",\n                \"mbrBrNo\": \"11609\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.35.11.729778\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-02-14T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-02-14-22.43.10.574774\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-02-06T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-02-16-10.42.45.358210\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-02-04T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-02-16-10.39.57.968158\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2010-08-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2010-08-10-23.56.19.056898\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"574715\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"TROY A. BAKER\",\n                \"teamBegDa\": \"2000-01-24T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 13192,\n                \"teamTyCd\": \"SFA\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2010-08-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2012-03-22-00.12.23.760454\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Troy Baker/ Brandon Wilson\",\n        \"crbtID\": 268069,\n        \"ownerFaNo\": \"445575\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"HTM\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P178960\",\n                \"mbrEmplId\": \"0178960\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Miller,Kari M\",\n                \"mbrBrNo\": \"45894\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.36.52.300291\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P170447\",\n                \"mbrEmplId\": \"0170447\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Young,Kristi\",\n                \"mbrBrNo\": \"11609\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.36.38.301640\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-02-14T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-02-14-22.43.10.581143\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.836428\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P132700\",\n                \"mbrEmplId\": \"0132700\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Hough,Morgan E\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.843835\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P057112\",\n                \"mbrEmplId\": \"0057112\",\n                \"mbrFaNo\": \"600268\",\n                \"mbrName\": \"Wilson,Brandon N\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.838220\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.836361\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.824740\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445575\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Brandon Wilson\",\n                \"teamBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268069,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-01-25T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-01-25-19.00.46.836284\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Troy Baker/ Katie Bedward\",\n        \"crbtID\": 268168,\n        \"ownerFaNo\": \"747500\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P178960\",\n                \"mbrEmplId\": \"0178960\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Miller,Kari M\",\n                \"mbrBrNo\": \"45894\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.38.10.795418\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P170447\",\n                \"mbrEmplId\": \"0170447\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Young,Kristi\",\n                \"mbrBrNo\": \"11609\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.37.56.267260\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-02-14T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-02-14-22.43.10.581723\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P226548\",\n                \"mbrEmplId\": \"0226548\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Steinmetz,Erica\",\n                \"mbrBrNo\": \"05349\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.621314\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P152960\",\n                \"mbrEmplId\": \"0152960\",\n                \"mbrFaNo\": \"545658\",\n                \"mbrName\": \"Bedward,Katie\",\n                \"mbrBrNo\": \"05349\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.604812\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P143279\",\n                \"mbrEmplId\": \"0143279\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Cook,Amy J\",\n                \"mbrBrNo\": \"05349\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.621217\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.603890\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.603790\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.491041\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"747500\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Katie Bedward\",\n                \"teamBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268168,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-04-29T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-04-29-18.15.30.603675\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Troy Baker/ Rachel Siegfriedt\",\n        \"crbtID\": 268279,\n        \"ownerFaNo\": \"445800\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P178960\",\n                \"mbrEmplId\": \"0178960\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Miller,Kari M\",\n                \"mbrBrNo\": \"45894\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.38.49.995734\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P170447\",\n                \"mbrEmplId\": \"0170447\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Young,Kristi\",\n                \"mbrBrNo\": \"11609\",\n                \"mbrBegDa\": \"2025-03-21T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-03-21-13.38.38.395692\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-02-14T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-02-14-22.43.10.581904\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P206312\",\n                \"mbrEmplId\": \"0206312\",\n                \"mbrFaNo\": \"535851\",\n                \"mbrName\": \"Siegfriedt,Rachael E\",\n                \"mbrBrNo\": \"38555\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.824307\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.822577\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P101440\",\n                \"mbrEmplId\": \"0101440\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Sturgis,Amanda\",\n                \"mbrBrNo\": \"38555\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.857300\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.822487\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.809615\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"445800\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Troy Baker/ Rachel Siegfriedt\",\n                \"teamBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268279,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2024-07-30T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2024-07-30-12.21.20.822364\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"T Baker/ B Wilson/ N Babin\",\n        \"crbtID\": 268494,\n        \"ownerFaNo\": \"557851\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.842910\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"AFA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P163594\",\n                \"mbrEmplId\": \"0163594\",\n                \"mbrFaNo\": \"359697\",\n                \"mbrName\": \"Babin,Nicole C\",\n                \"mbrBrNo\": \"12204\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.847903\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.842852\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P132700\",\n                \"mbrEmplId\": \"0132700\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Hough,Morgan E\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.847183\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P057112\",\n                \"mbrEmplId\": \"0057112\",\n                \"mbrFaNo\": \"600268\",\n                \"mbrName\": \"Wilson,Brandon N\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.843797\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.842795\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"557851\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"T Baker/ B Wilson/ N Babin\",\n                \"teamBegDa\": \"2025-04-03T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268494,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-10T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-10-13.36.38.842702\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Baker Wealth\",\n        \"crbtID\": 268515,\n        \"ownerFaNo\": \"715902\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.113776\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P170642\",\n                \"mbrEmplId\": \"0170642\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"McFarlin,Pamela D\",\n                \"mbrBrNo\": \"91519\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.117876\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P157558\",\n                \"mbrEmplId\": \"0157558\",\n                \"mbrFaNo\": \"544813\",\n                \"mbrName\": \"Beaubien,David P\",\n                \"mbrBrNo\": \"91519\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.116023\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.113721\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P132700\",\n                \"mbrEmplId\": \"0132700\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Hough,Morgan E\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.115070\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P057112\",\n                \"mbrEmplId\": \"0057112\",\n                \"mbrFaNo\": \"600268\",\n                \"mbrName\": \"Wilson,Brandon N\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.114439\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.112299\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"715902\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268515,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-04-22T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-04-22-14.18.13.113591\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Baker/ Wilson/ Loftus\",\n        \"crbtID\": 268697,\n        \"ownerFaNo\": \"575991\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.335228\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P165835\",\n                \"mbrEmplId\": \"0165835\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Varnell,Holly A\",\n                \"mbrBrNo\": \"12204\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.343172\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.335175\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P137116\",\n                \"mbrEmplId\": \"0137116\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Jeanine M\",\n                \"mbrBrNo\": \"12204\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.343121\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P132700\",\n                \"mbrEmplId\": \"0132700\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Hough,Morgan E\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.337124\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P057112\",\n                \"mbrEmplId\": \"0057112\",\n                \"mbrFaNo\": \"600268\",\n                \"mbrName\": \"Wilson,Brandon N\",\n                \"mbrBrNo\": \"07515\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.336066\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.335109\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.332061\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P043733\",\n                \"mbrEmplId\": \"0043733\",\n                \"mbrFaNo\": \"578624\",\n                \"mbrName\": \"Loftus,Gavin J\",\n                \"mbrBrNo\": \"12204\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.337744\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P037111\",\n                \"mbrEmplId\": \"0037111\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Gardow,Deena L\",\n                \"mbrBrNo\": \"12204\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.343040\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"575991\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Wilson/ Loftus\",\n                \"teamBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 268697,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-05-12T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-05-12-19.17.17.335000\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Baker Wealth\",\n        \"crbtID\": 269292,\n        \"ownerFaNo\": \"102765\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"HTM\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.254194\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P219518\",\n                \"mbrEmplId\": \"0219518\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Scott,George R\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.372442\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P214945\",\n                \"mbrEmplId\": \"0214945\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Wise,Erika\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.372353\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P203355\",\n                \"mbrEmplId\": \"0203355\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Goodlin,Kendra D\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.370862\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P170153\",\n                \"mbrEmplId\": \"0170153\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Heppeard,Stephanie\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.370790\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.254128\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P116804\",\n                \"mbrEmplId\": \"0116804\",\n                \"mbrFaNo\": \"428546\",\n                \"mbrName\": \"Webster,Trevor R\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.360470\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P083881\",\n                \"mbrEmplId\": \"0083881\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Gamble,Beth E\",\n                \"mbrBrNo\": \"44519\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.370699\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.248897\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"102765\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker Wealth\",\n                \"teamBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 269292,\n                \"teamTyCd\": \"HTM\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-07-09T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-07-10-02.21.31.253969\",\n                \"uidCd\": null\n            }\n        ]\n    },\n    {\n        \"teamName\": \"Baker/ Eakle   GK\",\n        \"crbtID\": 270146,\n        \"ownerFaNo\": \"103179\",\n        \"ownerBrNo\": \"04454\",\n        \"tmBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n        \"tmEndDa\": null,\n        \"teamTyCd\": \"XFR\",\n        \"uidCd\": null,\n        \"memberList\": [\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P230883\",\n                \"mbrEmplId\": \"0230883\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Baker,Bryson R\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.616524\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P209252\",\n                \"mbrEmplId\": \"0209252\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Braden,Heaven\",\n                \"mbrBrNo\": \"59875\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.705086\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P180713\",\n                \"mbrEmplId\": \"0180713\",\n                \"mbrFaNo\": \"458838\",\n                \"mbrName\": \"Eakle,Bryan J\",\n                \"mbrBrNo\": \"59875\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.702767\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P139143\",\n                \"mbrEmplId\": \"0139143\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Howard,Cara D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.616432\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P050478\",\n                \"mbrEmplId\": \"0050478\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Evans,Robin D\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.616341\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"FA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P044073\",\n                \"mbrEmplId\": \"0044073\",\n                \"mbrFaNo\": \"574715\",\n                \"mbrName\": \"Baker,Troy A\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.605650\",\n                \"uidCd\": null\n            },\n            {\n                \"ownerFaNo\": \"103179\",\n                \"ownerBrNo\": \"04454\",\n                \"ownerFaName\": \"Baker/ Eakle   GK\",\n                \"teamBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"teamEndDa\": null,\n                \"mbrRoleCd\": \"BOA\",\n                \"crbtId\": 270146,\n                \"teamTyCd\": \"XFR\",\n                \"mbrJorP\": \"P033267\",\n                \"mbrEmplId\": \"0033267\",\n                \"mbrFaNo\": \"000000\",\n                \"mbrName\": \"Holland,Renae L\",\n                \"mbrBrNo\": \"04454\",\n                \"mbrBegDa\": \"2025-09-08T00:00:00.000+00:00\",\n                \"mbrEndDa\": null,\n                \"active\": true,\n                \"mbrCreUt\": \"2025-09-08-20.28.13.616217\",\n                \"uidCd\": null\n            }\n        ]\n    }\n]",
+                    "statusCode": 200
+                  },
+                  "precondition": false,
+                  "level": 3
+                },
+                {
+                  "number": 12,
+                  "description": "Log the response time",
+                  "duration": 13,
+                  "startTime": "2025-10-06T09:20:50.596978114-05:00[America/Chicago]",
+                  "screenshots": [
+                    {
+                      "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                      "timeStamp": 1759760450610,
+                      "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                    }
+                  ],
+                  "result": "SUCCESS",
+                  "reportData": [
+                    {
+                      "title": "Response time",
+                      "contents": "84",
+                      "isEvidence": false,
+                      "id": "report-data-0e4aa086-4658-41c1-b950-0aba39149fdb"
+                    },
+                    {
+                      "title": "response",
+                      "contents": "[{\"teamName\":\"TROY A. BAKER\",\"crbtID\":13192,\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"SFA\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P178960\",\"mbrEmplId\":\"0178960\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Miller,Kari M\",\"mbrBrNo\":\"45894\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.35.25.271891\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P170447\",\"mbrEmplId\":\"0170447\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Young,Kristi\",\"mbrBrNo\":\"11609\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.35.11.729778\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-02-14T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-02-14-22.43.10.574774\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-02-06T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-02-16-10.42.45.358210\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-02-04T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-02-16-10.39.57.968158\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2010-08-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2010-08-10-23.56.19.056898\",\"uidCd\":null},{\"ownerFaNo\":\"574715\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"TROY A. BAKER\",\"teamBegDa\":\"2000-01-24T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":13192,\"teamTyCd\":\"SFA\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2010-08-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2012-03-22-00.12.23.760454\",\"uidCd\":null}]},{\"teamName\":\"Troy Baker/ Brandon Wilson\",\"crbtID\":268069,\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"HTM\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P178960\",\"mbrEmplId\":\"0178960\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Miller,Kari M\",\"mbrBrNo\":\"45894\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.36.52.300291\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P170447\",\"mbrEmplId\":\"0170447\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Young,Kristi\",\"mbrBrNo\":\"11609\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.36.38.301640\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-02-14T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-02-14-22.43.10.581143\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.836428\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P132700\",\"mbrEmplId\":\"0132700\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Hough,Morgan E\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.843835\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P057112\",\"mbrEmplId\":\"0057112\",\"mbrFaNo\":\"600268\",\"mbrName\":\"Wilson,Brandon N\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.838220\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.836361\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.824740\",\"uidCd\":null},{\"ownerFaNo\":\"445575\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Brandon Wilson\",\"teamBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268069,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-01-25T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-01-25-19.00.46.836284\",\"uidCd\":null}]},{\"teamName\":\"Troy Baker/ Katie Bedward\",\"crbtID\":268168,\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P178960\",\"mbrEmplId\":\"0178960\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Miller,Kari M\",\"mbrBrNo\":\"45894\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.38.10.795418\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P170447\",\"mbrEmplId\":\"0170447\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Young,Kristi\",\"mbrBrNo\":\"11609\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.37.56.267260\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-02-14T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-02-14-22.43.10.581723\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P226548\",\"mbrEmplId\":\"0226548\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Steinmetz,Erica\",\"mbrBrNo\":\"05349\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.621314\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P152960\",\"mbrEmplId\":\"0152960\",\"mbrFaNo\":\"545658\",\"mbrName\":\"Bedward,Katie\",\"mbrBrNo\":\"05349\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.604812\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P143279\",\"mbrEmplId\":\"0143279\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Cook,Amy J\",\"mbrBrNo\":\"05349\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.621217\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.603890\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.603790\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.491041\",\"uidCd\":null},{\"ownerFaNo\":\"747500\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Katie Bedward\",\"teamBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268168,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-04-29T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-04-29-18.15.30.603675\",\"uidCd\":null}]},{\"teamName\":\"Troy Baker/ Rachel Siegfriedt\",\"crbtID\":268279,\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P178960\",\"mbrEmplId\":\"0178960\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Miller,Kari M\",\"mbrBrNo\":\"45894\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.38.49.995734\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P170447\",\"mbrEmplId\":\"0170447\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Young,Kristi\",\"mbrBrNo\":\"11609\",\"mbrBegDa\":\"2025-03-21T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-03-21-13.38.38.395692\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-02-14T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-02-14-22.43.10.581904\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P206312\",\"mbrEmplId\":\"0206312\",\"mbrFaNo\":\"535851\",\"mbrName\":\"Siegfriedt,Rachael E\",\"mbrBrNo\":\"38555\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.824307\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.822577\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P101440\",\"mbrEmplId\":\"0101440\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Sturgis,Amanda\",\"mbrBrNo\":\"38555\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.857300\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.822487\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.809615\",\"uidCd\":null},{\"ownerFaNo\":\"445800\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Troy Baker/ Rachel Siegfriedt\",\"teamBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268279,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2024-07-30T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2024-07-30-12.21.20.822364\",\"uidCd\":null}]},{\"teamName\":\"T Baker/ B Wilson/ N Babin\",\"crbtID\":268494,\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.842910\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"AFA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P163594\",\"mbrEmplId\":\"0163594\",\"mbrFaNo\":\"359697\",\"mbrName\":\"Babin,Nicole C\",\"mbrBrNo\":\"12204\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.847903\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.842852\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P132700\",\"mbrEmplId\":\"0132700\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Hough,Morgan E\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.847183\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P057112\",\"mbrEmplId\":\"0057112\",\"mbrFaNo\":\"600268\",\"mbrName\":\"Wilson,Brandon N\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.843797\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.842795\",\"uidCd\":null},{\"ownerFaNo\":\"557851\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"T Baker/ B Wilson/ N Babin\",\"teamBegDa\":\"2025-04-03T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268494,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-10T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-10-13.36.38.842702\",\"uidCd\":null}]},{\"teamName\":\"Baker Wealth\",\"crbtID\":268515,\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.113776\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P170642\",\"mbrEmplId\":\"0170642\",\"mbrFaNo\":\"000000\",\"mbrName\":\"McFarlin,Pamela D\",\"mbrBrNo\":\"91519\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.117876\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P157558\",\"mbrEmplId\":\"0157558\",\"mbrFaNo\":\"544813\",\"mbrName\":\"Beaubien,David P\",\"mbrBrNo\":\"91519\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.116023\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.113721\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P132700\",\"mbrEmplId\":\"0132700\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Hough,Morgan E\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.115070\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P057112\",\"mbrEmplId\":\"0057112\",\"mbrFaNo\":\"600268\",\"mbrName\":\"Wilson,Brandon N\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.114439\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.112299\",\"uidCd\":null},{\"ownerFaNo\":\"715902\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268515,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-04-22T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-04-22-14.18.13.113591\",\"uidCd\":null}]},{\"teamName\":\"Baker/ Wilson/ Loftus\",\"crbtID\":268697,\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.335228\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P165835\",\"mbrEmplId\":\"0165835\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Varnell,Holly A\",\"mbrBrNo\":\"12204\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.343172\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.335175\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P137116\",\"mbrEmplId\":\"0137116\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Jeanine M\",\"mbrBrNo\":\"12204\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.343121\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P132700\",\"mbrEmplId\":\"0132700\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Hough,Morgan E\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.337124\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P057112\",\"mbrEmplId\":\"0057112\",\"mbrFaNo\":\"600268\",\"mbrName\":\"Wilson,Brandon N\",\"mbrBrNo\":\"07515\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.336066\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.335109\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.332061\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P043733\",\"mbrEmplId\":\"0043733\",\"mbrFaNo\":\"578624\",\"mbrName\":\"Loftus,Gavin J\",\"mbrBrNo\":\"12204\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.337744\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P037111\",\"mbrEmplId\":\"0037111\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Gardow,Deena L\",\"mbrBrNo\":\"12204\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.343040\",\"uidCd\":null},{\"ownerFaNo\":\"575991\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Wilson/ Loftus\",\"teamBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":268697,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-05-12T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-05-12-19.17.17.335000\",\"uidCd\":null}]},{\"teamName\":\"Baker Wealth\",\"crbtID\":269292,\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"HTM\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.254194\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P219518\",\"mbrEmplId\":\"0219518\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Scott,George R\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.372442\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P214945\",\"mbrEmplId\":\"0214945\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Wise,Erika\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.372353\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P203355\",\"mbrEmplId\":\"0203355\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Goodlin,Kendra D\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.370862\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P170153\",\"mbrEmplId\":\"0170153\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Heppeard,Stephanie\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.370790\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.254128\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P116804\",\"mbrEmplId\":\"0116804\",\"mbrFaNo\":\"428546\",\"mbrName\":\"Webster,Trevor R\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.360470\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P083881\",\"mbrEmplId\":\"0083881\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Gamble,Beth E\",\"mbrBrNo\":\"44519\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.370699\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.248897\",\"uidCd\":null},{\"ownerFaNo\":\"102765\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker Wealth\",\"teamBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":269292,\"teamTyCd\":\"HTM\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-07-09T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-07-10-02.21.31.253969\",\"uidCd\":null}]},{\"teamName\":\"Baker/ Eakle   GK\",\"crbtID\":270146,\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"tmBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"tmEndDa\":null,\"teamTyCd\":\"XFR\",\"uidCd\":null,\"memberList\":[{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P230883\",\"mbrEmplId\":\"0230883\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Baker,Bryson R\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.616524\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P209252\",\"mbrEmplId\":\"0209252\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Braden,Heaven\",\"mbrBrNo\":\"59875\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.705086\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P180713\",\"mbrEmplId\":\"0180713\",\"mbrFaNo\":\"458838\",\"mbrName\":\"Eakle,Bryan J\",\"mbrBrNo\":\"59875\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.702767\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P139143\",\"mbrEmplId\":\"0139143\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Howard,Cara D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.616432\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P050478\",\"mbrEmplId\":\"0050478\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Evans,Robin D\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.616341\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"FA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P044073\",\"mbrEmplId\":\"0044073\",\"mbrFaNo\":\"574715\",\"mbrName\":\"Baker,Troy A\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.605650\",\"uidCd\":null},{\"ownerFaNo\":\"103179\",\"ownerBrNo\":\"04454\",\"ownerFaName\":\"Baker/ Eakle   GK\",\"teamBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"teamEndDa\":null,\"mbrRoleCd\":\"BOA\",\"crbtId\":270146,\"teamTyCd\":\"XFR\",\"mbrJorP\":\"P033267\",\"mbrEmplId\":\"0033267\",\"mbrFaNo\":\"000000\",\"mbrName\":\"Holland,Renae L\",\"mbrBrNo\":\"04454\",\"mbrBegDa\":\"2025-09-08T00:00:00.000+00:00\",\"mbrEndDa\":null,\"active\":true,\"mbrCreUt\":\"2025-09-08-20.28.13.616217\",\"uidCd\":null}]}]",
+                      "isEvidence": false,
+                      "id": "report-data-4e4540d3-1a4f-46b9-8d46-d1ff260f2966"
+                    }
+                  ],
+                  "precondition": false,
+                  "level": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "number": 13,
+          "description": "Get if user can be used for authentication P178960",
+          "duration": 606,
+          "startTime": "2025-10-06T09:20:50.978183116-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760451584,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "auth cookies",
+              "contents": "{EJPKY\u003d0178960, EJAUTHRFC\u003d\"STL8933F2A143F3E13E279763456AB24953BC5E562D6E7F84F79A232BA4757CBB3AAFDDEB6422853F098F31D1D4DA22FFDA8476AB6729281B45629CE7D35670F3EC\", ExpirationTime\u003d10:20:51, EJAUTH\u003dSTL8933F2A143F3E13E279763456AB24953BC5E562D6E7F84F79A232BA4757CBB3AAFDDEB6422853F098F31D1D4DA22FFDA8476AB6729281B45629CE7D35670F3EC}",
+              "isEvidence": false,
+              "id": "report-data-7324b29f-7100-4acb-9cf5-30406fd042fc"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 14,
+          "description": "Send request to check user\u0027s access to relationship",
+          "duration": 855,
+          "startTime": "2025-10-06T09:20:51.588629240-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760452444,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 15,
+              "description": "Authenticate the Session as P178960",
+              "duration": 613,
+              "startTime": "2025-10-06T09:20:51.593621100-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760452206,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access \n PathParameters: Optional[{rlshpId\u003d90541}]",
+                  "isEvidence": false,
+                  "id": "report-data-04cb97ed-d282-4fb7-a7dd-205af598f537"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 16,
+              "description": "GET http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+              "duration": 73,
+              "startTime": "2025-10-06T09:20:52.352466198-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760452426,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTL088D2990B8E4B3F52B499BC60533D1C33EB4D53638A695F255F8C79EE9BA644F7794043A6CD5B095EEDDAE879AF93350E4BD8667B0C4B88D6FE8C69ABDDBC3D6\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0178960",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 14:20:52 GMT\nContent-Length: 0\nConnection: keep-alive\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "statusCode": 403
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 17,
+              "description": "Log the response time",
+              "duration": 10,
+              "startTime": "2025-10-06T09:20:52.426944241-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760452437,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "125",
+                  "isEvidence": false,
+                  "id": "report-data-b6221463-701c-472c-89d5-b125ec4818f5"
+                },
+                {
+                  "title": "response",
+                  "contents": "",
+                  "isEvidence": false,
+                  "id": "report-data-59623056-31a2-4bde-9e4e-8a6ac0901cf3"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 18,
+          "description": "Get if user can be used for authentication P170447",
+          "duration": 611,
+          "startTime": "2025-10-06T09:20:52.444698582-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760453056,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "auth cookies",
+              "contents": "{EJPKY\u003d0170447, EJAUTHRFC\u003d\"STL5F401E6F743CCBEA3A7037286CC4A0F3E8711BBB7AE14D9089E4486A0F967F3A4D068F6F436E2F07EDB7968270CED11AB1DF69959E70A4398158F9A79ECE49DB\", ExpirationTime\u003d10:20:52, EJAUTH\u003dSTL5F401E6F743CCBEA3A7037286CC4A0F3E8711BBB7AE14D9089E4486A0F967F3A4D068F6F436E2F07EDB7968270CED11AB1DF69959E70A4398158F9A79ECE49DB}",
+              "isEvidence": false,
+              "id": "report-data-113f9028-6853-4027-98bf-1b4c249b552f"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 19,
+          "description": "Send request to check user\u0027s access to relationship",
+          "duration": 872,
+          "startTime": "2025-10-06T09:20:53.060631097-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760453932,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 20,
+              "description": "Authenticate the Session as P170447",
+              "duration": 624,
+              "startTime": "2025-10-06T09:20:53.065646606-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760453689,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access \n PathParameters: Optional[{rlshpId\u003d90541}]",
+                  "isEvidence": false,
+                  "id": "report-data-ebd4c95b-39a1-4333-950f-793382e1461b"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 21,
+              "description": "GET http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+              "duration": 65,
+              "startTime": "2025-10-06T09:20:53.848584111-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760453913,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTLEA407E01F2AD7BF956DAD41DE3C530EFE3ABFC6C41BC798F6DC1587EDB68B2C98ACE6F372D81E3B7CFB7F21604F0BF489C1344B47C65094F8C343D04CCC44395\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0170447",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 14:20:53 GMT\nContent-Length: 0\nConnection: keep-alive\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "statusCode": 403
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 22,
+              "description": "Log the response time",
+              "duration": 11,
+              "startTime": "2025-10-06T09:20:53.914691033-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760453926,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "151",
+                  "isEvidence": false,
+                  "id": "report-data-e152cf41-7a47-43c4-887b-296d5db85302"
+                },
+                {
+                  "title": "response",
+                  "contents": "",
+                  "isEvidence": false,
+                  "id": "report-data-7efd9abc-0899-43d4-8787-26b856ac2574"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 23,
+          "description": "Get if user can be used for authentication P230883",
+          "duration": 553,
+          "startTime": "2025-10-06T09:20:53.932944687-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760454486,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "auth cookies",
+              "contents": "{EJPKY\u003d0230883, EJAUTHRFC\u003d\"STL6F41CD8A33E697A59E1EC2CCE1CE37ACB8F7CC15B9E9D50943C081AE8FC6618DA66336ED72CA90EC8E00579686AF0D43E94124EEF87ED4F2B43F10BC1008F05D\", ExpirationTime\u003d10:20:54, EJAUTH\u003dSTL6F41CD8A33E697A59E1EC2CCE1CE37ACB8F7CC15B9E9D50943C081AE8FC6618DA66336ED72CA90EC8E00579686AF0D43E94124EEF87ED4F2B43F10BC1008F05D}",
+              "isEvidence": false,
+              "id": "report-data-f5a78211-f7e7-4e1f-8e0c-f22365d1d104"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 24,
+          "description": "Send request to check user\u0027s access to relationship",
+          "duration": 779,
+          "startTime": "2025-10-06T09:20:54.490327148-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760455269,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 25,
+              "description": "Authenticate the Session as P230883",
+              "duration": 553,
+              "startTime": "2025-10-06T09:20:54.495291470-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760455049,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Get request URI",
+                  "contents": "URI: http://crt-authorization-rest.apps.edwardjones.com//relationships/{rlshpId}/access \n PathParameters: Optional[{rlshpId\u003d90541}]",
+                  "isEvidence": false,
+                  "id": "report-data-58927498-dcf1-46ff-b2c9-737b9c7015d6"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 26,
+              "description": "GET http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+              "duration": 71,
+              "startTime": "2025-10-06T09:20:55.180743204-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760455252,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://crt-authorization-rest.apps.edwardjones.com///relationships/90541/access",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTLBD0C42F23CFEDE53FAE4493AC90BF1F79A8DD3138CC1B1FB73B04AC6BF4ED591453FF3E615B7F1489B944D9871E7DD4DC823A08CAD86E45FCCE73599FD128468\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0230883",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 14:20:55 GMT\nConnection: keep-alive\nVary: Origin\nVary: Access-Control-Request-Method\nVary: Access-Control-Request-Headers\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "statusCode": 204
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 27,
+              "description": "Log the response time",
+              "duration": 10,
+              "startTime": "2025-10-06T09:20:55.253207230-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760455263,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "125",
+                  "isEvidence": false,
+                  "id": "report-data-c9dfeda8-306b-4a5e-b420-1ae6251c6743"
+                },
+                {
+                  "title": "response",
+                  "contents": "",
+                  "isEvidence": false,
+                  "id": "report-data-fc849ec8-02bb-42c7-a886-050ae6b23c7c"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 28,
+          "description": "Send request to the GET check transactions by account as user P230883",
+          "duration": 173,
+          "startTime": "2025-10-06T09:20:55.272524130-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+              "timeStamp": 1759760455445,
+              "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "Get request URI",
+              "contents": "URI: http://c21-scanref-svc.apps.edwardjones.com//checks \n PathParameters: Optional.empty",
+              "isEvidence": false,
+              "id": "report-data-94380494-4b5f-4d95-b3a2-4c06b2165f1e"
+            },
+            {
+              "title": "validated BoA for branch",
+              "contents": "P230883",
+              "isEvidence": false,
+              "id": "report-data-ae3a5043-f11c-416f-9554-2c312acf2162"
+            }
+          ],
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 29,
+              "description": "GET http://c21-scanref-svc.apps.edwardjones.com/checks?startDate\u003d2025-10-06\u0026endDate\u003d2025-10-06\u0026accountIds\u003d107317851",
+              "duration": 85,
+              "startTime": "2025-10-06T09:20:55.344231401-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760455429,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "restQuery": {
+                "method": "GET",
+                "path": "http://c21-scanref-svc.apps.edwardjones.com/checks?startDate\u003d2025-10-06\u0026endDate\u003d2025-10-06\u0026accountIds\u003d107317851",
+                "content": "",
+                "contentType": "application/json",
+                "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript, text/json\n\t\t\t\tContent-Type\u003dapplication/json",
+                "requestCookies": "EJAUTH\u003dSTLBD0C42F23CFEDE53FAE4493AC90BF1F79A8DD3138CC1B1FB73B04AC6BF4ED591453FF3E615B7F1489B944D9871E7DD4DC823A08CAD86E45FCCE73599FD128468\n\t\t\t\tEJAUTH-RFC\u003d\n\t\t\t\tEJPKY\u003d0230883",
+                "responseHeaders": "Date: Mon, 06 Oct 2025 14:20:55 GMT\nContent-Type: application/json\nContent-Length: 2\nConnection: keep-alive\nX-Content-Type-Options: nosniff\nX-XSS-Protection: 0\nCache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\nPragma: no-cache\nExpires: 0\nX-Frame-Options: DENY",
+                "responseCookies": "",
+                "responseBody": "[\n    \n]",
+                "statusCode": 200
+              },
+              "precondition": false,
+              "level": 2
+            },
+            {
+              "number": 30,
+              "description": "Log the response time",
+              "duration": 9,
+              "startTime": "2025-10-06T09:20:55.430388679-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png",
+                  "timeStamp": 1759760455440,
+                  "screenshotName": "07e851f6fc178dd02d0474e81639d4937ae364ef96a8e58401325bc58f3357a5.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "reportData": [
+                {
+                  "title": "Response time",
+                  "contents": "62",
+                  "isEvidence": false,
+                  "id": "report-data-074ee0da-3bb1-47a1-9e7f-a6a13bcd463a"
+                },
+                {
+                  "title": "response",
+                  "contents": "[]",
+                  "isEvidence": false,
+                  "id": "report-data-e04958e2-e5df-4ef4-8f33-30886a4c4f87"
+                }
+              ],
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "description": "Authenticating the session with pid: P230883",
+      "duration": 2198,
+      "startTime": "2025-10-06T09:20:55.451406500-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "63f622154ba4ec2af83cfe4927c03312e55e22cbffa1b277e160b748d2764f9f.png",
+          "timeStamp": 1759760457649,
+          "screenshotName": "63f622154ba4ec2af83cfe4927c03312e55e22cbffa1b277e160b748d2764f9f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 32,
+          "description": "Launch WAM and authenticate",
+          "duration": 1682,
+          "startTime": "2025-10-06T09:20:55.540049099-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "63f622154ba4ec2af83cfe4927c03312e55e22cbffa1b277e160b748d2764f9f.png",
+              "timeStamp": 1759760457222,
+              "screenshotName": "63f622154ba4ec2af83cfe4927c03312e55e22cbffa1b277e160b748d2764f9f.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "description": "Opening the asset movement page for relationship id: 90541",
+      "duration": 2163,
+      "startTime": "2025-10-06T09:20:57.650085187-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e35760d1dcee77125fd100bd3e1e541d0a32e40a568e17e63d914f440281bab7.png",
+          "timeStamp": 1759760459813,
+          "screenshotName": "e35760d1dcee77125fd100bd3e1e541d0a32e40a568e17e63d914f440281bab7.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 34,
+      "description": "Given set amc_use_new_accounts_service false",
+      "duration": 759,
+      "startTime": "2025-10-06T09:20:59.814005223-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "244c5bb3e5d12844e7284f861a9c7c8a1dcac31fe51a8f8e9bc7e799fbfc25ae.png",
+          "timeStamp": 1759760460573,
+          "screenshotName": "244c5bb3e5d12844e7284f861a9c7c8a1dcac31fe51a8f8e9bc7e799fbfc25ae.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 35,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 620,
+      "startTime": "2025-10-06T09:21:00.574054205-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "244c5bb3e5d12844e7284f861a9c7c8a1dcac31fe51a8f8e9bc7e799fbfc25ae.png",
+          "timeStamp": 1759760461194,
+          "screenshotName": "244c5bb3e5d12844e7284f861a9c7c8a1dcac31fe51a8f8e9bc7e799fbfc25ae.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 36,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8695,
+      "startTime": "2025-10-06T09:21:01.195057154-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "a6320cfb1bc377411b0295292a0f5a4f9bf6753bae690dc65afee05c4ca43eec.png",
+          "timeStamp": 1759760469890,
+          "screenshotName": "a6320cfb1bc377411b0295292a0f5a4f9bf6753bae690dc65afee05c4ca43eec.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 37,
+      "description": "Select searched account 44511136",
+      "duration": 26817,
+      "startTime": "2025-10-06T09:21:09.890521672-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6dd5e50bac879a40d27113031c65d0d54f54c14dd0d5e51e60f8e8d8abf3f09e.png",
+          "htmlSource": "pagesource221662733870922472.html",
+          "timeStamp": 1759760496706,
+          "screenshotName": "6dd5e50bac879a40d27113031c65d0d54f54c14dd0d5e51e60f8e8d8abf3f09e.png"
+        }
+      ],
+      "exception": {
+        "errorType": "org.openqa.selenium.TimeoutException",
+        "message": "Expected condition failed: waiting for Account 44511136 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)",
+        "stackTrace": [
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+            "methodName": "waitForListElement",
+            "fileName": "BasePageObject.java",
+            "lineNumber": 91
+          },
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+            "methodName": "waitForPresenceOfAccountInList",
+            "fileName": "SearchAccountWidget.java",
+            "lineNumber": 76
+          },
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+            "methodName": "ensureAccountIsSelected",
+            "fileName": "SearchAccountWidget.java",
+            "lineNumber": 156
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+            "methodName": "searchForAccountAndSelect",
+            "fileName": "AccountItemSteps.java",
+            "lineNumber": 517
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+            "methodName": "displayAccountCashValueInFromAndToCardsNewTransaction",
+            "fileName": "BetweenVerifyWhoInitiatedTransfer.java",
+            "lineNumber": 226
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ],
+        "rootCause": {
+          "errorType": "org.openqa.selenium.NoSuchElementException",
+          "message": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.C2D924851AD9C1F6BA5C509720BA1506.e.107, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5",
+          "stackTrace": [
+            {
+              "declaringClass": "com.ej.taf.core.ui.pages.BasePageObject",
+              "methodName": "waitForListElement",
+              "fileName": "BasePageObject.java",
+              "lineNumber": 91
+            },
+            {
+              "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+              "methodName": "waitForPresenceOfAccountInList",
+              "fileName": "SearchAccountWidget.java",
+              "lineNumber": 76
+            },
+            {
+              "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+              "methodName": "ensureAccountIsSelected",
+              "fileName": "SearchAccountWidget.java",
+              "lineNumber": 156
+            },
+            {
+              "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+              "methodName": "searchForAccountAndSelect",
+              "fileName": "AccountItemSteps.java",
+              "lineNumber": 517
+            },
+            {
+              "declaringClass": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+              "methodName": "displayAccountCashValueInFromAndToCardsNewTransaction",
+              "fileName": "BetweenVerifyWhoInitiatedTransfer.java",
+              "lineNumber": 226
+            },
+            {
+              "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+              "methodName": "run",
+              "fileName": "GradleWorkerMain.java",
+              "lineNumber": 69
+            },
+            {
+              "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+              "methodName": "main",
+              "fileName": "GradleWorkerMain.java",
+              "lineNumber": 74
+            }
+          ]
+        }
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 38,
+      "description": "Select the First Available Owner",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.711925854-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 39,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.715357598-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 40,
+      "description": "Select searched account 44510879",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.718801256-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 41,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.722056091-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 42,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.725028128-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 43,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.727798233-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 44,
+      "description": "Select Linked Bank option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.730639875-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 45,
+      "description": "Select searched account ****3879",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.733611373-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 46,
+      "description": "Click continue button",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.736418123-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 47,
+      "description": "Select searched account 44511136",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.739323399-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 48,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.742552838-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 49,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.745434477-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 50,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.748649044-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 51,
+      "description": "Click continue button",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.751470681-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 52,
+      "description": "Select External Firm option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.754181377-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 53,
+      "description": "Select searched account 44511136",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.757992568-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 54,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.761096842-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 55,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.763942367-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 56,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.766708265-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 57,
+      "description": "Click continue button",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.769654432-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 58,
+      "description": "Select Check Deposit option",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.772451559-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 59,
+      "description": "Select searched account 44511136",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.775314280-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 60,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.778277039-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 61,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.781177879-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 62,
+      "description": "Choose transfer \u0027Out of\u0027 accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.784075088-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 63,
+      "description": "Select searched account 44511136",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.787032969-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 64,
+      "description": "Get Account Cash Amount From New Transaction Page",
+      "duration": 0,
+      "startTime": "2025-10-06T09:21:36.790092281-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-1576c3fc-2474-4f84-813b-9999fd06c063"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-a3e2cd63-9d44-4141-948c-1326fb5d3e60"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "storyName": "BetweenVerifyWhoInitiatedTransfer",
+    "displayName": "BetweenVerifyWhoInitiatedTransfer",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenVerifyWhoInitiatedTransfer",
+        "description": "BetweenVerifyWhoInitiatedTransfer"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Display Total Account Value/cash for the selected EDJ account in To and From in the New Transaction Page",
+  "coreIssues": [
+    "ATMT-10711",
+    "ATMT-23223"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "ach-into-flow",
+      "type": "tag",
+      "displayName": "ach-into-flow"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "ach-out-of-flow",
+      "type": "tag",
+      "displayName": "ach-out-of-flow"
+    }
+  ],
+  "startTime": "2025-10-06T09:20:26.453276537-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:21:36.792297620-05:00[America/Chicago]",
+  "duration": 3849,
+  "testFailureCause": {
+    "errorType": "net.thucydides.model.domain.MultipleAssertionErrors",
+    "message": "\nThe following 2 assertions failed:\n1) Expected condition failed: waiting for Account 44511136 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\n2) no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.C2D924851AD9C1F6BA5C509720BA1506.e.107, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5\n",
+    "stackTrace": [
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "net.thucydides.model.domain.MultipleAssertionErrors",
+  "testFailureMessage": "\nThe following 2 assertions failed:\n1) Expected condition failed: waiting for Account 44511136 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\n2) no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.C2D924851AD9C1F6BA5C509720BA1506.e.107, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5\n",
+  "testFailureSummary": "\nThe following 2 assertions failed:\n1) Expected condition failed: waiting for Account 44511136 should be present in \u0027Account From\u0027 list (tried for 20 second(s) with 500 milliseconds interval)\n2) no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [b6b0b763623b390bfe541405473aa3b5, findChildElement {value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.61F4B4DCAFD52EE609497F6275ABE372.d.C2D924851AD9C1F6BA5C509720BA1506.e.107, using\u003dxpath}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:56708}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: b6b0b763623b390bfe541405473aa3b5\n",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "b6b0b763623b390bfe541405473aa3b5",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-10711",
+    "ATMT-23223"
+  ],
+  "scenarioOutline": ""
+}

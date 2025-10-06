@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Serenity Reports</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="bootstrap-icons/bootstrap-icons.css">
+<!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0.min.js"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.13.1/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.13.1/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.13.1/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+
+
+
+    <script class="code" type="text/javascript">$(document).ready(function () {
+
+
+            $("#scenario-results").DataTable({
+                "order": [[0, "asc",], [3, "asc",]],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                },
+                columnDefs: [
+                    {type: 'time-elapsed-dhms', targets: 4}
+                ]
+            })
+            $("#manual-scenario-results").DataTable({
+                "order": [[0, "asc",], [1, "asc",]],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                },
+            })
+
+        // Results table
+        $('#test-results-table').DataTable({
+            "order": [[0, "asc",], [3, "asc",]],
+            "pageLength": 100,
+            "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
+        });
+
+    })
+    ;
+    </script>
+</head>
+
+<body class="results-page">
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">Serenity BDD Report</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+
+
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs"><a href="index.html">Home</a>
+                > Tag 
+                > <span
+                    class="truncate-60">Ach-Out-Of-Flow > Duration 1 To 10 Seconds</span>
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+        <li >
+            <a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html"><i class="bi bi-chat-text"></i> Stories</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 06-10-2025 11:53:24</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+
+                <h2><i class='bi bi-tags'></i> Tag: Ach-Out-Of-Flow > Duration 1 To 10 Seconds</h2>
+                <table class='overview'>
+                    <tr>
+                        <td width="375px" valign="top">
+                            <div class="test-count-summary">
+                                <div>
+
+                                    26 tests
+
+                                     |
+                                        <a href="40bed4dca29ea3a28ab37edc93e197e3207361dd285def0e631bbb343633cae4.csv" title="Download CSV"> <i class="bi bi-cloud-arrow-down" title="Download CSV"></i></a>
+
+                                    <p class="report-info"><i class="bi bi-info-circle"></i> Note that results include
+                                        data-driven scenarios containing tests ,
+                                        which may also contain results other than tests .</p>
+
+
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#summary"><i class="bi bi-house-door"></i> Summary</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tests"><i class="bi bi-speedometer"></i> Test
+                                            Results</a>
+                                    </li>
+                                </ul>
+
+                                <div class="card border">
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <div id="summary" class="tab-pane fade in active">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+    <div>
+        <h3><i class="bi bi-speedometer2"></i> Key Statistics</h3>
+        <div>
+            <table class="table table-striped table-hover">
+                <tbody>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-card-checklist"></i> Number of Scenarios
+                    </td>
+                    <td>26</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-caret-right"></i> Total Number of Test Cases
+                    </td>
+                    <td>26</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-flag-fill"></i> Tests Started
+                    </td>
+                    <td>Oct 06, 2025 08:58:53</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-stop-circle"></i> Tests
+                        Finished
+                    </td>
+                    <td>Oct 06, 2025 10:51:45</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-stopwatch"></i> Total
+                        Duration
+                    </td>
+                    <td> 1h  52m 52s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-trophy"></i> Fastest Test
+                    </td>
+                    <td>1s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-skip-start"></i> Slowest
+                        Test
+                    </td>
+                    <td>5s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-stopwatch"></i> Average
+                        Execution Time
+                    </td>
+                    <td>3s</td>
+                </tr>
+                <tr scope="row">
+                    <td>
+                        <i class="bi bi-stopwatch-fill"></i> Total
+                        Execution Time
+                    </td>
+                    <td> 1m 33s</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <h4><i class="bi bi-check-square"></i> Test Outcomes</h4>
+                                                        <!-- Severity bar chart -->
+                                                        <div class="chart-container" style="position: relative; width:30vw">
+                                                            <canvas id="severityChart" width="300" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <h4><i class="bi bi-graph-up"></i> Test Performance</h4>
+
+                                                        <!-- Duration bar chart -->
+                                                        <div class="chart-container" style="position: relative; width:30vw">
+                                                            <canvas id="durationChart" width="300" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <!-- High level coverage bar chart -->
+                                                            <div class="chart-container" style="position: relative; width:60vw">
+                                                                <h3><i class="bi bi-reception-3"></i> Functional Coverage Overview</h3>
+                                                                <h4>Features</h4>
+                                                                <canvas id="coverageChart"></canvas>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <h3>Tags</h3>
+
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <div>
+                                                                                <a href="7015cce00e41eb46f2380c025dd0ec07f6bd1bc9b0ac6f25bdaa74b7b0796a67.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Ach-Into-Flow&nbsp;&nbsp;&nbsp;3
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="1512d572cd1bb6385a9a2e7632ceac6226ee6dfb6c692a365c4e37b272617614.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-3&nbsp;&nbsp;&nbsp;3
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Platform1-Regression&nbsp;&nbsp;&nbsp;26
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="c22bf9b070b28f40fc35c6491a11b432e12c61b724dca8cdd432d5f443bd8f1a.html">
+                                                                                    <span class="badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Preprod-Regression&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="1811f80b5fe0d7987832401d6ba11e53fba0585d71903a1f6626743abebdc481.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Ach-Out-Of-Flow&nbsp;&nbsp;&nbsp;26
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="a2c60cec36c90ae83b421cd02ef8acbc1bc9cc15b3a30dd404b993e056f989a3.html">
+                                                                                    <span class="badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-3d&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="14cd8f63dd3fb6c2fe38c67b0e124de29aedad2c9430a9d6ba80021ea6ebb92e.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-2b&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-3b&nbsp;&nbsp;&nbsp;9
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> DB-Test-Data&nbsp;&nbsp;&nbsp;20
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="b3c3d5bdb0db622230fd39dcf6d1040c184048a70ff4885c53969d994ff1cd8f.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Platform1-Regression-Daily&nbsp;&nbsp;&nbsp;20
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="e7028a5acff89d01cc85ecbca82bb9896625d9dc08eb47345885cf230bad4f92.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Between-Flow&nbsp;&nbsp;&nbsp;2
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="d4eae078b03c96bf35b011b5780d06dfe0d5980002b79729a9bca599b95322cc.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-2&nbsp;&nbsp;&nbsp;4
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="38a05c85236504d4583a69b495582061fc51d962bf0eac4c9050446964ffa40e.html">
+                                                                                    <span class="badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-4&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> New-Old-Ui&nbsp;&nbsp;&nbsp;7
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="819f578accde174934ca704af07a903d5e0feb87de2951306a6e0bec474243c0.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Priority-3c&nbsp;&nbsp;&nbsp;6
+                                                                                    </span>
+                                                                                </a>
+                                                                                <a href="da8f4d43b595381ff06177142539cf0d2c207270448b9e5cf062a920d75b52bf.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Platform1-Regression-PI22.1&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                            <h5 class="card-title">Amc-Ach-Margin-Loan-Accounts-Cashout-Transfers-Enable</h5>
+                                                                        <div>
+                                                                                <a href="8d7217dff436ae12009abd5ef69844cb7c6c57c810e71959f948ef190f3ecd9c.html">
+                                                                                    <span class="badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> False&nbsp;&nbsp;&nbsp;3
+                                                                                    </span>
+                                                                                </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                            <h5 class="card-title">Context</h5>
+                                                                        <div>
+                                                                                <a href="4b59ae6653aebba42755603f63edcc610e447dca4c5d6938ccdf5fe39dc86cdd.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Microsoftedge&nbsp;&nbsp;&nbsp;26
+                                                                                    </span>
+                                                                                </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-sm-11">
+                                                            <h3>Functional Coverage Details</h3>
+
+
+                                                                    <h4>Features</h4>
+
+                                                                    <table class="table feature-coverage-table-with-pagination" id="Feature">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>Feature</th>
+                                                                            <th style="width:1em;">Test&nbsp;Cases</th>
+                                                                            <th style="width:1em;">Scenarios</th>
+                                                                            <th style="width:1em;">%&nbsp;Pass</th>
+                                                                            <th style="width:1em;">Result</th>
+                                                                            <th>Coverage</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html" > Edwardjones</a>
+                                                                                    </td>
+                                                                                    <td>26</td>
+                                                                                    <td>26</td>
+                                                                                    <td>38%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 38.461538%; background-color: #b0cf73"
+                                                                                                     aria-valuenow="10"
+                                                                                                     title="38% success"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 15.384615%; background-color: #fd938e"
+                                                                                                     aria-valuenow="4"
+                                                                                                     title="15% failure"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 46.153846%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="12"
+                                                                                                     title="46% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="790c743d3179ec5673e943987804d35cfc96bd9695abd699bbdab5367597139c.html" > Account auto select negative test</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>1</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html" > Ach transfer out of account auto trade warning message</a>
+                                                                                    </td>
+                                                                                    <td>5</td>
+                                                                                    <td>5</td>
+                                                                                    <td>100%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #b0cf73"
+                                                                                                     aria-valuenow="5"
+                                                                                                     title="100% success"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="95d36826fbcf4c8d73b083de9b1c39bdd88a970ab1cc39b408e33a603b1c33d7.html" > All data missing account test</a>
+                                                                                    </td>
+                                                                                    <td>2</td>
+                                                                                    <td>2</td>
+                                                                                    <td>100%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #b0cf73"
+                                                                                                     aria-valuenow="2"
+                                                                                                     title="100% success"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="d021bf9107f445a4f82ec6fb0bdfe4338786ee7376a7a6f88bdf7824a905e611.html" > Between verify who initiated transfer</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>1</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="11679a6b3abaf220e59f5c805e5b62acdbfc7cf4692bb4a68263956fe254b1f7.html" > Cancel transfer on amc footer</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>1</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="ca2b81c32f3fe53951e2735d22b35a53a4107d606d1566498a044eaae413f8ce.html" > Display total account cash and value in from to across flows</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>1</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="d039125a5a55e226a9c0d82ffb457dc0f041ef3adb0358d6e39a8eb869278e18.html" > Out of edward jones to linked bank test</a>
+                                                                                    </td>
+                                                                                    <td>2</td>
+                                                                                    <td>2</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="2"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="43ed6f1616e23e2f34ffad7737511ba64cfaab3fc6ef050aee0a94d7ac62ebdb.html" > Out of edward jones transaction test</a>
+                                                                                    </td>
+                                                                                    <td>3</td>
+                                                                                    <td>3</td>
+                                                                                    <td>67%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 66.666667%; background-color: #b0cf73"
+                                                                                                     aria-valuenow="2"
+                                                                                                     title="67% success"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 33.333333%; background-color: #fd938e"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="33% failure"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html" > Out of validate sub acc types</a>
+                                                                                    </td>
+                                                                                    <td>3</td>
+                                                                                    <td>3</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fd938e"
+                                                                                                     aria-valuenow="3"
+                                                                                                     title="100% failure"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html" > Out of verify who authorized transfer</a>
+                                                                                    </td>
+                                                                                    <td>4</td>
+                                                                                    <td>4</td>
+                                                                                    <td>25%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 25%; background-color: #b0cf73"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="25% success"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 75%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="3"
+                                                                                                     title="75% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="b1ca3724e93ddd69ae1e06e0cf4bb766f50edb20b04065f488b30f2831cf38fc.html" > Verify additional back and next buttons new transaction</a>
+                                                                                    </td>
+                                                                                    <td>2</td>
+                                                                                    <td>2</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="2"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                            <a href="0e7934e9c16484482a3871ac76b32e7c69cbf6da4604674c3a530dec5313b010.html" > Verify button name on confirmation screen after transfer</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>1</td>
+                                                                                    <td>0%</td>
+                                                                                    <td>
+                                                                                            <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="progress">
+                                                                                                <div class="progress-bar"
+                                                                                                     role="progressbar"
+                                                                                                     style="width: 100%; background-color: #fe6c2d"
+                                                                                                     aria-valuenow="1"
+                                                                                                     title="100% error"
+                                                                                                     aria-valuemin="0"
+                                                                                                     aria-valuemax="100">
+                                                                                                </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                            <h3>Test Failure Overview</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                            <h4>Most Frequent Failures</h4>
+                                                            <table class="table" style="width:40vw;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="error-color top-list-title">
+                                                                            <a href="de6f1221c376aacf2a535359d0f7eb11364d06387e1097f08977bd47cc9db3fe.html"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> Multiple assertion errors</a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                    class="badge failure-badge">3</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="error-color top-list-title">
+                                                                            <a href="22a92488e2bf162eb58f3f453b650dde0bab75a2b31234832f024f39b1c5f192.html"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> Null pointer exception</a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                    class="badge failure-badge">3</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="a0ace456df350117335ad374e8d62c0d8c978db868ea1469e0c5ba32aac965ea.html"><a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a> Assertion error</a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                    class="badge failure-badge">3</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="error-color top-list-title">
+                                                                            <a href="969603a654f469abaa0b1329f030558b68dfd26948a74e5667f38486a662316b.html"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> Timeout exception</a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                    class="badge failure-badge">3</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="error-color top-list-title">
+                                                                            <a href="2b56b574d89834f6aa192f59fa6627b776a6c288e09dbc7d06c356f5bad5b3c0.html"><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> No such element exception</a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                    class="badge failure-badge">2</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                            <h4>Most Unstable Features</h4>
+                                                            <table class="table" style="width:40vw;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html">OutOfValidateSubAccTypes</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge failure-badge">100%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="d039125a5a55e226a9c0d82ffb457dc0f041ef3adb0358d6e39a8eb869278e18.html">OutOfEdwardJonesToLinkedBankTest</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge failure-badge">100%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="b1ca3724e93ddd69ae1e06e0cf4bb766f50edb20b04065f488b30f2831cf38fc.html">VerifyAdditionalBackAndNextButtonsNewTransaction</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge failure-badge">100%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="790c743d3179ec5673e943987804d35cfc96bd9695abd699bbdab5367597139c.html">AccountAutoSelectNegativeTest</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge failure-badge">100%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="failure-color top-list-title">
+                                                                            <a href="d021bf9107f445a4f82ec6fb0bdfe4338786ee7376a7a6f88bdf7824a905e611.html">BetweenVerifyWhoInitiatedTransfer</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge failure-badge">100%</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Tags</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                    <a href="7015cce00e41eb46f2380c025dd0ec07f6bd1bc9b0ac6f25bdaa74b7b0796a67.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Ach-Into-Flow&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                                    <a href="1512d572cd1bb6385a9a2e7632ceac6226ee6dfb6c692a365c4e37b272617614.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                                    <a href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                                    <a href="c22bf9b070b28f40fc35c6491a11b432e12c61b724dca8cdd432d5f443bd8f1a.html">
+                                    <span class="tag-badge badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Preprod-Regression&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="1811f80b5fe0d7987832401d6ba11e53fba0585d71903a1f6626743abebdc481.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Ach-Out-Of-Flow&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                                    <a href="a2c60cec36c90ae83b421cd02ef8acbc1bc9cc15b3a30dd404b993e056f989a3.html">
+                                    <span class="tag-badge badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3d&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="14cd8f63dd3fb6c2fe38c67b0e124de29aedad2c9430a9d6ba80021ea6ebb92e.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-2b&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3b&nbsp;&nbsp;&nbsp;9
+                                    </span>
+                                    </a>
+                                    <a href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> DB-Test-Data&nbsp;&nbsp;&nbsp;20
+                                    </span>
+                                    </a>
+                                    <a href="b3c3d5bdb0db622230fd39dcf6d1040c184048a70ff4885c53969d994ff1cd8f.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression-Daily&nbsp;&nbsp;&nbsp;20
+                                    </span>
+                                    </a>
+                                    <a href="e7028a5acff89d01cc85ecbca82bb9896625d9dc08eb47345885cf230bad4f92.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Between-Flow&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="d4eae078b03c96bf35b011b5780d06dfe0d5980002b79729a9bca599b95322cc.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-2&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                                    <a href="38a05c85236504d4583a69b495582061fc51d962bf0eac4c9050446964ffa40e.html">
+                                    <span class="tag-badge badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-4&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> New-Old-Ui&nbsp;&nbsp;&nbsp;7
+                                    </span>
+                                    </a>
+                                    <a href="819f578accde174934ca704af07a903d5e0feb87de2951306a6e0bec474243c0.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3c&nbsp;&nbsp;&nbsp;6
+                                    </span>
+                                    </a>
+                                    <a href="da8f4d43b595381ff06177142539cf0d2c207270448b9e5cf062a920d75b52bf.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression-PI22.1&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Amc-Ach-Margin-Loan-Accounts-Cashout-Transfers-Enable</h5>
+                            <div>
+                                    <a href="8d7217dff436ae12009abd5ef69844cb7c6c57c810e71959f948ef190f3ecd9c.html">
+                                    <span class="tag-badge badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> False&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Context</h5>
+                            <div>
+                                    <a href="4b59ae6653aebba42755603f63edcc610e447dca4c5d6938ccdf5fe39dc86cdd.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Microsoftedge&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+                                            </div>
+                                        </div>
+                                        <div id="tests" class="tab-pane fade in">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h3><i class="bi bi-gear"></i> Automated Tests</h3>
+
+                                            <table class="scenario-result-table table" id="scenario-results">
+                                                <thead>
+                                                <tr>
+                                                    <th>story</th>
+                                                    <th class="test-name-column">Scenario</th>
+                                                    <th>Steps</th>
+                                                    <th>Started</th>
+                                                    <th>Total Duration</th>
+                                                    <th>Result</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="790c743d3179ec5673e943987804d35cfc96bd9695abd699bbdab5367597139c.html">AccountAutoSelectNegativeTest</a>
+                                                            </td>
+                                                            <td><a href="e0c995738320e914732f7b3c0207506976a3f72181f207f072b9da05d244064e.html">Out of Flow: Multiple Accounts are not auto selected</a>
+                                                            </td>
+                                                            <td>6</td>
+                                                            <td>09:00:55</td>
+                                                            <td>1s 835ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html">AchTransferOutOfAccountAutoTradeWarningMessage</a>
+                                                            </td>
+                                                            <td><a href="ed138a95ed00621ab892c9d16e325f9069e5de83cba512d8b4f6167fe626c94e.html">Display warning message for auto trade accounts-money out - UMA account with A status code</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>08:58:53</td>
+                                                            <td>5s 862ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html">AchTransferOutOfAccountAutoTradeWarningMessage</a>
+                                                            </td>
+                                                            <td><a href="13d3d4848efa0ec4f105630493c0c2769fb12737bd2002c440c22c8bdaf3d2a3.html">Display warning message for auto trade accounts-money out - AV account</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>09:00:55</td>
+                                                            <td>5s 818ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html">AchTransferOutOfAccountAutoTradeWarningMessage</a>
+                                                            </td>
+                                                            <td><a href="c860e81394816ab2ae8f33ecb9ca81645b4594b9d9ae7472f5bb4f90408a4a52.html">Display warning message for auto trade accounts-money out - UMA account with C status code</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>09:02:40</td>
+                                                            <td>5s 337ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html">AchTransferOutOfAccountAutoTradeWarningMessage</a>
+                                                            </td>
+                                                            <td><a href="b171114114c1e8a7a34a38b3c4f9482ccde16849649f56d900ba77147364f4d5.html">Display warning message for auto trade accounts-money out - non AV(SE) account</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>09:04:31</td>
+                                                            <td>5s 321ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html">AchTransferOutOfAccountAutoTradeWarningMessage</a>
+                                                            </td>
+                                                            <td><a href="b60341f2b11c1c6d565e5d9e97236b68bef3f2c3264f1c314bed2b2bd52124b4.html">Display warning message for auto trade accounts-money out - GD(Guided Solutions Fund) account</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>09:06:06</td>
+                                                            <td>5s 274ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="95d36826fbcf4c8d73b083de9b1c39bdd88a970ab1cc39b408e33a603b1c33d7.html">AllDataMissingAccountTest</a>
+                                                            </td>
+                                                            <td><a href="389b471af1b15f9984586f4c07d4aefc495b1be6da963349a001ad175843d0fa.html">Out OF Flow: Error Retrieving Accounts in To Card </a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>09:08:34</td>
+                                                            <td>1s 838ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="95d36826fbcf4c8d73b083de9b1c39bdd88a970ab1cc39b408e33a603b1c33d7.html">AllDataMissingAccountTest</a>
+                                                            </td>
+                                                            <td><a href="41b08f85a37a58ae9c0cdaec062124a7e55be8cda21579d4333b0df0d1a35e13.html">Out OF Flow: Error Retrieving Accounts in From Card </a>
+                                                            </td>
+                                                            <td>6</td>
+                                                            <td>09:10:17</td>
+                                                            <td>1s 663ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="d021bf9107f445a4f82ec6fb0bdfe4338786ee7376a7a6f88bdf7824a905e611.html">BetweenVerifyWhoInitiatedTransfer</a>
+                                                            </td>
+                                                            <td><a href="e5b184b8ba2051ccaf803cfc5c97680603490380216da02887ae5881fdbeb7ab.html">Display Total Account Value/cash for the selected EDJ account in To and From in the New Transaction Page</a>
+                                                            </td>
+                                                            <td>37</td>
+                                                            <td>09:20:26</td>
+                                                            <td>3s 849ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="11679a6b3abaf220e59f5c805e5b62acdbfc7cf4692bb4a68263956fe254b1f7.html">CancelTransferOnAmcFooter</a>
+                                                            </td>
+                                                            <td><a href="d95f098cbd59fe9a9322948015ea6807dfd9851c56f3828933ca1e0afb5b9aff.html">Cancel Transfer on AMC Footer for Out Of Flow</a>
+                                                            </td>
+                                                            <td>43</td>
+                                                            <td>09:30:46</td>
+                                                            <td>1s 967ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="ca2b81c32f3fe53951e2735d22b35a53a4107d606d1566498a044eaae413f8ce.html">DisplayTotalAccountCashAndValueInFromToAcrossFlows</a>
+                                                            </td>
+                                                            <td><a href="80a86c06beb5e0ab0fb55fcda0be770f5c3ef7db9705ca15605324249e2faa8f.html">Display Total Account Value/cash for the selected EDJ account in To and From in the Transfer Details Page: cash out flow</a>
+                                                            </td>
+                                                            <td>15</td>
+                                                            <td>09:21:13</td>
+                                                            <td>5s 343ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="d039125a5a55e226a9c0d82ffb457dc0f041ef3adb0358d6e39a8eb869278e18.html">OutOfEdwardJonesToLinkedBankTest</a>
+                                                            </td>
+                                                            <td><a href="d4e8e0ce1089f799c4fea95a9dc1fc7e5b4d6550542ba1330812e211bdac7c4c.html">Add New Linked Bank Account Button-Out Of Flow, Sort Linked External Bank Accounts</a>
+                                                            </td>
+                                                            <td>13</td>
+                                                            <td>10:32:14</td>
+                                                            <td>4s 100ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="d039125a5a55e226a9c0d82ffb457dc0f041ef3adb0358d6e39a8eb869278e18.html">OutOfEdwardJonesToLinkedBankTest</a>
+                                                            </td>
+                                                            <td><a href="37af318b590950efc056c5bd170f4f10b50bd9ddf39ae09cad52d517258a2bf9.html">Verify External Account Search for Into and Out Of</a>
+                                                            </td>
+                                                            <td>12</td>
+                                                            <td>10:33:34</td>
+                                                            <td>1s 652ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="43ed6f1616e23e2f34ffad7737511ba64cfaab3fc6ef050aee0a94d7ac62ebdb.html">OutOfEdwardJonesTransactionTest</a>
+                                                            </td>
+                                                            <td><a href="de63666c81dbca0f01af903b17055f40386525be5cdf4811665d425261766e40.html">Integrate New Account Service with Closed Accounts for ACH Out Of Transfers</a>
+                                                            </td>
+                                                            <td>6</td>
+                                                            <td>10:48:34</td>
+                                                            <td>5s 365ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result FAILURE">
+                                                            <td>
+                                                                    <a href="43ed6f1616e23e2f34ffad7737511ba64cfaab3fc6ef050aee0a94d7ac62ebdb.html">OutOfEdwardJonesTransactionTest</a>
+                                                            </td>
+                                                            <td><a href="eba89307e47d84da8d21616be8d55c8daa513d2354fc19544874b039371213ed.html">Integrate New Account Service with Sub Accounts Accounts for ACH Out Of Transfers, Disable Margin and Non-purpose loan types (Sub-Accounts) based on feature toggle</a>
+                                                            </td>
+                                                            <td>9</td>
+                                                            <td>10:50:01</td>
+                                                            <td>5s 395ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a> <span style="display:none">FAILURE</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="43ed6f1616e23e2f34ffad7737511ba64cfaab3fc6ef050aee0a94d7ac62ebdb.html">OutOfEdwardJonesTransactionTest</a>
+                                                            </td>
+                                                            <td><a href="7ba9dca242a4738567384a3a0431456556e38106f77862568589c77369fbc16a.html">Card 2 - Select, Search, Sort for Edward Jones account for 'OUT OF' flow</a>
+                                                            </td>
+                                                            <td>21</td>
+                                                            <td>10:51:40</td>
+                                                            <td>5s 662ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result FAILURE">
+                                                            <td>
+                                                                    <a href="82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html">OutOfValidateSubAccTypes</a>
+                                                            </td>
+                                                            <td><a href="6cfe0ab450c6a98e31587c5c946b573c5278c567ddcd2687f944d7a86d164f86.html">Enable Margin and/or Non-purpose loan in ACH Out flow-ACH Transaction Rules (One Time only) - Non purpose loan sub account</a>
+                                                            </td>
+                                                            <td>12</td>
+                                                            <td>10:43:23</td>
+                                                            <td>5s 312ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a> <span style="display:none">FAILURE</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result FAILURE">
+                                                            <td>
+                                                                    <a href="82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html">OutOfValidateSubAccTypes</a>
+                                                            </td>
+                                                            <td><a href="e71bbab6c5e7947fd0858cd8fb9eafbc001a12f5d66d14a4432371a09eb81dcd.html">Enable Margin and/or Non-purpose loan in ACH Out flow-ACH Transaction Rules (One Time only) - Cash sub account</a>
+                                                            </td>
+                                                            <td>10</td>
+                                                            <td>10:45:08</td>
+                                                            <td>1s 595ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a> <span style="display:none">FAILURE</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result FAILURE">
+                                                            <td>
+                                                                    <a href="82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html">OutOfValidateSubAccTypes</a>
+                                                            </td>
+                                                            <td><a href="bbbf070474509141c5516d6e2556b692c65b8e260d62e1fb0424fd467e32a06e.html">Enable Margin and/or Non-purpose loan in ACH Out flow-ACH Transaction Rules (One Time only) - Margin sub account</a>
+                                                            </td>
+                                                            <td>10</td>
+                                                            <td>10:46:32</td>
+                                                            <td>1s 941ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-x-circle-fill failure-icon ' title='FAILURE'></i></a> <span style="display:none">FAILURE</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html">OutOfVerifyWhoAuthorizedTransfer</a>
+                                                            </td>
+                                                            <td><a href="77ef5af5c00206ab611536d8cfa66ba935f8f64a938f9b5928d23ec9f1d66971.html">Out Of flows: Account roles / Who verbally authorized this transaction</a>
+                                                            </td>
+                                                            <td>18</td>
+                                                            <td>10:19:44</td>
+                                                            <td>4s 204ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html">OutOfVerifyWhoAuthorizedTransfer</a>
+                                                            </td>
+                                                            <td><a href="d9427119f1c8ab13785b718fec1edda21da323d6b30835333950269b6c122f5d.html">Out Of flows: Account roles / Who verbally authorized this transaction</a>
+                                                            </td>
+                                                            <td>17</td>
+                                                            <td>10:22:18</td>
+                                                            <td>1s 943ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html">OutOfVerifyWhoAuthorizedTransfer</a>
+                                                            </td>
+                                                            <td><a href="4136b5bc59a9793ab64bc2e8ac30f52941abeaa74441f03f55d25101bdfa8765.html">Out Of flows: Account roles / Who verbally authorized this transaction</a>
+                                                            </td>
+                                                            <td>7</td>
+                                                            <td>10:24:18</td>
+                                                            <td>1s 653ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result SUCCESS">
+                                                            <td>
+                                                                    <a href="2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html">OutOfVerifyWhoAuthorizedTransfer</a>
+                                                            </td>
+                                                            <td><a href="dbbb29e07fbcd3db824d7f68b61d5602dc980498088c8528c93b7c474911b536.html">Out Of flows: Account roles / Who verbally authorized this transaction</a>
+                                                            </td>
+                                                            <td>19</td>
+                                                            <td>10:26:31</td>
+                                                            <td>1s 921ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-check-circle-fill success-icon ' title='SUCCESS'></i></a> <span style="display:none">SUCCESS</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="b1ca3724e93ddd69ae1e06e0cf4bb766f50edb20b04065f488b30f2831cf38fc.html">VerifyAdditionalBackAndNextButtonsNewTransaction</a>
+                                                            </td>
+                                                            <td><a href="d277f823662d2f46788c33a1f292f8b9c5205c28c403cd2b3d88a3b80e495beb.html">Add Back and Next buttons to top row in New Transaction flow - ACH Out OfBranch Feedback: Align program name in AM Center and Relationship manager</a>
+                                                            </td>
+                                                            <td>23</td>
+                                                            <td>10:32:50</td>
+                                                            <td>1s 552ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="b1ca3724e93ddd69ae1e06e0cf4bb766f50edb20b04065f488b30f2831cf38fc.html">VerifyAdditionalBackAndNextButtonsNewTransaction</a>
+                                                            </td>
+                                                            <td><a href="e34d661e631cc03539ad814e8e3056af6579354eca354658c3f46a875e9bdea2.html">Branch Feedback: Align program name in AM Center and Relationship manager - Create New Account Page</a>
+                                                            </td>
+                                                            <td>3</td>
+                                                            <td>10:35:00</td>
+                                                            <td>1s 910ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="scenario-result ERROR">
+                                                            <td>
+                                                                    <a href="0e7934e9c16484482a3871ac76b32e7c69cbf6da4604674c3a530dec5313b010.html">VerifyButtonNameOnConfirmationScreenAfterTransfer</a>
+                                                            </td>
+                                                            <td><a href="aebd71c89dcd070bc21e8fb224fdea1f9b39b3dfe69aa485af0444f33699e628.html">Verify a new pop up with 2 buttons "New Transaction" and "View Recent Activity" are displaying upon Branch user clicking  on "Yes, Submit Transfer" button on Verify & Submit screen during the ACH Out transaction (Recurring)</a>
+                                                            </td>
+                                                            <td>20</td>
+                                                            <td>10:45:16</td>
+                                                            <td>5s 489ms</td>
+                                                            <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span style="display:none">ERROR</span>
+                                                            </td>
+                                                        </tr>
+                                                </tbody>
+                                            </table>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h3><i class="bi bi-hand-index-thumb"></i> Manual Tests</h3>
+
+                                                No manual tests were recorded
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Tags</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                    <a href="7015cce00e41eb46f2380c025dd0ec07f6bd1bc9b0ac6f25bdaa74b7b0796a67.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Ach-Into-Flow&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                                    <a href="1512d572cd1bb6385a9a2e7632ceac6226ee6dfb6c692a365c4e37b272617614.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                                    <a href="f4a907d463da00d35192d76fe698fdca29b2013cb7f7827073af7b032fdb7858.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                                    <a href="c22bf9b070b28f40fc35c6491a11b432e12c61b724dca8cdd432d5f443bd8f1a.html">
+                                    <span class="tag-badge badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Preprod-Regression&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="1811f80b5fe0d7987832401d6ba11e53fba0585d71903a1f6626743abebdc481.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Ach-Out-Of-Flow&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                                    <a href="a2c60cec36c90ae83b421cd02ef8acbc1bc9cc15b3a30dd404b993e056f989a3.html">
+                                    <span class="tag-badge badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3d&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="14cd8f63dd3fb6c2fe38c67b0e124de29aedad2c9430a9d6ba80021ea6ebb92e.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-2b&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="509c0100d4f65bb34c3476fef92097f52ef2422d0d8c33a5391f1a8a8b5f5a7f.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3b&nbsp;&nbsp;&nbsp;9
+                                    </span>
+                                    </a>
+                                    <a href="54a5d17b1e8f4833eb079ee4175234950c7d8008c0f39299bcbd6f4ab44644f4.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> DB-Test-Data&nbsp;&nbsp;&nbsp;20
+                                    </span>
+                                    </a>
+                                    <a href="b3c3d5bdb0db622230fd39dcf6d1040c184048a70ff4885c53969d994ff1cd8f.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression-Daily&nbsp;&nbsp;&nbsp;20
+                                    </span>
+                                    </a>
+                                    <a href="e7028a5acff89d01cc85ecbca82bb9896625d9dc08eb47345885cf230bad4f92.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Between-Flow&nbsp;&nbsp;&nbsp;2
+                                    </span>
+                                    </a>
+                                    <a href="d4eae078b03c96bf35b011b5780d06dfe0d5980002b79729a9bca599b95322cc.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-2&nbsp;&nbsp;&nbsp;4
+                                    </span>
+                                    </a>
+                                    <a href="38a05c85236504d4583a69b495582061fc51d962bf0eac4c9050446964ffa40e.html">
+                                    <span class="tag-badge badge" style="background-color:#b0cf73; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-4&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                                    <a href="72089763c2830c2353656d698292823cf159b961f2f77b940bd56f48d10a9bf0.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> New-Old-Ui&nbsp;&nbsp;&nbsp;7
+                                    </span>
+                                    </a>
+                                    <a href="819f578accde174934ca704af07a903d5e0feb87de2951306a6e0bec474243c0.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Priority-3c&nbsp;&nbsp;&nbsp;6
+                                    </span>
+                                    </a>
+                                    <a href="da8f4d43b595381ff06177142539cf0d2c207270448b9e5cf062a920d75b52bf.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Platform1-Regression-PI22.1&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Amc-Ach-Margin-Loan-Accounts-Cashout-Transfers-Enable</h5>
+                            <div>
+                                    <a href="8d7217dff436ae12009abd5ef69844cb7c6c57c810e71959f948ef190f3ecd9c.html">
+                                    <span class="tag-badge badge" style="background-color:#fd938e; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> False&nbsp;&nbsp;&nbsp;3
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                                <h5 class="card-title">Context</h5>
+                            <div>
+                                    <a href="4b59ae6653aebba42755603f63edcc610e447dca4c5d6938ccdf5fe39dc86cdd.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Microsoftedge&nbsp;&nbsp;&nbsp;26
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="beforefooter"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 4.0.46</span>
+        </div>
+    </div>
+</div>
+
+<!-- Chart data -->
+    <!-- PIE CHART -->
+    <script>
+
+        // The results pie chart
+        const outcomeChartCtx = document.getElementById('resultChart');
+
+        // Options define for display value on top of bars
+        const outcomeDetailsReports = [
+            { title: 'Passing Test Cases', link: "eb2f9fd1c651540d9ba00b0c8c7bef163a194ca99c53731cb19e6b6a03003cca.html" },
+            { title: 'Pending Test Cases', link: "0ec04b19cabe8560fb3e4e4b8855a304e0c124304ecb55f62c78689fde85c789.html" },
+            { title: 'Ignored Test Cases', link: "1f74593b58eb4ee0c37a63fce15485a63f1f1a04fa013076403e38fdfe87dabe.html" },
+            { title: 'Skipped Test Cases', link: "05b1dda7718e6b0cb5df43a13e2e0091288afaa4024d23e9b68b9f559c852312.html" },
+            { title: 'Aborted Test Cases',  link: "c87870363a14c54b9f4af3cd0da39c688592cd521fcf0f2d07d35568182c3620.html"},
+            { title: 'Failed Test Cases', link: "b99f468e7801b0dc164a625f6a4aea5fa5ca008a53afdb35c67e0dc216a3fa30.html"  },
+            { title: 'Broken Test Cases', link: "1ad3f84212f1298b52cf9f3928d67bdb741660b6da73bf481095ed563a89e895.html"    },
+            { title: 'Compromised Test Cases',  link: "30002d5cbb5bd1861af8c3949fcf7244424c7fd12f8f3a56cadd605a902e5d02.html" },
+        ]
+        const outcomeData = {
+            labels: ['Passing Test Cases', 'Pending Test Cases', 'Ignored Test Cases', 'Skipped Test Cases', 'Aborted Test Cases', 'Failed Test Cases', 'Broken Test Cases', 'Compromised Test Cases','Undefined Test Cases'],
+            datasets: [{
+                label: 'Test Results',
+                fill: false,
+                data: [{meta: 'Passing tests', value: 10}, {meta: 'Pending tests', value: 0}, {meta: 'Ignored tests', value: 0}, {meta: 'Skipped tests', value: 0}, {meta: 'Aborted tests', value: 0}, {meta: 'Failing tests', value: 4}, {meta: 'Broken tests', value: 12}, {meta: 'Compromised tests', value: 0}],
+                backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)','rgba(83, 50, 168, 0.5)'],
+                borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                borderWidth: 1,
+            }]
+        }
+        const outcomeOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        if (percentage === '0%' || percentage === 'NaN%') {
+                            return '';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                },
+            }
+        }
+
+        const outcomeChart = new Chart(outcomeChartCtx, {
+            type: 'doughnut',
+            data: outcomeData,
+            options: outcomeOptions,
+            plugins: [
+                {
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 200).toFixed(1);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var text = "38%"
+                        textX = 10 + Math.round((width - ctx.measureText(text).width) / 2);
+                        textY = (height / 2) - 40;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+        });
+
+        function clickHandler(click) {
+            const points = outcomeChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(outcomeDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        outcomeChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END PIE CHART -->
+
+    <!-- SUMMARY BAR CHART -->
+    <script>
+
+        // The Severity bar chart
+        const severityChartCtx = document.getElementById('severityChart');
+
+        // Options define for display value on top of bars
+
+        const severityDetailsReports = [
+            { title: 'Passing Scenarios', link: "eb2f9fd1c651540d9ba00b0c8c7bef163a194ca99c53731cb19e6b6a03003cca.html" },
+            { title: 'Pending Scenarios', link: "0ec04b19cabe8560fb3e4e4b8855a304e0c124304ecb55f62c78689fde85c789.html" },
+            { title: 'Ignored Scenarios', link: "1f74593b58eb4ee0c37a63fce15485a63f1f1a04fa013076403e38fdfe87dabe.html" },
+            { title: 'Skipped Scenarios', link: "05b1dda7718e6b0cb5df43a13e2e0091288afaa4024d23e9b68b9f559c852312.html" },
+            { title: 'Aborted Scenarios',  link: "c87870363a14c54b9f4af3cd0da39c688592cd521fcf0f2d07d35568182c3620.html"},
+            { title: 'Failed Scenarios', link: "b99f468e7801b0dc164a625f6a4aea5fa5ca008a53afdb35c67e0dc216a3fa30.html"  },
+            { title: 'Broken Scenarios', link: "1ad3f84212f1298b52cf9f3928d67bdb741660b6da73bf481095ed563a89e895.html"    },
+            { title: 'Compromised Scenarios',  link: "30002d5cbb5bd1861af8c3949fcf7244424c7fd12f8f3a56cadd605a902e5d02.html" },
+        ]
+        const severityData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [
+                {
+                    label: 'Automated',
+                    data: [10,0,0,0,0,4,12,0],
+                    backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)','rgba(83, 50, 168, 0.5)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Manual',
+                    data: [0,0,0,0,0,0,0,0],
+                    backgroundColor: ['rgba(153,204,51,0.25)','rgba(165, 199, 238, 0.25)','rgba(168, 168, 168, 0.25)','rgba(238, 224, 152, 0.375)','rgba(255, 153, 102, 0.25)','rgba(255, 22, 49, 0.25)','rgba(255, 97, 8, 0.25)','rgba(255, 104, 255, 0.25)','rgba(83, 50, 168, 0.25)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)','rgba(83, 50, 168, 1)'],
+                    borderWidth: 1
+                },
+
+            ]
+        }
+        const severityOptions = {
+            responsive: true,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value === 0) {
+                            return '';
+                        } else {
+                            return value;
+                        }
+                    },
+                }
+            }
+        }
+        const severityChart = new Chart(severityChartCtx, {
+            type: 'bar',
+            data: severityData,
+            options: severityOptions
+        });
+
+        function clickHandler(click) {
+            const points = severityChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(severityDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        severityChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END SUMMARY CHART -->
+
+    <!-- DURATION CHART -->
+    <script>
+
+        // Options define for display value on top of bars
+        const durationDetailsReports = [
+                {title: "Under 1 second", link: "2f3aca9977b3041d9e6e83b5d2d80bf739f62fb614cfb8713900973eba888711.html"},
+                {title: "1 to 10 seconds", link: "43f4583cdf3df0bcf8316495545ff8377bb7e3ccc26716d79030294a42e8ff2b.html"},
+                {title: "10 to 30 seconds", link: "dd672b40191b201cc24ed5384b2a1b0b04a8f49c1542eb9336f57d0745eb608d.html"},
+                {title: "30 to 60 seconds", link: "19232f9d413330049c175cba995e936e571786a60784caa28311874aad98403c.html"},
+                {title: "1 to 2 minutes", link: "f2abaeb9543a9b806634b41d142f5814abf8005be7154c5d39712631a1dde069.html"},
+                {title: "2 to 5 minutes", link: "7a9766e9c3e901b9441438a270541cdaa6683d054a6ca3e9e7ffa39b665d09ad.html"},
+                {title: "5 to 10 minutes", link: "2c0684d807446d4f899a08ed2038e7645385d3a02b8dd1b82ae9d04e9d60d977.html"},
+                {title: "10 minutes or over", link: "305872998b0f0df17e100c366f52f4cad3f4a8d984336a69dba33adfe90bfa00.html"},
+        ]
+        // The Severity bar chart
+        const durationChartCtx = document.getElementById('durationChart');
+
+        // Options define for display value on top of bars
+
+        const durationData = {
+            labels: ['Under 1 second','1 to 10 seconds','10 to 30 seconds','30 to 60 seconds','1 to 2 minutes','2 to 5 minutes','5 to 10 minutes','10 minutes or over'],
+            datasets: [{
+                label: 'Number of tests per duration',
+                fill: false,
+                data: ['0','26','0','0','0','0','0','0'],
+                backgroundColor: 'rgba(83, 146, 255,0.5)',
+                borderColor: 'rgba(83, 146, 255, 1)',
+            }]
+        }
+        const durationOptions = {
+            responsive: true,
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value > 0) {
+                            return value;
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                    callbacks: {
+                        label: (data) => {
+                            return data.parsed.y + ' tests'
+                        }
+                    },
+                },
+            },
+        }
+
+        const durationChart = new Chart(durationChartCtx, {
+            type: 'bar',
+            data: durationData,
+            options: durationOptions
+        });
+
+        function durationClickHandler(click) {
+            const points = durationChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(durationDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+
+        durationChartCtx.onclick = durationClickHandler;
+    </script>
+    <!-- END DURATION CHART -->
+
+
+
+    <!-- COVERAGE BAR CHART -->
+    <script>
+
+        // The coverage bar chart
+        const coverageChartCtx = document.getElementById('coverageChart');
+
+        // Options define for display value on top of bars
+
+        const coverageReports = [
+            {
+                title: 'Edwardjones',
+                result: 'ERROR',
+                link: "465c9414dc11b1477500e5b9af01db709f46285b50b195e086efa453834542b4.html"
+            },
+            {
+                title: 'Account auto select negative test',
+                result: 'ERROR',
+                link: "790c743d3179ec5673e943987804d35cfc96bd9695abd699bbdab5367597139c.html"
+            },
+            {
+                title: 'Ach transfer out of account auto trade warning message',
+                result: 'SUCCESS',
+                link: "af0f3002703acddb5fcc0c317dbc11c4322cbf98ca6ab6bba1e1abaa8630bbb9.html"
+            },
+            {
+                title: 'All data missing account test',
+                result: 'SUCCESS',
+                link: "95d36826fbcf4c8d73b083de9b1c39bdd88a970ab1cc39b408e33a603b1c33d7.html"
+            },
+            {
+                title: 'Between verify who initiated transfer',
+                result: 'ERROR',
+                link: "d021bf9107f445a4f82ec6fb0bdfe4338786ee7376a7a6f88bdf7824a905e611.html"
+            },
+            {
+                title: 'Cancel transfer on amc footer',
+                result: 'ERROR',
+                link: "11679a6b3abaf220e59f5c805e5b62acdbfc7cf4692bb4a68263956fe254b1f7.html"
+            },
+            {
+                title: 'Display total account cash and value in from to across flows',
+                result: 'ERROR',
+                link: "ca2b81c32f3fe53951e2735d22b35a53a4107d606d1566498a044eaae413f8ce.html"
+            },
+            {
+                title: 'Out of edward jones to linked bank test',
+                result: 'ERROR',
+                link: "d039125a5a55e226a9c0d82ffb457dc0f041ef3adb0358d6e39a8eb869278e18.html"
+            },
+            {
+                title: 'Out of edward jones transaction test',
+                result: 'FAILURE',
+                link: "43ed6f1616e23e2f34ffad7737511ba64cfaab3fc6ef050aee0a94d7ac62ebdb.html"
+            },
+            {
+                title: 'Out of validate sub acc types',
+                result: 'FAILURE',
+                link: "82cc63414b6c94b3e206c32562cac310ff170cdf68d43b1d5d98b8a0e0094e5f.html"
+            },
+            {
+                title: 'Out of verify who authorized transfer',
+                result: 'ERROR',
+                link: "2c2e80894baeb53a96269f1e10c08543835c8d149ea9638679eea1eb2787f910.html"
+            },
+            {
+                title: 'Verify additional back and next buttons new transaction',
+                result: 'ERROR',
+                link: "b1ca3724e93ddd69ae1e06e0cf4bb766f50edb20b04065f488b30f2831cf38fc.html"
+            },
+            {
+                title: 'Verify button name on confirmation screen after transfer',
+                result: 'ERROR',
+                link: "0e7934e9c16484482a3871ac76b32e7c69cbf6da4604674c3a530dec5313b010.html"
+            },
+        ]
+        const coverageData = {
+            labels: [
+                'Edwardjones',
+                'Account auto select negative test',
+                'Ach transfer out of account auto trade warning message',
+                'All data missing account test',
+                'Between verify who initiated transfer',
+                'Cancel transfer on amc footer',
+                'Display total account cash and value in from to across flows',
+                'Out of edward jones to linked bank test',
+                'Out of edward jones transaction test',
+                'Out of validate sub acc types',
+                'Out of verify who authorized transfer',
+                'Verify additional back and next buttons new transaction',
+                'Verify button name on confirmation screen after transfer',
+            ],
+            datasets: [
+                {
+                    label: ['Passing Tests'],
+                    data: [10,0,5,2,0,0,0,0,2,0,1,0,0],
+                    backgroundColor: [ 'rgba(153,204,51,0.5)' ]
+                },
+                {
+                    label: ['Pending Tests'],
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    backgroundColor: [ 'rgba(165, 199, 238, 0.5)' ]
+                },
+                {
+                    label: ['Ignored Tests'],
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    backgroundColor: [ 'rgba(168, 168, 168, 0.5)' ]
+                },
+                {
+                    label: ['Skipped Tests'],
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    backgroundColor: [ 'rgba(238, 224, 152, 0.75)' ]
+                },
+                {
+                    label: ['Aborted Tests'],
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    backgroundColor: [ 'rgba(255, 153, 102, 0.5)' ]
+                },
+                {
+                    label: ['Failed Tests'],
+                    data: [4,0,0,0,0,0,0,0,1,3,0,0,0],
+                    backgroundColor: [ 'rgba(255, 22, 49, 0.5)' ]
+                },
+                {
+                    label: ['Errors'],
+                    data: [12,1,0,0,1,1,1,2,0,0,3,2,1],
+                    backgroundColor: [ 'rgba(255, 97, 8, 0.5)' ]
+                },
+                {
+                    label: ['Compromised Tests'],
+                    data: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    backgroundColor: [ 'rgba(255, 104, 255, 0.5)' ]
+                },
+            ]
+        }
+        const coverageOptions = {
+            responsive: true,
+            indexAxis: 'y',
+            // barPercentage: ,
+            barThickness: 'flex',
+            maxBarThickness: 30,
+            minBarLength: 2,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold'
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                },
+            },
+        }
+
+        const coverageChart = new Chart(coverageChartCtx, {
+            type: 'bar',
+            data: coverageData,
+            options: coverageOptions
+        });
+
+        function coverageClickHandler(click) {
+            const points = coverageChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                if (coverageReports[firstPoint.index].link) {
+                    window.open(coverageReports[firstPoint.index].link, "_self")
+                }
+            }
+        }
+
+        coverageChartCtx.onclick = coverageClickHandler;
+    </script>
+    <!-- END COVERAGE CHART -->
+
+</body>
+</html>

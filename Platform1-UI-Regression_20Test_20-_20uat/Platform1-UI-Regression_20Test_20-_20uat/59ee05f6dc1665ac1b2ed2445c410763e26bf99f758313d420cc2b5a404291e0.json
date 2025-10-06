@@ -1,0 +1,1173 @@
+{
+  "name": "testForPartiallyPaidTransferInBranchActionStatus()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign]/[method:testForPartiallyPaidTransferInBranchActionStatus()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+  "methodName": "testForPartiallyPaidTransferInBranchActionStatus",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Read random data from DB2: data about external firm transfers (to EJ account) with \u0027Branch Action\u0027 status and partially paid",
+      "duration": 15570,
+      "startTime": "2025-10-06T10:57:35.176187636-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "474c07cbe07412a1045dc0d3e753a7ea956f88c156acda49fbc9b4504fdbd42c.png",
+          "timeStamp": 1759766270746,
+          "screenshotName": "474c07cbe07412a1045dc0d3e753a7ea956f88c156acda49fbc9b4504fdbd42c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "    select\n    transfer.br_no, transfer.cust_no, transfer.CRE_DA,\n    transfer.EDJ_STAT_CD, transfer.PREV_EDJ_STAT_CD,\n    transfer.TFR_TYPE_CD,\n    transfer.TOT_MKT_VAL_AMT,\n    transfer.TFR_IN_OUT_CD,\n    transfer.FIRM_KEY, transfer.INSTR_ID, transfer.ACCT_OWN_RULE_ID,\n    transfer.FIRM_TY_CD, transfer.INHRT_IRA_IND,\n    firm.FIRM_NA, outside_account.OUTSIDE_ACCT_NO\n\n    from PROD.TFR_RQST_10327  as transfer\n    join PROD.OUTSIDE_FIRM_10460 as firm on firm.FIRM_KEY \u003d transfer.FIRM_KEY\n    join PROD.OUTSIDE_ACCT_10136 as outside_account on outside_account.TFR_KEY \u003d transfer.TFR_KEY\n\n    where\n    br_no\u003d4454\n    and TFR_IN_OUT_CD \u003d \u0027I\u0027 -- to EJ account\n    and EDJ_STAT_CD \u003d \u002708\u0027 --table TFR_EDJ_ST_10329 contains description, 8 - branch action, A CODE THAT IDENTIFIES THAT JONES STATUS FOR A TRANSFER VALID VALUES ARE: 01 - 11. INCOMPLETE (01) INTRANSIT (02) INPROCESS (03) PENDING (04) COMPLETED (05) REJECTED (06) CANCELLED (07) BRANCHPROC (08) BRANCHCOMP (09) RESIDUAL (10) RESCOMPLT (11)\n    and CRE_DA \u003e \u00272024-10-06\u0027\n    and ACCT_OWN_RULE_ID \u003d 309\n    --    and FIRM_TY_CD \u003d \u0027MFD\u0027 --amount \u003d MFD - mutual funds\n    --    and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003d \u0027RCR\u0027 -- residual\n    --    and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003c\u003e \u0027RCR\u0027 and TFR_TYPE_CD \u003d \u00271\u0027 --full\n        and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003c\u003e \u0027RCR\u0027 and TFR_TYPE_CD \u003d \u00272\u0027 --partial\n    FETCH FIRST 50 ROWS ONLY",
+          "isEvidence": false,
+          "id": "report-data-9381e81b-ae31-45f8-9c07-fc1b9e46207c"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d584779151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-05, OUTSIDE_ACCT_NO\u003d22752265                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d224779151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-04, OUTSIDE_ACCT_NO\u003d28541082                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d904779151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-04, OUTSIDE_ACCT_NO\u003d63116483                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d289679151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d212345677                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d198679151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d62329135                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d147679151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d42096187                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d937679151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d51769835                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d737679151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d90087032                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d2479151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-02, OUTSIDE_ACCT_NO\u003d84476152                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d691479151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-02, OUTSIDE_ACCT_NO\u003d64639510                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d831479151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-02, OUTSIDE_ACCT_NO\u003d00894741                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d309179151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d83410634                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d557179151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d18033955                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d157179151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d39632678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d584179151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d78325353                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d64179151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d71145352                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d854179151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d64610270                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d654179151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d10252554                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d9869151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-30, OUTSIDE_ACCT_NO\u003d47083017                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d898869151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-30, OUTSIDE_ACCT_NO\u003d45645768                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d748869151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-30, OUTSIDE_ACCT_NO\u003d22285126                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d136769151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-30, OUTSIDE_ACCT_NO\u003d82869072                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d185669151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d21648325                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d21669151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d95751338                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d249569151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d56836176                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d839569151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d95778301                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d919569151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d98012619                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d98569151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d48115792                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d888569151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d83008065                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d488569151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d13974816                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dINS, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d742569151000000, CUST_NO\u003d44525903, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d83546, BR_NO\u003d4454, FIRM_NA\u003dAIG LIFE INSURANCE COMPANY              , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d98212222                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d514369151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-28, OUTSIDE_ACCT_NO\u003d87025653                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d233369151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-27, OUTSIDE_ACCT_NO\u003d00191525                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d203369151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-26, OUTSIDE_ACCT_NO\u003d47299077                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d938269151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-26, OUTSIDE_ACCT_NO\u003d01908051                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d332069151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d64238141                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d609959151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d65142782                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d824759151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d59240723                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d14759151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d69632551                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d992759151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d232323233                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d352759151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d8527367673               }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d9659151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d87684175                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d677659151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d37294291                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d186659151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d83021715                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d826659151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d56199722                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d326659151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d75432202                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d126659151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d48294007                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d285659151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d66662732                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d269559151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d04854176                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003dnull, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d128559151000000, CUST_NO\u003d44516573, EDJ_STAT_CD\u003d08, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d135856, BR_NO\u003d4454, FIRM_NA\u003dWELLINGTON STATE BANK                   , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d10414230                 }",
+          "isEvidence": false,
+          "id": "report-data-f77c21a3-3ca1-412c-978c-731a91ef05aa"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Get EJ account ID by account customer number 44512373",
+          "duration": 5224,
+          "startTime": "2025-10-06T10:57:40.296160977-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png",
+              "timeStamp": 1759766265520,
+              "screenshotName": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select sub_acc.ACCT_ID as ACCT_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\nwhere sub_acc.VNDR_ACCT_ID \u003d \u002744512373\u0027",
+              "isEvidence": false,
+              "id": "report-data-09ca45be-bb17-4473-9734-d4ebbac26ef4"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_ID\u003d110329016}",
+              "isEvidence": false,
+              "id": "report-data-16fb6b60-dbaa-40c0-b202-1a9e64a3e16e"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 3,
+          "description": "Get relationship by EJ account 110329016",
+          "duration": 5219,
+          "startTime": "2025-10-06T10:57:45.520796501-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "474c07cbe07412a1045dc0d3e753a7ea956f88c156acda49fbc9b4504fdbd42c.png",
+              "timeStamp": 1759766270739,
+              "screenshotName": "474c07cbe07412a1045dc0d3e753a7ea956f88c156acda49fbc9b4504fdbd42c.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nrlt.RLTSHP_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\nsub_acc.ACCT_ID \u003d 110329016",
+              "isEvidence": false,
+              "id": "report-data-2769695b-ed5f-4b78-835d-1223b7b1abc3"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{RLTSHP_ID\u003d44902093}",
+              "isEvidence": false,
+              "id": "report-data-38df1e8b-8884-400e-8f63-057a855c0a57"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 2314,
+      "startTime": "2025-10-06T10:57:50.746505517-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e934801dcbae52f17fd06b78fc6a7009bb466da2d74ce183a4e7d116d96c7c7f.png",
+          "timeStamp": 1759766273061,
+          "screenshotName": "e934801dcbae52f17fd06b78fc6a7009bb466da2d74ce183a4e7d116d96c7c7f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1769,
+          "startTime": "2025-10-06T10:57:50.847848062-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e934801dcbae52f17fd06b78fc6a7009bb466da2d74ce183a4e7d116d96c7c7f.png",
+              "timeStamp": 1759766272617,
+              "screenshotName": "e934801dcbae52f17fd06b78fc6a7009bb466da2d74ce183a4e7d116d96c7c7f.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "The user opens the Transactions page with relationship id 44902093 and branchNumber BR_4454",
+      "duration": 1581,
+      "startTime": "2025-10-06T10:57:53.061699498-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d2c184c29fdfc9693b4cab8e9cae54cdcfe16d31c85111c79b877af7504f10a8.png",
+          "timeStamp": 1759766274643,
+          "screenshotName": "d2c184c29fdfc9693b4cab8e9cae54cdcfe16d31c85111c79b877af7504f10a8.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Wait until transactions are loaded in the page",
+      "duration": 1239,
+      "startTime": "2025-10-06T10:57:54.643654339-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ca1b4df6c272247f69d527bc17af7dcc1005cb382697dc671a14c43078e4fa8c.png",
+          "timeStamp": 1759766275883,
+          "screenshotName": "ca1b4df6c272247f69d527bc17af7dcc1005cb382697dc671a14c43078e4fa8c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Gets Transfer rows using filter: from \u003cnull\u003e, to 44512373, amount \u003cnull\u003e, type External Transfer, status Branch action, date \u003cnull\u003e",
+      "duration": 26056,
+      "startTime": "2025-10-06T10:57:55.883961697-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3244d5aeb34c0e52da346724ea407f356c4566ca3f4d2e639736d381ccb92332.png",
+          "timeStamp": 1759766301940,
+          "screenshotName": "3244d5aeb34c0e52da346724ea407f356c4566ca3f4d2e639736d381ccb92332.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 9,
+          "description": "Wait until transactions are loaded in the page",
+          "duration": 31,
+          "startTime": "2025-10-06T10:57:55.886780341-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ca1b4df6c272247f69d527bc17af7dcc1005cb382697dc671a14c43078e4fa8c.png",
+              "timeStamp": 1759766275917,
+              "screenshotName": "ca1b4df6c272247f69d527bc17af7dcc1005cb382697dc671a14c43078e4fa8c.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "description": "Clicks on details link for recurring transfer",
+      "duration": 1013,
+      "startTime": "2025-10-06T10:58:21.940445151-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "98b844c31b61036b1d1fe7fa01acf9fd264e2a3ac9128f5d2dc46bd40d446dbf.png",
+          "timeStamp": 1759766302954,
+          "screenshotName": "98b844c31b61036b1d1fe7fa01acf9fd264e2a3ac9128f5d2dc46bd40d446dbf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify Left Stepper Titles and Header",
+      "duration": 1697,
+      "startTime": "2025-10-06T10:58:22.954579296-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png",
+          "timeStamp": 1759766304652,
+          "screenshotName": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 12,
+          "description": "Verify Left Stepper item labels are in expected order",
+          "duration": 1266,
+          "startTime": "2025-10-06T10:58:22.956303428-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "02a6c8a80e70359182c356992aa76f30dc66c32131376e24179aadebb9cc205f.png",
+              "timeStamp": 1759766304222,
+              "screenshotName": "02a6c8a80e70359182c356992aa76f30dc66c32131376e24179aadebb9cc205f.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 13,
+          "description": "Verify Transfer History \u0026 Comments title is displayed",
+          "duration": 421,
+          "startTime": "2025-10-06T10:58:24.223015777-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png",
+              "timeStamp": 1759766304644,
+              "screenshotName": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "description": "Verify View Edit details page footer",
+      "duration": 24844,
+      "startTime": "2025-10-06T10:58:24.652341568-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7f0ce68b8aef4f7386716e1727f6e3f5c7b0af3b54688ac21b07ca53ed649aaf.png",
+          "timeStamp": 1759766329496,
+          "screenshotName": "7f0ce68b8aef4f7386716e1727f6e3f5c7b0af3b54688ac21b07ca53ed649aaf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 15,
+          "description": "Verify Back to Activity button enabled is true ",
+          "duration": 193,
+          "startTime": "2025-10-06T10:58:24.653777875-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c0f1797a4913d054faef98622fe91ab66d69090b6cb0bf2d01b8c80faf035a04.png",
+              "timeStamp": 1759766304846,
+              "screenshotName": "c0f1797a4913d054faef98622fe91ab66d69090b6cb0bf2d01b8c80faf035a04.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 16,
+          "description": "Verify Cancel Transfer button enabled is true",
+          "duration": 187,
+          "startTime": "2025-10-06T10:58:24.847117906-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "bc4f5e96e1acc8cf5995d8b0cf4167cee2ec083933d59f043b8040fa06a44e75.png",
+              "timeStamp": 1759766305034,
+              "screenshotName": "bc4f5e96e1acc8cf5995d8b0cf4167cee2ec083933d59f043b8040fa06a44e75.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 17,
+          "description": "Verify Pause Transfer button displayed is false",
+          "duration": 4188,
+          "startTime": "2025-10-06T10:58:25.034501584-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ff81c957a3405a1148febb516679859e0de66b3e7df5d7caa74483e409648f5b.png",
+              "timeStamp": 1759766309223,
+              "screenshotName": "ff81c957a3405a1148febb516679859e0de66b3e7df5d7caa74483e409648f5b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 18,
+          "description": "Verify Review Transaction button enabled is false ",
+          "duration": 20266,
+          "startTime": "2025-10-06T10:58:29.223826152-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "7f0ce68b8aef4f7386716e1727f6e3f5c7b0af3b54688ac21b07ca53ed649aaf.png",
+              "timeStamp": 1759766329490,
+              "screenshotName": "7f0ce68b8aef4f7386716e1727f6e3f5c7b0af3b54688ac21b07ca53ed649aaf.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "description": "Verify Asset Movement left Stepper has checkmark and edit pencil",
+      "duration": 2378,
+      "startTime": "2025-10-06T10:58:49.496668370-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0784d35a33e715ef509f1239128893583f8cabfa87ed4e4979d8c0466ab694a4.png",
+          "timeStamp": 1759766331875,
+          "screenshotName": "0784d35a33e715ef509f1239128893583f8cabfa87ed4e4979d8c0466ab694a4.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 20,
+          "description": "Verify Asset Movement left Stepper checkmark status is true",
+          "duration": 176,
+          "startTime": "2025-10-06T10:58:49.497971222-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "194d5b3295d1fbb011c4f01c339a23e4fdaedcdd4de8b7e3787211c5684f651d.png",
+              "timeStamp": 1759766329674,
+              "screenshotName": "194d5b3295d1fbb011c4f01c339a23e4fdaedcdd4de8b7e3787211c5684f651d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 21,
+          "description": "Verify Asset Movement left Stepper editable status is false",
+          "duration": 2194,
+          "startTime": "2025-10-06T10:58:49.674474888-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "0784d35a33e715ef509f1239128893583f8cabfa87ed4e4979d8c0466ab694a4.png",
+              "timeStamp": 1759766331869,
+              "screenshotName": "0784d35a33e715ef509f1239128893583f8cabfa87ed4e4979d8c0466ab694a4.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "description": "Verify FROM left Stepper has checkmark and edit pencil",
+      "duration": 2399,
+      "startTime": "2025-10-06T10:58:51.875441399-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d648c482194dcd011c6b5c24efb58ae5b59f29e0a4f686103d12e7db1e64cc4a.png",
+          "timeStamp": 1759766334275,
+          "screenshotName": "d648c482194dcd011c6b5c24efb58ae5b59f29e0a4f686103d12e7db1e64cc4a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 23,
+          "description": "Verify FROM left Stepper checkmark status is true",
+          "duration": 179,
+          "startTime": "2025-10-06T10:58:51.876635011-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "6547cafd488c1d09911913b862ebad69d283d45f0cb6a05810dc857e10ad4664.png",
+              "timeStamp": 1759766332056,
+              "screenshotName": "6547cafd488c1d09911913b862ebad69d283d45f0cb6a05810dc857e10ad4664.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 24,
+          "description": "Verify FROM left Stepper editable status is false",
+          "duration": 2211,
+          "startTime": "2025-10-06T10:58:52.056770251-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "d648c482194dcd011c6b5c24efb58ae5b59f29e0a4f686103d12e7db1e64cc4a.png",
+              "timeStamp": 1759766334268,
+              "screenshotName": "d648c482194dcd011c6b5c24efb58ae5b59f29e0a4f686103d12e7db1e64cc4a.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "description": "Verify TO left Stepper has checkmark and edit pencil",
+      "duration": 2386,
+      "startTime": "2025-10-06T10:58:54.275367018-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png",
+          "timeStamp": 1759766336661,
+          "screenshotName": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 26,
+          "description": "Verify TO left Stepper checkmark status is true",
+          "duration": 167,
+          "startTime": "2025-10-06T10:58:54.276754964-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "a101dc7c03b7841f920307ddf8d6daa4721bd360b2e4c5c38fa7f0cd4a554f67.png",
+              "timeStamp": 1759766334444,
+              "screenshotName": "a101dc7c03b7841f920307ddf8d6daa4721bd360b2e4c5c38fa7f0cd4a554f67.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 27,
+          "description": "Verify TO left Stepper editable status is false",
+          "duration": 2208,
+          "startTime": "2025-10-06T10:58:54.444802996-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png",
+              "timeStamp": 1759766336652,
+              "screenshotName": "c0793b33f656f6bf3dbcdf094ab3ade3ea8b95a6e2a2ac357d2792860513a4cc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "description": "Verify Transfer History left Stepper checkmark and edit pencil",
+      "duration": 2414,
+      "startTime": "2025-10-06T10:58:56.661978945-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "68c843f16dfbb554d6af070decb1f6e5fc96a3fd6b8d21367426bd73cc9f80cf.png",
+          "timeStamp": 1759766339076,
+          "screenshotName": "68c843f16dfbb554d6af070decb1f6e5fc96a3fd6b8d21367426bd73cc9f80cf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 29,
+          "description": "Verify Transfer History left Stepper editable status is false",
+          "duration": 2222,
+          "startTime": "2025-10-06T10:58:56.663594049-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c373fb3a41cbc092913d7a152ad44d88144a4474b30f4a30c41fd92bf619e251.png",
+              "timeStamp": 1759766338886,
+              "screenshotName": "c373fb3a41cbc092913d7a152ad44d88144a4474b30f4a30c41fd92bf619e251.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 30,
+          "description": "Verify Transfer History left Stepper checkmark status is false",
+          "duration": 184,
+          "startTime": "2025-10-06T10:58:58.886493942-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "68c843f16dfbb554d6af070decb1f6e5fc96a3fd6b8d21367426bd73cc9f80cf.png",
+              "timeStamp": 1759766339070,
+              "screenshotName": "68c843f16dfbb554d6af070decb1f6e5fc96a3fd6b8d21367426bd73cc9f80cf.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "description": "Verify External Firm left Stepper has checkmark and edit pencil",
+      "duration": 339,
+      "startTime": "2025-10-06T10:58:59.076594246-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "5f02224edb67efeae203a6cbd2584175be3ce77aeab04efd786198f9f4cb9eda.png",
+          "timeStamp": 1759766339416,
+          "screenshotName": "5f02224edb67efeae203a6cbd2584175be3ce77aeab04efd786198f9f4cb9eda.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 32,
+          "description": "Verify External Firm  left Stepper checkmark status is true",
+          "duration": 160,
+          "startTime": "2025-10-06T10:58:59.077861501-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ff81c957a3405a1148febb516679859e0de66b3e7df5d7caa74483e409648f5b.png",
+              "timeStamp": 1759766339238,
+              "screenshotName": "ff81c957a3405a1148febb516679859e0de66b3e7df5d7caa74483e409648f5b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 33,
+          "description": "Verify External Firm left Stepper editable status is true",
+          "duration": 171,
+          "startTime": "2025-10-06T10:58:59.238616886-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5f02224edb67efeae203a6cbd2584175be3ce77aeab04efd786198f9f4cb9eda.png",
+              "timeStamp": 1759766339410,
+              "screenshotName": "5f02224edb67efeae203a6cbd2584175be3ce77aeab04efd786198f9f4cb9eda.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "description": "Verify Account Owner left Stepper checkmark and edit pencil.",
+      "duration": 344,
+      "startTime": "2025-10-06T10:58:59.416651337-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "91abfab8e90b8f23ff7517c05a3122ccd13fb76d771d4e72686d12d08ec6d436.png",
+          "timeStamp": 1759766339761,
+          "screenshotName": "91abfab8e90b8f23ff7517c05a3122ccd13fb76d771d4e72686d12d08ec6d436.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 35,
+          "description": "Verify Account Owner left Stepper checkmark status is true",
+          "duration": 164,
+          "startTime": "2025-10-06T10:58:59.418009748-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "896341146208520597a15df7fcb58edc0fdaf11ed03468574ac8f18ab943e994.png",
+              "timeStamp": 1759766339582,
+              "screenshotName": "896341146208520597a15df7fcb58edc0fdaf11ed03468574ac8f18ab943e994.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 36,
+          "description": "Verify Account Owner left Stepper editable status is true",
+          "duration": 172,
+          "startTime": "2025-10-06T10:58:59.583140200-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "91abfab8e90b8f23ff7517c05a3122ccd13fb76d771d4e72686d12d08ec6d436.png",
+              "timeStamp": 1759766339755,
+              "screenshotName": "91abfab8e90b8f23ff7517c05a3122ccd13fb76d771d4e72686d12d08ec6d436.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "description": "Verify Assets left Stepper has checkmark and edit pencil",
+      "duration": 435,
+      "startTime": "2025-10-06T10:58:59.761668583-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "241edfc1734c5f37e73fe661d484ebd9ec4b57ae041311ca18895621bdd1b654.png",
+          "timeStamp": 1759766340197,
+          "screenshotName": "241edfc1734c5f37e73fe661d484ebd9ec4b57ae041311ca18895621bdd1b654.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 38,
+          "description": "Verify Assets left Stepper checkmark status is true",
+          "duration": 178,
+          "startTime": "2025-10-06T10:58:59.763007641-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9b8890ce8a3afd495ef7835c16ee6ea48e2d2b521c8f47496fd404db270b5619.png",
+              "timeStamp": 1759766339941,
+              "screenshotName": "9b8890ce8a3afd495ef7835c16ee6ea48e2d2b521c8f47496fd404db270b5619.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 39,
+          "description": "Verify Assets left Stepper editable status is true",
+          "duration": 245,
+          "startTime": "2025-10-06T10:58:59.941584198-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "241edfc1734c5f37e73fe661d484ebd9ec4b57ae041311ca18895621bdd1b654.png",
+              "timeStamp": 1759766340186,
+              "screenshotName": "241edfc1734c5f37e73fe661d484ebd9ec4b57ae041311ca18895621bdd1b654.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "description": "Verify Client Signature left Stepper editable status is true",
+      "duration": 169,
+      "startTime": "2025-10-06T10:59:00.197561026-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c031c565210b92ae3723f725a7512e8174e03c825426cfbdb5a1297a718784cd.png",
+          "timeStamp": 1759766340367,
+          "screenshotName": "c031c565210b92ae3723f725a7512e8174e03c825426cfbdb5a1297a718784cd.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 41,
+      "description": "Verify Review Transaction button enabled is false ",
+      "duration": 20200,
+      "startTime": "2025-10-06T10:59:00.367436222-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "acf99916bc25c1a7f45d2cc1ab0900cda464bbe14c0bea1b5aa6d0518dc0646d.png",
+          "timeStamp": 1759766360568,
+          "screenshotName": "acf99916bc25c1a7f45d2cc1ab0900cda464bbe14c0bea1b5aa6d0518dc0646d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 42,
+      "description": "Select Client Signature Left Stepper step",
+      "duration": 401,
+      "startTime": "2025-10-06T10:59:20.568548912-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7c9a3e17e11b0193bda1f0ad4781555fd69aa8f245bb1d5c926315a5f6bd30a5.png",
+          "timeStamp": 1759766360969,
+          "screenshotName": "7c9a3e17e11b0193bda1f0ad4781555fd69aa8f245bb1d5c926315a5f6bd30a5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 43,
+      "description": "Click Signed Document in hand radio Button",
+      "duration": 727,
+      "startTime": "2025-10-06T10:59:20.970233781-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f2fe06d36b9fb4a4b03de47d262db599937475fbdecf7d427e11a376385ef9ec.png",
+          "timeStamp": 1759766361697,
+          "screenshotName": "f2fe06d36b9fb4a4b03de47d262db599937475fbdecf7d427e11a376385ef9ec.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 44,
+      "description": "Verify Review Transaction button enabled is true ",
+      "duration": 202,
+      "startTime": "2025-10-06T10:59:21.697948414-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7df7c7e0b45a4f64f2ead81fcb6f92cfda995cdf0a24f3c79f20f18f3a72de7f.png",
+          "timeStamp": 1759766361900,
+          "screenshotName": "7df7c7e0b45a4f64f2ead81fcb6f92cfda995cdf0a24f3c79f20f18f3a72de7f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 45,
+      "description": "Select External Firm Details Left Stepper step",
+      "duration": 387,
+      "startTime": "2025-10-06T10:59:21.900511946-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3b03a2835365ed92672b56fe3270a2347d1ac28072e8814f3da1b10bb7352fc8.png",
+          "timeStamp": 1759766362288,
+          "screenshotName": "3b03a2835365ed92672b56fe3270a2347d1ac28072e8814f3da1b10bb7352fc8.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 46,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 168,
+      "startTime": "2025-10-06T10:59:22.288409388-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e805380b100781dfef986f71ac2c5d47b64d6442c6cadb3f5d73e79dee852587.png",
+          "timeStamp": 1759766362457,
+          "screenshotName": "e805380b100781dfef986f71ac2c5d47b64d6442c6cadb3f5d73e79dee852587.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 47,
+      "description": "Get selected account type",
+      "duration": 181,
+      "startTime": "2025-10-06T10:59:22.457776708-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4c969fb09b68a087adfc398e3c9a70273170e06dd9123f23997626349eda0ba9.png",
+          "timeStamp": 1759766362638,
+          "screenshotName": "4c969fb09b68a087adfc398e3c9a70273170e06dd9123f23997626349eda0ba9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 48,
+      "description": "Select Initial Contribution Question Accounts from Account type dropdown for specific accounts Single",
+      "duration": 445,
+      "startTime": "2025-10-06T10:59:22.639793595-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "a4e050ea4b7d90f7697dc798cf769dd43a6f0ffdb9303a0a4c43321dfb01bc3f.png",
+          "timeStamp": 1759766363085,
+          "screenshotName": "a4e050ea4b7d90f7697dc798cf769dd43a6f0ffdb9303a0a4c43321dfb01bc3f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 49,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 186,
+      "startTime": "2025-10-06T10:59:23.086137846-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "efc1f7a190ca997c9885125a735b60c8d0c35813b98d3c909ae661521f64af7b.png",
+          "timeStamp": 1759766363273,
+          "screenshotName": "efc1f7a190ca997c9885125a735b60c8d0c35813b98d3c909ae661521f64af7b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 50,
+      "description": "Dismiss Page Refresh Alert ",
+      "duration": 1020,
+      "startTime": "2025-10-06T10:59:23.273409747-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "a253153893edb05e28b0707276feaf5e46dfc7453352cf8aef7680776ae09549.png",
+          "timeStamp": 1759766364293,
+          "screenshotName": "a253153893edb05e28b0707276feaf5e46dfc7453352cf8aef7680776ae09549.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 51,
+      "description": "Select Account Owner and Verification Left Stepper step",
+      "duration": 1227,
+      "startTime": "2025-10-06T10:59:24.293727246-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e38f279c268874155e410f8e4f06d740591cc7010bc8778d42fe617bea764345.png",
+          "timeStamp": 1759766365520,
+          "screenshotName": "e38f279c268874155e410f8e4f06d740591cc7010bc8778d42fe617bea764345.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 52,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 172,
+      "startTime": "2025-10-06T10:59:25.521355064-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "015d1e72c1ca8329eeb8c0f53a14c7acb7a7c1582562c776ded6bc7b5ebf5bf5.png",
+          "timeStamp": 1759766365694,
+          "screenshotName": "015d1e72c1ca8329eeb8c0f53a14c7acb7a7c1582562c776ded6bc7b5ebf5bf5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 53,
+      "description": "Get selected value of deceased question",
+      "duration": 196,
+      "startTime": "2025-10-06T10:59:25.694752655-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ee1f820a9e9a01069fa0965fb600420bba7197b04042ccc7360f787716913849.png",
+          "timeStamp": 1759766365891,
+          "screenshotName": "ee1f820a9e9a01069fa0965fb600420bba7197b04042ccc7360f787716913849.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 54,
+      "description": "The deceased question selected as Yes",
+      "duration": 293,
+      "startTime": "2025-10-06T10:59:25.891644424-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b4e85d2bc5ba71c090e6014424b3a6d8b778cdeb12c21aa54a793d9fd889c210.png",
+          "timeStamp": 1759766366184,
+          "screenshotName": "b4e85d2bc5ba71c090e6014424b3a6d8b778cdeb12c21aa54a793d9fd889c210.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 55,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 171,
+      "startTime": "2025-10-06T10:59:26.185131317-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b9bb84c14e4607bae24cd78a1401b61b7e2c902831f9dfdb515dc4e5b65b2911.png",
+          "timeStamp": 1759766366357,
+          "screenshotName": "b9bb84c14e4607bae24cd78a1401b61b7e2c902831f9dfdb515dc4e5b65b2911.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 56,
+      "description": "Dismiss Page Refresh Alert ",
+      "duration": 567,
+      "startTime": "2025-10-06T10:59:26.357359118-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "56c184ef2d5a0e67bc00e53c0b2390375556cf6b79a25c0774e3b08c2c03f03c.png",
+          "timeStamp": 1759766366924,
+          "screenshotName": "56c184ef2d5a0e67bc00e53c0b2390375556cf6b79a25c0774e3b08c2c03f03c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 57,
+      "description": "Select Assets Left Stepper step",
+      "duration": 1347,
+      "startTime": "2025-10-06T10:59:26.925200538-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2c3b67f7bbace0c8016e867ffffd086d19f86d15a7350d0ae4130ccc026c18c6.png",
+          "timeStamp": 1759766368272,
+          "screenshotName": "2c3b67f7bbace0c8016e867ffffd086d19f86d15a7350d0ae4130ccc026c18c6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 58,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 166,
+      "startTime": "2025-10-06T10:59:28.272647702-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "290c2ffa72d031cff7cd47afc4611bc08f8fc24c70477ab99f587cbf9340e84c.png",
+          "timeStamp": 1759766368439,
+          "screenshotName": "290c2ffa72d031cff7cd47afc4611bc08f8fc24c70477ab99f587cbf9340e84c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 59,
+      "description": "Get Selected transfer amount option",
+      "duration": 175,
+      "startTime": "2025-10-06T10:59:28.439903167-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9ae5fd30c23e754c2a2a6af4d1676e62b2e5eb8fe98d6315f04215c74709e57e.png",
+          "timeStamp": 1759766368615,
+          "screenshotName": "9ae5fd30c23e754c2a2a6af4d1676e62b2e5eb8fe98d6315f04215c74709e57e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 60,
+      "description": "Click on Full type option",
+      "duration": 252,
+      "startTime": "2025-10-06T10:59:28.615999670-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2748951e5548319eac7cb0475ee31d4f7d65bb4d88bb77c3687936252a9f5ec3.png",
+          "timeStamp": 1759766368868,
+          "screenshotName": "2748951e5548319eac7cb0475ee31d4f7d65bb4d88bb77c3687936252a9f5ec3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 61,
+      "description": "Verify Client Signature left Stepper title text has an Error with Red boarder",
+      "duration": 171,
+      "startTime": "2025-10-06T10:59:28.868926836-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c15e375c72a52772f0b4a2748fbc94027759ddb9541cf08fa263b6cda6d2a025.png",
+          "timeStamp": 1759766369039,
+          "screenshotName": "c15e375c72a52772f0b4a2748fbc94027759ddb9541cf08fa263b6cda6d2a025.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 62,
+      "description": "Dismiss Page Refresh Alert ",
+      "duration": 514,
+      "startTime": "2025-10-06T10:59:29.040280344-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7fc14660b27c774e1453262e8eecd17151bedb0d7875c5243467073b73112639.png",
+          "timeStamp": 1759766369554,
+          "screenshotName": "7fc14660b27c774e1453262e8eecd17151bedb0d7875c5243467073b73112639.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-3fa97df2-4ea0-4803-96a2-bd83b4c32a94"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-d7de9b14-666e-4d32-a204-49d191b1d6c1"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "storyName": "VerifyExternalViewEditTransferInActivityNewDesign",
+    "displayName": "VerifyExternalViewEditTransferInActivityNewDesign",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "path": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "VerifyExternalViewEditTransferInActivityNewDesign",
+        "description": "VerifyExternalViewEditTransferInActivityNewDesign"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "QA-Automation - Create New Transaction Redesign - View/Edit transfer flows from Activity Dashboard - External Firm UI/QA - Create New Transaction Redesign - Requirements Cleanup - External Firm UI/QA - Highlight Client Signature in Left Progress Stepper when edit is made that requires new LOA-External Transfer flow) Partially paid transfer with \u0027Branch Action\u0027 status",
+  "coreIssues": [
+    "ATMT-48273",
+    "ATMT-49299",
+    "ATMT-50953"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2",
+      "type": "tag",
+      "displayName": "Priority-2"
+    },
+    {
+      "name": "true",
+      "type": "amc_new_transfers_layout",
+      "displayName": "true"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "activity-feed-flow",
+      "type": "tag",
+      "displayName": "activity-feed-flow"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T10:57:35.173222399-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:59:29.556179921-05:00[America/Chicago]",
+  "duration": 10219,
+  "projectKey": "",
+  "sessionId": "b1e7a0e949c0f37060280fb57577f3fe",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-48273",
+    "ATMT-49299",
+    "ATMT-50953"
+  ],
+  "scenarioOutline": ""
+}

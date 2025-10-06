@@ -1,0 +1,634 @@
+{
+  "name": "testForPartiallyPaidTransferInCancelledStatus()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign]/[method:testForPartiallyPaidTransferInCancelledStatus()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+  "methodName": "testForPartiallyPaidTransferInCancelledStatus",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Read random data from DB2: data about external firm transfers (to EJ account) with \u0027Cancelled\u0027 status and partially paid",
+      "duration": 15339,
+      "startTime": "2025-10-06T10:54:57.310804241-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "    select\n    transfer.br_no, transfer.cust_no, transfer.CRE_DA,\n    transfer.EDJ_STAT_CD, transfer.PREV_EDJ_STAT_CD,\n    transfer.TFR_TYPE_CD,\n    transfer.TOT_MKT_VAL_AMT,\n    transfer.TFR_IN_OUT_CD,\n    transfer.FIRM_KEY, transfer.INSTR_ID, transfer.ACCT_OWN_RULE_ID,\n    transfer.FIRM_TY_CD, transfer.INHRT_IRA_IND,\n    firm.FIRM_NA, outside_account.OUTSIDE_ACCT_NO\n\n    from PROD.TFR_RQST_10327  as transfer\n    join PROD.OUTSIDE_FIRM_10460 as firm on firm.FIRM_KEY \u003d transfer.FIRM_KEY\n    join PROD.OUTSIDE_ACCT_10136 as outside_account on outside_account.TFR_KEY \u003d transfer.TFR_KEY\n\n    where\n    br_no\u003d4454\n    and TFR_IN_OUT_CD \u003d \u0027I\u0027 -- to EJ account\n    and EDJ_STAT_CD \u003d \u002707\u0027 --table TFR_EDJ_ST_10329 contains description, 8 - branch action, A CODE THAT IDENTIFIES THAT JONES STATUS FOR A TRANSFER VALID VALUES ARE: 01 - 11. INCOMPLETE (01) INTRANSIT (02) INPROCESS (03) PENDING (04) COMPLETED (05) REJECTED (06) CANCELLED (07) BRANCHPROC (08) BRANCHCOMP (09) RESIDUAL (10) RESCOMPLT (11)\n    and CRE_DA \u003e \u00272024-10-06\u0027\n    and ACCT_OWN_RULE_ID \u003d 309\n    --    and FIRM_TY_CD \u003d \u0027MFD\u0027 --amount \u003d MFD - mutual funds\n    --    and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003d \u0027RCR\u0027 -- residual\n    --    and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003c\u003e \u0027RCR\u0027 and TFR_TYPE_CD \u003d \u00271\u0027 --full\n        and FIRM_TY_CD \u003c\u003e \u0027MFD\u0027 and TFR_PROC_CD \u003c\u003e \u0027RCR\u0027 and TFR_TYPE_CD \u003d \u00272\u0027 --partial\n    FETCH FIRST 50 ROWS ONLY",
+          "isEvidence": false,
+          "id": "report-data-e15c94ab-7864-410d-86fc-f242da249a0d"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d537679151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-03, OUTSIDE_ACCT_NO\u003d60355375                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d291479151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-02, OUTSIDE_ACCT_NO\u003d92334631                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d944179151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-10-01, OUTSIDE_ACCT_NO\u003d50265293                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d988869151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-30, OUTSIDE_ACCT_NO\u003d74143356                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d288569151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-29, OUTSIDE_ACCT_NO\u003d65755862                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d198659151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-09-25, OUTSIDE_ACCT_NO\u003d43048563                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d877559151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d16298357                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d64559151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d63896876                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d709459151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d67367022                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d247459151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-24, OUTSIDE_ACCT_NO\u003d59498096                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d225259151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-23, OUTSIDE_ACCT_NO\u003d94109967                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d486949151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-22, OUTSIDE_ACCT_NO\u003d64836904                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d382649151000000, CUST_NO\u003d44512373, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-19, OUTSIDE_ACCT_NO\u003d41135326                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d449639151000000, CUST_NO\u003d44500227, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-09-15, OUTSIDE_ACCT_NO\u003d32156                    }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d739639151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-09-15, OUTSIDE_ACCT_NO\u003d21345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d612909151000000, CUST_NO\u003d44523990, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-29, OUTSIDE_ACCT_NO\u003d1234566                  }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d468709151000000, CUST_NO\u003d44516882, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1641812, BR_NO\u003d4454, FIRM_NA\u003dWALLIS STATE BANK                       , CRE_DA\u003d2025-08-28, OUTSIDE_ACCT_NO\u003d12341234                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d268709151000000, CUST_NO\u003d44518659, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d412209, BR_NO\u003d4454, FIRM_NA\u003dWALMART PROFIT SHARING PLAN             , CRE_DA\u003d2025-08-28, OUTSIDE_ACCT_NO\u003d1234567890               }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d849109151000000, CUST_NO\u003d44522392, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1586322, BR_NO\u003d4454, FIRM_NA\u003dWELLESLEY BANK                          , CRE_DA\u003d2025-08-26, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d847598151000000, CUST_NO\u003d44522392, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-22, OUTSIDE_ACCT_NO\u003d1234679789               }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d193198151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1730115, BR_NO\u003d4454, FIRM_NA\u003dCOMPUTERSHARE TRUST DRS (C + 10 NUMBERS), CRE_DA\u003d2025-08-20, OUTSIDE_ACCT_NO\u003dC9876543210              }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d265188151000000, CUST_NO\u003d44522391, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1722718, BR_NO\u003d4454, FIRM_NA\u003dABC BANK                                , CRE_DA\u003d2025-08-13, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d419378151000000, CUST_NO\u003d44518659, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-07, OUTSIDE_ACCT_NO\u003d159357                   }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d523868151000000, CUST_NO\u003d44523555, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-08-05, OUTSIDE_ACCT_NO\u003d34256789                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d892868151000000, CUST_NO\u003d44523472, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-05, OUTSIDE_ACCT_NO\u003d87960                    }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d712868151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-05, OUTSIDE_ACCT_NO\u003d98567                    }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d131668151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-08-04, OUTSIDE_ACCT_NO\u003d65245                    }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d104858151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-30, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d907258151000000, CUST_NO\u003d44522429, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-28, OUTSIDE_ACCT_NO\u003d24682468                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d60158151000000, CUST_NO\u003d44527112, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1730115, BR_NO\u003d4454, FIRM_NA\u003dCOMPUTERSHARE TRUST DRS (C + 10 NUMBERS), CRE_DA\u003d2025-07-25, OUTSIDE_ACCT_NO\u003dC2342343344              }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d335058151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-07-25, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d915058151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-25, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d515058151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1730115, BR_NO\u003d4454, FIRM_NA\u003dCOMPUTERSHARE TRUST DRS (C + 10 NUMBERS), CRE_DA\u003d2025-07-25, OUTSIDE_ACCT_NO\u003dC1234567890              }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d516248151000000, CUST_NO\u003d44521465, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-07-22, OUTSIDE_ACCT_NO\u003d123123123                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d643248151000000, CUST_NO\u003d44521465, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-22, OUTSIDE_ACCT_NO\u003d12321323                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d948148151000000, CUST_NO\u003d44521465, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-07-22, OUTSIDE_ACCT_NO\u003d123123123123             }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d611148151000000, CUST_NO\u003d44521465, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-07-22, OUTSIDE_ACCT_NO\u003d123123123123             }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d695938151000000, CUST_NO\u003d44522429, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1284312, BR_NO\u003d4454, FIRM_NA\u003dWELLS CAPITAL                           , CRE_DA\u003d2025-07-21, OUTSIDE_ACCT_NO\u003d123456789                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d195938151000000, CUST_NO\u003d44522429, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1730115, BR_NO\u003d4454, FIRM_NA\u003dCOMPUTERSHARE TRUST DRS (C + 10 NUMBERS), CRE_DA\u003d2025-07-21, OUTSIDE_ACCT_NO\u003dC1234567890              }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d844838151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-18, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d741338151000000, CUST_NO\u003d44507801, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-16, OUTSIDE_ACCT_NO\u003d32432444                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d78828151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-14, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d737728151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-13, OUTSIDE_ACCT_NO\u003d123456789                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d537728151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-13, OUTSIDE_ACCT_NO\u003d234567890                }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d337728151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-13, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d923728151000000, CUST_NO\u003d44522393, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1569070, BR_NO\u003d4454, FIRM_NA\u003dTRANSFER ONLINE DRS/DRP                 , CRE_DA\u003d2025-07-11, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dTRA, PREV_EDJ_STAT_CD\u003d04, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d887628151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1730115, BR_NO\u003d4454, FIRM_NA\u003dCOMPUTERSHARE TRUST DRS (C + 10 NUMBERS), CRE_DA\u003d2025-07-11, OUTSIDE_ACCT_NO\u003dC1234567890              }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d08, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d791228151000000, CUST_NO\u003d44518659, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d1666901, BR_NO\u003d4454, FIRM_NA\u003dWELLS BANK                              , CRE_DA\u003d2025-07-10, OUTSIDE_ACCT_NO\u003d123456                   }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d279718151000000, CUST_NO\u003d44517023, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-08, OUTSIDE_ACCT_NO\u003d12345678                 }\n{ACCT_OWN_RULE_ID\u003d309, FIRM_TY_CD\u003dBRK, PREV_EDJ_STAT_CD\u003d02, TFR_TYPE_CD\u003d2, TFR_IN_OUT_CD\u003dI, INSTR_ID\u003d266418151000000, CUST_NO\u003d44525903, EDJ_STAT_CD\u003d07, INHRT_IRA_IND\u003dN, TOT_MKT_VAL_AMT\u003d0.00, FIRM_KEY\u003d69480, BR_NO\u003d4454, FIRM_NA\u003dWELLS FARGO CLEARING SERVICES          *, CRE_DA\u003d2025-07-07, OUTSIDE_ACCT_NO\u003d22334455                 }",
+          "isEvidence": false,
+          "id": "report-data-0317ba15-401f-4267-88ed-d70c083cee02"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Get EJ account ID by account customer number 44517023",
+          "duration": 5100,
+          "startTime": "2025-10-06T10:55:02.438654345-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select sub_acc.ACCT_ID as ACCT_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\nwhere sub_acc.VNDR_ACCT_ID \u003d \u002744517023\u0027",
+              "isEvidence": false,
+              "id": "report-data-e98dd959-bd7a-440b-930a-cc8baa68675d"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_ID\u003d128913864}",
+              "isEvidence": false,
+              "id": "report-data-d57220ac-5d0b-4b87-a52b-8698b6a6729b"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 3,
+          "description": "Get relationship by EJ account 128913864",
+          "duration": 5106,
+          "startTime": "2025-10-06T10:55:07.539312649-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nrlt.RLTSHP_ID\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\nsub_acc.ACCT_ID \u003d 128913864",
+              "isEvidence": false,
+              "id": "report-data-ecb00e1f-0683-464c-bb64-cc6b25885998"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{RLTSHP_ID\u003d44902203}",
+              "isEvidence": false,
+              "id": "report-data-b4006623-ae25-4032-8f6a-050849680f88"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 4253,
+      "startTime": "2025-10-06T10:55:12.651279839-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3754cf38a2f92b2de5c76fbff6ec8c693a99f9018abde207e21548df2b5fcbb4.png",
+          "timeStamp": 1759766116904,
+          "screenshotName": "3754cf38a2f92b2de5c76fbff6ec8c693a99f9018abde207e21548df2b5fcbb4.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1690,
+          "startTime": "2025-10-06T10:55:14.740334958-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4efa468d9b3e0b541dbb24e0d6caf6a1ef973f5cf02dc99792eeb7c673b92967.png",
+              "timeStamp": 1759766116430,
+              "screenshotName": "4efa468d9b3e0b541dbb24e0d6caf6a1ef973f5cf02dc99792eeb7c673b92967.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "The user opens the Transactions page with relationship id 44902203 and branchNumber BR_4454",
+      "duration": 1674,
+      "startTime": "2025-10-06T10:55:16.905122785-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "147f43a044bf152683409d6e9661c0f8a3bb5d7cef4bbd17893e95724f13d8cc.png",
+          "timeStamp": 1759766118579,
+          "screenshotName": "147f43a044bf152683409d6e9661c0f8a3bb5d7cef4bbd17893e95724f13d8cc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Wait until transactions are loaded in the page",
+      "duration": 2078,
+      "startTime": "2025-10-06T10:55:18.579880167-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c8fd0258971917d6e0a1d09fe2f8ba0223c99252a13a1600faad801e3520b7bd.png",
+          "timeStamp": 1759766120658,
+          "screenshotName": "c8fd0258971917d6e0a1d09fe2f8ba0223c99252a13a1600faad801e3520b7bd.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Gets Transfer rows using filter: from \u003cnull\u003e, to 44517023, amount \u003cnull\u003e, type External Transfer, status Cancelled, date \u003cnull\u003e",
+      "duration": 25890,
+      "startTime": "2025-10-06T10:55:20.658929775-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "bf51d19306966acc9f5177c75415e728ca123bfb06fd33b10293296f0b2ebd6b.png",
+          "timeStamp": 1759766146549,
+          "screenshotName": "bf51d19306966acc9f5177c75415e728ca123bfb06fd33b10293296f0b2ebd6b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 9,
+          "description": "Wait until transactions are loaded in the page",
+          "duration": 34,
+          "startTime": "2025-10-06T10:55:20.661935746-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "c8fd0258971917d6e0a1d09fe2f8ba0223c99252a13a1600faad801e3520b7bd.png",
+              "timeStamp": 1759766120696,
+              "screenshotName": "c8fd0258971917d6e0a1d09fe2f8ba0223c99252a13a1600faad801e3520b7bd.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "description": "Clicks on details link for recurring transfer",
+      "duration": 574,
+      "startTime": "2025-10-06T10:55:46.550294320-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "eb10b2785d00edaa71957b9826a0c2ce72c095412fd7c28c2df2d67461daa9bb.png",
+          "timeStamp": 1759766147125,
+          "screenshotName": "eb10b2785d00edaa71957b9826a0c2ce72c095412fd7c28c2df2d67461daa9bb.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify Left Stepper Titles and Header",
+      "duration": 1770,
+      "startTime": "2025-10-06T10:55:47.125592214-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0d42b9ad5a078ebb7881f58b81987a7cadf0a63a5be3a0f66077925b038d6a8b.png",
+          "timeStamp": 1759766148895,
+          "screenshotName": "0d42b9ad5a078ebb7881f58b81987a7cadf0a63a5be3a0f66077925b038d6a8b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 12,
+          "description": "Verify Left Stepper item labels are in expected order",
+          "duration": 1590,
+          "startTime": "2025-10-06T10:55:47.127142340-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "a6717a2e184f4c82819fa3f25072d0065fc1a6469a4bd09d3d2b1c680af39b33.png",
+              "timeStamp": 1759766148718,
+              "screenshotName": "a6717a2e184f4c82819fa3f25072d0065fc1a6469a4bd09d3d2b1c680af39b33.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 13,
+          "description": "Verify Transfer History \u0026 Comments title is displayed",
+          "duration": 171,
+          "startTime": "2025-10-06T10:55:48.718480121-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "0d42b9ad5a078ebb7881f58b81987a7cadf0a63a5be3a0f66077925b038d6a8b.png",
+              "timeStamp": 1759766148889,
+              "screenshotName": "0d42b9ad5a078ebb7881f58b81987a7cadf0a63a5be3a0f66077925b038d6a8b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "description": "Verify View Edit details page footer",
+      "duration": 12674,
+      "startTime": "2025-10-06T10:55:48.896042544-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png",
+          "timeStamp": 1759766161570,
+          "screenshotName": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 15,
+          "description": "Verify Back to Activity button enabled is true ",
+          "duration": 180,
+          "startTime": "2025-10-06T10:55:48.897307338-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4c12d90ee51e32a0ada4b24eec539d4efb376535a784b534e819afbf371ceb6b.png",
+              "timeStamp": 1759766149078,
+              "screenshotName": "4c12d90ee51e32a0ada4b24eec539d4efb376535a784b534e819afbf371ceb6b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 16,
+          "description": "Verify Cancel Transfer button displayed is false",
+          "duration": 4149,
+          "startTime": "2025-10-06T10:55:49.084836858-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9c911e373b7a1e0dadc9dce9e256b4486d9f2a035d0017a3cf7241bbb9cb7702.png",
+              "timeStamp": 1759766153234,
+              "screenshotName": "9c911e373b7a1e0dadc9dce9e256b4486d9f2a035d0017a3cf7241bbb9cb7702.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 17,
+          "description": "Verify Pause Transfer button displayed is false",
+          "duration": 4156,
+          "startTime": "2025-10-06T10:55:53.234523577-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "8910fdb457e43f5fb3ab97700671900687bd53e84f72a5f106ee9f57a6b92817.png",
+              "timeStamp": 1759766157390,
+              "screenshotName": "8910fdb457e43f5fb3ab97700671900687bd53e84f72a5f106ee9f57a6b92817.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 18,
+          "description": "Verify Review Transaction button Displayed is false ",
+          "duration": 4172,
+          "startTime": "2025-10-06T10:55:57.391100406-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png",
+              "timeStamp": 1759766161563,
+              "screenshotName": "43ce3c2ac6308326bb36ba6c3ac38ed5f4002dbd375bfeaa7445cc2114191afc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "description": "Verify Asset Movement left Stepper has checkmark and edit pencil",
+      "duration": 2392,
+      "startTime": "2025-10-06T10:56:01.570462477-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4d8837909a3edc053e37d38068fc3ff4b04b4259665129b8090a2bcc5fa25228.png",
+          "timeStamp": 1759766163962,
+          "screenshotName": "4d8837909a3edc053e37d38068fc3ff4b04b4259665129b8090a2bcc5fa25228.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 20,
+          "description": "Verify Asset Movement left Stepper checkmark status is true",
+          "duration": 178,
+          "startTime": "2025-10-06T10:56:01.571770735-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "bc614c8b167f3595c3cdc0d847f0b38d7898a698b4825b623cac73286b560dba.png",
+              "timeStamp": 1759766161750,
+              "screenshotName": "bc614c8b167f3595c3cdc0d847f0b38d7898a698b4825b623cac73286b560dba.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 21,
+          "description": "Verify Asset Movement left Stepper editable status is false",
+          "duration": 2202,
+          "startTime": "2025-10-06T10:56:01.750944182-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "4d8837909a3edc053e37d38068fc3ff4b04b4259665129b8090a2bcc5fa25228.png",
+              "timeStamp": 1759766163953,
+              "screenshotName": "4d8837909a3edc053e37d38068fc3ff4b04b4259665129b8090a2bcc5fa25228.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "description": "Verify FROM left Stepper has checkmark and edit pencil",
+      "duration": 2385,
+      "startTime": "2025-10-06T10:56:03.963091197-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e5f27a72e97295ddec6bbd0451dcb9bda7d9f4017be360e4e76eaaedab9f1a82.png",
+          "timeStamp": 1759766166348,
+          "screenshotName": "e5f27a72e97295ddec6bbd0451dcb9bda7d9f4017be360e4e76eaaedab9f1a82.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 23,
+          "description": "Verify FROM left Stepper checkmark status is true",
+          "duration": 183,
+          "startTime": "2025-10-06T10:56:03.964747611-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ca062f2b02471c8c0b465af001054a87207aa4e2a4f34859bcb39e55e9d61f21.png",
+              "timeStamp": 1759766164148,
+              "screenshotName": "ca062f2b02471c8c0b465af001054a87207aa4e2a4f34859bcb39e55e9d61f21.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 24,
+          "description": "Verify FROM left Stepper editable status is false",
+          "duration": 2194,
+          "startTime": "2025-10-06T10:56:04.148420248-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e5f27a72e97295ddec6bbd0451dcb9bda7d9f4017be360e4e76eaaedab9f1a82.png",
+              "timeStamp": 1759766166342,
+              "screenshotName": "e5f27a72e97295ddec6bbd0451dcb9bda7d9f4017be360e4e76eaaedab9f1a82.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "description": "Verify TO left Stepper has checkmark and edit pencil",
+      "duration": 2360,
+      "startTime": "2025-10-06T10:56:06.348710289-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "5f661b0d4b06e11fe75e6d15a581d29a03b5838d6e7531a457c018c1360d4859.png",
+          "timeStamp": 1759766168708,
+          "screenshotName": "5f661b0d4b06e11fe75e6d15a581d29a03b5838d6e7531a457c018c1360d4859.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 26,
+          "description": "Verify TO left Stepper checkmark status is true",
+          "duration": 164,
+          "startTime": "2025-10-06T10:56:06.349946615-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "79ce3a2c514eb95a09c58baabb7632351bfd99e38258602448d50a60e94cf95b.png",
+              "timeStamp": 1759766166514,
+              "screenshotName": "79ce3a2c514eb95a09c58baabb7632351bfd99e38258602448d50a60e94cf95b.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 27,
+          "description": "Verify TO left Stepper editable status is false",
+          "duration": 2187,
+          "startTime": "2025-10-06T10:56:06.515024095-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "5f661b0d4b06e11fe75e6d15a581d29a03b5838d6e7531a457c018c1360d4859.png",
+              "timeStamp": 1759766168702,
+              "screenshotName": "5f661b0d4b06e11fe75e6d15a581d29a03b5838d6e7531a457c018c1360d4859.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "description": "Verify Transfer History left Stepper checkmark and edit pencil",
+      "duration": 2405,
+      "startTime": "2025-10-06T10:56:08.708983825-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b8a247da5f0854f5a6919b18e0f3270ae0c67a44b7c2bed0643cc4f8f88982fc.png",
+          "timeStamp": 1759766171114,
+          "screenshotName": "b8a247da5f0854f5a6919b18e0f3270ae0c67a44b7c2bed0643cc4f8f88982fc.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-a6989653-2fff-46e3-993e-62ff075f235a"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-05bf037d-e23b-4fcf-b878-1afb41fac6b5"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 29,
+          "description": "Verify Transfer History left Stepper editable status is false",
+          "duration": 2215,
+          "startTime": "2025-10-06T10:56:08.710394672-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e75ff51e46243651ff8473e26f23ee702458fa311dfe00f4e247bb1ad217693d.png",
+              "timeStamp": 1759766170926,
+              "screenshotName": "e75ff51e46243651ff8473e26f23ee702458fa311dfe00f4e247bb1ad217693d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 30,
+          "description": "Verify Transfer History left Stepper checkmark status is false",
+          "duration": 181,
+          "startTime": "2025-10-06T10:56:10.926685170-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b8a247da5f0854f5a6919b18e0f3270ae0c67a44b7c2bed0643cc4f8f88982fc.png",
+              "timeStamp": 1759766171108,
+              "screenshotName": "b8a247da5f0854f5a6919b18e0f3270ae0c67a44b7c2bed0643cc4f8f88982fc.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "storyName": "VerifyExternalViewEditTransferInActivityNewDesign",
+    "displayName": "VerifyExternalViewEditTransferInActivityNewDesign",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "path": "com.edwardjones.platform_ui_tests.testcases.VerifyExternalViewEditTransferInActivityNewDesign",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "VerifyExternalViewEditTransferInActivityNewDesign",
+        "description": "VerifyExternalViewEditTransferInActivityNewDesign"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "QA-Automation - Create New Transaction Redesign - View/Edit transfer flows from Activity Dashboard - External Firm UI/QA - Create New Transaction Redesign - Requirements Cleanup - External Firm UI/QA - Highlight Client Signature in Left Progress Stepper when edit is made that requires new LOA-External Transfer flow) Partially paid transfer with \u0027Cancelled\u0027 status",
+  "coreIssues": [
+    "ATMT-48273",
+    "ATMT-49299",
+    "ATMT-50953"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2",
+      "type": "tag",
+      "displayName": "Priority-2"
+    },
+    {
+      "name": "true",
+      "type": "amc_new_transfers_layout",
+      "displayName": "true"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "activity-feed-flow",
+      "type": "tag",
+      "displayName": "activity-feed-flow"
+    },
+    {
+      "name": "Platform1-Regression-Daily",
+      "type": "tag",
+      "displayName": "Platform1-Regression-Daily"
+    }
+  ],
+  "startTime": "2025-10-06T10:54:57.307852012-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:56:11.115510831-05:00[America/Chicago]",
+  "duration": 10225,
+  "projectKey": "",
+  "sessionId": "b1e7a0e949c0f37060280fb57577f3fe",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-48273",
+    "ATMT-49299",
+    "ATMT-50953"
+  ],
+  "scenarioOutline": ""
+}

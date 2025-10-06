@@ -1,0 +1,377 @@
+{
+  "name": "verifyRestrictedAccountsForExternalTransferForRuleID_421()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6]/[method:verifyRestrictedAccountsForExternalTransferForRuleID_421()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+  "methodName": "verifyRestrictedAccountsForExternalTransferForRuleID_421",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ruleId\u003d421, branch\u003dBR_9979",
+      "duration": 5170,
+      "startTime": "2025-10-06T09:57:28.087686393-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d421, branch\u003dBR_9979",
+          "duration": 5157,
+          "startTime": "2025-10-06T09:57:28.094419854-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.br_no\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\nand acct.ACCT_OWN_RULE_ID \u003d 421\nand sub_acc.br_no  \u003d 9979\n\n\n-- and sub_acc.acct_id not in\n-- (               select a.acct_id\n--                 from\n--                     PROD.ACCOUNT_12280 a\n--                     left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n--                     inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n--                     inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n--                     inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n--                 where\n--                     v.rst_rsn_cd is not null\n--                     and v.rst_rsn_cd in ( \u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027 )\n--                     and a.LGCL_DEL_DA is null\n--                     and a.ACCT_CLS_DA is null\n--                     and a.ACCT_OWN_RULE_ID \u003d 421\n--                     and sub_acc.br_no  \u003d 9979\n--                     and v.RST_START_DA\u003c\u00272025-10-06\u0027\n-- )\n\nFETCH FIRST 500 ROWS ONLY",
+              "isEvidence": false,
+              "id": "report-data-9e557779-99ec-4d22-b3cd-0743a6974c6f"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_ID\u003d131060305, RLTSHP_ID\u003d66460316, BR_NO\u003d9979, CUST_NO\u003d99766372}",
+              "isEvidence": false,
+              "id": "report-data-06465864-4a4b-4b4b-b7a7-4902338f7301"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 9979, relationship 66460316, account 131060305, for Platform flow",
+      "duration": 8,
+      "startTime": "2025-10-06T09:57:33.260249827-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 4462,
+      "startTime": "2025-10-06T09:57:33.269252857-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "65b45a07589c9ac358acfa5ae34e054874b2f3c4a4da29c6d9013c7ddfb55603.png",
+          "timeStamp": 1759762657731,
+          "screenshotName": "65b45a07589c9ac358acfa5ae34e054874b2f3c4a4da29c6d9013c7ddfb55603.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1897,
+          "startTime": "2025-10-06T09:57:35.365740287-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "111cf2174f3f60c7890f7bd9b5724a9dd87bdd67d84e124e1fcb671963a1dc30.png",
+              "timeStamp": 1759762657262,
+              "screenshotName": "111cf2174f3f60c7890f7bd9b5724a9dd87bdd67d84e124e1fcb671963a1dc30.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Opening the asset movement page for relationship id: 66460316",
+      "duration": 2313,
+      "startTime": "2025-10-06T09:57:37.734994068-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "5b9a6c1e9bba9a7b5a78d13476f637ff7171c43616766102b9266aa1473413f3.png",
+          "timeStamp": 1759762660048,
+          "screenshotName": "5b9a6c1e9bba9a7b5a78d13476f637ff7171c43616766102b9266aa1473413f3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 857,
+      "startTime": "2025-10-06T09:57:40.049093278-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "5b9a6c1e9bba9a7b5a78d13476f637ff7171c43616766102b9266aa1473413f3.png",
+          "timeStamp": 1759762660906,
+          "screenshotName": "5b9a6c1e9bba9a7b5a78d13476f637ff7171c43616766102b9266aa1473413f3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16800,
+      "startTime": "2025-10-06T09:57:40.907219604-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "f5784f9d28782fe1128eb5e4bddf7952376b45ae260471a5e7f2c178863c0476.png",
+          "timeStamp": 1759762677707,
+          "screenshotName": "f5784f9d28782fe1128eb5e4bddf7952376b45ae260471a5e7f2c178863c0476.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Select Check Deposit option",
+      "duration": 3422,
+      "startTime": "2025-10-06T09:57:57.708133264-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "cde0fe8908df52ebf37b61fe773e09a6a0e672ce8800c98166b9d3c193b88c01.png",
+          "timeStamp": 1759762681130,
+          "screenshotName": "cde0fe8908df52ebf37b61fe773e09a6a0e672ce8800c98166b9d3c193b88c01.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify Account 99766372 is Restricted true",
+      "duration": 20637,
+      "startTime": "2025-10-06T09:58:01.130764762-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "471ef8244480a76c9cfd2c3320d00bf833c8a5cfd6c7d3523cd045da102e6c25.png",
+          "htmlSource": "pagesource8662573201955566857.html",
+          "timeStamp": 1759762701766,
+          "screenshotName": "471ef8244480a76c9cfd2c3320d00bf833c8a5cfd6c7d3523cd045da102e6c25.png"
+        }
+      ],
+      "exception": {
+        "errorType": "org.openqa.selenium.TimeoutException",
+        "message": "Expected condition failed: waiting for List should have \u003e\u003d1 elements while actual number is 0 \nHousehold has EJ accounts (tried for 20 second(s) with 250 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+        "stackTrace": [
+          {
+            "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+            "methodName": "waitForAccounts",
+            "fileName": "SearchAccountWidget.java",
+            "lineNumber": 206
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+            "methodName": "verifyAcctRestricted",
+            "fileName": "AccountItemSteps.java",
+            "lineNumber": 80
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+            "methodName": "runTestFlowForIntoCheckDepositForRestrictedAccountFrom",
+            "fileName": "PlatformFlowSteps.java",
+            "lineNumber": 148
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+            "methodName": "verifyRestrictedAccountsForExternalTransferForRuleID_421",
+            "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart6.java",
+            "lineNumber": 46
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "ERROR",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 0,
+      "startTime": "2025-10-06T09:58:21.774020843-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-dde1671f-a3ec-4a47-a829-c01b7114f785"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-aa6169a4-16cc-4f36-9cee-3e13c75a29a8"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+    "storyName": "IntoCheckDepositRestrictionsNewAccountServicePart6",
+    "displayName": "IntoCheckDepositRestrictionsNewAccountServicePart6",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositRestrictionsNewAccountServicePart6",
+        "description": "IntoCheckDepositRestrictionsNewAccountServicePart6"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Part 6 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules  - Rule ID 421",
+  "coreIssues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "ATMT-23447",
+      "type": "tag",
+      "displayName": "ATMT-23447"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T09:57:28.082503345-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:58:21.777778110-05:00[America/Chicago]",
+  "duration": 5163,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.TimeoutException",
+    "message": "Expected condition failed: waiting for List should have \u003e\u003d1 elements while actual number is 0 \nHousehold has EJ accounts (tried for 20 second(s) with 250 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+    "stackTrace": [
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.SearchAccountWidget",
+        "methodName": "waitForAccounts",
+        "fileName": "SearchAccountWidget.java",
+        "lineNumber": 206
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+        "methodName": "verifyAcctRestricted",
+        "fileName": "AccountItemSteps.java",
+        "lineNumber": 80
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+        "methodName": "runTestFlowForIntoCheckDepositForRestrictedAccountFrom",
+        "fileName": "PlatformFlowSteps.java",
+        "lineNumber": 148
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart6",
+        "methodName": "verifyRestrictedAccountsForExternalTransferForRuleID_421",
+        "fileName": "IntoCheckDepositRestrictionsNewAccountServicePart6.java",
+        "lineNumber": 46
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.TimeoutException",
+  "testFailureMessage": "Expected condition failed: waiting for List should have \u003e\u003d1 elements while actual number is 0 \nHousehold has EJ accounts (tried for 20 second(s) with 250 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown",
+  "testFailureSummary": "ERROR;org.openqa.selenium.TimeoutException;Expected condition failed: waiting for List should have \u003e\u003d1 elements while actual number is 0 \nHousehold has EJ accounts (tried for 20 second(s) with 250 milliseconds interval)\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: driver.version: unknown;SearchAccountWidget.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "90c08b01da28482664cd5adf07b6b9be",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "scenarioOutline": ""
+}

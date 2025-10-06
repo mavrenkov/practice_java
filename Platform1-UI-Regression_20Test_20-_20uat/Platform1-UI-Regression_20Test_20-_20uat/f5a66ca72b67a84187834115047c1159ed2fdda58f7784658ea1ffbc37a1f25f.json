@@ -1,0 +1,1215 @@
+{
+  "name": "verifyXButtonRemovedAcrossFlow()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest]/[method:verifyXButtonRemovedAcrossFlow()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+  "methodName": "verifyXButtonRemovedAcrossFlow",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve DB data for \u0027Between\u0027 flow: Select Individual accounts",
+      "duration": 11815,
+      "startTime": "2025-10-06T10:51:09.950272866-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nrlt.RLTSHP_ID AS RELID, sub_acc.BR_NO,\ncount(distinct sub_acc.TAX_RPT_TIN_NO) as SSN_COUNT,\ncount(distinct sub_acc_svc.acct_ID) as ACCOUNTS_COUNT,\nmin(sub_acc.TAX_RPT_TIN_NO) as ssn1, max(sub_acc.TAX_RPT_TIN_NO) as ssn2,\nmin(sub_acc_svc.acct_ID) as acct1, max(sub_acc_svc.acct_ID) as acct2\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\nwhere\n-- sub_acc.ACCT_OWN_SUBTY_CD is not NULL and\nsub_acc.ACCT_CLS_UT is NULL\nand sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.acct_own_rule_id in (309)\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n-- and rlt.RLTSHP_ID in ()\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand a.acct_own_rule_id in (309)\n                    and sub_acc.BR_NO in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n\ngroup by rlt.RLTSHP_ID, sub_acc.BR_NO\nhaving \ncount(distinct sub_acc_svc.ACCT_ID)\u003e1 \nand count(distinct sub_acc.TAX_RPT_TIN_NO) \u003e 1\nand count(distinct account.acct_own_rule_id) \u003d 1\n\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 1 then accountsData.acct_ID end) is not null\n-- and min(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n-- and max(case (accountsData.COUNT_CASH + accountsData.COUNT_MARGIN*2 + accountsData.COUNT_LOAN*4) when 7 then accountsData.acct_ID end) is not null\n\nfetch first 1 rows only;",
+          "isEvidence": false,
+          "id": "report-data-314a20cc-691e-4cf9-9cf9-3d2cbcc23648"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{RELID\u003d90541, SSN2\u003d250086111           , ACCOUNTS_COUNT\u003d2, SSN1\u003d243101890           , SSN_COUNT\u003d2, BR_NO\u003d4454, ACCT2\u003d107317851, ACCT1\u003d106700333}",
+          "isEvidence": false,
+          "id": "report-data-daa8fa14-7f17-4a8e-b0ed-0c866b7149e0"
+        },
+        {
+          "title": "SQL query",
+          "contents": "select\nsub_acc.acct_id,\nsub_acc.VNDR_ACCT_ID,\nsub_acc.TAX_RPT_TIN_NO,\nsub_acc.acct_own_rule_id\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.SUBACCT_SVC_12569 sub_acc_svc on sub_acc.ACCT_ID \u003d sub_acc_svc.ACCT_ID\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.ACCOUNT_12280 account on account.ACCT_ID\u003dsub_acc.ACCT_ID\n\nwhere\nrlt.RLTSHP_ID \u003d 90541\nand sub_acc.BR_NO \u003d 4454\nand account.acct_own_rule_id in (309)\n\n-- and sub_acc.ACCT_OWN_SUBTY_CD is not NULL\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc_svc.ISO_CTRY_CD\u003d\u0027US\u0027\nand account.dcdnt_retr_ind \u003d \u0027N\u0027\n and sub_acc_svc.ACCT_SVC_TY_CD in (\u0027SE\u0027)\n and sub_acc_svc.ACCT_SVC_STAT_CD in (\u0027A\u0027, \u0027C\u0027)\n\nand sub_acc.acct_id not in \n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n\t\t\t\t\tand rlt.RLTSHP_ID \u003d 90541\n\t\t\t\t\tand sub_acc.BR_NO \u003d 4454\n\t\t\t\t\tand a.acct_own_rule_id in (309)\n                    and a.ACCT_CLS_DA is null\n                    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)\n",
+          "isEvidence": false,
+          "id": "report-data-ac93515c-5538-489e-a137-a2a8784a5dac"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d309, TAX_RPT_TIN_NO\u003d250086111           , VNDR_ACCT_ID\u003d44510879            , ACCT_ID\u003d106700333}\n{ACCT_OWN_RULE_ID\u003d309, TAX_RPT_TIN_NO\u003d243101890           , VNDR_ACCT_ID\u003d44511136            , ACCT_ID\u003d107317851}",
+          "isEvidence": false,
+          "id": "report-data-64e8cf8b-413a-44ca-ade8-021b83b834af"
+        },
+        {
+          "title": "Found data",
+          "contents": "BetweenFlowDb2TestDataProvider.BetweenFlowData(branchNo\u003d4454, relationshipId\u003d90541, accountIdFrom\u003d107317851, accountIdTo\u003d106700333, accountCustomerNumberFrom\u003d44511136, accountCustomerNumberTo\u003d44510879)",
+          "isEvidence": false,
+          "id": "report-data-24d49291-caa7-48e6-8b99-a19151a30ff3"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Prepare approved bank profile",
+      "duration": 5119,
+      "startTime": "2025-10-06T10:51:21.765571826-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 3,
+          "description": "Get bank accounts with approved profiles by account id 106700333",
+          "duration": 22,
+          "startTime": "2025-10-06T10:51:21.765956165-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query for AMC_PROFILE",
+              "contents": "SELECT bank_profile.bank_profile_guid as bank_profile_guid, bank_profile.account_id as account_id, bank_account.bank_account_guid as bank_account_guid, bank_account.bank_account_no as bank_account_no, bank_account.bank_na as bank_na, bank_account.routing_no as routing_no, bank_account.bank_account_type_cd as bank_account_type_cd, bank_account.bank_account_ownership_type_cd as bank_account_ownership_type_cd, bank_account.bank_account_nick_na as bank_account_nick_na, bank_account.bank_account_legal_entity_na as bank_account_legal_entity_na FROM bank_profile, bank_account WHERE bank_profile.bank_account_id \u003d bank_account.bank_account_id and bank_profile.account_id \u003d 106700333 and bank_profile.bank_profile_status_cd\u003d\u0027APPROVED\u0027",
+              "isEvidence": false,
+              "id": "report-data-174891b2-b0b3-4d24-955f-3dc2e03f73b8"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 4,
+          "description": "Get bank name by routing number 101000077",
+          "duration": 5092,
+          "startTime": "2025-10-06T10:51:21.788418247-05:00[America/Chicago]",
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select BK_NA\nfrom PROD.BK_DATA_HST_11218\nwhere\nBK_RTE_NO\u003d101000077\nand END_TS is null",
+              "isEvidence": false,
+              "id": "report-data-b8dee037-afcc-4237-b4d4-ab7218cdcdfc"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{BK_NA\u003dUMB, NA                             }",
+              "isEvidence": false,
+              "id": "report-data-fff240bc-ab9c-4a68-972d-22ed5b001d8b"
+            },
+            {
+              "title": "Prepared bank profile",
+              "contents": "LinkedBank(name\u003dnnban8141, number\u003d****8141, entityType\u003dUMB, NA, accountType\u003dCHECKING, id\u003d04B53FD7-29BC-4185-8F91-A0AE499E41F5)",
+              "isEvidence": false,
+              "id": "report-data-c5947644-2d9b-4ada-ade1-1bb04acc1bab"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 4308,
+      "startTime": "2025-10-06T10:51:26.885352746-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4412e7212af0260af8934cd8bec03d12cd221c6257e22e5b76bca56563949ed4.png",
+          "timeStamp": 1759765891194,
+          "screenshotName": "4412e7212af0260af8934cd8bec03d12cd221c6257e22e5b76bca56563949ed4.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 6,
+          "description": "Launch WAM and authenticate",
+          "duration": 1825,
+          "startTime": "2025-10-06T10:51:28.891054224-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "99f67a6ddbfb13b940e87ff3c3146c50e8e643090896388a021d79d21e861c84.png",
+              "timeStamp": 1759765890716,
+              "screenshotName": "99f67a6ddbfb13b940e87ff3c3146c50e8e643090896388a021d79d21e861c84.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "description": "Opening the asset movement page for relationship id: 90541",
+      "duration": 2183,
+      "startTime": "2025-10-06T10:51:31.194837369-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "94a6deb00117ad83e2c82fb61ff55eb93d17fc5eaa762bd5c801771a61bdc56b.png",
+          "timeStamp": 1759765893378,
+          "screenshotName": "94a6deb00117ad83e2c82fb61ff55eb93d17fc5eaa762bd5c801771a61bdc56b.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 855,
+      "startTime": "2025-10-06T10:51:33.378468959-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "c2a182cf456cda8c5ad2c358c331ecdd9155b6fe96ee3c1448ec1d3ab11b542f.png",
+          "timeStamp": 1759765894233,
+          "screenshotName": "c2a182cf456cda8c5ad2c358c331ecdd9155b6fe96ee3c1448ec1d3ab11b542f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16778,
+      "startTime": "2025-10-06T10:51:34.233773436-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7a0b7f2bdf3ae71a63067cd3509d75928083e1fc8e1116ab173e76a13814caa1.png",
+          "timeStamp": 1759765911012,
+          "screenshotName": "7a0b7f2bdf3ae71a63067cd3509d75928083e1fc8e1116ab173e76a13814caa1.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Select Linked Bank option",
+      "duration": 365,
+      "startTime": "2025-10-06T10:51:51.012842127-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7069061d5c4e40955f43e5988515062c302a43ad9c2f8977598d6cc7c26237ec.png",
+          "timeStamp": 1759765911378,
+          "screenshotName": "7069061d5c4e40955f43e5988515062c302a43ad9c2f8977598d6cc7c26237ec.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20832,
+      "startTime": "2025-10-06T10:51:51.401606099-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "29aad28ff6176fa9a77d47a2ded1dd305dcaed77461f1eb2ef958037341afc9f.png",
+          "timeStamp": 1759765932234,
+          "screenshotName": "29aad28ff6176fa9a77d47a2ded1dd305dcaed77461f1eb2ef958037341afc9f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 12,
+      "description": "Select searched account ****8141",
+      "duration": 2055,
+      "startTime": "2025-10-06T10:52:12.234705735-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3b2dfb86feba2e07eaf5a0c7f4166cfaf74093c0a8a920b0e3af62e75a2e937c.png",
+          "timeStamp": 1759765934290,
+          "screenshotName": "3b2dfb86feba2e07eaf5a0c7f4166cfaf74093c0a8a920b0e3af62e75a2e937c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 13,
+          "description": "Search for account ****8141",
+          "duration": 1561,
+          "startTime": "2025-10-06T10:52:12.304223460-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "d073773b681915e131f7bf40c1e69c0253e8e111e2a3ed8e0f2d739660c53c00.png",
+              "timeStamp": 1759765933865,
+              "screenshotName": "d073773b681915e131f7bf40c1e69c0253e8e111e2a3ed8e0f2d739660c53c00.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 14,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 200,
+              "startTime": "2025-10-06T10:52:13.658662844-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "d073773b681915e131f7bf40c1e69c0253e8e111e2a3ed8e0f2d739660c53c00.png",
+                  "timeStamp": 1759765933859,
+                  "screenshotName": "d073773b681915e131f7bf40c1e69c0253e8e111e2a3ed8e0f2d739660c53c00.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 15,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 177,
+          "startTime": "2025-10-06T10:52:13.866145270-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "9fb50f2f1259de164e3144b64b089cbf4fd4713d9e7c4fa66e1406eddf7780f7.png",
+              "timeStamp": 1759765934043,
+              "screenshotName": "9fb50f2f1259de164e3144b64b089cbf4fd4713d9e7c4fa66e1406eddf7780f7.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "description": "Click continue button",
+      "duration": 427,
+      "startTime": "2025-10-06T10:52:14.291049185-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png",
+          "timeStamp": 1759765934718,
+          "screenshotName": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 17,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 414,
+          "startTime": "2025-10-06T10:52:14.298508407-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png",
+              "timeStamp": 1759765934712,
+              "screenshotName": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 18,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 404,
+              "startTime": "2025-10-06T10:52:14.301094272-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png",
+                  "timeStamp": 1759765934705,
+                  "screenshotName": "76fc29e42ac0c9dcd86e98ce698c426ccd05a4682852b38969f6464f20fb5f09.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20796,
+      "startTime": "2025-10-06T10:52:14.736487045-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "31982164cf4d211264546ad219627dfe74e1e2226b4547a7d66174d7c5ce785a.png",
+          "timeStamp": 1759765955532,
+          "screenshotName": "31982164cf4d211264546ad219627dfe74e1e2226b4547a7d66174d7c5ce785a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 20,
+      "description": "Select searched account 44510879",
+      "duration": 4344,
+      "startTime": "2025-10-06T10:52:35.533248590-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3fe34746219a4d67d5e4814d3622059e17f1f561dc07dd9e4bed053c084b517f.png",
+          "timeStamp": 1759765959877,
+          "screenshotName": "3fe34746219a4d67d5e4814d3622059e17f1f561dc07dd9e4bed053c084b517f.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 21,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 513,
+      "startTime": "2025-10-06T10:52:39.877677499-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d963bea4be47e9ac304b44c12e227cc716be08e282e9ad3f0c677b9201bbf429.png",
+          "timeStamp": 1759765960391,
+          "screenshotName": "d963bea4be47e9ac304b44c12e227cc716be08e282e9ad3f0c677b9201bbf429.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 22,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16940,
+      "startTime": "2025-10-06T10:52:40.391901697-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e2ad6498d9d374906843906f09837273ea04ea0b9b88a3b0b9e84f2c03568cc2.png",
+          "timeStamp": 1759765977332,
+          "screenshotName": "e2ad6498d9d374906843906f09837273ea04ea0b9b88a3b0b9e84f2c03568cc2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 23,
+      "description": "Click \u0027Next\u0027 - go to Next Card",
+      "duration": 423,
+      "startTime": "2025-10-06T10:52:57.335876884-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2ea6069d0847eabe2633aede1a5afb6e40cf8e98774742e20eff9067371ca2c5.png",
+          "timeStamp": 1759765977759,
+          "screenshotName": "2ea6069d0847eabe2633aede1a5afb6e40cf8e98774742e20eff9067371ca2c5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 24,
+          "description": "Click \u0027Next\u0027.",
+          "duration": 416,
+          "startTime": "2025-10-06T10:52:57.337437650-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "2ea6069d0847eabe2633aede1a5afb6e40cf8e98774742e20eff9067371ca2c5.png",
+              "timeStamp": 1759765977753,
+              "screenshotName": "2ea6069d0847eabe2633aede1a5afb6e40cf8e98774742e20eff9067371ca2c5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "description": "Select External Firm option",
+      "duration": 667,
+      "startTime": "2025-10-06T10:52:57.759639973-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1b8b79ff4bee7e75218973754c74edd0703811a51f376c1b341d0a40d6d5bd1c.png",
+          "timeStamp": 1759765978427,
+          "screenshotName": "1b8b79ff4bee7e75218973754c74edd0703811a51f376c1b341d0a40d6d5bd1c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 26,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20847,
+      "startTime": "2025-10-06T10:52:58.536026117-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7020048db0e4630b1afd619ebf0d4d5fc9d4938cbda193290c1219fba5765e3d.png",
+          "timeStamp": 1759765999383,
+          "screenshotName": "7020048db0e4630b1afd619ebf0d4d5fc9d4938cbda193290c1219fba5765e3d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 27,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 549,
+      "startTime": "2025-10-06T10:53:19.383851530-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "08cb2a69ccfe8b2895bae471a0383ca31a9ae5a6ef85b7e1c065d5d4628cab3e.png",
+          "timeStamp": 1759765999933,
+          "screenshotName": "08cb2a69ccfe8b2895bae471a0383ca31a9ae5a6ef85b7e1c065d5d4628cab3e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 28,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16727,
+      "startTime": "2025-10-06T10:53:19.933423452-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9ff97b1356f7502e1f67d7d30998422839f1ac23521237c5bbe9167186256a41.png",
+          "timeStamp": 1759766016660,
+          "screenshotName": "9ff97b1356f7502e1f67d7d30998422839f1ac23521237c5bbe9167186256a41.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 29,
+      "description": "Click \u0027Next\u0027 - go to Next Card",
+      "duration": 374,
+      "startTime": "2025-10-06T10:53:36.664288285-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "e89ba22b214ea837119cdbad6a06600a7d83f77463ceeb9a944e8efbcb27a2a6.png",
+          "timeStamp": 1759766017039,
+          "screenshotName": "e89ba22b214ea837119cdbad6a06600a7d83f77463ceeb9a944e8efbcb27a2a6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 30,
+          "description": "Click \u0027Next\u0027.",
+          "duration": 367,
+          "startTime": "2025-10-06T10:53:36.665814405-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e89ba22b214ea837119cdbad6a06600a7d83f77463ceeb9a944e8efbcb27a2a6.png",
+              "timeStamp": 1759766017033,
+              "screenshotName": "e89ba22b214ea837119cdbad6a06600a7d83f77463ceeb9a944e8efbcb27a2a6.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "description": "Select Check Deposit option",
+      "duration": 3389,
+      "startTime": "2025-10-06T10:53:37.039261973-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1abb68632f665d6952633702567409b857cc226c2723cf2b353cab580f8a21e5.png",
+          "timeStamp": 1759766020429,
+          "screenshotName": "1abb68632f665d6952633702567409b857cc226c2723cf2b353cab580f8a21e5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 32,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20810,
+      "startTime": "2025-10-06T10:53:40.448988780-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4d70dee326666cbaa4f41d163b3cceadfd3e56dd0e285e38e739c272ed5a590d.png",
+          "timeStamp": 1759766041259,
+          "screenshotName": "4d70dee326666cbaa4f41d163b3cceadfd3e56dd0e285e38e739c272ed5a590d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 33,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 524,
+      "startTime": "2025-10-06T10:54:01.259882577-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3e2526e6410fee1b358efcaa04c167281f42fcca8b409fe99b801d868faededf.png",
+          "timeStamp": 1759766041784,
+          "screenshotName": "3e2526e6410fee1b358efcaa04c167281f42fcca8b409fe99b801d868faededf.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 34,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8657,
+      "startTime": "2025-10-06T10:54:01.784330807-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "24132685f0c50de5dd51e78a9f5bdf56fdfe7237a3499e0759080b7177401bf6.png",
+          "timeStamp": 1759766050441,
+          "screenshotName": "24132685f0c50de5dd51e78a9f5bdf56fdfe7237a3499e0759080b7177401bf6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 35,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20868,
+      "startTime": "2025-10-06T10:54:10.715808672-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3047ba92557422ac93335aa5e8b50f81e49fd4a56605b532b46c505c3aa8d9e5.png",
+          "timeStamp": 1759766071584,
+          "screenshotName": "3047ba92557422ac93335aa5e8b50f81e49fd4a56605b532b46c505c3aa8d9e5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 36,
+      "description": "Select searched account 44511136",
+      "duration": 2134,
+      "startTime": "2025-10-06T10:54:31.584544611-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "747d07f12740d7f447f356382d697db693c2d1ee27f3340e372b3bdd3c6e46a0.png",
+          "timeStamp": 1759766073718,
+          "screenshotName": "747d07f12740d7f447f356382d697db693c2d1ee27f3340e372b3bdd3c6e46a0.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 37,
+          "description": "Search for account 44511136",
+          "duration": 1564,
+          "startTime": "2025-10-06T10:54:31.651943332-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "efd6ee4ca18975de8f33cae43636901231244321ff2febd57142a23cbb261b37.png",
+              "timeStamp": 1759766073216,
+              "screenshotName": "efd6ee4ca18975de8f33cae43636901231244321ff2febd57142a23cbb261b37.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 38,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 210,
+              "startTime": "2025-10-06T10:54:32.999858290-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "efd6ee4ca18975de8f33cae43636901231244321ff2febd57142a23cbb261b37.png",
+                  "timeStamp": 1759766073210,
+                  "screenshotName": "efd6ee4ca18975de8f33cae43636901231244321ff2febd57142a23cbb261b37.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 39,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 213,
+          "startTime": "2025-10-06T10:54:33.217020086-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "05edf96a32c3a2484f419832e4c359aa72b263b96dbf188f989da2773c138294.png",
+              "timeStamp": 1759766073430,
+              "screenshotName": "05edf96a32c3a2484f419832e4c359aa72b263b96dbf188f989da2773c138294.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "description": "Select the First Available Owner",
+      "duration": 466,
+      "startTime": "2025-10-06T10:54:33.719040960-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "da781147560db98b340f70e53dc21aa57983a42d322e968f3ca813b80c9cdfc6.png",
+          "timeStamp": 1759766074185,
+          "screenshotName": "da781147560db98b340f70e53dc21aa57983a42d322e968f3ca813b80c9cdfc6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 41,
+      "description": "Verify that accounts are marked as selected",
+      "duration": 203,
+      "startTime": "2025-10-06T10:54:34.186066075-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d178bb0366407ad7f1e685eb7ac97ad9c96e62cfab9ed8460d9f508c392ec2c4.png",
+          "timeStamp": 1759766074389,
+          "screenshotName": "d178bb0366407ad7f1e685eb7ac97ad9c96e62cfab9ed8460d9f508c392ec2c4.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 42,
+      "description": "Click continue button",
+      "duration": 364,
+      "startTime": "2025-10-06T10:54:34.390039472-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png",
+          "timeStamp": 1759766074754,
+          "screenshotName": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 43,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 354,
+          "startTime": "2025-10-06T10:54:34.395203736-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png",
+              "timeStamp": 1759766074749,
+              "screenshotName": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 44,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 346,
+              "startTime": "2025-10-06T10:54:34.396830629-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png",
+                  "timeStamp": 1759766074743,
+                  "screenshotName": "7e691b0facac98bc18d8248e1827d73e5c8c6d240fecd00f3fa5fc86e69c2ade.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20786,
+      "startTime": "2025-10-06T10:54:34.771276264-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7c41176b50c70f493c7d18b2be1d93da086c6d1b5ac51c3b43f86c494ff7e1a3.png",
+          "timeStamp": 1759766095558,
+          "screenshotName": "7c41176b50c70f493c7d18b2be1d93da086c6d1b5ac51c3b43f86c494ff7e1a3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 46,
+      "description": "Select searched account 44510879",
+      "duration": 1998,
+      "startTime": "2025-10-06T10:54:55.558495192-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8bdaa9766699b7295a1b56aa19bc3a8eec78d0d7ec01e6678022b7d5f8251eb6.png",
+          "timeStamp": 1759766097556,
+          "screenshotName": "8bdaa9766699b7295a1b56aa19bc3a8eec78d0d7ec01e6678022b7d5f8251eb6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 47,
+          "description": "Search for account 44510879",
+          "duration": 1500,
+          "startTime": "2025-10-06T10:54:55.629034848-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "f9da6d7a898e35d2bae7e86185bc2a2b980ff5bef645c9cadb8de245d50d0d1a.png",
+              "timeStamp": 1759766097129,
+              "screenshotName": "f9da6d7a898e35d2bae7e86185bc2a2b980ff5bef645c9cadb8de245d50d0d1a.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 48,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 200,
+              "startTime": "2025-10-06T10:54:56.922045174-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "f9da6d7a898e35d2bae7e86185bc2a2b980ff5bef645c9cadb8de245d50d0d1a.png",
+                  "timeStamp": 1759766097122,
+                  "screenshotName": "f9da6d7a898e35d2bae7e86185bc2a2b980ff5bef645c9cadb8de245d50d0d1a.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 49,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 220,
+          "startTime": "2025-10-06T10:54:57.129576104-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "af2c680d05274233e840aae3389b6a2cea6c2cb01fc7296d003025dd0dcd0e27.png",
+              "timeStamp": 1759766097350,
+              "screenshotName": "af2c680d05274233e840aae3389b6a2cea6c2cb01fc7296d003025dd0dcd0e27.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "description": "Verify that accounts are marked as selected",
+      "duration": 201,
+      "startTime": "2025-10-06T10:54:57.556988276-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8b0baa60effd0bc01694e656504527282d3a0e3508d8791d7d63c75bb13f2f07.png",
+          "timeStamp": 1759766097758,
+          "screenshotName": "8b0baa60effd0bc01694e656504527282d3a0e3508d8791d7d63c75bb13f2f07.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 51,
+      "description": "Navigate to Card1 - Asset Movement Type",
+      "duration": 527,
+      "startTime": "2025-10-06T10:54:57.759127007-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "88226e268c57f161dd321697aed063df240f1ae2f822dd277f4cf6be02e745aa.png",
+          "timeStamp": 1759766098286,
+          "screenshotName": "88226e268c57f161dd321697aed063df240f1ae2f822dd277f4cf6be02e745aa.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 52,
+      "description": "Choose transfer \u0027Out of\u0027 accounts",
+      "duration": 1314,
+      "startTime": "2025-10-06T10:54:58.287148710-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0a35d932d97923b66620c6b46daa49f2f79534ee4e0841b23c822408919ac064.png",
+          "timeStamp": 1759766099601,
+          "screenshotName": "0a35d932d97923b66620c6b46daa49f2f79534ee4e0841b23c822408919ac064.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 53,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20857,
+      "startTime": "2025-10-06T10:54:59.618703658-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "97ae7ebb8a95e1bf021854f4d6f2a4f411875dce0f24f4546e460f63ca1971fb.png",
+          "timeStamp": 1759766120476,
+          "screenshotName": "97ae7ebb8a95e1bf021854f4d6f2a4f411875dce0f24f4546e460f63ca1971fb.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 54,
+      "description": "Select searched account 44510879",
+      "duration": 1970,
+      "startTime": "2025-10-06T10:55:20.476446387-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "eed969b54fb8ad29cc64200a71febeb9b28d72b9280c33373c229003f5435433.png",
+          "timeStamp": 1759766122447,
+          "screenshotName": "eed969b54fb8ad29cc64200a71febeb9b28d72b9280c33373c229003f5435433.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 55,
+          "description": "Search for account 44510879",
+          "duration": 1478,
+          "startTime": "2025-10-06T10:55:20.537022538-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "b122e822c8f8d060f4922723e2227dac1e651455c0da2b1f7ae0f80b7b139e99.png",
+              "timeStamp": 1759766122015,
+              "screenshotName": "b122e822c8f8d060f4922723e2227dac1e651455c0da2b1f7ae0f80b7b139e99.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 56,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 187,
+              "startTime": "2025-10-06T10:55:21.820212817-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "b122e822c8f8d060f4922723e2227dac1e651455c0da2b1f7ae0f80b7b139e99.png",
+                  "timeStamp": 1759766122007,
+                  "screenshotName": "b122e822c8f8d060f4922723e2227dac1e651455c0da2b1f7ae0f80b7b139e99.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 57,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 193,
+          "startTime": "2025-10-06T10:55:22.015376801-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "46f84691b4b3c49fd9ce5fb2c0c3976aeaf004a84bfe69c3e9ba96c1c4c22b47.png",
+              "timeStamp": 1759766122208,
+              "screenshotName": "46f84691b4b3c49fd9ce5fb2c0c3976aeaf004a84bfe69c3e9ba96c1c4c22b47.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "description": "Select Owner if Next button in not enabled",
+      "duration": 293,
+      "startTime": "2025-10-06T10:55:22.447469262-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b6aac128a9f61a9e4ef6464c340daf3a27dd191e32438189ebe766623050a95a.png",
+          "timeStamp": 1759766122741,
+          "screenshotName": "b6aac128a9f61a9e4ef6464c340daf3a27dd191e32438189ebe766623050a95a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 59,
+      "description": "Click continue button",
+      "duration": 412,
+      "startTime": "2025-10-06T10:55:22.741571942-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png",
+          "timeStamp": 1759766123154,
+          "screenshotName": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 60,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 401,
+          "startTime": "2025-10-06T10:55:22.747464074-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png",
+              "timeStamp": 1759766123149,
+              "screenshotName": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 61,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 393,
+              "startTime": "2025-10-06T10:55:22.749306045-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png",
+                  "timeStamp": 1759766123142,
+                  "screenshotName": "1b9628ccd80d2be8f5a7f838af9a604396683601c9f155fca2a9540f5efd6ed2.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "description": "Select Linked Bank option",
+      "duration": 412,
+      "startTime": "2025-10-06T10:55:23.154745394-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "561d486fdb370f46cce35a93f144f587f682845b7f6c0acdaf832777cbf09d00.png",
+          "timeStamp": 1759766123566,
+          "screenshotName": "561d486fdb370f46cce35a93f144f587f682845b7f6c0acdaf832777cbf09d00.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 63,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 20746,
+      "startTime": "2025-10-06T10:55:23.589787120-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "494f7bd8d6ef5002dd12cb6bc8f4add154537e87a2dc4b2a8591713d1edfeee1.png",
+          "timeStamp": 1759766144335,
+          "screenshotName": "494f7bd8d6ef5002dd12cb6bc8f4add154537e87a2dc4b2a8591713d1edfeee1.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 64,
+      "description": "Select searched account ****8141",
+      "duration": 4341,
+      "startTime": "2025-10-06T10:55:44.336504886-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1277e3a500d6879270d1ddc145671eaf13dfd1c66293ecf1de436c308bc76992.png",
+          "timeStamp": 1759766148677,
+          "screenshotName": "1277e3a500d6879270d1ddc145671eaf13dfd1c66293ecf1de436c308bc76992.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-434c6dc9-af08-4474-8923-24d6e6ee1ca4"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-7f34e72e-27ea-46d3-99ce-9b45c769df4c"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+    "storyName": "VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+    "displayName": "VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+    "path": "com.edwardjones.platform_ui_tests.testcases.VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "VerifyTheXIsNotShownOnSearchAccountsFieldTest",
+        "description": "VerifyTheXIsNotShownOnSearchAccountsFieldTest"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Enhancement - Remove \u0027X\u0027 Button from Search Accounts Text Boxes",
+  "coreIssues": [
+    "ATMT-20261",
+    "ATMT-23227"
+  ],
+  "tags": [
+    {
+      "name": "ach-into-flow",
+      "type": "tag",
+      "displayName": "ach-into-flow"
+    },
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Priority-3d",
+      "type": "tag",
+      "displayName": "Priority-3d"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    },
+    {
+      "name": "into-external-firm-flow",
+      "type": "tag",
+      "displayName": "into-external-firm-flow"
+    },
+    {
+      "name": "ach-out-of-flow",
+      "type": "tag",
+      "displayName": "ach-out-of-flow"
+    }
+  ],
+  "startTime": "2025-10-06T10:51:09.946490425-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:55:48.679633131-05:00[America/Chicago]",
+  "duration": 11813,
+  "projectKey": "",
+  "sessionId": "eb39ab41cb519ec515037c9526d32b7d",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-20261",
+    "ATMT-23227"
+  ],
+  "scenarioOutline": ""
+}

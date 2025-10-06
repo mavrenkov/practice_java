@@ -1,0 +1,571 @@
+{
+  "name": "verifySearchSortAndSelectForExternalTransfer()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest]/[method:verifySearchSortAndSelectForExternalTransfer()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+  "methodName": "verifySearchSortAndSelectForExternalTransfer",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: Single Select account with cash sub account from relationship with specified number of  accounts",
+      "duration": 5627,
+      "startTime": "2025-10-06T08:56:37.991877188-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "a1858a02948cbfc8ed239847faa4f416076620160886c89a3ea46fdc905bb5ae.png",
+          "timeStamp": 1759759003619,
+          "screenshotName": "a1858a02948cbfc8ed239847faa4f416076620160886c89a3ea46fdc905bb5ae.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ accounts from relationships with specified number of accounts",
+          "duration": 5619,
+          "startTime": "2025-10-06T08:56:37.994277806-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "a1858a02948cbfc8ed239847faa4f416076620160886c89a3ea46fdc905bb5ae.png",
+              "timeStamp": 1759759003613,
+              "screenshotName": "a1858a02948cbfc8ed239847faa4f416076620160886c89a3ea46fdc905bb5ae.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002701\u0027\n and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 9979\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n and rlt.RLTSHP_ID in (\nselect\nrlt.RLTSHP_ID\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.RLTSHP_13120 as rlt on rlt.ACCT_FUNC_GRP_ID \u003d acctgrp.ACCT_FUNC_GRP_ID\njoin PROD.ACCT_FUNC_GRP_DTL_13088 as acctgrp on acctgrp.ACCT_ID\u003dsub_acc.ACCT_ID\n\nwhere sub_acc.BR_NO \u003d 9979\nand sub_acc.ACCT_CLS_UT is null\n\ngroup by rlt.RLTSHP_ID\nhaving count(distinct sub_acc.ACCT_ID)\u003d4\n)\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002701\u0027\n                    and sub_acc.BR_NO \u003d 9979\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 7\nfetch first 500 rows only;",
+              "isEvidence": false,
+              "id": "report-data-2ec29b91-8b8d-465e-97ea-5fff92ac6257"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{VNDR_ACCT_ID\u003d99754363            , ACCT_ID\u003d117425460, RLTSHP_ID\u003d40504354, BR_NO\u003d9979, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}",
+              "isEvidence": false,
+              "id": "report-data-b6fceff2-f968-46e7-adfc-2460da0f080a"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get preferred name for EJ account by account ID 117425460",
+      "duration": 5237,
+      "startTime": "2025-10-06T08:56:43.619937173-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "80c6b5882fc656a81513925561226fbdf3959ce7ca370a5f1bfd9ce57ed1714c.png",
+          "timeStamp": 1759759008856,
+          "screenshotName": "80c6b5882fc656a81513925561226fbdf3959ce7ca370a5f1bfd9ce57ed1714c.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select EDJ_ACCT_PRFD_NA\nfrom PROD.US_SUB_ACCT_13603\nwhere acct_ID\u003d117425460",
+          "isEvidence": false,
+          "id": "report-data-208da445-ca2b-4ff1-8de0-650de98e43c4"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{EDJ_ACCT_PRFD_NA\u003dALLEN, ALBERT                  }",
+          "isEvidence": false,
+          "id": "report-data-f090603c-05b2-4e16-94e7-1bb5dbad51e2"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: P060783",
+      "duration": 2529,
+      "startTime": "2025-10-06T08:56:48.857299442-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "660fd1268b85364fad9bfcb89c464330afba7850ffb8c758d0b2947e167d79ab.png",
+          "timeStamp": 1759759011386,
+          "screenshotName": "660fd1268b85364fad9bfcb89c464330afba7850ffb8c758d0b2947e167d79ab.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1959,
+          "startTime": "2025-10-06T08:56:48.993176001-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "660fd1268b85364fad9bfcb89c464330afba7850ffb8c758d0b2947e167d79ab.png",
+              "timeStamp": 1759759010952,
+              "screenshotName": "660fd1268b85364fad9bfcb89c464330afba7850ffb8c758d0b2947e167d79ab.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Opening the asset movement page for relationship id: 40504354",
+      "duration": 890,
+      "startTime": "2025-10-06T08:56:51.387456248-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "9e04a915df64c582bc19dd08ae65ba893a6367c75a222b23c3192157a0e6d075.png",
+          "timeStamp": 1759759012277,
+          "screenshotName": "9e04a915df64c582bc19dd08ae65ba893a6367c75a222b23c3192157a0e6d075.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Given set amc_use_new_accounts_service false",
+      "duration": 620,
+      "startTime": "2025-10-06T08:56:52.278043056-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2c92f73e8ab312406fc1e2958d897c4a4c19ba83fc9fd87e0a59808bce5dd4f3.png",
+          "timeStamp": 1759759012898,
+          "screenshotName": "2c92f73e8ab312406fc1e2958d897c4a4c19ba83fc9fd87e0a59808bce5dd4f3.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16868,
+      "startTime": "2025-10-06T08:56:52.898810592-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "60f09e11cee9e4b5c975f3e6ba46bef3397665e7d2d3eba122eef1555b144839.png",
+          "timeStamp": 1759759029767,
+          "screenshotName": "60f09e11cee9e4b5c975f3e6ba46bef3397665e7d2d3eba122eef1555b144839.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Select External Firm option",
+      "duration": 752,
+      "startTime": "2025-10-06T08:57:09.767738865-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "47a3868598352d06e95489f81bf0e60d3270d97dfc447fcacf42ccbdfe8cb5df.png",
+          "timeStamp": 1759759030520,
+          "screenshotName": "47a3868598352d06e95489f81bf0e60d3270d97dfc447fcacf42ccbdfe8cb5df.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify that Search Accounts text displays a box above the list",
+      "duration": 8617,
+      "startTime": "2025-10-06T08:57:10.520657012-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "dc83e03b5f2c5634d6d4fbb24c7dc6d4a668d39e98a56f4e2ae68cf10550b899.png",
+          "htmlSource": "pagesource1682009388532791423.html",
+          "timeStamp": 1759759039133,
+          "screenshotName": "dc83e03b5f2c5634d6d4fbb24c7dc6d4a668d39e98a56f4e2ae68cf10550b899.png"
+        }
+      ],
+      "exception": {
+        "errorType": "org.opentest4j.AssertionFailedError",
+        "message": "\nExpecting value to be true but was false",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+            "methodName": "verifySearchFieldIsPresent",
+            "fileName": "SearchAccountSteps.java",
+            "lineNumber": 364
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+            "methodName": "verifySearchSortAndSelectForExternalTransfer",
+            "fileName": "AchTransferExternalFirmTest.java",
+            "lineNumber": 95
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "FAILURE",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 11,
+          "description": "Return if Search Box is not displayed",
+          "duration": 4168,
+          "startTime": "2025-10-06T08:57:10.522616360-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "43e6e81cfe448765b76b09ac330d8d981a408b6a293974e0b92510222378f69e.png",
+              "timeStamp": 1759759034690,
+              "screenshotName": "43e6e81cfe448765b76b09ac330d8d981a408b6a293974e0b92510222378f69e.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.145987513-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 13,
+      "description": "Verify that list of accounts is sorted",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.153466041-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 14,
+      "description": "Get current list of accounts",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.160112956-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 15,
+      "description": "Search for account AL",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.293674394-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 16,
+      "description": "Wait for result list to be filtered by name",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.297854579-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 17,
+      "description": "Verify account result list is not empty",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.301675679-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 18,
+      "description": "Verify \u0027x\u0027 button is not displayed in search field",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.305199868-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 19,
+      "description": "Select searched account 99754363",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.309622359-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 20,
+      "description": "Clear search field",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.313896118-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 21,
+      "description": "Verify that accounts are marked as selected",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.317786288-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 22,
+      "description": "Verify account values",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.323985579-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 23,
+      "description": "Verify account sub type is not present",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.329707450-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 24,
+      "description": "Verify that disclaimer message is not present",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.335379650-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 25,
+      "description": "Continue button is enabled true",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.339993277-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 26,
+      "description": "Clear search field",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.343660223-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 27,
+      "description": "Verify search field is empty",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.347165775-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 28,
+      "description": "Search for account ",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.350853781-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 29,
+      "description": "Verify that amount of accounts are the same as before filtering",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.354241190-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 30,
+      "description": "Search for account 0000",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.357958030-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 31,
+      "description": "Verify that no accounts were found",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.361921945-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 32,
+      "description": "Verify that disclaimer message is not present",
+      "duration": 0,
+      "startTime": "2025-10-06T08:57:19.365264576-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-a02aaa0d-381f-46bf-ba6e-d300ab2bd118"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-4aa4f536-42b2-4583-8ff4-61dec484d5fd"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+    "storyName": "AchTransferExternalFirmTest",
+    "displayName": "AchTransferExternalFirmTest",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+    "path": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "AchTransferExternalFirmTest",
+        "description": "AchTransferExternalFirmTest"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Card 3 - Select, Search, Sort Edward Jones account for \"INTO\" flow - External Firm",
+  "coreIssues": [
+    "ATMT-15232",
+    "ATMT-18057",
+    "ATMT-20988",
+    "ATMT-23578"
+  ],
+  "tags": [
+    {
+      "name": "ExternalFirm",
+      "type": "tag",
+      "displayName": "ExternalFirm"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-4",
+      "type": "tag",
+      "displayName": "Priority-4"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    }
+  ],
+  "startTime": "2025-10-06T08:56:37.987846270-05:00[America/Chicago]",
+  "endTime": "2025-10-06T08:57:19.372671800-05:00[America/Chicago]",
+  "duration": 5482,
+  "testFailureCause": {
+    "errorType": "org.opentest4j.AssertionFailedError",
+    "message": "\nExpecting value to be true but was false",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.SearchAccountSteps",
+        "methodName": "verifySearchFieldIsPresent",
+        "fileName": "SearchAccountSteps.java",
+        "lineNumber": 364
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.AchTransferExternalFirmTest",
+        "methodName": "verifySearchSortAndSelectForExternalTransfer",
+        "fileName": "AchTransferExternalFirmTest.java",
+        "lineNumber": 95
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.opentest4j.AssertionFailedError",
+  "testFailureMessage": "\nExpecting value to be true but was false",
+  "testFailureSummary": "FAILURE;org.opentest4j.AssertionFailedError;\nExpecting value to be true but was false;SearchAccountSteps.java",
+  "projectKey": "",
+  "annotatedResult": "FAILURE",
+  "sessionId": "61f1ac834c088bcd7f15e953bb27da20",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "FAILURE",
+  "issues": [
+    "ATMT-15232",
+    "ATMT-18057",
+    "ATMT-20988",
+    "ATMT-23578"
+  ],
+  "scenarioOutline": ""
+}

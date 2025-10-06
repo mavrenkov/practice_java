@@ -1,0 +1,369 @@
+{
+  "name": "verifyMultipleAccountsCheckDepositForSelectRothIRA()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts]/[method:verifyMultipleAccountsCheckDepositForSelectRothIRA()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+  "methodName": "verifyMultipleAccountsCheckDepositForSelectRothIRA",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: SELECT EJ account, ownership ruleID\u003dBR_FATEST, excluding restrictions, 313 ",
+      "duration": 5263,
+      "startTime": "2025-10-06T10:38:19.296180287-05:00[America/Chicago]",
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d313\nand sub_acc.br_no   \u003d 9979\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027SE\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d313\n    and sub_acc.br_no   \u003d 9979\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+          "isEvidence": false,
+          "id": "report-data-5e7f5d45-a253-4aad-a7f8-b02956ebce7d"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145190900, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102825756, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320921396, CUST_NO\u003d99775084, ACCT_PREFERRED_NAME\u003dACCOUNT, TRADE                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d132624497, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d70541039, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d249728954, CUST_NO\u003d99783088, ACCT_PREFERRED_NAME\u003dBAGGINS, BILBO                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145171034, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102780985, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320831306, CUST_NO\u003d99774901, ACCT_PREFERRED_NAME\u003dBarbie, Ken                    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145189597, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102822624, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320916158, CUST_NO\u003d99775078, ACCT_PREFERRED_NAME\u003dBHAI, ROCKY                    , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145187050, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102817957, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320903624, CUST_NO\u003d99775065, ACCT_PREFERRED_NAME\u003dBHAT, ALIA                     , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145189997, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102823433, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320917852, CUST_NO\u003d99775081, ACCT_PREFERRED_NAME\u003dDAN, VIVI                      , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d143317817, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d87405022, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d308741083, CUST_NO\u003d99785571, ACCT_PREFERRED_NAME\u003ddearing, anita                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d139237085, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d84265565, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d289191928, CUST_NO\u003d99784923, ACCT_PREFERRED_NAME\u003dDECARO, ROBERT                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d140742226, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d66046996, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d238953609, CUST_NO\u003d99785220, ACCT_PREFERRED_NAME\u003dETTLING, MATT                  , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d130847491, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d89238982, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d239001207, CUST_NO\u003d99782026, ACCT_PREFERRED_NAME\u003dFITZGERALD, JESSI              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d131869007, ACH_DB_ALLW_IND\u003dY, RLTSHP_ID\u003d66064207, ACH_CR_ALLW_IND\u003dY, BR_NO\u003d9979, CON_ID\u003d239001207, CUST_NO\u003d99782449, ACCT_PREFERRED_NAME\u003dFITZGERALD, JESSICA*PYMTOPTS   , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145175685, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102793010, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320852098, CUST_NO\u003d99774968, ACCT_PREFERRED_NAME\u003dGANGANNA, ROOPA                , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145184382, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102811417, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320891583, CUST_NO\u003d99775037, ACCT_PREFERRED_NAME\u003dGUPTA, DEEPAK                  , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145177000, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102795897, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320858563, CUST_NO\u003d99774980, ACCT_PREFERRED_NAME\u003dHARRY, TOM                     , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145169920, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102777789, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320783646, CUST_NO\u003d99774884, ACCT_PREFERRED_NAME\u003dHolland, Tom                   , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145181377, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102733275, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320644293, CUST_NO\u003d99775002, ACCT_PREFERRED_NAME\u003dHugo, Evelyn                   , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145183348, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102733275, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320644293, CUST_NO\u003d99775017, ACCT_PREFERRED_NAME\u003dHugo, Evelyn                   , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145180578, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102801793, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320870488, CUST_NO\u003d99774993, ACCT_PREFERRED_NAME\u003dIRA, ROTH                      , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d143481919, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d100645734, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d314938752, CUST_NO\u003d99785615, ACCT_PREFERRED_NAME\u003dJONES, TONE                    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145168735, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102774541, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320777494, CUST_NO\u003d99774867, ACCT_PREFERRED_NAME\u003dKlinto, Jorrey                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d131942167, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d78453596, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d233528893, CUST_NO\u003d99782649, ACCT_PREFERRED_NAME\u003dNEWACCOUNT, KATIE              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145182896, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102806920, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320880328, CUST_NO\u003d99775013, ACCT_PREFERRED_NAME\u003dMANOJ, RANJITH                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d136526974, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d99358164, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d233049156, CUST_NO\u003d99784489, ACCT_PREFERRED_NAME\u003dMOUSE, BABY                    , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145183404, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102808815, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320885755, CUST_NO\u003d99775019, ACCT_PREFERRED_NAME\u003dMOUSE, CAT                     , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d117739406, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d1169155, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d151338370, CUST_NO\u003d99797458, ACCT_PREFERRED_NAME\u003dNETWORKING, ROTH_SELECT        , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d118122250, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d1169155, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d151338370, CUST_NO\u003d99797532, ACCT_PREFERRED_NAME\u003dASTAC, TEST                    , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d129830826, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d62840400, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d256938232, CUST_NO\u003d99781368, ACCT_PREFERRED_NAME\u003dGRUNOW, KIMBERLY M             , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d137803005, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d75359721, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d256938232, CUST_NO\u003d99784698, ACCT_PREFERRED_NAME\u003dPAIGE, MALISSA                 , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d143912618, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d82036128, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d282680942, CUST_NO\u003d99785747, ACCT_PREFERRED_NAME\u003dPAIGE, MALISSA                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145228777, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102891849, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321142681, CUST_NO\u003d99775947, ACCT_PREFERRED_NAME\u003dPamarthi, Lakshmi              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145202358, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102850712, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321091831, CUST_NO\u003d99775143, ACCT_PREFERRED_NAME\u003dPRAVAL, PRAVALLI               , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145174154, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102788786, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320844634, CUST_NO\u003d99774949, ACCT_PREFERRED_NAME\u003dRAM, BHARGAV                   , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145182447, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102806031, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320878766, CUST_NO\u003d99775010, ACCT_PREFERRED_NAME\u003dROTHIRA, JAMES                 , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145185672, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102814557, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320897472, CUST_NO\u003d99775054, ACCT_PREFERRED_NAME\u003dROTHRUNELEVEN, RANJITH         , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145181921, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102804882, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320876583, CUST_NO\u003d99775003, ACCT_PREFERRED_NAME\u003dRUNEIGHT, ROTHIRA              , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145171031, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102780981, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320831302, CUST_NO\u003d99774900, ACCT_PREFERRED_NAME\u003dshetty, ms                     , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d123588908, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d48685337, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d195098172, CUST_NO\u003d99799220, ACCT_PREFERRED_NAME\u003dMUTUAL FUND TRADE - DO NOT USE , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d121732216, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d5924, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d126034945, CUST_NO\u003d99798458, ACCT_PREFERRED_NAME\u003dTEST, ANOTHER                  , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145173356, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102786597, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320840830, CUST_NO\u003d99774945, ACCT_PREFERRED_NAME\u003dTERRY, JOHN                    , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145174394, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102789756, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320846295, CUST_NO\u003d99774954, ACCT_PREFERRED_NAME\u003dTODAY, TEST                    , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145167981, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102773342, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320774891, CUST_NO\u003d99774864, ACCT_PREFERRED_NAME\u003dUppalapati, Prabhas Raju       , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d135258541, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d76530239, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d266822253, CUST_NO\u003d99784036, ACCT_PREFERRED_NAME\u003dClark, Enid K                  , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145188362, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102820619, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d320911803, CUST_NO\u003d99775074, ACCT_PREFERRED_NAME\u003dZORO, RORONOA                  , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d132411075, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d69046993, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d267100566, CUST_NO\u003d99783001, ACCT_PREFERRED_NAME\u003dPATHUIS, ANNA                  , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d132423374, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d69081140, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d246506851, CUST_NO\u003d99783009, ACCT_PREFERRED_NAME\u003dMorrison, Mallory E            , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d140707878, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d67284465, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d242826966, CUST_NO\u003d99785219, ACCT_PREFERRED_NAME\u003dNETWORKING, ROTH_SELECT        , ACCT_SVC_STAT_CD\u003dO }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d145168962, ACH_DB_ALLW_IND\u003dY, RLTSHP_ID\u003d102775133, ACH_CR_ALLW_IND\u003dY, BR_NO\u003d9979, CON_ID\u003d320778616, CUST_NO\u003d99774870, ACCT_PREFERRED_NAME\u003dput, lilli                     , ACCT_SVC_STAT_CD\u003dA }\n{ACCT_OWN_RULE_ID\u003d313, ACCT_SVC_TY_CD\u003dSE, DEATH_DA\u003dnull, ACCT_ID\u003d144569998, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d67495679, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d243378983, CUST_NO\u003d99774695, ACCT_PREFERRED_NAME\u003dStanton, Parker C              , ACCT_SVC_STAT_CD\u003dO }",
+          "isEvidence": false,
+          "id": "report-data-23118235-3527-4dba-b11b-de0252cdb848"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Authenticating the session with pid: FATEST",
+      "duration": 4999,
+      "startTime": "2025-10-06T10:38:24.559993643-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3041ef73b433433296c5d6b9292af6a1e5929af2f105a5f787cb0cfee0f109c9.png",
+          "timeStamp": 1759765109559,
+          "screenshotName": "3041ef73b433433296c5d6b9292af6a1e5929af2f105a5f787cb0cfee0f109c9.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 3,
+          "description": "Launch WAM and authenticate",
+          "duration": 2011,
+          "startTime": "2025-10-06T10:38:27.081102100-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "bdca3fa06e9286e0faaf56f0fedee9a1b5a139fe4d7d1695985bc02082e1b12a.png",
+              "timeStamp": 1759765109092,
+              "screenshotName": "bdca3fa06e9286e0faaf56f0fedee9a1b5a139fe4d7d1695985bc02082e1b12a.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "description": "Opening the asset movement page for relationship id: 84265565",
+      "duration": 3017,
+      "startTime": "2025-10-06T10:38:29.562333289-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "605ad86ac77528c0a4e682682b87a0aed512a319c940d0bb249c6da0610d3886.png",
+          "timeStamp": 1759765112580,
+          "screenshotName": "605ad86ac77528c0a4e682682b87a0aed512a319c940d0bb249c6da0610d3886.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 5,
+      "description": "Given set amc_c21_multiple_accounts",
+      "duration": 735,
+      "startTime": "2025-10-06T10:38:32.580458967-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "444ed82e39370196dd8d8e45eee5e1996871f0ad6554605eb2ab031593836ac4.png",
+          "timeStamp": 1759765113315,
+          "screenshotName": "444ed82e39370196dd8d8e45eee5e1996871f0ad6554605eb2ab031593836ac4.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16836,
+      "startTime": "2025-10-06T10:38:33.316280593-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "a0cd952be898b0fd9ccdfef4aa3894958209806665c4d15398ccd208bd1836e8.png",
+          "timeStamp": 1759765130153,
+          "screenshotName": "a0cd952be898b0fd9ccdfef4aa3894958209806665c4d15398ccd208bd1836e8.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Select Check Deposit option",
+      "duration": 3492,
+      "startTime": "2025-10-06T10:38:50.153513073-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "463355c21946778855ee734d6a8d5a48a1d0600690bc423d1d043c9be4b33f51.png",
+          "timeStamp": 1759765133646,
+          "screenshotName": "463355c21946778855ee734d6a8d5a48a1d0600690bc423d1d043c9be4b33f51.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Verify Checkbox for multiple Accounts Selection displayed is true",
+      "duration": 2293,
+      "startTime": "2025-10-06T10:38:53.646651121-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "6945ef030bac1be1652663d31448145451521f1197cc4c89d9273fa5a0c5e69d.png",
+          "htmlSource": "pagesource16572367831194217059.html",
+          "timeStamp": 1759765135938,
+          "screenshotName": "6945ef030bac1be1652663d31448145451521f1197cc4c89d9273fa5a0c5e69d.png"
+        }
+      ],
+      "exception": {
+        "errorType": "org.opentest4j.AssertionFailedError",
+        "message": "\nexpected: true\n but was: false",
+        "stackTrace": [
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.ChooseFromAccountSteps",
+            "methodName": "verifyCheckBoxDisplayed",
+            "fileName": "ChooseFromAccountSteps.java",
+            "lineNumber": 182
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+            "methodName": "runTestFlow",
+            "fileName": "IntoCheckDepositSelectMultipleAccounts.java",
+            "lineNumber": 92
+          },
+          {
+            "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+            "methodName": "verifyMultipleAccountsCheckDepositForSelectRothIRA",
+            "fileName": "IntoCheckDepositSelectMultipleAccounts.java",
+            "lineNumber": 84
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "run",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 69
+          },
+          {
+            "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+            "methodName": "main",
+            "fileName": "GradleWorkerMain.java",
+            "lineNumber": 74
+          }
+        ]
+      },
+      "result": "FAILURE",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Verify Checks Multiple Accounts Title Label is CHECKS_MULTIPLE_ACCOUNT_TITLE_MESSAGE",
+      "duration": 0,
+      "startTime": "2025-10-06T10:38:55.943712328-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "check if account is  selected",
+      "duration": 0,
+      "startTime": "2025-10-06T10:38:55.947541577-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Verify Checks Multiple Accounts Title Counter is 0 CHECKS_MULTIPLE_ACCOUNT_COUNTER_MESSAGE",
+      "duration": 0,
+      "startTime": "2025-10-06T10:38:55.951809075-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 12,
+      "description": "Verify account value in multiple check deposit accounts table",
+      "duration": 0,
+      "startTime": "2025-10-06T10:38:55.972407853-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 13,
+      "description": "Verify Account Value and Cash Value Fields",
+      "duration": 0,
+      "startTime": "2025-10-06T10:38:55.976470784-05:00[America/Chicago]",
+      "result": "SKIPPED",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-77348d56-ddef-45a6-b23c-5c666aa6a8d0"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-e9561454-8291-471c-99e1-9810ab700a7a"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+    "storyName": "IntoCheckDepositSelectMultipleAccounts",
+    "displayName": "IntoCheckDepositSelectMultipleAccounts",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositSelectMultipleAccounts",
+        "description": "IntoCheckDepositSelectMultipleAccounts"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Enable/disable depositing one check into multiple accounts under the feature toggle - For Select Roth IRA",
+  "coreIssues": [
+    "ATMT-41446",
+    "ATMT-41452",
+    "ATMT-64130"
+  ],
+  "tags": [
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "true",
+      "type": "amc_c21_multiple_accounts",
+      "displayName": "true"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-3",
+      "type": "tag",
+      "displayName": "Priority-3"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    }
+  ],
+  "startTime": "2025-10-06T10:38:19.291700435-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:38:55.979837538-05:00[America/Chicago]",
+  "duration": 5263,
+  "testFailureCause": {
+    "errorType": "org.opentest4j.AssertionFailedError",
+    "message": "\nexpected: true\n but was: false",
+    "stackTrace": [
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.ChooseFromAccountSteps",
+        "methodName": "verifyCheckBoxDisplayed",
+        "fileName": "ChooseFromAccountSteps.java",
+        "lineNumber": 182
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+        "methodName": "runTestFlow",
+        "fileName": "IntoCheckDepositSelectMultipleAccounts.java",
+        "lineNumber": 92
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositSelectMultipleAccounts",
+        "methodName": "verifyMultipleAccountsCheckDepositForSelectRothIRA",
+        "fileName": "IntoCheckDepositSelectMultipleAccounts.java",
+        "lineNumber": 84
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.opentest4j.AssertionFailedError",
+  "testFailureMessage": "\nexpected: true\n but was: false",
+  "testFailureSummary": "FAILURE;org.opentest4j.AssertionFailedError;\nexpected: true\n but was: false;ChooseFromAccountSteps.java",
+  "projectKey": "",
+  "annotatedResult": "FAILURE",
+  "sessionId": "1ea17214268c859a419b892044315de0",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "FAILURE",
+  "issues": [
+    "ATMT-41446",
+    "ATMT-41452",
+    "ATMT-64130"
+  ],
+  "scenarioOutline": ""
+}

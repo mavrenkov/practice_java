@@ -1,0 +1,300 @@
+{
+  "name": "verifyRestrictedAccountsForExternalTransferForCCTSVCSTCD_T_AndACCTSVCTYCD_GE()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1]/[method:verifyRestrictedAccountsForExternalTransferForCCTSVCSTCD_T_AndACCTSVCTYCD_GE()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1",
+  "methodName": "verifyRestrictedAccountsForExternalTransferForCCTSVCSTCD_T_AndACCTSVCTYCD_GE",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ownership ruleID\u003d309, for restriction\u003dBR_4454",
+      "duration": 9537,
+      "startTime": "2025-10-06T10:34:54.235140032-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "41969ecbe32c7bbc33d85bab4239f5c3d5108549ec0919c49a4316b511d8af0d.png",
+          "timeStamp": 1759764903773,
+          "screenshotName": "41969ecbe32c7bbc33d85bab4239f5c3d5108549ec0919c49a4316b511d8af0d.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d309, branch BR_4454, ACCT_SVC_TY_CD GE, ACCT_SVC_STAT_CD T",
+          "duration": 9529,
+          "startTime": "2025-10-06T10:34:54.237067631-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "41969ecbe32c7bbc33d85bab4239f5c3d5108549ec0919c49a4316b511d8af0d.png",
+              "timeStamp": 1759764903766,
+              "screenshotName": "41969ecbe32c7bbc33d85bab4239f5c3d5108549ec0919c49a4316b511d8af0d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d309\nand sub_acc.br_no   \u003d 4454\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027GE\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027T\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d309\n    and sub_acc.br_no   \u003d 4454\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+              "isEvidence": false,
+              "id": "report-data-565b47c6-b1fc-459b-823f-64a13a1ad73a"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145276613, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d461827338, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d1101827337, CUST_NO\u003d44527193, ACCT_PREFERRED_NAME\u003dARYAN, KARTIK                  , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145211644, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102887122, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d321133003, CUST_NO\u003d44524995, ACCT_PREFERRED_NAME\u003dFebruary test, Friday          , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145192152, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102824603, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d320919289, CUST_NO\u003d44523912, ACCT_PREFERRED_NAME\u003dEndri, Elizabeth               , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145195111, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102830799, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d320931558, CUST_NO\u003d44524039, ACCT_PREFERRED_NAME\u003dHENDRY, MICHAEL                , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145191750, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102827236, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d320924104, CUST_NO\u003d44523880, ACCT_PREFERRED_NAME\u003dKASHMIR, JAMMU                 , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145191010, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d44901158, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d186598018, CUST_NO\u003d44523820, ACCT_PREFERRED_NAME\u003dLOEPP, NANCY JEAN              , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145286863, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d103081216, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d321399039, CUST_NO\u003d44527425, ACCT_PREFERRED_NAME\u003dMacejkovic, RozellakoY         , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145209217, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102864723, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d321114072, CUST_NO\u003d44524932, ACCT_PREFERRED_NAME\u003dMATHEWS, DEEPU                 , ACCT_SVC_STAT_CD\u003dT }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dGE, DEATH_DA\u003dnull, ACCT_ID\u003d145223396, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102968695, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d4454, CON_ID\u003d321234427, CUST_NO\u003d44525690, ACCT_PREFERRED_NAME\u003dOBLbWfLY, JermaineDAS          , ACCT_SVC_STAT_CD\u003dT }",
+              "isEvidence": false,
+              "id": "report-data-71390bf4-30b1-4378-852c-f775a2a58111"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 2316,
+      "startTime": "2025-10-06T10:35:03.773294980-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7baf6b1edd6c8184dffb83f0661ea1ee82b9ed1cbd70bafb81b0f4d2ee3d2973.png",
+          "timeStamp": 1759764906089,
+          "screenshotName": "7baf6b1edd6c8184dffb83f0661ea1ee82b9ed1cbd70bafb81b0f4d2ee3d2973.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 4,
+          "description": "Launch WAM and authenticate",
+          "duration": 1716,
+          "startTime": "2025-10-06T10:35:03.937654597-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "7baf6b1edd6c8184dffb83f0661ea1ee82b9ed1cbd70bafb81b0f4d2ee3d2973.png",
+              "timeStamp": 1759764905654,
+              "screenshotName": "7baf6b1edd6c8184dffb83f0661ea1ee82b9ed1cbd70bafb81b0f4d2ee3d2973.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "description": "Opening the asset movement page for relationship id: 102827236",
+      "duration": 1044,
+      "startTime": "2025-10-06T10:35:06.093133675-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ef36c07da6d09c3496ecc891f263bc80b281174059e918d51c16faf7a06dc5c6.png",
+          "timeStamp": 1759764907137,
+          "screenshotName": "ef36c07da6d09c3496ecc891f263bc80b281174059e918d51c16faf7a06dc5c6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 6,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 610,
+      "startTime": "2025-10-06T10:35:07.138254543-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "2f9081ea8ef066104f56a41fb0afa293dfd8e288337a40b6e9661acd1c8668e6.png",
+          "timeStamp": 1759764907748,
+          "screenshotName": "2f9081ea8ef066104f56a41fb0afa293dfd8e288337a40b6e9661acd1c8668e6.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16828,
+      "startTime": "2025-10-06T10:35:07.749284246-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "b4284713c659ed0a35e1f52d70dab7858f93ca65578ba6ef3353fababa9d32ee.png",
+          "timeStamp": 1759764924577,
+          "screenshotName": "b4284713c659ed0a35e1f52d70dab7858f93ca65578ba6ef3353fababa9d32ee.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Select Check Deposit option",
+      "duration": 3379,
+      "startTime": "2025-10-06T10:35:24.577616868-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "645da0c324b9ca25f06e173411d01f4c5b5b2526e9f7b3f28d350d9e3b9efe78.png",
+          "timeStamp": 1759764927957,
+          "screenshotName": "645da0c324b9ca25f06e173411d01f4c5b5b2526e9f7b3f28d350d9e3b9efe78.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Verify Account 44523880 is Restricted true",
+      "duration": 548,
+      "startTime": "2025-10-06T10:35:27.957718258-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "783902fe43c0c1bbf6759f34912305c1da42384444d19460804a4c9e44eebb17.png",
+          "timeStamp": 1759764928506,
+          "screenshotName": "783902fe43c0c1bbf6759f34912305c1da42384444d19460804a4c9e44eebb17.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 2572,
+      "startTime": "2025-10-06T10:35:28.506655746-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "8dcd3c747b9db7f5eb99e5176092fdb7c1c27ec86f29cc9cd6c8159cb446ea59.png",
+          "timeStamp": 1759764931078,
+          "screenshotName": "8dcd3c747b9db7f5eb99e5176092fdb7c1c27ec86f29cc9cd6c8159cb446ea59.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-e047c00c-ba97-4628-9630-09f4609847e2"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-b7efe861-4a64-4dd6-b1d6-7aa9363a22e1"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1",
+    "storyName": "IntoCheckDepositRestrictionsNewAccountServicePart1",
+    "displayName": "IntoCheckDepositRestrictionsNewAccountServicePart1",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoCheckDepositRestrictionsNewAccountServicePart1",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoCheckDepositRestrictionsNewAccountServicePart1",
+        "description": "IntoCheckDepositRestrictionsNewAccountServicePart1"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Part 1 - Integrate New Account Service with Restrictions for Check Deposits, Add Inherited IRA Rule in Checks Transaction Rules -  CCT_SVC_STAT_CD \u003dT ACCT_SVC_TY_CD \u003d GE",
+  "coreIssues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "tags": [
+    {
+      "name": "Priority-2a",
+      "type": "tag",
+      "displayName": "Priority-2a"
+    },
+    {
+      "name": "Platform1-New-Accounts-Service",
+      "type": "tag",
+      "displayName": "Platform1-New-Accounts-Service"
+    },
+    {
+      "name": "ChecksDeposit",
+      "type": "tag",
+      "displayName": "ChecksDeposit"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "ATMT-23447",
+      "type": "tag",
+      "displayName": "ATMT-23447"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T10:34:54.231201716-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:35:31.079955419-05:00[America/Chicago]",
+  "duration": 9390,
+  "projectKey": "",
+  "sessionId": "be39bd8635abe4b54b2f969d9223720a",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-23447",
+    "ATMT-19205",
+    "ATMT-17619",
+    "ATMT-17617"
+  ],
+  "scenarioOutline": ""
+}

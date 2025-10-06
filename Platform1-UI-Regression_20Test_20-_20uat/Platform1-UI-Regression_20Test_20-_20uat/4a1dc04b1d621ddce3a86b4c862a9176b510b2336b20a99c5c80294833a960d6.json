@@ -1,0 +1,385 @@
+{
+  "name": "verifyWhoInitiatedTransferWithMultipleUnAuthRoles()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]/[method:verifyWhoInitiatedTransferWithMultipleUnAuthRoles()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+  "methodName": "verifyWhoInitiatedTransferWithMultipleUnAuthRoles",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Authenticating the session with pid: p044073",
+      "duration": 2362,
+      "startTime": "2025-10-06T09:23:31.236688378-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png",
+          "timeStamp": 1759760613599,
+          "screenshotName": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Launch WAM and authenticate",
+          "duration": 1829,
+          "startTime": "2025-10-06T09:23:31.337321503-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png",
+              "timeStamp": 1759760613167,
+              "screenshotName": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Retrieve random data from DB2: EJ accounts with contact roles 2 for 04 class code",
+      "duration": 5592,
+      "startTime": "2025-10-06T09:23:33.600366818-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png",
+          "timeStamp": 1759760619192,
+          "screenshotName": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select rlt.RLTSHP_ID AS RLTSHP_ID,\nsub_acc.VNDR_ACCT_ID AS VNDR_ACCT_ID,\nsub_acc.ACCT_ID AS ACCT_ID,\nsub_acc.BR_NO as BR_NO,\ncount(distinct sub_acc_type.ACCT_TY_CD) as subAccountTypeCount,\nsum(sub_acc_type.ACCT_TY_CD) as subAccountsSum\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.SUBACCT_SVC_12569 as sub_acct_svc on grp.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.SUBACCT_TYPE_12528 as sub_acc_type on sub_acc.ACCT_ID \u003d sub_acc_type.ACCT_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acct_svc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\n\nwhere rlt.ISO_CTRY_CD \u003d \u0027US\u0027\nand cls.ACCT_CLASS_CD \u003d\u002704\u0027\n and sub_acct_svc.ACTV_IND \u003d \u0027Y\u0027\n and sub_acc.AUTH_FORM_IND \u003d \u0027Y\u0027\nand sub_acc.BR_NO \u003d 4454\nand sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind \u003d \u0027N\u0027\n and sub_acct_svc.ACCT_SVC_TY_CD\u003d\u0027SE\u0027\n--owner is not deceased\nand contact.DEATH_DA is null\n--inherited \u003d N\n and acct.dcdnt_retr_ind \u003d \u0027N\u0027\n-- and acct.ACCT_ACTV_IND\u003d\u0027N\u0027\n and sub_acc.ACCT_ID in (\nselect\nsub_acc.ACCT_ID AS ACCT_ID\n\nfrom PROD.SUB_ACCOUNT_12512 as sub_acc\njoin PROD.ACCT_RLTD_PY_12310 as rol on rol.ACCT_ID\u003dsub_acc.ACCT_ID\njoin PROD.CONTACT_12250 as con on con.CON_ID \u003d rol.RLTD_CON_ID\njoin PROD.ACCOUNT_12280 as acct on acct.ACCT_ID \u003d sub_acc.ACCT_ID\njoin PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  acct.ACCT_OWN_RULE_ID\njoin PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d cls.ACCT_OWN_RULE_ID\n\nwhere sub_acc.ACCT_CLS_UT is NULL\nand sub_acc.acct_rst_ind\u003d\u0027N\u0027\nand sub_acc.BR_NO \u003d 4454\nand con.DEATH_DA is null\nand rol.LGCL_DEL_DA is NULL\nand rol.CON_RLSHP_TY_CD in (\u0027SUCCTTEE\u0027,\u0027TRUSTCON\u0027)\nand cls.ACCT_CLASS_CD \u003d\u002704\u0027\n\ngroup by sub_acc.ACCT_ID\nhaving count(distinct rol.CON_RLSHP_TY_CD)\u003e\u003d2\n)\n\nand sub_acc.acct_id not in\n(               select a.acct_id\n                from\n                    PROD.ACCOUNT_12280 a\n                    left outer join PROD.acct_rst_10214 v on v.account_no\u003d a.cust_no\n                    inner join PROD.ACCT_OWN_RUL_12520 acc_own_rule on acc_own_rule.ACCT_OWN_RULE_ID \u003d  a.ACCT_OWN_RULE_ID\n                    inner join PROD.OWN_CLASS_12680 cls on  acc_own_rule.ACCT_OWN_RULE_ID \u003d  cls.ACCT_OWN_RULE_ID\n                    inner join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003da.ACCT_ID\n                where\n                    v.rst_rsn_cd is not null\n                    and v.rst_rsn_cd in (\u0027AUTH\u0027, \u0027DOCU\u0027, \u0027WARN\u0027, \u0027CIPR\u0027, \u0027COPD\u0027, \u0027CO\u0027, \u0027RISK\u0027, \u0027SSN\u0027, \u0027FTRN\u0027, \u002772T\u0027, \u0027MISC\u0027, \u0027MAIL\u0027, \u0027FOR\u0027, \u0027FOR2\u0027, \u0027R471\u0027, \u0027R407\u0027,\u0027DEATH\u0027)\n                    and cls.ACCT_CLASS_CD \u003d\u002704\u0027\n                    and sub_acc.BR_NO \u003d 4454\n                    and a.ACCT_CLS_DA is null\n)\ngroup by rlt.RLTSHP_ID, sub_acc.VNDR_ACCT_ID, sub_acc.ACCT_ID, sub_acc.BR_NO\nhaving sum(sub_acc_type.ACCT_TY_CD) \u003e\u003d 1\nfetch first 500 rows only;",
+          "isEvidence": false,
+          "id": "report-data-d12b81ab-4411-45ea-9773-e74b078df77b"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{VNDR_ACCT_ID\u003d44503604            , ACCT_ID\u003d101346194, RLTSHP_ID\u003d306083, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90811589            , ACCT_ID\u003d107141450, RLTSHP_ID\u003d485109, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90809320            , ACCT_ID\u003d616563, RLTSHP_ID\u003d676013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d40910326            , ACCT_ID\u003d1154030, RLTSHP_ID\u003d37045484, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508668            , ACCT_ID\u003d2553715, RLTSHP_ID\u003d44899100, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508850            , ACCT_ID\u003d101541524, RLTSHP_ID\u003d44899116, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501984            , ACCT_ID\u003d265931, RLTSHP_ID\u003d44899256, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44512502            , ACCT_ID\u003d110648502, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512503            , ACCT_ID\u003d110648555, RLTSHP_ID\u003d44899314, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501684            , ACCT_ID\u003d758844, RLTSHP_ID\u003d44899350, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510887            , ACCT_ID\u003d106711798, RLTSHP_ID\u003d44899499, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44503790            , ACCT_ID\u003d2128603, RLTSHP_ID\u003d44899651, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508076            , ACCT_ID\u003d1774483, RLTSHP_ID\u003d44899654, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44515444            , ACCT_ID\u003d124119347, RLTSHP_ID\u003d44899678, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44517344            , ACCT_ID\u003d129797427, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517345            , ACCT_ID\u003d129797594, RLTSHP_ID\u003d44899699, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44500371            , ACCT_ID\u003d238333, RLTSHP_ID\u003d44899711, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44512810            , ACCT_ID\u003d116376273, RLTSHP_ID\u003d44899853, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44511672            , ACCT_ID\u003d108618821, RLTSHP_ID\u003d44899904, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44506142            , ACCT_ID\u003d2454798, RLTSHP_ID\u003d44900465, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44507135            , ACCT_ID\u003d103375832, RLTSHP_ID\u003d44900665, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44508246            , ACCT_ID\u003d683431, RLTSHP_ID\u003d44900828, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44501509            , ACCT_ID\u003d103375643, RLTSHP_ID\u003d44900938, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510206            , ACCT_ID\u003d100059632, RLTSHP_ID\u003d44901081, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44508389            , ACCT_ID\u003d3322107, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517303            , ACCT_ID\u003d129692613, RLTSHP_ID\u003d44901283, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44510113            , ACCT_ID\u003d3524931, RLTSHP_ID\u003d44901575, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44517221            , ACCT_ID\u003d129420263, RLTSHP_ID\u003d44901988, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44510716            , ACCT_ID\u003d105469896, RLTSHP_ID\u003d44902241, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44513112            , ACCT_ID\u003d117524146, RLTSHP_ID\u003d44902319, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44516215            , ACCT_ID\u003d126591124, RLTSHP_ID\u003d55581966, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d72118627            , ACCT_ID\u003d127635917, RLTSHP_ID\u003d56807569, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90820075            , ACCT_ID\u003d129199324, RLTSHP_ID\u003d58178440, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d44518166            , ACCT_ID\u003d132533326, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518167            , ACCT_ID\u003d132533446, RLTSHP_ID\u003d63109785, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518276            , ACCT_ID\u003d132828904, RLTSHP_ID\u003d71341013, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d44518431            , ACCT_ID\u003d133299088, RLTSHP_ID\u003d72647193, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d90820268            , ACCT_ID\u003d129639159, RLTSHP_ID\u003d77479289, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d24215863            , ACCT_ID\u003d136064216, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d1, SUBACCOUNTSSUM\u003d1}\n{VNDR_ACCT_ID\u003d24215963            , ACCT_ID\u003d136330913, RLTSHP_ID\u003d79848257, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}\n{VNDR_ACCT_ID\u003d77819508            , ACCT_ID\u003d129862475, RLTSHP_ID\u003d89296545, BR_NO\u003d4454, SUBACCOUNTTYPECOUNT\u003d4, SUBACCOUNTSSUM\u003d12}",
+          "isEvidence": false,
+          "id": "report-data-9ff54f7f-e204-422e-a2d0-af1e688d675a"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Get unauthorized contacts for EJ account 105469896",
+      "duration": 5238,
+      "startTime": "2025-10-06T09:23:39.192923443-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png",
+          "timeStamp": 1759760624431,
+          "screenshotName": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Get contact name by ID 105469896",
+          "duration": 5217,
+          "startTime": "2025-10-06T09:23:39.194526045-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png",
+              "timeStamp": 1759760624411,
+              "screenshotName": "37c89e52d1895f468a308df3171852f89a8752df98f16f2428894cf1e65c69f2.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "SELECT \n    L.ACCT_ID, \n    L.CON_ID, \n    L.LGCL_DEL_DA,\n    L.ACCT_ROLE_CD, \n    L.CON_RLSHP_TY_CD, \n    K.LOC_ACCT_ROLE_NA,\n    \n    D.FST_GVN_NA,\n    D.MID_GVN_NA,\n    D.MAIN_FAM_NA,\n    C.EMAIL_ADR_TXT,\n    B.DEATH_DA\n\nFROM\n\n(\n    SELECT \n        A.IR_NO, A.ACCT_ID, B.ACCT_ROLE_CD, A.CON_ID, A.ACCT_SEQ_NO,\n        A.CON_DATA_COMPL_IND, A.LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD,\n        CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.CUST_ACCT_12281 AS A, \n        PROD.ACCTROLEXREF_10099 AS B\n    WHERE \n        A.ACCT_ID \u003d 105469896 \n        AND A.ACCT_ROLE_CD \u003d B.LGCY_ACCT_ROLE_CD AND A.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, \u0027Y\u0027 AS CON_DATA_COMPL_IND,\n        LGCL_DEL_DA, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID, CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA,\n        CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.CLNT_SACCT_12553 AS C \n    WHERE \n        ACCT_ID \u003d 105469896 \n        AND LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        D.CON_PART_KEY AS IR_NO, D.ACCT_ID, E.ACCT_ROLE_CD, D.RLTD_CON_ID AS CON_ID, D.ACCT_SEQ_NO,\n        D.CON_DATA_COMPL_IND, D.LGCL_DEL_DA, D.ACCT_PRTY_APP_STAT_CD, D.ACCT_PRTY_APP_EMPL_ID, D.ACCT_PRTY_APP_DA,\n        D.CON_RLSHP_TY_CD, D.ACCT_PRTY_BUS_TITLE_CD, CAST (NULL AS CHAR (1)) AS W9_RCV_IND\n    FROM \n        PROD.ACCT_RLTD_PY_12310 AS D, PROD.ACCTROLEXREF_10099 AS E\n    WHERE \n        D.ACCT_ID \u003d 105469896 \n        AND D.CON_RLSHP_TY_CD \u003d E.LGCY_ACCT_ROLE_CD AND D.LGCL_DEL_DA IS NULL\n\n    UNION ALL\n    \n    SELECT \n        IR_NO, ACCT_ID, ACCT_ROLE_CD, CON_ID, ACCT_SEQ_NO, CON_DATA_COMPL_IND, LGCL_DEL_DA,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_STAT_CD, CAST (NULL AS CHAR (1)) AS ACCT_PRTY_APP_EMPL_ID,\n        CAST (NULL AS DATE) AS ACCT_PRTY_APP_DA, CAST (NULL AS CHAR (1)) AS CON_RLSHP_TY_CD,\n        CAST (NULL AS CHAR (1)) AS ACCT_PRTY_BUS_TITLE_CD, W9_RCV_IND\n    FROM \n        PROD.SACC_AUTH_PY_12548 AS O\n    WHERE \n        ACCT_ID \u003d 105469896 \n        AND LGCL_DEL_DA IS NULL\n) AS L\n\nLEFT OUTER JOIN PROD.LOC_ACCTROLE_12610 AS K ON L.ACCT_ROLE_CD \u003d K.ACCT_ROLE_CD AND K.ISO_CTRY_CD \u003d \u0027US\u0027\nLEFT JOIN PROD.CON_NAME_12284 D ON L.CON_ID \u003d D.CON_ID\nLEFT JOIN PROD.CON_EMAIL_13899 A ON A.CON_ID \u003d L.CON_ID\nLEFT JOIN PROD.EMAIL_ADR_13898 C ON C.EMAIL_ID \u003d A.EMAIL_ID\nLEFT JOIN PROD.CONTACT_12250 B on B.CON_ID \u003d L.CON_ID",
+              "isEvidence": false,
+              "id": "report-data-d12b0a38-0dd8-47d5-8dd7-d18ca6109fdc"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{LOC_ACCT_ROLE_NA\u003dTrust Owner                   , CON_RLSHP_TY_CD\u003dnull, DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dnull, CON_ID\u003d164725194, FST_GVN_NA\u003dnull, MAIN_FAM_NA\u003dnull, EMAIL_ADR_TXT\u003dnull, ACCT_ROLE_CD\u003dTU}\n{LOC_ACCT_ROLE_NA\u003dTrustee                       , CON_RLSHP_TY_CD\u003dTTEE      , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dL                             , CON_ID\u003d186601788, FST_GVN_NA\u003dROBERT                        , MAIN_FAM_NA\u003dTAYLOR                        , EMAIL_ADR_TXT\u003designtest8@edwardjones.com, ACCT_ROLE_CD\u003dTT}\n{LOC_ACCT_ROLE_NA\u003dSettlor                       , CON_RLSHP_TY_CD\u003dSETTLOR   , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dL                             , CON_ID\u003d186601788, FST_GVN_NA\u003dROBERT                        , MAIN_FAM_NA\u003dTAYLOR                        , EMAIL_ADR_TXT\u003designtest8@edwardjones.com, ACCT_ROLE_CD\u003dSR}\n{LOC_ACCT_ROLE_NA\u003dSuccessor Trustee             , CON_RLSHP_TY_CD\u003dSUCCTTEE  , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dJ                             , CON_ID\u003d268032768, FST_GVN_NA\u003dLISA                          , MAIN_FAM_NA\u003dMCGINNIS                      , EMAIL_ADR_TXT\u003designtest8@edwardjones.com, ACCT_ROLE_CD\u003dST}\n{LOC_ACCT_ROLE_NA\u003dSuccessor Trustee             , CON_RLSHP_TY_CD\u003dSUCCTTEE  , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dR                             , CON_ID\u003d268032772, FST_GVN_NA\u003dTODD                          , MAIN_FAM_NA\u003dTAYLOR                        , EMAIL_ADR_TXT\u003dnull, ACCT_ROLE_CD\u003dST}\n{LOC_ACCT_ROLE_NA\u003dTrusted Contact, CON_RLSHP_TY_CD\u003dTRUSTCON  , DEATH_DA\u003dnull, LGCL_DEL_DA\u003dnull, ACCT_ID\u003d105469896, MID_GVN_NA\u003dJ                             , CON_ID\u003d268032768, FST_GVN_NA\u003dLISA                          , MAIN_FAM_NA\u003dMCGINNIS                      , EMAIL_ADR_TXT\u003designtest8@edwardjones.com, ACCT_ROLE_CD\u003dTC}",
+              "isEvidence": false,
+              "id": "report-data-7dc5f14e-c584-4a8f-a527-66a3cdcc59fd"
+            },
+            {
+              "title": "Unauthorized contacts",
+              "contents": "[AccountOwnerRole(name\u003dLISA MCGINNIS, role\u003dSuccessor Trustee), AccountOwnerRole(name\u003dTODD TAYLOR, role\u003dSuccessor Trustee), AccountOwnerRole(name\u003dLISA MCGINNIS, role\u003dTrusted Contact)]",
+              "isEvidence": false,
+              "id": "report-data-0056090b-aa7c-44a4-87f5-984d94516d6d"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Authenticating the session with pid: P033267",
+      "duration": 2293,
+      "startTime": "2025-10-06T09:23:44.431832757-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "09deeacd894709f67c260f817a3cc30b3513efa39add6d649c593047005392d5.png",
+          "timeStamp": 1759760626725,
+          "screenshotName": "09deeacd894709f67c260f817a3cc30b3513efa39add6d649c593047005392d5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 7,
+          "description": "Launch WAM and authenticate",
+          "duration": 1774,
+          "startTime": "2025-10-06T09:23:44.512645718-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "09deeacd894709f67c260f817a3cc30b3513efa39add6d649c593047005392d5.png",
+              "timeStamp": 1759760626286,
+              "screenshotName": "09deeacd894709f67c260f817a3cc30b3513efa39add6d649c593047005392d5.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "description": "Opening the asset movement page for relationship id: 44902241",
+      "duration": 983,
+      "startTime": "2025-10-06T09:23:46.725956777-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "1f5d2bfeb4cd5d551dd79852157fd758575932ad8039a63cf7492403edbccf72.png",
+          "timeStamp": 1759760627709,
+          "screenshotName": "1f5d2bfeb4cd5d551dd79852157fd758575932ad8039a63cf7492403edbccf72.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Update the URL for Internal Transfer",
+      "duration": 596,
+      "startTime": "2025-10-06T09:23:47.709629748-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "4c816c547b813b4286c3e54d1f8daade4ea74f7238dbd01f0efcabcf910e55e2.png",
+          "timeStamp": 1759760628305,
+          "screenshotName": "4c816c547b813b4286c3e54d1f8daade4ea74f7238dbd01f0efcabcf910e55e2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Choose transfer \u0027Between\u0027 accounts",
+      "duration": 8695,
+      "startTime": "2025-10-06T09:23:48.305992384-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7658d414999350328a740bb1764ab44d2cebdb4aa6c853d9647dbaa6bc51eb78.png",
+          "timeStamp": 1759760637001,
+          "screenshotName": "7658d414999350328a740bb1764ab44d2cebdb4aa6c853d9647dbaa6bc51eb78.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Select searched account 44510716",
+      "duration": 2861,
+      "startTime": "2025-10-06T09:23:57.002312522-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "059d1ac5bafd2a0019a2989aa9cd10d3fd6dd12b6340a452d11bf7c2fd2cfeb2.png",
+          "timeStamp": 1759760639863,
+          "screenshotName": "059d1ac5bafd2a0019a2989aa9cd10d3fd6dd12b6340a452d11bf7c2fd2cfeb2.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 12,
+          "description": "Search for account 44510716",
+          "duration": 1748,
+          "startTime": "2025-10-06T09:23:57.594950819-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "99c485f4073a2a5b14219fbdf2617f08a5a1072ebfc70ff3f1fbf8e4f8f30587.png",
+              "timeStamp": 1759760639343,
+              "screenshotName": "99c485f4073a2a5b14219fbdf2617f08a5a1072ebfc70ff3f1fbf8e4f8f30587.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 13,
+              "description": "Wait for result list to be filtered by number",
+              "duration": 326,
+              "startTime": "2025-10-06T09:23:59.009529869-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "99c485f4073a2a5b14219fbdf2617f08a5a1072ebfc70ff3f1fbf8e4f8f30587.png",
+                  "timeStamp": 1759760639335,
+                  "screenshotName": "99c485f4073a2a5b14219fbdf2617f08a5a1072ebfc70ff3f1fbf8e4f8f30587.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        },
+        {
+          "number": 14,
+          "description": "Wait for result list to be filtered by number",
+          "duration": 220,
+          "startTime": "2025-10-06T09:23:59.343587207-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ff099d9d6c9897f95bea582243f08350fec63844ef5367923268fd2db7214f8d.png",
+              "timeStamp": 1759760639564,
+              "screenshotName": "ff099d9d6c9897f95bea582243f08350fec63844ef5367923268fd2db7214f8d.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "description": "Verify values under Un-Authorized header",
+      "duration": 420,
+      "startTime": "2025-10-06T09:23:59.864184122-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7648641a0e6e258af5f5a827e1f8435e6824f35922e09ff27ac6ae804ae43ba7.png",
+          "timeStamp": 1759760640284,
+          "screenshotName": "7648641a0e6e258af5f5a827e1f8435e6824f35922e09ff27ac6ae804ae43ba7.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-cf527cbe-6885-425f-a441-e8aef5d6da05"
+        },
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-53868302-baa4-4ed0-8b0c-dc07129f8773"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "storyName": "BetweenVerifyWhoInitiatedTransfer",
+    "displayName": "BetweenVerifyWhoInitiatedTransfer",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "path": "com.edwardjones.platform_ui_tests.testcases.BetweenVerifyWhoInitiatedTransfer",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "BetweenVerifyWhoInitiatedTransfer",
+        "description": "BetweenVerifyWhoInitiatedTransfer"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Between EDJ Accounts: Account roles / Who Initiated Transfer? Multiple Un-Authorized Roles",
+  "coreIssues": [
+    "ATMT-16316"
+  ],
+  "tags": [
+    {
+      "name": "between-flow",
+      "type": "tag",
+      "displayName": "between-flow"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Priority-4",
+      "type": "tag",
+      "displayName": "Priority-4"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    }
+  ],
+  "startTime": "2025-10-06T09:23:31.233226538-05:00[America/Chicago]",
+  "endTime": "2025-10-06T09:24:00.286168481-05:00[America/Chicago]",
+  "duration": 1841,
+  "projectKey": "",
+  "sessionId": "b6b0b763623b390bfe541405473aa3b5",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-16316"
+  ],
+  "scenarioOutline": ""
+}

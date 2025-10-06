@@ -1,0 +1,385 @@
+{
+  "name": "verifyMissingClientAgreementBGd()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement]/[method:verifyMissingClientAgreementBGd()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+  "methodName": "verifyMissingClientAgreementBGd",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d308, branch \u003cnull\u003e, ACCT_SVC_TY_CD GD, ACCT_SVC_STAT_CD B",
+      "duration": 5720,
+      "startTime": "2025-10-06T09:59:42.906934588-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png",
+          "timeStamp": 1759762788627,
+          "screenshotName": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "SQL query",
+          "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d308\nand sub_acc.br_no   in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027GD\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027B\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d308\n    and sub_acc.br_no   in (1626, 2153, 4369, 9005, 3434, 94674, 87782, 7822, 5897, 3997, 19864, 99785, 99732, 99464, 99447, 98594, 95528, 4454, 9979)\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+          "isEvidence": false,
+          "id": "report-data-7181c099-0c5b-4d2e-8dac-c0e0eab6dafd"
+        },
+        {
+          "title": "SQL result",
+          "contents": "{ACCT_OWN_RULE_ID\u003d308, ACCT_SVC_TY_CD\u003dGD, DEATH_DA\u003dnull, ACCT_ID\u003d128065732, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d59352149, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d220825761, CUST_NO\u003d99780433, ACCT_PREFERRED_NAME\u003dEASTMAN, AA                    , ACCT_SVC_STAT_CD\u003dB }",
+          "isEvidence": false,
+          "id": "report-data-54a084f5-caf8-41d5-bb2f-317cbd97477f"
+        },
+        {
+          "title": "SQL query for AMC_PROFILE",
+          "contents": "SELECT bank_account.bank_account_no, bank_profile.account_id, bank_account.bank_account_guid FROM bank_profile join bank_account on bank_account.bank_account_id \u003d bank_profile.bank_account_id WHERE bank_profile.bank_profile_status_cd\u003d\u0027APPROVED\u0027 and bank_profile.account_id in (128065732)",
+          "isEvidence": false,
+          "id": "report-data-88fe72e6-8d8d-4026-a558-6bb59e97782f"
+        },
+        {
+          "title": "Retrieved data",
+          "contents": "{bank_account_guid\u003d9F0F3B28-9C36-446E-826D-35D1F1E7460A, account_id\u003d128065732, bank_account_no\u003dban635}\n{bank_account_guid\u003d9B437822-B632-4AA4-A92F-19C672E3021F, account_id\u003d128065732, bank_account_no\u003dban5261}\n{bank_account_guid\u003d5F684294-F31F-4E9F-AA67-EEB141F06817, account_id\u003d128065732, bank_account_no\u003dban5314}",
+          "isEvidence": false,
+          "id": "report-data-72ee950f-57be-4565-bd84-181204396715"
+        },
+        {
+          "title": "Retrieved data",
+          "contents": "EjAccountWithBankProfileTestData(ejAccountId\u003d128065732, ejAccountCustomerNumber\u003d99780433, relationshipId\u003d59352149, branch\u003d9979, bankAccountNumber\u003dban5314, maskedBankAccountNumber\u003d****5314, bankAccountId\u003d5F684294-F31F-4E9F-AA67-EEB141F06817)",
+          "isEvidence": false,
+          "id": "report-data-1f71602a-22de-42a9-a7c7-4d3dfd73975c"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 2,
+      "description": "Prepare approved bank profile if any approved bank profiles found",
+      "duration": 7,
+      "startTime": "2025-10-06T09:59:48.642618690-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png",
+          "timeStamp": 1759762788649,
+          "screenshotName": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 9979, relationship 59352149, account 5F684294-F31F-4E9F-AA67-EEB141F06817, for Platform flow",
+      "duration": 6,
+      "startTime": "2025-10-06T09:59:48.649970350-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png",
+          "timeStamp": 1759762788656,
+          "screenshotName": "7adca92c9ff23efaf7801cf787af10a47c8273797e7d8c0c2424c7644a857467.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2215,
+      "startTime": "2025-10-06T09:59:48.658796904-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "ad3f09f678a4a9f31fdf68cb33835ff27dc0cc57cdaadb2f2b1c5ea7f85e019e.png",
+          "timeStamp": 1759762790873,
+          "screenshotName": "ad3f09f678a4a9f31fdf68cb33835ff27dc0cc57cdaadb2f2b1c5ea7f85e019e.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1684,
+          "startTime": "2025-10-06T09:59:48.748553945-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "ad3f09f678a4a9f31fdf68cb33835ff27dc0cc57cdaadb2f2b1c5ea7f85e019e.png",
+              "timeStamp": 1759762790433,
+              "screenshotName": "ad3f09f678a4a9f31fdf68cb33835ff27dc0cc57cdaadb2f2b1c5ea7f85e019e.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Opening the asset movement page for relationship id: 59352149",
+      "duration": 865,
+      "startTime": "2025-10-06T09:59:50.874212750-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "74f89d1fc6aa7af4af7d2f4ca78f3783b47fc4b240ba8156abd00682a5d4e71a.png",
+          "timeStamp": 1759762791739,
+          "screenshotName": "74f89d1fc6aa7af4af7d2f4ca78f3783b47fc4b240ba8156abd00682a5d4e71a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 7,
+      "description": "Given set amc_use_new_accounts_service true",
+      "duration": 605,
+      "startTime": "2025-10-06T09:59:51.740168115-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "74f89d1fc6aa7af4af7d2f4ca78f3783b47fc4b240ba8156abd00682a5d4e71a.png",
+          "timeStamp": 1759762792345,
+          "screenshotName": "74f89d1fc6aa7af4af7d2f4ca78f3783b47fc4b240ba8156abd00682a5d4e71a.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 8,
+      "description": "Choose transfer \u0027Into\u0027 accounts",
+      "duration": 16940,
+      "startTime": "2025-10-06T09:59:52.346069377-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "19b21ba2fabb27e6dc751b89f8c6c05afc797d4e0a87ca8b64084836a17adfaa.png",
+          "timeStamp": 1759762809286,
+          "screenshotName": "19b21ba2fabb27e6dc751b89f8c6c05afc797d4e0a87ca8b64084836a17adfaa.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 9,
+      "description": "Select Linked Bank option",
+      "duration": 361,
+      "startTime": "2025-10-06T10:00:09.286518534-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "61a478c2c68b07e3dd2e5385488c5b385458a61daa861cbcf3e54ecd99960d25.png",
+          "timeStamp": 1759762809648,
+          "screenshotName": "61a478c2c68b07e3dd2e5385488c5b385458a61daa861cbcf3e54ecd99960d25.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 10,
+      "description": "Select searched account ****5314",
+      "duration": 4483,
+      "startTime": "2025-10-06T10:00:09.648791518-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "3233b682e4f0760a42426a686375bec833df1710f3040178db31881aca17e2cd.png",
+          "timeStamp": 1759762814132,
+          "screenshotName": "3233b682e4f0760a42426a686375bec833df1710f3040178db31881aca17e2cd.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 11,
+      "description": "Click continue button",
+      "duration": 390,
+      "startTime": "2025-10-06T10:00:14.132652898-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png",
+          "timeStamp": 1759762814522,
+          "screenshotName": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 12,
+          "description": "Click \u0027Next\u0027 - go to Next Card",
+          "duration": 377,
+          "startTime": "2025-10-06T10:00:14.137479293-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png",
+              "timeStamp": 1759762814514,
+              "screenshotName": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1,
+          "children": [
+            {
+              "number": 13,
+              "description": "Click \u0027Next\u0027.",
+              "duration": 366,
+              "startTime": "2025-10-06T10:00:14.139268237-05:00[America/Chicago]",
+              "screenshots": [
+                {
+                  "screenshot": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png",
+                  "timeStamp": 1759762814506,
+                  "screenshotName": "0bca3d116da960806f1a497e09a4145bda9b4f019c83ce283daec9bd5a617e30.png"
+                }
+              ],
+              "result": "SUCCESS",
+              "precondition": false,
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "description": "Verify Account 99780433 is Restricted true",
+      "duration": 215,
+      "startTime": "2025-10-06T10:00:14.523352264-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "551cd527ed112537d8c406112079eb3c0266b594fdf1fe38e06f3545a3bb5f94.png",
+          "timeStamp": 1759762814738,
+          "screenshotName": "551cd527ed112537d8c406112079eb3c0266b594fdf1fe38e06f3545a3bb5f94.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 15,
+      "description": "Verify Tool Tip Message for restricted Account",
+      "duration": 2627,
+      "startTime": "2025-10-06T10:00:14.738962313-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "52813aea2c82b43c29893f56570f03c633efe65409ba934d821ae7fdb8ba95b5.png",
+          "timeStamp": 1759762817366,
+          "screenshotName": "52813aea2c82b43c29893f56570f03c633efe65409ba934d821ae7fdb8ba95b5.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-875e0748-6406-48f8-817c-ed1c46e575bc"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-c6f1f2a0-8de0-4337-bff5-1340da35fcf4"
+        }
+      ],
+      "precondition": false,
+      "level": 0
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+    "storyName": "IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+    "displayName": "IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+    "path": "com.edwardjones.platform_ui_tests.testcases.IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement",
+        "description": "IntoLinkedBankLimitationsEDJAccountsMissingClientAgreement"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "\u0027Into\u0027 EJ Account transfer: Verify Account with ACCT_SVC_STAT_CD \u003d \u0027B\u0027 ACCT_SVC_TY_CD \u003d \u0027GD\u0027",
+  "coreIssues": [
+    "ATMT-18342",
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-31453"
+  ],
+  "tags": [
+    {
+      "name": "Priority-3c",
+      "type": "tag",
+      "displayName": "Priority-3c"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "DB-test-data",
+      "type": "tag",
+      "displayName": "DB-test-data"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T09:59:42.899528801-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:00:17.367652146-05:00[America/Chicago]",
+  "duration": 5599,
+  "projectKey": "",
+  "sessionId": "ec4a53b4d84342ab8a20edaa64c4c0bf",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "SUCCESS",
+  "issues": [
+    "ATMT-18342",
+    "ATMT-23446",
+    "ATMT-25307",
+    "ATMT-31453"
+  ],
+  "scenarioOutline": ""
+}

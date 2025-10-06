@@ -1,0 +1,403 @@
+{
+  "name": "verifyNonRestrictedAccountsForOutOfFlowNewServiceWithAcctSvcStatAsBandAcctSvcTyAsAv()",
+  "id": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test]/[method:verifyNonRestrictedAccountsForOutOfFlowNewServiceWithAcctSvcStatAsBandAcctSvcTyAsAv()]",
+  "scenarioId": "[engine:junit-jupiter]/[class:com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test]",
+  "testCaseName": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+  "methodName": "verifyNonRestrictedAccountsForOutOfFlowNewServiceWithAcctSvcStatAsBandAcctSvcTyAsAv",
+  "testSteps": [
+    {
+      "number": 1,
+      "description": "Retrieve random data from DB2: EJ account, ownership ruleID\u003d309, for restriction\u003dBR_9979",
+      "duration": 5474,
+      "startTime": "2025-10-06T10:10:11.789139999-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png",
+          "timeStamp": 1759763417263,
+          "screenshotName": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 2,
+          "description": "Retrieve data from DB2: EJ account, ownership ruleID\u003d309, branch BR_9979, ACCT_SVC_TY_CD AV, ACCT_SVC_STAT_CD B",
+          "duration": 5467,
+          "startTime": "2025-10-06T10:10:11.791059573-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png",
+              "timeStamp": 1759763417258,
+              "screenshotName": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "reportData": [
+            {
+              "title": "SQL query",
+              "contents": "select\nacct.ACCT_ID, acct.CUST_NO,\nrlt.RLTSHP_ID AS RLTSHP_ID,\nacct_svc.ACCT_SVC_TY_CD, acct_svc.ACCT_SVC_STAT_CD, acct.ACCT_OWN_RULE_ID,\ncontact.CON_ID, contact.DEATH_DA,\nhq_system_restrictions.ACH_DB_ALLW_IND, hq_system_restrictions.ACH_CR_ALLW_IND,\nsub_acc.BR_NO,\nus_sub_acc.EDJ_ACCT_PRFD_NA as ACCT_PREFERRED_NAME\n\nfrom PROD.RLTSHP_13120 rlt\njoin PROD.ACCT_FUNC_GRP_DTL_13088 grp on rlt.ACCT_FUNC_GRP_ID \u003d grp.ACCT_FUNC_GRP_ID\njoin PROD.ACCOUNT_12280 as acct on grp.ACCT_ID \u003d acct.ACCT_ID\njoin PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.SUBACCT_SVC_12569 as acct_svc on acct_svc.ACCT_ID\u003dacct.ACCT_ID\njoin PROD.CONTACT_12250 as contact on contact.CON_ID  \u003d sub_acc.TAX_RPT_CON_ID\njoin PROD.US_SUB_ACCT_13603 as us_sub_acc on sub_acc.ACCT_ID \u003d us_sub_acc.ACCT_ID\nleft outer join PROD.DB_CR_ALLW_11903 as hq_system_restrictions on hq_system_restrictions.ACCT_ID \u003d acct.ACCT_ID\n\nwhere\nacct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\nand acct.ACCT_OWN_RULE_ID\u003d309\nand sub_acc.br_no   \u003d 9979\n\n--account is not deleted and closed\nand acct.LGCL_DEL_DA is null\nand acct.ACCT_CLS_DA is null\n--owner is not deceased\nand contact.DEATH_DA is  null\n--inherited \u003d Y\nand acct.dcdnt_retr_ind \u003d \u0027N\u0027\n\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from this Edward Jones account to their bank account\nand (hq_system_restrictions.ACH_DB_ALLW_IND is null  or hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_DB_ALLW_IND\u003d\u0027N\u0027\n---- Y[hqEjToBank\u003dtrue] \u003d client is allowed to initiate transfers from their bank account to this Edward Jones account\nand (hq_system_restrictions.ACH_CR_ALLW_IND is null or hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027Y\u0027)\n--and hq_system_restrictions.ACH_CR_ALLW_IND\u003d\u0027N\u0027\n\n    and acct.AUTH_FORM_IND \u003d \u0027Y\u0027 and acct_svc.ACCT_SVC_TY_CD \u003d\u0027AV\u0027 and acct_svc.ACCT_SVC_STAT_CD \u003d \u0027B\u0027\n and acct_svc.ACCT_SVC_TY_CD not in (\u0027TL\u0027)\n\n\n--account is [not] restricted by restrictions from list\nand not acct.cust_no in (\n    select distinct acct.CUST_NO\n\n    from PROD.ACCOUNT_12280 as acct\n    join PROD.SUB_ACCOUNT_12512 as sub_acc on sub_acc.ACCT_ID\u003dacct.ACCT_ID\n    left outer join PROD.acct_rst_10214 v on v.account_no\u003dacct.cust_no\n\n    where\n    acct.TAX_RPT_CTRY_CD\u003d\u0027US\u0027\n\n    and acct.ACCT_OWN_RULE_ID\u003d309\n    and sub_acc.br_no   \u003d 9979\n    and acct.LGCL_DEL_DA is null\n    and acct.ACCT_CLS_DA is null\n    and v.rst_rsn_cd in (\u0027CIPR\u0027,\u0027COPD\u0027,\u0027FTRN\u0027,\u0027MAIL\u0027,\u0027RISK\u0027,\u0027WARN\u0027,\u002772T\u0027,\u0027SSN\u0027,\u0027AUTH\u0027,\u0027RESTRICTION\u0027)\n    and v.RST_START_DA\u003c\u00272025-10-06\u0027\n)",
+              "isEvidence": false,
+              "id": "report-data-90d0c72f-b8aa-4f4b-bd5d-9ec2e1e4f92c"
+            },
+            {
+              "title": "SQL result",
+              "contents": "{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dAV, DEATH_DA\u003dnull, ACCT_ID\u003d145229106, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102891849, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321142681, CUST_NO\u003d13023822, ACCT_PREFERRED_NAME\u003dPamarthi, Lakshmi              , ACCT_SVC_STAT_CD\u003dB }\n{ACCT_OWN_RULE_ID\u003d309, ACCT_SVC_TY_CD\u003dAV, DEATH_DA\u003dnull, ACCT_ID\u003d145232949, ACH_DB_ALLW_IND\u003dnull, RLTSHP_ID\u003d102891849, ACH_CR_ALLW_IND\u003dnull, BR_NO\u003d9979, CON_ID\u003d321142681, CUST_NO\u003d13024033, ACCT_PREFERRED_NAME\u003dPAMARTHI, LAKSHMI              , ACCT_SVC_STAT_CD\u003dB }",
+              "isEvidence": false,
+              "id": "report-data-11d5c8e1-248a-4781-a03a-800c2e17981b"
+            }
+          ],
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "description": "Get p-number for BOA of branch 9979, relationship 102891849, account 145229106, for Platform flow",
+      "duration": 5,
+      "startTime": "2025-10-06T10:10:17.264220229-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png",
+          "timeStamp": 1759763417270,
+          "screenshotName": "d1da83d9647418358b22c8aceb9b4c0cc568964cd55c720dffe1c76d1a8a8352.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0
+    },
+    {
+      "number": 4,
+      "description": "Authenticating the session with pid: p058929",
+      "duration": 2144,
+      "startTime": "2025-10-06T10:10:17.270233994-05:00[America/Chicago]",
+      "screenshots": [
+        {
+          "screenshot": "fee3f5a0613d8eeed685d38830f98e353a3162fbc6288098688b3d3f5a41c340.png",
+          "timeStamp": 1759763419414,
+          "screenshotName": "fee3f5a0613d8eeed685d38830f98e353a3162fbc6288098688b3d3f5a41c340.png"
+        }
+      ],
+      "result": "SUCCESS",
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 5,
+          "description": "Launch WAM and authenticate",
+          "duration": 1620,
+          "startTime": "2025-10-06T10:10:17.373751505-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "fee3f5a0613d8eeed685d38830f98e353a3162fbc6288098688b3d3f5a41c340.png",
+              "timeStamp": 1759763418994,
+              "screenshotName": "fee3f5a0613d8eeed685d38830f98e353a3162fbc6288098688b3d3f5a41c340.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "description": "Integrate New Account Service with NonRestrictions for ACH Transfers",
+      "duration": 7829,
+      "startTime": "2025-10-06T10:10:19.414763132-05:00[America/Chicago]",
+      "reportData": [
+        {
+          "title": "Error submitting test results. INFO only",
+          "contents": "closed",
+          "isEvidence": false,
+          "id": "report-data-46612cd0-9bd7-4d1f-b352-4b415f1b2a75"
+        },
+        {
+          "title": "...qTest Listener disabled",
+          "contents": "Listener disabled or Serenity \u0027Result\u0027 is \u0027IGNORED\u0027 or Test Suite is invalid",
+          "isEvidence": false,
+          "id": "report-data-edf2ecf2-bfc6-4bee-a52a-f324490c52ed"
+        }
+      ],
+      "precondition": false,
+      "level": 0,
+      "children": [
+        {
+          "number": 7,
+          "description": "Opening the asset movement page for relationship id: 102891849",
+          "duration": 834,
+          "startTime": "2025-10-06T10:10:19.416557204-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e9fa2ab2f75667e212c893fad53b162bb063c87b2c5ee59030446c25d636bb1c.png",
+              "timeStamp": 1759763420251,
+              "screenshotName": "e9fa2ab2f75667e212c893fad53b162bb063c87b2c5ee59030446c25d636bb1c.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 8,
+          "description": "Given set amc_use_new_accounts_service true",
+          "duration": 672,
+          "startTime": "2025-10-06T10:10:20.251782064-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "372ca492d95be1ca1e2da71068036e938c95c3fd9b60af060c06b12bc5c4d0f6.png",
+              "timeStamp": 1759763420923,
+              "screenshotName": "372ca492d95be1ca1e2da71068036e938c95c3fd9b60af060c06b12bc5c4d0f6.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 9,
+          "description": "Choose transfer \u0027Out of\u0027 accounts",
+          "duration": 3426,
+          "startTime": "2025-10-06T10:10:20.924375636-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "add9b8d031fef150c8be3e4a66b04432079992d6fbf3baffc86cb8551068b005.png",
+              "timeStamp": 1759763424350,
+              "screenshotName": "add9b8d031fef150c8be3e4a66b04432079992d6fbf3baffc86cb8551068b005.png"
+            }
+          ],
+          "result": "SUCCESS",
+          "precondition": false,
+          "level": 1
+        },
+        {
+          "number": 10,
+          "description": "Verify Account 13023822 is Restricted false",
+          "duration": 2888,
+          "startTime": "2025-10-06T10:10:24.351296840-05:00[America/Chicago]",
+          "screenshots": [
+            {
+              "screenshot": "e398c39bfd4aad6afa87f73ec9b1c0e04f237fed5636fe5592b31895420dbc2f.png",
+              "htmlSource": "pagesource6500724441464295964.html",
+              "timeStamp": 1759763427237,
+              "screenshotName": "e398c39bfd4aad6afa87f73ec9b1c0e04f237fed5636fe5592b31895420dbc2f.png"
+            }
+          ],
+          "exception": {
+            "errorType": "org.openqa.selenium.NoSuchElementException",
+            "message": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [712fea367ad3af696a5d73e22542a199, findChildElement {using\u003dxpath, value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.4EE6B71A71298DAFBFA5F268A2D5068E.d.E2C1D089E5F7F23677710F44017C3F11.e.171}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:62401}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 712fea367ad3af696a5d73e22542a199",
+            "stackTrace": [
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+                "methodName": "getWebElement",
+                "fileName": "AccountListElement.java",
+                "lineNumber": 100
+              },
+              {
+                "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+                "methodName": "getTextFromAttribute",
+                "fileName": "AccountListElement.java",
+                "lineNumber": 26
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+                "methodName": "lambda$getAccountListElement$7",
+                "fileName": "AccountItemSteps.java",
+                "lineNumber": 432
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+                "methodName": "getAccountListElement",
+                "fileName": "AccountItemSteps.java",
+                "lineNumber": 433
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+                "methodName": "verifyAcctRestricted",
+                "fileName": "AccountItemSteps.java",
+                "lineNumber": 81
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+                "methodName": "verifyNonRestrictedAccountsForOutOfFlowNewServiceFlow",
+                "fileName": "PlatformFlowSteps.java",
+                "lineNumber": 291
+              },
+              {
+                "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+                "methodName": "verifyNonRestrictedAccountsForOutOfFlowNewServiceWithAcctSvcStatAsBandAcctSvcTyAsAv",
+                "fileName": "OutOfNonRestrictionsNewServicePart2Test.java",
+                "lineNumber": 67
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "run",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 69
+              },
+              {
+                "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+                "methodName": "main",
+                "fileName": "GradleWorkerMain.java",
+                "lineNumber": 74
+              }
+            ]
+          },
+          "result": "ERROR",
+          "precondition": false,
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "userStory": {
+    "id": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+    "storyName": "OutOfNonRestrictionsNewServicePart2Test",
+    "displayName": "OutOfNonRestrictionsNewServicePart2Test",
+    "storyClassName": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+    "path": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+    "pathElements": [
+      {
+        "name": "com",
+        "description": "com"
+      },
+      {
+        "name": "edwardjones",
+        "description": "edwardjones"
+      },
+      {
+        "name": "platform_ui_tests",
+        "description": "platform_ui_tests"
+      },
+      {
+        "name": "testcases",
+        "description": "testcases"
+      },
+      {
+        "name": "OutOfNonRestrictionsNewServicePart2Test",
+        "description": "OutOfNonRestrictionsNewServicePart2Test"
+      }
+    ],
+    "narrative": "",
+    "type": "feature"
+  },
+  "title": "Integrate New Account Service with NonRestrictions for ACH Transfers - ACCT_SVC_STAT_CD \u003d \u0027B\u0027 ACCT_SVC_TY_CD \u003d \u0027AV",
+  "coreIssues": [
+    "ATMT-23446",
+    "ATMT-82777",
+    "ATMT-31883",
+    "ATMT-28777",
+    "ATMT-33318",
+    "ATMT-37829"
+  ],
+  "tags": [
+    {
+      "name": "Priority-3b",
+      "type": "tag",
+      "displayName": "Priority-3b"
+    },
+    {
+      "name": "Microsoftedge",
+      "type": "context",
+      "displayName": "Microsoftedge"
+    },
+    {
+      "name": "Platform1-Regression",
+      "type": "tag",
+      "displayName": "Platform1-Regression"
+    },
+    {
+      "name": "new-old-ui",
+      "type": "tag",
+      "displayName": "new-old-ui"
+    }
+  ],
+  "startTime": "2025-10-06T10:10:11.784485005-05:00[America/Chicago]",
+  "endTime": "2025-10-06T10:10:27.245726835-05:00[America/Chicago]",
+  "duration": 5320,
+  "testFailureCause": {
+    "errorType": "org.openqa.selenium.NoSuchElementException",
+    "message": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [712fea367ad3af696a5d73e22542a199, findChildElement {using\u003dxpath, value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.4EE6B71A71298DAFBFA5F268A2D5068E.d.E2C1D089E5F7F23677710F44017C3F11.e.171}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:62401}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 712fea367ad3af696a5d73e22542a199",
+    "stackTrace": [
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+        "methodName": "getWebElement",
+        "fileName": "AccountListElement.java",
+        "lineNumber": 100
+      },
+      {
+        "declaringClass": "com.ej.taf.core.ui.pages.widgets.AccountListElement",
+        "methodName": "getTextFromAttribute",
+        "fileName": "AccountListElement.java",
+        "lineNumber": 26
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+        "methodName": "lambda$getAccountListElement$7",
+        "fileName": "AccountItemSteps.java",
+        "lineNumber": 432
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+        "methodName": "getAccountListElement",
+        "fileName": "AccountItemSteps.java",
+        "lineNumber": 433
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.newtransfer.AccountItemSteps",
+        "methodName": "verifyAcctRestricted",
+        "fileName": "AccountItemSteps.java",
+        "lineNumber": 81
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.automation.teststeps.PlatformFlowSteps",
+        "methodName": "verifyNonRestrictedAccountsForOutOfFlowNewServiceFlow",
+        "fileName": "PlatformFlowSteps.java",
+        "lineNumber": 291
+      },
+      {
+        "declaringClass": "com.edwardjones.platform_ui_tests.testcases.OutOfNonRestrictionsNewServicePart2Test",
+        "methodName": "verifyNonRestrictedAccountsForOutOfFlowNewServiceWithAcctSvcStatAsBandAcctSvcTyAsAv",
+        "fileName": "OutOfNonRestrictionsNewServicePart2Test.java",
+        "lineNumber": 67
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "run",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 69
+      },
+      {
+        "declaringClass": "worker.org.gradle.process.internal.worker.GradleWorkerMain",
+        "methodName": "main",
+        "fileName": "GradleWorkerMain.java",
+        "lineNumber": 74
+      }
+    ]
+  },
+  "testFailureClassname": "org.openqa.selenium.NoSuchElementException",
+  "testFailureMessage": "no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [712fea367ad3af696a5d73e22542a199, findChildElement {using\u003dxpath, value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.4EE6B71A71298DAFBFA5F268A2D5068E.d.E2C1D089E5F7F23677710F44017C3F11.e.171}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:62401}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 712fea367ad3af696a5d73e22542a199",
+  "testFailureSummary": "ERROR;org.openqa.selenium.NoSuchElementException;no such element: Unable to locate element: {\"method\":\"xpath\",\"selector\":\".//*[contains(@class,\u0027item__number\u0027)]\"}\n  (Session info: MicrosoftEdge\u003d139.0.3405.125)\nFor documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception\nBuild info: version: \u00274.21.0\u0027, revision: \u002779ed462ef4\u0027\nSystem info: os.name: \u0027Linux\u0027, os.arch: \u0027amd64\u0027, os.version: \u00274.18.0-553.51.1.el8_10.x86_64\u0027, java.version: \u002717.0.1\u0027\nDriver info: org.openqa.selenium.remote.RemoteWebDriver\nCommand: [712fea367ad3af696a5d73e22542a199, findChildElement {using\u003dxpath, value\u003d.//*[contains(@class,\u0027item__number\u0027)], id\u003df.4EE6B71A71298DAFBFA5F268A2D5068E.d.E2C1D089E5F7F23677710F44017C3F11.e.171}]\nCapabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 139.0.3405.125, fedcm:accounts: true, goog:chromeOptions: {args: [--remote-allow-origins\u003d*]}, ms:edgeOptions: {debuggerAddress: localhost:62401}, msedge: {msedgedriverVersion: 139.0.3405.125 (5d3aeaf5858..., userDataDir: C:\\Users\\selbot\\AppData\\Loc...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: Windows 10, proxy: Proxy(), se:bidiEnabled: false, se:cdp: ws://selenium4:4944/grid/re..., se:cdpVersion: 139.0.3405.125, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}\nSession ID: 712fea367ad3af696a5d73e22542a199;AccountListElement.java",
+  "projectKey": "",
+  "annotatedResult": "ERROR",
+  "sessionId": "712fea367ad3af696a5d73e22542a199",
+  "driver": "remote",
+  "isManualTestingUpToDate": false,
+  "context": "microsoftedge",
+  "manual": false,
+  "testSource": "JUnit5",
+  "order": 0,
+  "result": "ERROR",
+  "issues": [
+    "ATMT-23446",
+    "ATMT-82777",
+    "ATMT-31883",
+    "ATMT-28777",
+    "ATMT-33318",
+    "ATMT-37829"
+  ],
+  "scenarioOutline": ""
+}
